@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:ippu/Screens/DefaultScreen.dart';
+import 'package:ippu/Screens/HomeScreen.dart';
+import 'package:ippu/Screens/WhoWeAreScreen.dart';
 import 'package:ippu/Widgets/AuthenticationWidgets/LoginScreen.dart';
 
 
@@ -21,11 +24,18 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   color: Colors.blue,
                 ),
                 currentAccountPicture: CircleAvatar(backgroundImage: AssetImage('assets/image4.png'),),
-                accountName: Text("ampaignitious"), accountEmail: Text("ignitiousampa@gmail.com")),
-              Card(
-                child: ListTile(
-                  leading: Icon(Icons.home),
-                  title: Text("Home"),
+                accountName: Text("username"), accountEmail: Text("user@gmail.com")),
+              InkWell(
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context){
+                    return DefaultScreen();
+                  }));
+                },
+                child: Card(
+                  child: ListTile(
+                    leading: Icon(Icons.home),
+                    title: Text("Home"),
+                  ),
                 ),
               ),
               Card(
@@ -42,7 +52,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               ),
                Card(
                 child: ListTile(
-                  leading: Icon(Icons.notifications_on),
+                  leading: Icon(Icons.info),
                   title: Text("Communications"),
                 ),
               ),
@@ -60,7 +70,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               ),
                           Card(
                 child: ListTile(
-                  leading: Icon(Icons.pie_chart),
+                  leading: Icon(Icons.workspace_premium),
                   title: Text("CPD"),
                 ),
               ),
@@ -70,10 +80,17 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   title: Text("Jobs"),
                 ),
               ),
-              Card(
-                child: ListTile(
-                  leading: Icon(Icons.album_outlined),
-                  title: Text("Who We Are"),
+              InkWell(
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context){
+                    return WhoWeAre();
+                  }));
+                },
+                child: Card(
+                  child: ListTile(
+                    leading: Icon(Icons.album_outlined),
+                    title: Text("Who We Are"),
+                  ),
                 ),
               ),
                Card(

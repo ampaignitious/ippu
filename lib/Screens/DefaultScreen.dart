@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:ippu/Screens/CommunicationScreen.dart';
+import 'package:ippu/Screens/CpdsScreen.dart';
+import 'package:ippu/Screens/EventsScreen.dart';
 import 'package:ippu/Screens/HomeScreen.dart';
 import 'package:ippu/Widgets/DrawerWidget/DrawerWidget.dart';
 
@@ -21,9 +24,9 @@ class _DefaultScreenState extends State<DefaultScreen> {
   int _selectedIndex = 0;
   List Page = [
  HomeScreen(),
- HomeScreen(),
- HomeScreen(),
- HomeScreen(),
+ CpdsScreen(),
+ EventsScreen(),
+ CommunicationScreen(),
  HomeScreen(),
 //  ServiceScreen(),
 //  ReportScreen(),
@@ -57,9 +60,9 @@ class _DefaultScreenState extends State<DefaultScreen> {
         showUnselectedLabels: true,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.home), label:'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.pie_chart), label: 'CPD'),
+          BottomNavigationBarItem(icon: Icon(Icons.workspace_premium), label: 'CPD'),
           BottomNavigationBarItem(icon: Icon(Icons.event), label: 'Events'),
-          BottomNavigationBarItem(icon: Icon(Icons.notifications_on), label: 'Communication'),
+          BottomNavigationBarItem(icon: Icon(Icons.info), label: 'Communication'),
           BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
           // BottomNavigationBarItem(
           //     icon: Icon(Icons.settings),

@@ -30,12 +30,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           )
         ],
-        title: Column(
-          children: [
-            // Text("Sales Trackers and Monitoring App", style: TextStyle(fontSize: size.height*0.019),),
-            SizedBox(height: size.height*0.009,),
-          ],
-        ),
         elevation: 0,
       ),
       body: Column(
