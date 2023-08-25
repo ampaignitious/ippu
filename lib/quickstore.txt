@@ -1,0 +1,9 @@
+padding->right: size.width*0.05
+InkWell
+                  onTap: ()
+                    Navigator.push(context, MaterialPageRoute(builder: (context){
+                  return RegisterPage();
+                }));
+                Color.fromARGB(255, 42, 129, 201)
+                Color.fromARGB(255, 50, 155, 132)// the green one
+                color used on the home page color: Color.fromARGB(210, 63, 131, 187),
