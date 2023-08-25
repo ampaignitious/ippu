@@ -38,10 +38,10 @@ class _DefaultScreenState extends State<DefaultScreen> {
   Widget build(BuildContext context) {
     final size =MediaQuery.of(context).size;
     return Scaffold(
-      drawer:Drawer(
-        width: size.width*0.8,
-        child: DrawerWidget(),
-      ),
+      // drawer:Drawer(
+      //   width: size.width*0.8,
+      //   child: DrawerWidget(),
+      // ),
 
       body: Page[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(

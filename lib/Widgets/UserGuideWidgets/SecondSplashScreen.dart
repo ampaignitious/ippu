@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ippu/Widgets/AuthenticationWidgets/LoginScreen.dart';
 import 'package:ippu/Widgets/UserGuideWidgets/ThirdSplashScreen.dart';
 
 class SecondSplashScreen extends StatefulWidget {
@@ -23,9 +24,16 @@ class _SecondSplashScreenState extends State<SecondSplashScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(''),
-                Padding(
-                  padding: EdgeInsets.only(right: size.width*0.05),
-                  child: Text("skip", style: TextStyle(fontSize: size.height*0.025, color: Colors.blue, fontWeight: FontWeight.bold),),
+                InkWell(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context){
+                      return LoginScreen();
+                    }));
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.only(right: size.width*0.05),
+                    child: Text("skip", style: TextStyle(fontSize: size.height*0.025, color: Colors.blue, fontWeight: FontWeight.bold),),
+                  ),
                 )
               ],
             ),

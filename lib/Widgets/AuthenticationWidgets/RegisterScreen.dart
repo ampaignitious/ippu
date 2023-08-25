@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ippu/Screens/DefaultScreen.dart';
 import 'package:ippu/Screens/IppuTermsOfUse.dart';
 import 'package:ippu/Widgets/AuthenticationWidgets/LoginScreen.dart';
 
@@ -28,6 +29,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       print('Password: $_password');
       print('Confirm Password: $_confirmPassword');
       print('Account Type: $_selectedAccountType');
+      Navigator.push(context, MaterialPageRoute(builder: (context){
+        return DefaultScreen();
+      }));
     }
   }
 

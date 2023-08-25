@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ippu/Widgets/AuthenticationWidgets/LoginScreen.dart';
 
 import 'SecondSplashScreen.dart';
 
@@ -24,9 +25,16 @@ class _FirstSplashScreenState extends State<FirstSplashScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(''),
-                Padding(
-                  padding: EdgeInsets.only(right: size.width*0.05),
-                  child: Text("skip", style: TextStyle(fontSize: size.height*0.025, color: Colors.blue, fontWeight: FontWeight.bold),),
+                InkWell(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context){
+                      return LoginScreen();
+                    }));
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.only(right: size.width*0.05),
+                    child: Text("skip", style: TextStyle(fontSize: size.height*0.025, color: Colors.blue, fontWeight: FontWeight.bold),),
+                  ),
                 )
               ],
             ),
@@ -43,7 +51,7 @@ class _FirstSplashScreenState extends State<FirstSplashScreen> {
               SizedBox(
               height: size.height*0.048,
             ),
-            Text("Discovery about IPPU", style: TextStyle(fontSize: size.height*0.044, fontWeight: FontWeight.bold,color: Colors.lightBlue),),
+            Text("Discover about IPPU", style: TextStyle(letterSpacing: 1,fontSize: size.height*0.044, fontWeight: FontWeight.bold,color: Colors.lightBlue), ),
             SizedBox(
               height: size.height*0.015,
             ),
@@ -62,7 +70,7 @@ class _FirstSplashScreenState extends State<FirstSplashScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Container(
-                      margin: EdgeInsets.only(left: size.width*0.048),
+                      margin: EdgeInsets.only(left: size.width*0.084),
                       height: size.height*0.052,
                       width: size.width*0.062,
                       decoration: BoxDecoration(
