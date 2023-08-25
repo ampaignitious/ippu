@@ -57,7 +57,7 @@ class _FirstSplashScreenState extends State<FirstSplashScreen> {
             ),
             Padding(
               padding: EdgeInsets.only(right: size.width*0.05, left: size.width*0.06),
-              child: Text("An application developed to bring together both the public and provate sector procument and supply chain professionals in Uganda.", style: TextStyle(fontSize: size.height
+              child: Text("An application developed to bring together both the public and private sector procument and supply chain professionals in Uganda.", style: TextStyle(fontSize: size.height
               *0.016),),
             ),
             SizedBox(
