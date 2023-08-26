@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:ippu/Screens/CommunicationScreen.dart';
 import 'package:ippu/Screens/DefaultScreen.dart';
+import 'package:ippu/Screens/EventsScreen.dart';
 import 'package:ippu/Screens/HomeScreen.dart';
+import 'package:ippu/Screens/OurCoreValues.dart';
 import 'package:ippu/Screens/WhoWeAreScreen.dart';
+import 'package:ippu/Screens/WorkExperience.dart';
 import 'package:ippu/Widgets/AuthenticationWidgets/LoginScreen.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 
 
@@ -34,50 +39,94 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 child: Card(
                   child: ListTile(
                     leading: Icon(Icons.home),
-                    title: Text("Home"),
+                    title: Text("Home", style: GoogleFonts.lato(
+                      fontWeight: FontWeight.bold,
+                    ),),
                   ),
                 ),
               ),
               Card(
                 child: ListTile(
                   leading: Icon(Icons.cast_for_education),
-                  title: Text("Education Background"),
+                  title: Text("Education Background", style: GoogleFonts.lato(
+                      fontWeight: FontWeight.bold,
+                    ),),
                 ),
               ),
               Card(
                 child: ListTile(
                   leading: Icon(Icons.message_rounded),
-                  title: Text("Chat"),
+                  title: Text("Chat", style: GoogleFonts.lato(
+                      fontWeight: FontWeight.bold,
+                    ),),
                 ),
               ),
-               Card(
-                child: ListTile(
-                  leading: Icon(Icons.info),
-                  title: Text("Communications"),
+              // 
+               InkWell(
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context){
+                    return CommunicationScreen();
+                  }));
+                },
+                 child: Card(
+                  child: ListTile(
+                    leading: Icon(Icons.info),
+                    title: Text("Communications", style: GoogleFonts.lato(
+                        fontWeight: FontWeight.bold,
+                      ),),
+                  ),
+                             ),
+               ),
+              //  
+              // 
+              InkWell(
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context){
+                  return WorkExperience();
+                }));
+                },
+                child: Card(
+                  child: ListTile(
+                    leading: Icon(Icons.work_history),
+                    title: Text("Work Experience", style: GoogleFonts.lato(
+                      fontWeight: FontWeight.bold,
+                    ),),
+                  ),
                 ),
               ),
-              Card(
-                child: ListTile(
-                  leading: Icon(Icons.work_history),
-                  title: Text("Work Experience"),
-                ),
-              ),
-              Card(
-                child: ListTile(
-                  leading: Icon(Icons.event),
-                  title: Text("Events"),
+              // 
+              // 
+              InkWell(
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context){
+                    return EventsScreen();
+                  }));
+                },
+                child: Card(
+                  child: ListTile(
+                    leading: Icon(Icons.event),
+                    title: Text("Events", style: GoogleFonts.lato(
+                        fontWeight: FontWeight.bold,
+                      ),),
+                  ),
                 ),
               ),
                           Card(
                 child: ListTile(
                   leading: Icon(Icons.workspace_premium),
-                  title: Text("CPD"),
+                  title: Text("CPD", style: GoogleFonts.lato(
+                      fontWeight: FontWeight.bold,
+                    ),),
                 ),
               ),
-                          Card(
+              // 
+              // 
+              Card(
                 child: ListTile(
                   leading: Icon(Icons.link),
-                  title: Text("Jobs"),
+                  title: Text("Jobs", style: GoogleFonts.lato(
+                      fontWeight: FontWeight.bold,
+                    ),),
                 ),
               ),
               InkWell(
@@ -89,16 +138,26 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 child: Card(
                   child: ListTile(
                     leading: Icon(Icons.album_outlined),
-                    title: Text("Who We Are"),
+                    title: Text("Who We Are", style: GoogleFonts.lato(
+                      fontWeight: FontWeight.bold,
+                    ),),
                   ),
                 ),
               ),
-               Card(
-                child: ListTile(
-                  leading: Icon(Icons.admin_panel_settings_rounded),
-                  title: Text("Our Core Values"),
-                ),
-              ),
+              // 
+               InkWell(
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context){
+                    return OurCoreValues();
+                  }));
+                },
+                 child: Card(
+                  child: ListTile(
+                    leading: Icon(Icons.admin_panel_settings_rounded),
+                    title: Text("Our Core Values"),
+                  ),
+                             ),
+               ),
                InkWell(
                 onTap: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context){
@@ -107,11 +166,17 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 },
                  child: Card(
                   child: ListTile(
-                    leading: Icon(Icons.exit_to_app_rounded),
-                    title: Text("Logout"),
+                    leading: Icon(Icons.exit_to_app_rounded,
+                    color: Colors.red,
+                    ),
+                    title: Text("Logout", style: GoogleFonts.lato(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.red
+                    ),),
                   ),
                            ),
                ),
+              //  
             ],
           ),
     );

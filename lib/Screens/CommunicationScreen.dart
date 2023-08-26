@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ippu/Widgets/CommunicationScreenWidgets/ContianerDiplayingCommunications.dart';
+import 'package:ippu/Widgets/CommunicationScreenWidgets/ContainerDiplayingCommunications.dart';
 import 'package:ippu/Widgets/DrawerWidget/DrawerWidget.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 class CommunicationScreen extends StatefulWidget {
   const CommunicationScreen({super.key});
 
@@ -34,11 +34,87 @@ class _CommunicationScreenState extends State<CommunicationScreen> {
       ),
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Text("Available communications"),
+            // Padding(
+            //   padding: const EdgeInsets.all(12.0),
+            //   child: Text("Available communications"),
+            // ),
+            SizedBox(height: size.height*0.02,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                // this shows all communication
+                Column(
+                  children: [
+                    Container(
+                      height: size.height*0.08,
+                      width: size.width*0.4,
+                      decoration: BoxDecoration(
+                        color: Colors.blue,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Center(
+                            child: Text("342", style: GoogleFonts.lato(
+                              color: Colors.white,
+                                                
+                            ),),
+                          ),
+                      
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: size.height*0.008,),
+                    Text("All communications", style: GoogleFonts.lato(
+                      fontSize:size.height*0.016,
+                    ),)
+                  ],
+                ),
+              //  this shows unread communication
+              Column(
+                  children: [
+                    Container(
+                      height: size.height*0.08,
+                      width: size.width*0.4,
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 50, 155, 132),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Center(
+                            child: Text("103", style: GoogleFonts.lato(
+                              color: Colors.white,
+                                                
+                            ),),
+                          ),
+                      
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: size.height*0.008,),
+                    Text("Unread communications", style: GoogleFonts.lato(
+                      fontSize:size.height*0.016,
+                      color: Colors.red,
+                    ),)
+                  ],
+                ),
+              // 
+              ],
             ),
+            SizedBox(height: size.height*0.02,),
+            Padding(
+              padding: EdgeInsets.only(left: size.width*0.036),
+              child: Text("Click to read more about the communication", style: GoogleFonts.roboto(
+                fontSize:size.height*0.019,
+                color: Colors.black.withOpacity(0.5)
+              ),),
+            ),
+            SizedBox(height: size.height*0.008,),
             Container(
               height: size.height*0.8,
               width: double.maxFinite,

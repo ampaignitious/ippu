@@ -4,6 +4,7 @@ import 'package:ippu/Screens/HomeScreen.dart';
 import 'package:ippu/Screens/IppuTermsOfUse.dart';
 import 'package:ippu/Widgets/AuthenticationWidgets/LoginScreen.dart';
 import 'package:ippu/Widgets/AuthenticationWidgets/RegisterScreen.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -39,7 +40,9 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Column(
         children: [
           SizedBox(height: size.height*0.07,),
-         Text("Login Page",style: TextStyle(fontSize: size.height*0.047, color:Color.fromARGB(255, 42, 129, 201), fontWeight: FontWeight.bold, letterSpacing: 1),), 
+         Text("Login Page",style: GoogleFonts.montserrat(
+          fontSize: size.height*0.047, color:Colors.blue, fontWeight: FontWeight.bold, letterSpacing: 1)
+         ),
          SizedBox(height: size.height*0.040),
          Container(
           height: size.height*0.19,
@@ -49,7 +52,9 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
          ),
          SizedBox(height: size.height*0.029),
-         Text("Sign in to continue to IPPU Membership App", style: TextStyle(color:Color.fromARGB(255, 42, 129, 201).withOpacity(0.7),),),
+         Text("Sign in to continue to IPPU Membership App", style: GoogleFonts.lato(
+          color:Color.fromARGB(255, 42, 129, 201).withOpacity(0.7),
+         ),),
           SizedBox(height: size.height*0.006,),
           SingleChildScrollView(
             child: Container(
@@ -124,7 +129,9 @@ class _LoginScreenState extends State<LoginScreen> {
         children: [
           Padding(
             padding: EdgeInsets.only(left: size.width*0.08),
-            child: Text("Don't have an account ?", style: TextStyle(fontSize: size.height*0.022, color: Colors.black,),),
+            child: Text("Don't have an account ?", style: GoogleFonts.lato(
+              fontSize: size.height*0.022, color: Colors.black,
+            ),),
           ),
           InkWell(
             onTap: (){
@@ -133,7 +140,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 }));},
             child: Padding(
               padding: EdgeInsets.only(left: size.width*0.015),
-              child: Text("SignUp", style: TextStyle(fontSize: size.height*0.022, color: Color.fromARGB(255, 42, 129, 201), fontWeight: FontWeight.bold),),
+              child: Text("SignUp", style: GoogleFonts.montserrat(
+                fontSize: size.height*0.022, color: Color.fromARGB(255, 42, 129, 201), fontWeight: FontWeight.bold
+              ),),
             ),
           ),
         ],

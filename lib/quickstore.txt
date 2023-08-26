@@ -7,3 +7,5 @@ InkWell
                 Color.fromARGB(255, 42, 129, 201)
                 Color.fromARGB(255, 50, 155, 132)// the green one
                 color used on the home page color: Color.fromARGB(210, 63, 131, 187),
+                import 'package:google_fonts/google_fonts.dart';
+                this is black blue color: Color.fromARGB(210, 14, 55, 88),

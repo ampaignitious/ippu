@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:ippu/Screens/CommunicationScreen.dart';
+import 'package:ippu/Screens/CpdsScreen.dart';
+import 'package:ippu/Screens/EventsScreen.dart';
+import 'package:ippu/Screens/UserAppGuide.dart';
 
 class FirstDisplaySection extends StatefulWidget {
   const FirstDisplaySection({super.key});
@@ -53,7 +58,9 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection> {
                     size: size.height*0.022,
                     ),
                     ),
-                    Text("Available Events")
+                    Text("Available Events", style: GoogleFonts.lato(
+                      fontWeight: FontWeight.bold,
+                    ))
                           ],
                         ),
                         // end of the row section
@@ -92,7 +99,9 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection> {
                       size: size.height*0.024,
                       ),
                     ),
-                    Text("Attended CPDS")
+                    Text("Attended CPDS", style: GoogleFonts.lato(
+                      fontWeight: FontWeight.bold,
+                    ))
                           ],
                         ),
                         // end of the row section
@@ -126,6 +135,11 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection> {
                           ),
                       // this button is the button with the check out All CPDS
                       InkWell(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context){
+                            return CpdsScreen();
+                          }));
+                        },
                             child: Container(
                               height: size.height*0.098,
                               width: size.width*0.9,
@@ -181,6 +195,11 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection> {
 
                       // this button shows the available events
                       InkWell(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context){
+                            return EventsScreen();
+                          }));
+                        },
                             child: Container(
                               height: size.height*0.098,
                               width: size.width*0.9,
@@ -234,8 +253,13 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection> {
                         // end of the button that shows available events
                     SizedBox(height: size.height*0.024,),
 
-                      // this button shows the available events
+                      // this button shows the available communication
                       InkWell(
+                      onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context){
+                            return CommunicationScreen();
+                          }));
+                        },
                             child: Container(
                               height: size.height*0.098,
                               width: size.width*0.9,
@@ -292,6 +316,11 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection> {
 
                       // this button shows the available events
                       InkWell(
+                      onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context){
+                            return UserAppGuide();
+                          }));
+                        },
                             child: Container(
                               height: size.height*0.098,
                               width: size.width*0.9,

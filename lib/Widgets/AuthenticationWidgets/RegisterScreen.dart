@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ippu/Screens/DefaultScreen.dart';
 import 'package:ippu/Screens/IppuTermsOfUse.dart';
 import 'package:ippu/Widgets/AuthenticationWidgets/LoginScreen.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -44,8 +45,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
         child: Column(
           children: [
             SizedBox(height: size.height*0.07,),
-           Text("Create account",style: TextStyle(fontSize: size.height*0.047, color:Color.fromARGB(255, 42, 129, 201), fontWeight: FontWeight.bold, letterSpacing: 1),), 
-            Text("Get your free IPPU account now. ", style: TextStyle(color:Color.fromARGB(255, 42, 129, 201).withOpacity(0.6),),),
+           Text("Create account",style: GoogleFonts.montserrat(
+            fontSize: size.height*0.047, color:Colors.blue, fontWeight: FontWeight.bold, letterSpacing: 1
+           ),), 
+            Text("Get your free IPPU account now. ", style: GoogleFonts.lato(
+              color:Color.fromARGB(255, 42, 129, 201).withOpacity(0.6),
+            ),),
             SizedBox(height: size.height*0.006,),
             Container(
               padding: EdgeInsets.all(16.0),
@@ -189,7 +194,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
           Padding(
         padding: EdgeInsets.only(left: size.width*0.04),
-        child: Text("By registering you agree", style: TextStyle(fontSize: size.height*0.015, color: Colors.black, fontWeight: FontWeight.bold),),
+        child: Text("By registering you agree", style: GoogleFonts.lato(
+          fontSize: size.height*0.015, color: Colors.black, fontWeight: FontWeight.bold
+        ),),
           ),
           InkWell(
         onTap: (){
@@ -219,7 +226,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
           children: [
             Padding(
             padding: EdgeInsets.only(left: size.width*0.08),
-            child: Text("Already have an account ?", style: TextStyle(fontSize: size.height*0.022, color: Colors.black,),),
+            child: Text("Already have an account ?", style: GoogleFonts.lato(
+              fontSize: size.height*0.022, color: Colors.black,
+            ),),
             ),
             InkWell(
             onTap: (){
@@ -228,7 +237,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 }));},
             child: Padding(
               padding: EdgeInsets.only(left: size.width*0.015),
-              child: Text("SignIn", style: TextStyle(fontSize: size.height*0.022, color: Color.fromARGB(255, 42, 129, 201), fontWeight: FontWeight.bold),),
+              child: Text("SignIn", style: GoogleFonts.montserrat(
+                fontSize: size.height*0.022, color: Color.fromARGB(255, 42, 129, 201), fontWeight: FontWeight.bold
+              ),),
             ),
             ),
           ],

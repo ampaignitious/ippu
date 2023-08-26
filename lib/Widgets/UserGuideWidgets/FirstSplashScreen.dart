@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ippu/Widgets/AuthenticationWidgets/LoginScreen.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'SecondSplashScreen.dart';
 
@@ -33,7 +34,9 @@ class _FirstSplashScreenState extends State<FirstSplashScreen> {
                   },
                   child: Padding(
                     padding: EdgeInsets.only(right: size.width*0.05),
-                    child: Text("skip", style: TextStyle(fontSize: size.height*0.025, color: Colors.blue, fontWeight: FontWeight.bold),),
+                    child: Text("skip", style: GoogleFonts.lato(
+                      fontSize: size.height*0.025, color: Colors.blue, fontWeight: FontWeight.bold
+                    ),),
                   ),
                 )
               ],
@@ -51,7 +54,9 @@ class _FirstSplashScreenState extends State<FirstSplashScreen> {
               SizedBox(
               height: size.height*0.048,
             ),
-            Text("Discover about IPPU", style: TextStyle(letterSpacing: 1,fontSize: size.height*0.044, fontWeight: FontWeight.bold,color: Colors.lightBlue), ),
+            Text("Discover about IPPU", style: GoogleFonts.lato(
+              letterSpacing: 1,fontSize: size.height*0.044, fontWeight: FontWeight.bold,color: Colors.lightBlue
+            ), ),
             SizedBox(
               height: size.height*0.015,
             ),

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 
-class ContainerDisplayingUpcomingCpds extends StatefulWidget {
-  const ContainerDisplayingUpcomingCpds({super.key});
+class ContainerDisplayingUpcomingEvents extends StatefulWidget {
+  const ContainerDisplayingUpcomingEvents({super.key});
 
   @override
-  State<ContainerDisplayingUpcomingCpds> createState() => _ContainerDisplayingUpcomingCpdsState();
+  State<ContainerDisplayingUpcomingEvents> createState() => _ContainerDisplayingUpcomingEventsState();
 }
 
-class _ContainerDisplayingUpcomingCpdsState extends State<ContainerDisplayingUpcomingCpds> with TickerProviderStateMixin {
+class _ContainerDisplayingUpcomingEventsState extends State<ContainerDisplayingUpcomingEvents> with TickerProviderStateMixin {
   List images = [
     "cpds1.jpg",
     "cpds2.jpg",

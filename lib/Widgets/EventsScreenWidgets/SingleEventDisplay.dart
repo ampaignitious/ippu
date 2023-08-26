@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class CpdsSingleEventDisplay extends StatefulWidget {
+class SingleEventDisplay extends StatefulWidget {
   String imagelink;
   String cpdsname;
   String attendees;
-  CpdsSingleEventDisplay({super.key, required this.attendees, required this.cpdsname, required this.imagelink});
+  SingleEventDisplay({super.key, required this.attendees, required this.cpdsname, required this.imagelink});
 
   @override
-  State<CpdsSingleEventDisplay> createState() => _CpdsSingleEventDisplayState(this.attendees, this.cpdsname, this.imagelink);
+  State<SingleEventDisplay> createState() => _SingleEventDisplayState(this.attendees, this.cpdsname, this.imagelink);
 }
 
-class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
+class _SingleEventDisplayState extends State<SingleEventDisplay> {
   @override
   String imagelink;
   String cpdsname;
   String attendees;
-  _CpdsSingleEventDisplayState(this.attendees, this.cpdsname, this.imagelink);
+  _SingleEventDisplayState(this.attendees, this.cpdsname, this.imagelink);
   Widget build(BuildContext context) {
     final size =MediaQuery.of(context).size;
     return Scaffold(

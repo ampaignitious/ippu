@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ippu/Widgets/CpdsScreenWidgets/ContainerDisplayingCpds.dart';
 import 'package:ippu/Widgets/CpdsScreenWidgets/ContainerDisplayingUpcomingCpds.dart';
 import 'package:ippu/Widgets/DrawerWidget/DrawerWidget.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CpdsScreen extends StatefulWidget {
   const CpdsScreen({super.key});
@@ -30,7 +31,9 @@ class _CpdsScreenState extends State<CpdsScreen> {
             ),
           )
         ],
-        title: Text("CPDS page", style: TextStyle(fontSize: size.height*0.02),),
+        title: Text("CPDS page", style: GoogleFonts.lato(
+          fontSize: size.height*0.02
+        ),),
         elevation: 0,
       ),
       body: SingleChildScrollView(
@@ -41,7 +44,9 @@ class _CpdsScreenState extends State<CpdsScreen> {
             SizedBox(height: size.height*0.04,),
             Padding(
               padding: EdgeInsets.only(left: size.height*0.028),
-              child: Text("All CPDS", style: TextStyle(fontSize: size.height*0.024, fontWeight: FontWeight.bold, color: Colors.black.withOpacity(0.8)),),
+              child: Text("All CPDS", style: GoogleFonts.lato(
+                fontSize: size.height*0.024, fontWeight: FontWeight.bold, color: Colors.black.withOpacity(0.8)
+              ),),
             ),
             SizedBox(height: size.height*0.0045,),
             Divider(
