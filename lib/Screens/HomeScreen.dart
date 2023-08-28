@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ippu/Screens/SettingsScreen.dart';
 import 'package:ippu/Widgets/DrawerWidget/DrawerWidget.dart';
 import 'package:ippu/Widgets/HomeScreenWidgets/FirstDisplaySection.dart';
 
@@ -22,11 +23,18 @@ class _HomeScreenState extends State<HomeScreen> {
               // leading: Icon(Icons.menu),
         backgroundColor: Color.fromARGB(210, 63, 131, 187),
         actions: [
-          Padding(
-            padding: EdgeInsets.only(right: size.width*0.06),
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/image9.png'),
-              backgroundColor: Colors.white,
+          InkWell(
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context){
+                return SettingsScreen();
+              }));
+            },
+            child: Padding(
+              padding: EdgeInsets.only(right: size.width*0.06),
+              child: CircleAvatar(
+                backgroundImage: AssetImage('assets/image9.png'),
+                backgroundColor: Colors.white,
+              ),
             ),
           )
         ],

@@ -39,7 +39,7 @@ class _ContainerDIsplayingEventsState extends State<ContainerDIsplayingEvents> w
   Widget build(BuildContext context) {
 final size = MediaQuery.of(context).size;
    return ListView.builder(
-      scrollDirection: Axis.horizontal,
+      scrollDirection: Axis.vertical,
       itemCount: 5,
       itemBuilder: (context,index){
         return InkWell(
@@ -53,16 +53,16 @@ final size = MediaQuery.of(context).size;
               Container(
                 margin: EdgeInsets.only(right:size.height*0.009, left:size.height*0.009),
                 height: size.height*0.4,
-                width: size.width*0.7,
+                width: size.width*0.85,
                 decoration: BoxDecoration(
                   
                   image: DecorationImage(image: AssetImage("assets/cpds${index}.jpg"))
                 ),
               ),
-              SizedBox(height:size.height*0.006),
+              SizedBox(height:size.height*0.014),
               Container(
                 height: size.height*0.085,
-                width: size.width*0.7,
+                width: size.width*0.8,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color: Colors.blue,
@@ -80,12 +80,13 @@ final size = MediaQuery.of(context).size;
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(height:size.height*0.008),
+                    SizedBox(height:size.height*0.012),
                     Text("${activityname[index]}", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: size.height*0.02),),
                     SizedBox(height:size.height*0.008),
                     // Text("${attendees[index]} Attendees", style: TextStyle(color: Colors.white),)
                   ],
-                )))
+                ))),
+                SizedBox(height:size.height*0.022),
             ],
           ),
         );

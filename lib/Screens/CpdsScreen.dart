@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:ippu/Widgets/CpdsScreenWidgets/AllCpdsScreen.dart';
 import 'package:ippu/Widgets/CpdsScreenWidgets/ContainerDisplayingCpds.dart';
 import 'package:ippu/Widgets/CpdsScreenWidgets/ContainerDisplayingUpcomingCpds.dart';
+import 'package:ippu/Widgets/CpdsScreenWidgets/UpcomingCpdsScreen.dart';
 import 'package:ippu/Widgets/DrawerWidget/DrawerWidget.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -11,8 +13,22 @@ class CpdsScreen extends StatefulWidget {
   State<CpdsScreen> createState() => _CpdsScreenState();
 }
 
-class _CpdsScreenState extends State<CpdsScreen> {
+class _CpdsScreenState extends State<CpdsScreen> with TickerProviderStateMixin{
+
+  late TabController _cpdTabController;
+
   @override
+  void initState() {
+    super.initState();
+    _cpdTabController = TabController(length: 3, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _cpdTabController.dispose();
+    super.dispose();
+  }
+
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
@@ -35,53 +51,67 @@ class _CpdsScreenState extends State<CpdsScreen> {
           fontSize: size.height*0.02
         ),),
         elevation: 0,
-      ),
-      body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: size.height*0.04,),
-            Padding(
-              padding: EdgeInsets.only(left: size.height*0.028),
-              child: Text("All CPDS", style: GoogleFonts.lato(
-                fontSize: size.height*0.024, fontWeight: FontWeight.bold, color: Colors.black.withOpacity(0.8)
-              ),),
+        // 
+        bottom: TabBar(
+          indicatorColor: Colors.white,
+          controller: _cpdTabController,
+          tabs: [
+            Tab(
+              child: Row(children: [
+                Icon(Icons.workspace_premium,
+                size:size.height*0.014,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: size.width*0.008
+                  ),
+                  child: Text("All CPDS", style: GoogleFonts.lato(
+                    fontSize: size.height*0.014,
+                  ),),
+                ),
+              ]),
             ),
-            SizedBox(height: size.height*0.0045,),
-            Divider(
-              thickness: 1,
+            Tab(
+              child: Row(children: [
+                Icon(Icons.timeline,
+                size:size.height*0.014,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: size.width*0.004
+                  ),
+                  child: Text("Upcoming CPDS", style: GoogleFonts.lato(
+                    fontSize: size.height*0.0135,
+                  ),),
+                ),
+              ]),
             ),
-            SizedBox(height: size.height*0.002,),
-            // this container has the container that returns the CPds
-            Container(
-            height: size.height*0.525,
-            width: double.maxFinite,
-            decoration: BoxDecoration(
-              // color: Colors.blue,
+            Tab(
+              child: Row(children: [
+                Icon(Icons.event_seat,
+                size:size.height*0.014,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: size.width*0.008
+                  ),
+                  child: Text("My CPDS", style: GoogleFonts.lato(
+                    fontSize: size.height*0.014,
+                  ),),
+                ),
+              ]),
             ),
-            child: ContainerDisplayingCpds()),
-
-            // this section displays upcoming CPDS
-            Padding(
-              padding: EdgeInsets.only(left: size.height*0.028),
-              child: Text("Upcoming CPDS", style: TextStyle(fontSize: size.height*0.024, fontWeight: FontWeight.bold, color: Colors.black.withOpacity(0.8)),),
-            ),
-            SizedBox(height: size.height*0.0045,),
-            Divider(
-              thickness: 1,
-            ),
-            SizedBox(height: size.height*0.002,),
-            // this container has the container that returns the CPds
-            Container(
-            height: size.height*0.55,
-            width: double.maxFinite,
-            decoration: BoxDecoration(
-              // color: Colors.blue,
-            ),
-            child: ContainerDisplayingUpcomingCpds()),
           ],
         ),
+        // 
+      ),
+      body: TabBarView(
+        controller: _cpdTabController,
+        children: [
+          AllCpdsScreen(),
+          UpcommingCpdsScreen(),
+          Center(child: Text('To display my CPDS')),
+        ],
       ),
     );
   }

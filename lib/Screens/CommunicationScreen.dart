@@ -57,11 +57,21 @@ class _CommunicationScreenState extends State<CommunicationScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Center(
-                            child: Text("342", style: GoogleFonts.lato(
-                              color: Colors.white,
-                                                
-                            ),),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Icon(
+                                    Icons.notifications,
+                                    color: Colors.white,
+                                    size: 24,  
+                                  ),
+                              Center(
+                                child: Text("342", style: GoogleFonts.lato(
+                                  color: Colors.white,
+                                                    
+                                ),),
+                              ),
+                            ],
                           ),
                       
                         ],
@@ -86,11 +96,21 @@ class _CommunicationScreenState extends State<CommunicationScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Center(
-                            child: Text("103", style: GoogleFonts.lato(
-                              color: Colors.white,
-                                                
-                            ),),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Icon(
+                                Icons.new_releases,
+                                color: Colors.white, 
+                                size: 24, 
+                              ),
+                              Center(
+                                child: Text("103", style: GoogleFonts.lato(
+                                  color: Colors.white,
+                                                    
+                                ),),
+                              ),
+                            ],
                           ),
                       
                         ],

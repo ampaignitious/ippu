@@ -27,7 +27,7 @@ class _DefaultScreenState extends State<DefaultScreen> {
  CpdsScreen(),
  EventsScreen(),
  CommunicationScreen(),
- HomeScreen(),
+//  HomeScreen(),This will have the settings page
 //  ServiceScreen(),
 //  ReportScreen(),
 //  SettingScreen(),
@@ -63,7 +63,7 @@ class _DefaultScreenState extends State<DefaultScreen> {
           BottomNavigationBarItem(icon: Icon(Icons.workspace_premium), label: 'CPD'),
           BottomNavigationBarItem(icon: Icon(Icons.event), label: 'Events'),
           BottomNavigationBarItem(icon: Icon(Icons.info), label: 'Communication'),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
+          // BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
           // BottomNavigationBarItem(
           //     icon: Icon(Icons.settings),
           //     label: 'Settings'),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ippu/Widgets/UserGuideWidgets/FirstSplashScreen.dart';
+import 'package:ippu/Widgets/SplashScreenWidgets/FirstSplashScreen.dart';
 
 void main() {
   runApp(const MyApp());

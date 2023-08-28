@@ -1,18 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:ippu/Widgets/AuthenticationWidgets/LoginScreen.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:ippu/Widgets/SplashScreenWidgets/ThirdSplashScreen.dart';
 
-import 'SecondSplashScreen.dart';
-
-class FirstSplashScreen extends StatefulWidget {
-  const FirstSplashScreen({super.key});
+class SecondSplashScreen extends StatefulWidget {
+  const SecondSplashScreen({super.key});
 
   @override
-  State<FirstSplashScreen> createState() => _FirstSplashScreenState();
+  State<SecondSplashScreen> createState() => _SecondSplashScreenState();
 }
 
-class _FirstSplashScreenState extends State<FirstSplashScreen> {
+class _SecondSplashScreenState extends State<SecondSplashScreen>  with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  
   @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 160), // Adjust the duration as needed
+    )..repeat();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
@@ -34,9 +47,7 @@ class _FirstSplashScreenState extends State<FirstSplashScreen> {
                   },
                   child: Padding(
                     padding: EdgeInsets.only(right: size.width*0.05),
-                    child: Text("skip", style: GoogleFonts.lato(
-                      fontSize: size.height*0.025, color: Colors.blue, fontWeight: FontWeight.bold
-                    ),),
+                    child: Text("skip", style: TextStyle(fontSize: size.height*0.025, color: Colors.blue, fontWeight: FontWeight.bold),),
                   ),
                 )
               ],
@@ -45,24 +56,27 @@ class _FirstSplashScreenState extends State<FirstSplashScreen> {
               height: size.height*0.088,
             ),
             Container(
-              height: size.height*0.35,
-              width: double.maxFinite,
-              decoration: BoxDecoration(
-                image: DecorationImage(image: AssetImage("assets/image4.png")),
-              ),
-            ),
+  height: size.height * 0.35,
+  width: double.maxFinite,
+  child: RotationTransition(
+    turns: _controller,
+    child: DecoratedBox(
+      decoration: BoxDecoration(
+        image: DecorationImage(image: AssetImage("assets/image6.png")),
+      ),
+    ),
+  ),
+),
               SizedBox(
               height: size.height*0.048,
             ),
-            Text("Discover about IPPU", style: GoogleFonts.lato(
-              letterSpacing: 1,fontSize: size.height*0.044, fontWeight: FontWeight.bold,color: Colors.lightBlue
-            ), ),
+            Text("Events Scheduling", style: TextStyle(fontSize: size.height*0.044, fontWeight: FontWeight.bold,color: Colors.lightBlue),),
             SizedBox(
               height: size.height*0.015,
             ),
             Padding(
               padding: EdgeInsets.only(right: size.width*0.05, left: size.width*0.06),
-              child: Text("An application developed to bring together both the public and private sector procument and supply chain professionals in Uganda.", style: TextStyle(fontSize: size.height
+              child: Text("Get access to all happening events concerning procument and supply chain professional community in Uganda", style: TextStyle(fontSize: size.height
               *0.016),),
             ),
             SizedBox(
@@ -71,16 +85,31 @@ class _FirstSplashScreenState extends State<FirstSplashScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+              InkWell(
+                  onTap: (){
+                    Navigator.pop(context);
+                },
+                  child: Container(
+                    margin: EdgeInsets.only(left: size.width*0.04),
+                    height: size.height*0.08,
+                    width: size.width*0.16,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(color: Colors.blue)
+                    ),
+                    child: Icon(Icons.arrow_back, color: Colors.blue, size: size.height*0.04,),
+                  ),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Container(
-                      margin: EdgeInsets.only(left: size.width*0.084),
+                      margin: EdgeInsets.only(left: size.width*0.048),
                       height: size.height*0.052,
                       width: size.width*0.062,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.blue,
+                        color: Colors.grey,
                       ),
                     ),
                     Container(
@@ -89,7 +118,7 @@ class _FirstSplashScreenState extends State<FirstSplashScreen> {
                       width: size.width*0.062,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.grey,
+                        color: Colors.blue,
                       ),
                     ),
                     Container(
@@ -106,9 +135,8 @@ class _FirstSplashScreenState extends State<FirstSplashScreen> {
                 InkWell(
                   onTap: (){
                     Navigator.push(context, MaterialPageRoute(builder: (context){
-                  return SecondSplashScreen();
-                }));
-                  },
+                  return ThirdSplashScreen();
+                }));},
                   child: Container(
                     margin: EdgeInsets.only(right: size.width*0.04),
                     height: size.height*0.08,

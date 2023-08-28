@@ -4,6 +4,7 @@ import 'package:ippu/Screens/DefaultScreen.dart';
 import 'package:ippu/Screens/EventsScreen.dart';
 import 'package:ippu/Screens/HomeScreen.dart';
 import 'package:ippu/Screens/OurCoreValues.dart';
+import 'package:ippu/Screens/SettingsScreen.dart';
 import 'package:ippu/Screens/WhoWeAreScreen.dart';
 import 'package:ippu/Screens/WorkExperience.dart';
 import 'package:ippu/Widgets/AuthenticationWidgets/LoginScreen.dart';
@@ -158,6 +159,26 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   ),
                              ),
                ),
+                             //  
+               InkWell(
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context){
+                    return SettingsScreen();
+                  }));
+                },
+                 child: Card(
+                  child: ListTile(
+                    leading: Icon(Icons.settings,
+                    ),
+                    title: Text("Settings", style: GoogleFonts.lato(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black
+                    ),),
+                  ),
+                           ),
+               ),
+              // 
+              //  
                InkWell(
                 onTap: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context){

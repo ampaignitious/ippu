@@ -37,7 +37,7 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds> with 
   Widget build(BuildContext context) {
 final size = MediaQuery.of(context).size;
    return ListView.builder(
-      scrollDirection: Axis.horizontal,
+      scrollDirection: Axis.vertical,
       itemCount: 5,
       itemBuilder: (context,index){
         return InkWell(
@@ -51,19 +51,26 @@ final size = MediaQuery.of(context).size;
               Container(
                 margin: EdgeInsets.only(right:size.height*0.009, left:size.height*0.009),
                 height: size.height*0.4,
-                width: size.width*0.7,
+                width: size.width*0.85,
                 decoration: BoxDecoration(
                   
                   image: DecorationImage(image: AssetImage("assets/cpds${index}.jpg"))
                 ),
               ),
-              SizedBox(height:size.height*0.006),
+              SizedBox(height:size.height*0.014),
               Container(
                 height: size.height*0.085,
-                width: size.width*0.7,
+                width: size.width*0.8,
                 decoration: BoxDecoration(
-                  color: Colors.blue
-                ),
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.blue,
+                  boxShadow: [
+              BoxShadow(
+          color: Colors.grey.withOpacity(0.5), // Adjust shadow color and opacity
+          offset: Offset(0.8, 1.0), // Adjust the shadow offset
+          blurRadius: 4.0, // Adjust the blur radius
+          spreadRadius: 0.2, // Adjust the spread radius
+              ),]),
                 child: Center(child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -72,7 +79,9 @@ final size = MediaQuery.of(context).size;
                     SizedBox(height:size.height*0.008),
                     Text("${attendees[index]} Attendees", style: TextStyle(color: Colors.white),)
                   ],
-                )))
+                ))),
+              
+              SizedBox(height:size.height*0.022),
             ],
           ),
         );

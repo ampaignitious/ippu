@@ -15,12 +15,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String _username = '';
   String _password = '';
   String _confirmPassword = '';
-  String _selectedAccountType = 'select account type';
   bool _agreedToTerms = false;
   bool _isPasswordVisible = false;
 
-  final List<String> _accountTypes = ['ccpp', 'student', 'corporate'];
-
+  final List<String> _accountTypes = ['cpp', 'student', 'corporate'];
+ String _selectedValue = 'Please select account type';
+  TextEditingController _textEditingController = TextEditingController();
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
       // Perform registration logic here
@@ -29,12 +29,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
       print('Username: $_username');
       print('Password: $_password');
       print('Confirm Password: $_confirmPassword');
-      print('Account Type: $_selectedAccountType');
+      print('Selected usertype ${_selectedValue}');
       Navigator.push(context, MaterialPageRoute(builder: (context){
         return DefaultScreen();
       }));
     }
   }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -163,24 +164,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
         },
       ),
              SizedBox(height: size.height*0.018),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Account Type',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20)
-                        ),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'select account type';
-                        }
-                        // You can add more validation here if needed
-                        return null;
-                      },
-                      onSaved: (value) {
-                        _email = value!;
-                      },
+            //  
+       DropdownButtonFormField<String>(
+              value: _selectedValue,
+              onChanged: (newValue) {
+                setState(() {
+                  _selectedValue = newValue!;
+                });
+              },
+              items: ['Please select account type', 'CPP (200,000)', 'Affiliates (110,000)', 'Student (20,000)', 'Graduate (150,000)','Felllow (250,000)','Corporate (600,000)','General Memeber (1,000,000)']
+                  .map<DropdownMenuItem<String>>(
+                    (String value) => DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
                     ),
+                  )
+                  .toList(),
+              decoration: InputDecoration(
+                labelText: 'Account Type',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20)
+                ),
+              ),
+            ),  
+            // 
                     Row(
                       // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -211,15 +218,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
         ],
       ),
-                   SizedBox(height: size.height*0.004),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: Color.fromARGB(255, 50, 155, 132), // Change button color to green
-                        padding: EdgeInsets.all(size.height * 0.028),
-                      ),
-                      onPressed: _submitForm,
-                      child: Text('Register'),
-                    ),
+            SizedBox(height: size.height*0.004),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: Color.fromARGB(255, 50, 155, 132), // Change button color to green
+                padding: EdgeInsets.all(size.height * 0.028),
+              ),
+              onPressed: _submitForm,
+              child: Text('Register'),
+            ),
                     SizedBox(height: size.height*0.026),
           Row(
                       // mainAxisAlignment: MainAxisAlignment.spaceBetween,
