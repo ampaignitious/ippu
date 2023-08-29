@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ippu/Util/TextWords.dart';
 import 'package:ippu/Widgets/AuthenticationWidgets/LoginScreen.dart';
 import 'package:ippu/Widgets/AuthenticationWidgets/RegisterScreen.dart';
 
@@ -32,7 +33,7 @@ class _ThirdSplashScreenState extends State<ThirdSplashScreen> {
                   },
                   child: Padding(
                     padding: EdgeInsets.only(right: size.width*0.05),
-                    child: Text("skip", style: TextStyle(fontSize: size.height*0.025, color: Colors.blue, fontWeight: FontWeight.bold),),
+                    child: Text("skip", style: TextStyle(fontSize: size.height*0.025, color: Color.fromARGB(255, 42, 129, 201), fontWeight: FontWeight.bold),),
                   ),
                 )
               ],
@@ -50,14 +51,14 @@ class _ThirdSplashScreenState extends State<ThirdSplashScreen> {
               SizedBox(
               height: size.height*0.048,
             ),
-            Text("Effective communication", style: TextStyle(fontSize: size.height*0.041, fontWeight: FontWeight.bold,color: Colors.lightBlue),),
+            Text("Effective communication", style: TextStyle(fontSize: size.height*0.041, fontWeight: FontWeight.bold,color: Color.fromARGB(255, 42, 129, 201)),),
             SizedBox(
               height: size.height*0.015,
             ),
             Padding(
               padding: EdgeInsets.only(right: size.width*0.05, left: size.width*0.06),
-              child: Text("Get your time update and urgent feedback so as not to miss out important communication concerning the procument and supply chain professionals in Uganda", style: TextStyle(fontSize: size.height
-              *0.016),),
+              child: Text(" ${effectiveCommunication}", style: TextStyle(fontSize: size.height
+              *0.018),),
             ),
             SizedBox(
               height: size.height*0.055,
@@ -76,10 +77,10 @@ class _ThirdSplashScreenState extends State<ThirdSplashScreen> {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       // color: Colors.grey,
-                      border: Border.all(color: Colors.blue),
+                      border: Border.all(color: Color.fromARGB(255, 42, 129, 201)),
                       
                     ),
-                    child: Icon(Icons.arrow_back, color: Colors.blue, size: size.height*0.04,),
+                    child: Icon(Icons.arrow_back, color: Color.fromARGB(255, 42, 129, 201), size: size.height*0.04,),
                   ),
                 ),
                 Row(
@@ -114,7 +115,7 @@ class _ThirdSplashScreenState extends State<ThirdSplashScreen> {
                       width: size.width*0.062,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                       color: Colors.blue,
+                       color: Color.fromARGB(255, 42, 129, 201),
                       ),
                     ),
                   ],
@@ -130,7 +131,7 @@ class _ThirdSplashScreenState extends State<ThirdSplashScreen> {
                     width: size.width*0.16,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Colors.blue,
+                      color: Color.fromARGB(255, 42, 129, 201),
                     ),
                     child: Icon(Icons.arrow_forward, color: Colors.white, size: size.height*0.04,),
                   ),

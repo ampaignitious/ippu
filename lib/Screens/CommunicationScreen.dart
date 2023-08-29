@@ -9,7 +9,8 @@ class CommunicationScreen extends StatefulWidget {
   State<CommunicationScreen> createState() => _CommunicationScreenState();
 }
 
-class _CommunicationScreenState extends State<CommunicationScreen> {
+class _CommunicationScreenState extends State<CommunicationScreen> with TickerProviderStateMixin{
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -20,7 +21,7 @@ class _CommunicationScreenState extends State<CommunicationScreen> {
       ),
     appBar: AppBar(
               // leading: Icon(Icons.menu),
-        backgroundColor: Color.fromARGB(210, 63, 131, 187),
+        backgroundColor: Color.fromARGB(255, 42, 129, 201),
         actions: [
           Center(
             child: Padding(
@@ -32,6 +33,7 @@ class _CommunicationScreenState extends State<CommunicationScreen> {
         title: Text("Communication Page", style: TextStyle(fontSize: size.height*0.02),),
         elevation: 0,
       ),
+
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -51,7 +53,7 @@ class _CommunicationScreenState extends State<CommunicationScreen> {
                       height: size.height*0.08,
                       width: size.width*0.4,
                       decoration: BoxDecoration(
-                        color: Colors.blue,
+                        color: Color.fromARGB(255, 42, 129, 201),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Column(
@@ -136,7 +138,7 @@ class _CommunicationScreenState extends State<CommunicationScreen> {
             ),
             SizedBox(height: size.height*0.008,),
             Container(
-              height: size.height*0.8,
+              height: size.height*0.6,
               width: double.maxFinite,
               child: ContainerDisplayingCommunications(),
             ),

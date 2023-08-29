@@ -12,3 +12,9 @@ String innovation="Allowing for change in the way things are done";
 String commitment ="Commitment towards the cause of the IPPU from the core stakeholders.";
 String freedomOfExpression ="Commitment towards Free will and Freedom of expression";
 String knowledgeandInformationSharing="An institute that promotes knowledge and information sharing";
+
+// the splash screen texts
+
+String discoverAboutIPPU =" Bringing together Public & Private Sector Procurement & Supply Chain Professionals in Uganda.";
+String eventsAndTraining ="Get access to all Events & CPD Trainings in the procurement and supply chain professional community."; 
+String effectiveCommunication ="Get timely updates and and do not miss out on important communications";

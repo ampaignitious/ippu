@@ -34,7 +34,7 @@ class _UpcommingCpdsScreenState extends State<UpcommingCpdsScreen> {
             SizedBox(height: size.height*0.002,),
             // this container has the container that returns the CPds
             Container(
-            height: size.height*0.55,
+            height: size.height*0.65,
             width: double.maxFinite,
             decoration: BoxDecoration(
               // color: Colors.blue,

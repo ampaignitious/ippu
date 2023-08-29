@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ippu/Screens/ProfileScreen.dart';
 import 'package:ippu/Screens/SettingsScreen.dart';
 import 'package:ippu/Widgets/DrawerWidget/DrawerWidget.dart';
 import 'package:ippu/Widgets/HomeScreenWidgets/FirstDisplaySection.dart';
@@ -21,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       appBar: AppBar(
               // leading: Icon(Icons.menu),
-        backgroundColor: Color.fromARGB(210, 63, 131, 187),
+        backgroundColor: Color.fromARGB(255, 42, 129, 201),
         actions: [
           InkWell(
             onTap: (){
@@ -29,11 +30,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 return SettingsScreen();
               }));
             },
-            child: Padding(
-              padding: EdgeInsets.only(right: size.width*0.06),
-              child: CircleAvatar(
-                backgroundImage: AssetImage('assets/image9.png'),
-                backgroundColor: Colors.white,
+            child: InkWell(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context){
+                  return ProfileScreen();
+                }));
+              },
+              child: Padding(
+                padding: EdgeInsets.only(right: size.width*0.06),
+                child: CircleAvatar(
+                  backgroundImage: AssetImage('assets/image9.png'),
+                  backgroundColor: Colors.white,
+                ),
               ),
             ),
           )

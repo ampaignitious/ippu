@@ -38,6 +38,7 @@ dependencies:
 
 dev_dependencies:
   google_fonts:
+  image_picker:
   carousel_slider: ^4.2.1
   flutter_test:
     sdk: flutter

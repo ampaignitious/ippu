@@ -60,3 +60,12 @@ SingleChildScrollView(
           ],
         ),
       )
+
+
+
+
+
+
+
+      the blue color to use 
+      Color.fromARGB(255, 42, 129, 201)

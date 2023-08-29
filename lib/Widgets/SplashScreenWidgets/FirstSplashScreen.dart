@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
+import 'package:ippu/Util/TextWords.dart';
 
 import 'package:ippu/Widgets/AuthenticationWidgets/LoginScreen.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -69,7 +70,7 @@ class _FirstSplashScreenState extends State<FirstSplashScreen>
                       "skip",
                       style: GoogleFonts.lato(
                           fontSize: size.height * 0.025,
-                          color: Colors.blue,
+                          color: Color.fromARGB(255, 42, 129, 201),
                           fontWeight: FontWeight.bold),
                     ),
                   ),
@@ -108,7 +109,7 @@ class _FirstSplashScreenState extends State<FirstSplashScreen>
                   letterSpacing: 1,
                   fontSize: size.height * 0.044,
                   fontWeight: FontWeight.bold,
-                  color: Colors.lightBlue),
+                  color: Color.fromARGB(255, 42, 129, 201)),
             ),
             SizedBox(
               height: size.height * 0.015,
@@ -117,8 +118,8 @@ class _FirstSplashScreenState extends State<FirstSplashScreen>
               padding: EdgeInsets.only(
                   right: size.width * 0.05, left: size.width * 0.06),
               child: Text(
-                "An application developed to bring together both the public and private sector procurement and supply chain professionals in Uganda.",
-                style: TextStyle(fontSize: size.height * 0.016),
+                "${discoverAboutIPPU}",
+                style: GoogleFonts.lato(fontSize: size.height * 0.016),
               ),
             ),
             SizedBox(
@@ -136,7 +137,7 @@ class _FirstSplashScreenState extends State<FirstSplashScreen>
                       width: size.width * 0.062,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.blue,
+                        color: Color.fromARGB(255, 42, 129, 201)
                       ),
                     ),
                     Container(
@@ -172,7 +173,7 @@ class _FirstSplashScreenState extends State<FirstSplashScreen>
                     width: size.width * 0.16,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Colors.blue,
+                      color: Color.fromARGB(255, 42, 129, 201),
                     ),
                     child: Icon(
                       Icons.arrow_forward,

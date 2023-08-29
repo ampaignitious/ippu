@@ -48,7 +48,7 @@ class _DefaultScreenState extends State<DefaultScreen> {
 
       body: Page[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
-       backgroundColor: Color.fromARGB(210, 63, 131, 187).withOpacity(0.9),
+       backgroundColor: Color.fromARGB(255, 42, 129, 201).withOpacity(0.9),
         currentIndex: _selectedIndex,
         onTap: ((value) => onItemTapped(value)),
         // backgroundColor: Colors.transparent,

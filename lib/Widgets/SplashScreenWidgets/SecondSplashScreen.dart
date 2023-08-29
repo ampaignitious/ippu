@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:ippu/Util/TextWords.dart';
 import 'package:ippu/Widgets/AuthenticationWidgets/LoginScreen.dart';
 import 'package:ippu/Widgets/SplashScreenWidgets/ThirdSplashScreen.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class SecondSplashScreen extends StatefulWidget {
   const SecondSplashScreen({super.key});
@@ -47,7 +49,7 @@ class _SecondSplashScreenState extends State<SecondSplashScreen>  with SingleTic
                   },
                   child: Padding(
                     padding: EdgeInsets.only(right: size.width*0.05),
-                    child: Text("skip", style: TextStyle(fontSize: size.height*0.025, color: Colors.blue, fontWeight: FontWeight.bold),),
+                    child: Text("skip", style: TextStyle(fontSize: size.height*0.025, color: Color.fromARGB(255, 42, 129, 201), fontWeight: FontWeight.bold),),
                   ),
                 )
               ],
@@ -70,13 +72,16 @@ class _SecondSplashScreenState extends State<SecondSplashScreen>  with SingleTic
               SizedBox(
               height: size.height*0.048,
             ),
-            Text("Events Scheduling", style: TextStyle(fontSize: size.height*0.044, fontWeight: FontWeight.bold,color: Colors.lightBlue),),
+            Text("EVENTS & CPD Trainings", style: GoogleFonts.lato(
+            fontSize: size.height*0.0415, fontWeight: FontWeight.bold,color: Color.fromARGB(255, 42, 129, 201)
+            ),),
+            
             SizedBox(
               height: size.height*0.015,
             ),
             Padding(
               padding: EdgeInsets.only(right: size.width*0.05, left: size.width*0.06),
-              child: Text("Get access to all happening events concerning procument and supply chain professional community in Uganda", style: TextStyle(fontSize: size.height
+              child: Text("${eventsAndTraining}", style: TextStyle(fontSize: size.height
               *0.016),),
             ),
             SizedBox(
@@ -118,7 +123,7 @@ class _SecondSplashScreenState extends State<SecondSplashScreen>  with SingleTic
                       width: size.width*0.062,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.blue,
+                        color: Color.fromARGB(255, 42, 129, 201),
                       ),
                     ),
                     Container(
@@ -143,7 +148,7 @@ class _SecondSplashScreenState extends State<SecondSplashScreen>  with SingleTic
                     width: size.width*0.16,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Colors.blue,
+                      color: Color.fromARGB(255, 42, 129, 201),
                     ),
                     child: Icon(Icons.arrow_forward, color: Colors.white, size: size.height*0.04,),
                   ),

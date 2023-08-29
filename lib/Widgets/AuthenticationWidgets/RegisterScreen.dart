@@ -47,7 +47,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           children: [
             SizedBox(height: size.height*0.07,),
            Text("Create account",style: GoogleFonts.montserrat(
-            fontSize: size.height*0.047, color:Colors.blue, fontWeight: FontWeight.bold, letterSpacing: 1
+            fontSize: size.height*0.047, color:Color.fromARGB(255, 42, 129, 201), fontWeight: FontWeight.bold, letterSpacing: 1
            ),), 
             Text("Get your free IPPU account now. ", style: GoogleFonts.lato(
               color:Color.fromARGB(255, 42, 129, 201).withOpacity(0.6),
@@ -221,7 +221,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             SizedBox(height: size.height*0.004),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: Color.fromARGB(255, 50, 155, 132), // Change button color to green
+                primary:  Color.fromARGB(255, 42, 129, 201), // Change button color to green
                 padding: EdgeInsets.all(size.height * 0.028),
               ),
               onPressed: _submitForm,

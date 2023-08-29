@@ -26,9 +26,45 @@ class _ContainerDisplayingCommunicationsState extends State<ContainerDisplayingC
  ];
  int maxWords = 20;
   @override
+
+    // 
+    final ScrollController _scrollController = ScrollController();
+
+  void _scrollToTop() {
+    _scrollController.animateTo(0, duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+  }
+
+  bool _showBackToTopButton = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_updateScrollVisibility);
+  }
+
+  void _updateScrollVisibility() {
+    setState(() {
+      _showBackToTopButton = _scrollController.offset > _scrollController.position.maxScrollExtent / 2;
+    });
+  }
+  // 
   Widget build(BuildContext context) {
 final size = MediaQuery.of(context).size;
-   return ListView.builder(
+   return Scaffold( 
+            floatingActionButton: Visibility(
+        visible: _showBackToTopButton,
+        child: FloatingActionButton(
+          backgroundColor: Color.fromARGB(255, 42, 129, 201),
+          onPressed: _scrollToTop,
+          child: Icon(
+            Icons.arrow_upward,
+            color: Colors.white,
+          ),
+          shape: CircleBorder(),
+        ),
+      ),
+    body:ListView.builder(
+    controller: _scrollController,
       scrollDirection: Axis.vertical,
       itemCount: communications.length,
       itemBuilder: (context,index){
@@ -43,7 +79,7 @@ final size = MediaQuery.of(context).size;
                SizedBox(height: size.height*0.008,),
               Container(
                 margin: EdgeInsets.only(right:size.height*0.009, left:size.height*0.009),
-                height: size.height*0.35,
+                height: size.height*0.32,
                 width: size.width*0.95,
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -94,7 +130,14 @@ final size = MediaQuery.of(context).size;
                             ],
                           ),
                         // 
-                        Icon(Icons.read_more)
+                        Column(
+                          children: [
+                            Icon(Icons.read_more),
+                            Text("read more", style: GoogleFonts.lato(
+                              fontWeight: FontWeight.bold,
+                            ),),
+                          ],
+                        )
                         ],
                       ),
                     ),
@@ -107,7 +150,7 @@ final size = MediaQuery.of(context).size;
           ),
         );
       }
-    );
+    ));
   }
   
   String shortenText(String text, int maxLength) {

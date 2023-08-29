@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:ippu/Screens/CommunicationScreen.dart';
 import 'package:ippu/Screens/DefaultScreen.dart';
+import 'package:ippu/Screens/EducationBackgroundScreen.dart';
 import 'package:ippu/Screens/EventsScreen.dart';
 import 'package:ippu/Screens/HomeScreen.dart';
+import 'package:ippu/Screens/JobsScreen.dart';
 import 'package:ippu/Screens/OurCoreValues.dart';
 import 'package:ippu/Screens/SettingsScreen.dart';
 import 'package:ippu/Screens/WhoWeAreScreen.dart';
@@ -29,7 +31,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 decoration: BoxDecoration(
                   color: Colors.blue,
                 ),
-                currentAccountPicture: CircleAvatar(backgroundImage: AssetImage('assets/image4.png'),),
+                currentAccountPicture: CircleAvatar(backgroundImage: AssetImage('assets/image9.png'),),
                 accountName: Text("username"), accountEmail: Text("user@gmail.com")),
               InkWell(
                 onTap: (){
@@ -46,12 +48,19 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   ),
                 ),
               ),
-              Card(
-                child: ListTile(
-                  leading: Icon(Icons.cast_for_education),
-                  title: Text("Education Background", style: GoogleFonts.lato(
-                      fontWeight: FontWeight.bold,
-                    ),),
+              InkWell(
+                onTap:(){
+                  Navigator.push(context, MaterialPageRoute(builder: (context){
+                    return EducationBackgroundScreen();
+                  }));
+                },
+                child: Card(
+                  child: ListTile(
+                    leading: Icon(Icons.cast_for_education),
+                    title: Text("Education Background", style: GoogleFonts.lato(
+                        fontWeight: FontWeight.bold,
+                      ),),
+                  ),
                 ),
               ),
               Card(
@@ -122,12 +131,19 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               ),
               // 
               // 
-              Card(
-                child: ListTile(
-                  leading: Icon(Icons.link),
-                  title: Text("Jobs", style: GoogleFonts.lato(
-                      fontWeight: FontWeight.bold,
-                    ),),
+              InkWell(
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context){
+                    return JobsScreen();
+                  }));
+                },
+                child: Card(
+                  child: ListTile(
+                    leading: Icon(Icons.link),
+                    title: Text("Jobs", style: GoogleFonts.lato(
+                        fontWeight: FontWeight.bold,
+                      ),),
+                  ),
                 ),
               ),
               InkWell(

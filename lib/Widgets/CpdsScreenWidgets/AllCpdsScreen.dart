@@ -20,21 +20,33 @@ class _AllCpdsScreenState extends State<AllCpdsScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: size.height*0.04,),
-            Padding(
-              padding: EdgeInsets.only(left: size.height*0.028),
-              child: Text("All CPDS", style: GoogleFonts.lato(
-                fontSize: size.height*0.024, fontWeight: FontWeight.bold, color: Colors.black.withOpacity(0.8)
-              ),),
-            ),
-            SizedBox(height: size.height*0.0045,),
-            Divider(
-              thickness: 1,
-            ),
+            // SizedBox(height: size.height*0.04,),
+            // 
+            // Row(
+            //   children: [
+            //     Padding(
+            //       padding: EdgeInsets.only(left: size.height*0.028),
+            //       child: Text("All CPDS", style: GoogleFonts.lato(
+            //         fontSize: size.height*0.024, fontWeight: FontWeight.bold, color: Colors.black.withOpacity(0.8)
+            //       ),),
+            //     ),
+            //     Padding(
+            //       padding: EdgeInsets.only(left: size.height*0.020),
+            //       child: Text("( click on the CPD to see more details )", style: GoogleFonts.lato(
+            //         fontSize: size.height*0.012, fontWeight: FontWeight.bold, color: Colors.black.withOpacity(0.8)
+            //       ),),
+            //     ),
+            //   ],
+            // ),
+            // 
+            // SizedBox(height: size.height*0.0045,),
+            // Divider(
+            //   thickness: 1,
+            // ),
             SizedBox(height: size.height*0.002,),
             // this container has the container that returns the CPds
             Container(
-            height: size.height*0.625,
+            height: size.height*0.75,
             width: double.maxFinite,
             decoration: BoxDecoration(
               // color: Colors.blue,
@@ -43,5 +55,6 @@ class _AllCpdsScreenState extends State<AllCpdsScreen> {
           ],
         ),
       );
+      
   }
 }

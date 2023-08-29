@@ -22,6 +22,7 @@ class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
     return Scaffold(
       appBar: AppBar(
         title: Text("${cpdsname}", style: GoogleFonts.lato(),),
+        backgroundColor: Color.fromARGB(255, 42, 129, 201),
         elevation: 0,
       ),
       body: SingleChildScrollView(

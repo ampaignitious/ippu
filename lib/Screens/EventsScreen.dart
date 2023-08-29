@@ -35,7 +35,7 @@ class _EventsScreenState extends State<EventsScreen> with TickerProviderStateMix
       ),
     appBar: AppBar(
               // leading: Icon(Icons.menu),
-        backgroundColor: Color.fromARGB(210, 63, 131, 187),
+        backgroundColor: Color.fromARGB(255, 42, 129, 201),
         title: Text("Events page", style: GoogleFonts.lato(
           fontSize: size.height*0.02
         ),),
