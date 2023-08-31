@@ -38,7 +38,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     setState(() {
   _selectedValue = 'Please select account type';
 });
-
    String mapAccountType(String selectedIndex) {
     switch (selectedIndex) {
     case 'Please select account type':
