@@ -11,6 +11,9 @@ import 'package:ippu/Screens/WhoWeAreScreen.dart';
 import 'package:ippu/Screens/WorkExperience.dart';
 import 'package:ippu/Widgets/AuthenticationWidgets/LoginScreen.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ippu/Widgets/LogoutWidgets/LogoutLogic.dart';
+import 'package:ippu/models/UserProvider.dart';
+import 'package:provider/provider.dart';
 
 
 
@@ -23,7 +26,9 @@ class DrawerWidget extends StatefulWidget {
 
 class _DrawerWidgetState extends State<DrawerWidget> {
   @override
+
   Widget build(BuildContext context) {
+      final userData = Provider.of<UserProvider>(context).user;
     return SingleChildScrollView(
       child: Column(
             children: [
@@ -32,7 +37,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   color: Colors.blue,
                 ),
                 currentAccountPicture: CircleAvatar(backgroundImage: AssetImage('assets/image9.png'),),
-                accountName: Text("username"), accountEmail: Text("user@gmail.com")),
+                accountName: Text("${userData!.name}"), accountEmail: Text("${userData.email}")),
               InkWell(
                 onTap: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context){
@@ -197,9 +202,11 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               //  
                InkWell(
                 onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context){
-                    return LoginScreen();
-                  }));
+                    performLogout( token: userData.token);
+                      Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => LoginScreen()),
+              );
                 },
                  child: Card(
                   child: ListTile(

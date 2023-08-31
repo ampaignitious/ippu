@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:ippu/Screens/DefaultScreen.dart';
 import 'package:ippu/Screens/HomeScreen.dart';
@@ -5,6 +7,10 @@ import 'package:ippu/Screens/IppuTermsOfUse.dart';
 import 'package:ippu/Widgets/AuthenticationWidgets/LoginScreen.dart';
 import 'package:ippu/Widgets/AuthenticationWidgets/RegisterScreen.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
+import 'package:ippu/models/UserData.dart';
+import 'package:ippu/models/UserProvider.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -12,24 +18,75 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  String _email = '';
-  String _password = '';
-//  TextEditingController _email ="" as TextEditingController;
-  bool _isPasswordVisible = false;
+  final GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
+  String _userEmail = '';
+  String _userPassword = '';
+  bool _isLoginPasswordVisible = false;
 
-  final List<String> _accountTypes = ['ccpp', 'student', 'corporate'];
 
-  void _submitForm() {
-    if (_formKey.currentState!.validate()) {
-      // Perform registration logic here
-      // For demonstration purposes, we print the values
-      print('Email: $_email');
-      print('Password: $_password');
-      Navigator.push(context, MaterialPageRoute(builder: (context){
-        return DefaultScreen();
-      }));
+  Future<void> _loginForm() async {
+    if (_loginFormKey.currentState!.validate()) {
+      _loginFormKey.currentState!.save();
 
+    //  
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+    // 
+    // 
+    final Map<String, dynamic> loginData = {
+      "email": _userEmail,
+      "password": _userPassword,
+    };
+    // 
+    // 
+    final response = await http.post(
+      Uri.parse('http://app.ippu.or.ug/api/login'),
+      body: loginData,
+    );
+
+    // Close the loading indicator dialog
+    Navigator.pop(context);
+    // 
+    // 
+    if (response.statusCode == 200) {
+      // Parse the token from the response
+ 
+        final Map<String, dynamic> responseData = json.decode(response.body);
+  final String token = responseData['authorization']['token'];
+  final String name = responseData['user']['name'];
+  final String email = responseData['user']['email'];
+print("${name}");
+print('${token}');
+  // Create the UserData instance
+  UserData userData = UserData(
+    id: responseData['user']['id'],
+    name: name,
+    email: email,
+    token: token,
+  );
+
+
+  
+  print(userData.email);
+  Provider.of<UserProvider>(context, listen: false).setUser(userData);
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+    return DefaultScreen( );
+  }));
+
+    } else {
+      // Login failed, handle errors.
+      print('Login failed: ${response.body}');
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Invalid credentials, check your email and password and try again!")));
+
+    }
+    // 
     }
   }
 
@@ -95,7 +152,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Container(
                 padding: EdgeInsets.all(16.0),
                 child: Form(
-                  key: _formKey,
+                  key: _loginFormKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -114,7 +171,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           return null;
                         },
                         onSaved: (value) {
-                          _email = value!;
+                          _userEmail = value!;
                         },
                       ),
                       SizedBox(height: size.height*0.028),
@@ -127,17 +184,17 @@ class _LoginScreenState extends State<LoginScreen> {
                     suffixIcon: GestureDetector(
                       onTap: () {
                         setState(() {
-                          _isPasswordVisible = !_isPasswordVisible;
+                          _isLoginPasswordVisible = !_isLoginPasswordVisible;
                         });
                       },
                       child: Icon(
-                        _isPasswordVisible
+                        _isLoginPasswordVisible
                             ? Icons.visibility
                             : Icons.visibility_off,
                       ),
                     ),
                   ),
-                  obscureText: !_isPasswordVisible,
+                  obscureText: !_isLoginPasswordVisible,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter a password';
@@ -146,7 +203,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     return null;
                   },
                   onSaved: (value) {
-                    _password = value!;
+                    _userPassword = value!;
                   },
                 ),
                      SizedBox(height: size.height*0.034),
@@ -155,7 +212,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           primary: Color.fromARGB(255, 42, 129, 201) ,// Change button color to green
                           padding: EdgeInsets.all(size.height * 0.028),
                         ),
-                        onPressed: _submitForm,
+                        onPressed: _loginForm,
                         child: Text('Sign In'),
                       ),
                       SizedBox(height: size.height*0.026),
@@ -181,6 +238,14 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           ],
+          ),
+          Center(
+            child: Padding(
+                padding: EdgeInsets.only(top: size.width*0.08),
+                child: Text("forgot password ?", style: GoogleFonts.lato(
+                  fontSize: size.height*0.020, color: Color.fromARGB(255, 42, 129, 201).withOpacity(0.6),
+                ),),
+              ),
           ),
                     ],
                   ),

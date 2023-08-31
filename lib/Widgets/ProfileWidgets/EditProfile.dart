@@ -4,6 +4,8 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
 import 'package:ippu/Widgets/AuthenticationWidgets/LoginScreen.dart';
+import 'package:ippu/models/UserProvider.dart';
+import 'package:provider/provider.dart';
 class EditProfile extends StatefulWidget {
   const EditProfile({Key? key}) : super(key: key);
 
@@ -35,6 +37,7 @@ class _EditProfileState extends State<EditProfile> {
   }
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+     final userData = Provider.of<UserProvider>(context).user;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -62,12 +65,12 @@ class _EditProfileState extends State<EditProfile> {
         ),
         SizedBox(height: size.height * 0.014),
         Text(
-          'Username',
+          '${userData!.name}',
           style: GoogleFonts.lato(
               fontSize: size.height * 0.03, fontWeight: FontWeight.bold),
         ),
         Text(
-          'user@gmail.com',
+          '${userData.email}',
           style: GoogleFonts.lato(color: Colors.grey),
         ),
         SizedBox(height: size.height * 0.02),
@@ -96,7 +99,7 @@ class _EditProfileState extends State<EditProfile> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                Text("${_name}"),
+                Text("${userData.name}"),
               ],
             ),
             trailing: IconButton(
@@ -120,7 +123,7 @@ class _EditProfileState extends State<EditProfile> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                Text("${_email}"),
+                Text("${userData.email}"),
               ],
             ),
            trailing: IconButton(

@@ -3,6 +3,8 @@ import 'package:ippu/Screens/DefaultScreen.dart';
 import 'package:ippu/Screens/IppuTermsOfUse.dart';
 import 'package:ippu/Widgets/AuthenticationWidgets/LoginScreen.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
+import 'package:ippu/Widgets/AuthenticationWidgets/RegistrationFeedback.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -17,29 +19,103 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String _confirmPassword = '';
   bool _agreedToTerms = false;
   bool _isPasswordVisible = false;
+  bool _isConfirmPasswordVisible = false; 
 
   final List<String> _accountTypes = ['cpp', 'student', 'corporate'];
  String _selectedValue = 'Please select account type';
   TextEditingController _textEditingController = TextEditingController();
-  void _submitForm() {
+  Future<void> _submitForm() async {
     if (_formKey.currentState!.validate()) {
-      // Perform registration logic here
-      // For demonstration purposes, we print the values
-      print('Email: $_email');
-      print('Username: $_username');
-      print('Password: $_password');
-      print('Confirm Password: $_confirmPassword');
-      print('Selected usertype ${_selectedValue}');
-      Navigator.push(context, MaterialPageRoute(builder: (context){
-        return DefaultScreen();
+      _formKey.currentState!.save();
+          setState(() {
+      _email = '';
+      _username = '';
+      _password = '';
+      _confirmPassword = '';
+      _agreedToTerms = false;
+      _selectedValue = 'Please select account type';
+    });
+    setState(() {
+  _selectedValue = 'Please select account type';
+});
+
+   String mapAccountType(String selectedIndex) {
+    switch (selectedIndex) {
+    case 'Please select account type':
+      return "0"; // Or any other default value you want
+    case 'CPP (200,000)':
+      return "1"; // For 'CPP (200,000)'
+    case 'Affiliates (110,000)':
+      return "2"; // For 'Affiliates (110,000)'
+    // Add more cases as needed...
+    case 'Student (20,000)':
+      return "3";
+    case 'Graduate (150,000)':
+      return "4";
+    case 'Felllow (250,000)':
+      return "5";
+    case 'Corporate (600,000)':
+      return "6";
+    case 'General Memeber (1,000,000)':
+      return "7";
+    default:
+      return "10"; // Default value for unknown selections
+  }
+}
+    // 
+  final String accountTypeValue = mapAccountType(_selectedValue);
+   
+
+
+  // Prepare the data for the POST request
+    final Map<String, dynamic> requestData = {
+        "name": _username,
+        "email":  _email,
+        "password": _confirmPassword,
+        "account_type_id":  accountTypeValue,
+        
+    };
+    
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Center(
+          child: CircularProgressIndicator(), // You can use any loading widget you prefer
+        );
+      },
+    );
+    final response = await http.post(
+      Uri.parse('http://app.ippu.or.ug/api/register'),
+      body: requestData,
+    );
+    // Close the loading indicator dialog
+    Navigator.pop(context);
+    if (response.statusCode == 200) {
+      // Registration successful, handle the response as needed.
+      print('Registration successful');
+      Navigator.push(context, MaterialPageRoute(builder: (context) {
+        return RegistrationFeedback();
       }));
+    } else {
+      // Registration failed, handle errors.
+      print('Registration failed: ${response.body}');
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Email already used, Try again!")));
+
+    }
+  
+ 
+  // 
     }
   }
+
+
   
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    var _selectedValueIndex;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
@@ -130,7 +206,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 },
               ),
              SizedBox(height: size.height*0.018),
-                    TextFormField(
+        TextFormField(
         decoration: InputDecoration(
           labelText: 'Confirm Password',
           border: OutlineInputBorder(
@@ -138,25 +214,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
           suffixIcon: GestureDetector(
         onTap: () {
-          setState(() {
-            _isPasswordVisible = !_isPasswordVisible;
-          });
-        },
+    setState(() {
+      _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
+    });
+  },
         child: Icon(
-          _isPasswordVisible
+          _isConfirmPasswordVisible
             ? Icons.visibility
             : Icons.visibility_off,
         ),
           ),
         ),
-        obscureText: !_isPasswordVisible,
+        obscureText: !_isConfirmPasswordVisible,
         validator: (value) {
           if (value == null || value.isEmpty) {
         return 'Please confirm your password';
           }
-          if (value != _password) {
-        return 'Passwords do not match';
-          }
+            print('Value: $value');
+            print('_Password: $_password');
+        //   if (value != _password) {
+        // return 'Passwords do not match';
+        //   }
           return null;
         },
         onSaved: (value) {
