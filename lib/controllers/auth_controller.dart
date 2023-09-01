@@ -45,4 +45,135 @@ class AuthController {
     }
     return prefs.getString(ACCESS_TOKEN);
   }
+
+  Future<Map<String, dynamic>> signUp(String email, String password) async {
+    final dio = Dio();
+    final client = AuthRestClient(dio);
+    try {
+      Map<String, String> user = {"email": email, "password": password};
+      final response = await client.signUp(body: user);
+
+      if (response.containsKey('authorization') &&
+          response['authorization'].containsKey('token')) {
+        final accessToken = response['authorization']['token'];
+        // Save the access token for later use
+        await saveAccessToken(accessToken);
+        return response;
+      } else {
+        return {
+          "error": "Invalid credentials",
+          "status": "error",
+        };
+      } // Handle the case when the access token is not present in the response
+    } catch (e) {
+      return {
+        "error": "Invalid credentials",
+        "status": "error",
+      };
+    }
+  }
+
+  Future<Map<String, dynamic>> getAccountTypes() async {
+    final dio = Dio();
+    final client = AuthRestClient(dio);
+    try {
+      final response = await client.getAccountTypes();
+      return response;
+    } catch (e) {
+      return {
+        "error": "Failed to get account types",
+        "status": "error",
+      };
+    }
+  }
+
+  Future<Map<String, dynamic>> getEducationBackground(
+      String user_id, String points, String field) async {
+    final dio = Dio();
+    dio.options.headers['Authorization'] = "Bearer ${await getAccessToken()}";
+    final client = AuthRestClient(dio);
+    Map<String, String> details = {
+      "user_id": user_id,
+      "points": points,
+      "field": field
+    };
+    try {
+      final response = await client.getEducationBackground(body: details);
+      return response;
+    } catch (e) {
+      return {
+        "error": "Failed to get education background",
+        "status": "error",
+      };
+    }
+  }
+
+  Future<dynamic> getCpds() async {
+    final dio = Dio();
+    final client = AuthRestClient(dio);
+    dio.options.headers['Authorization'] = "Bearer ${await getAccessToken()}";
+    //'X-Requested-With': 'XMLHttpRequest'
+    dio.options.headers['X-Requested-With'] = "XMLHttpRequest";
+    //print what is being sent
+    // dio.interceptors.add(LogInterceptor(responseBody: true));
+
+    try {
+      final response = await client.getCpds();
+      return response;
+    } catch (e) {
+      return {
+        "error": "Failed to get cpds",
+        "status": "error",
+      };
+    }
+  }
+
+  Future<dynamic> getEvents() async {
+    final dio = Dio();
+    final client = AuthRestClient(dio);
+    print("Bearer ${await getAccessToken()}");
+    dio.options.headers['Authorization'] = "Bearer ${await getAccessToken()}";
+    dio.options.headers['X-Requested-With'] = ['XMLHttpRequest'];
+    try {
+      final response = await client.getEvents();
+      return response;
+    } catch (e) {
+      return {
+        "error": "Failed to get events",
+        "status": "error",
+      };
+    }
+  }
+
+  Future<dynamic> getUpcomingCpds() async {
+    final dio = Dio();
+    final client = AuthRestClient(dio);
+    print("Bearer ${await getAccessToken()}");
+    dio.options.headers['Authorization'] = "Bearer ${await getAccessToken()}";
+    dio.options.headers['X-Requested-With'] = ['XMLHttpRequest'];
+    try {
+      final response = await client.getUpcomingCpds();
+      return response;
+    } catch (e) {
+      return {
+        "error": "Failed to get upcoming cpds",
+        "status": "error",
+      };
+    }
+  }
+
+  Future<Map<String, dynamic>> signOut() async {
+    final dio = Dio();
+    final client = AuthRestClient(dio);
+    dio.options.headers['Authorization'] = "Bearer ${await getAccessToken()}";
+    try {
+      final response = await client.signOut();
+      return response;
+    } catch (e) {
+      return {
+        "error": "Failed to sign out",
+        "status": "error",
+      };
+    }
+  }
 }
