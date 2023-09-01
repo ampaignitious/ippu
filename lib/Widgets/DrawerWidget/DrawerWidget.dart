@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ippu/Screens/ChartsScreen.dart';
 import 'package:ippu/Screens/CommunicationScreen.dart';
 import 'package:ippu/Screens/DefaultScreen.dart';
 import 'package:ippu/Screens/EducationBackgroundScreen.dart';
@@ -11,10 +12,9 @@ import 'package:ippu/Screens/WhoWeAreScreen.dart';
 import 'package:ippu/Screens/WorkExperience.dart';
 import 'package:ippu/Widgets/AuthenticationWidgets/LoginScreen.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ippu/Widgets/LogoutWidgets/LogoutLogic.dart';
 import 'package:ippu/models/UserProvider.dart';
 import 'package:provider/provider.dart';
-
+import 'package:http/http.dart' as http;
 
 
 class DrawerWidget extends StatefulWidget {
@@ -27,6 +27,26 @@ class DrawerWidget extends StatefulWidget {
 class _DrawerWidgetState extends State<DrawerWidget> {
   @override
 
+// logout logic 
+Future<void> performLogout( {required String token}) async {
+  final logoutUrl = Uri.parse('http://app.ippu.or.ug/api/logout');
+  print("${token}");
+  final headers = {
+    'Authorization': 'Bearer $token',
+  };
+
+  final response = await http.post(logoutUrl, headers: headers);
+
+  if (response.statusCode == 200) {
+    // Logout was successful
+    print('Logged out successfully');
+
+  } else {
+    // Logout failed, handle errors
+    print('Logout failed: ${response.body}');
+  }
+}
+// 
   Widget build(BuildContext context) {
       final userData = Provider.of<UserProvider>(context).user;
     return SingleChildScrollView(
@@ -68,12 +88,19 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   ),
                 ),
               ),
-              Card(
-                child: ListTile(
-                  leading: Icon(Icons.message_rounded),
-                  title: Text("Chat", style: GoogleFonts.lato(
-                      fontWeight: FontWeight.bold,
-                    ),),
+              InkWell(
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context){
+                    return ChartsScreen();
+                  }));
+                },
+                child: Card(
+                  child: ListTile(
+                    leading: Icon(Icons.message_rounded),
+                    title: Text("Chat", style: GoogleFonts.lato(
+                        fontWeight: FontWeight.bold,
+                      ),),
+                  ),
                 ),
               ),
               // 
@@ -201,12 +228,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               // 
               //  
                InkWell(
-                onTap: (){
-                    performLogout( token: userData.token);
-                      Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => LoginScreen()),
-              );
+                onTap: () async {
+                    await performLogout(token: userData.token);
                 },
                  child: Card(
                   child: ListTile(

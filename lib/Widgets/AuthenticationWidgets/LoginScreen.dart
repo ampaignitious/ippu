@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:ippu/Screens/DefaultScreen.dart';
 import 'package:ippu/Screens/HomeScreen.dart';
@@ -7,7 +7,7 @@ import 'package:ippu/Screens/IppuTermsOfUse.dart';
 import 'package:ippu/Widgets/AuthenticationWidgets/LoginScreen.dart';
 import 'package:ippu/Widgets/AuthenticationWidgets/RegisterScreen.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:http/http.dart' as http;
+
 import 'package:ippu/models/UserData.dart';
 import 'package:ippu/models/UserProvider.dart';
 import 'package:provider/provider.dart';

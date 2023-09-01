@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ippu/Widgets/CpdsScreenWidgets/CpdsSingleEventDisplay.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 class ContainerDisplayingCpds extends StatefulWidget {
   const ContainerDisplayingCpds({super.key});
 
@@ -35,7 +36,24 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds> with 
   ];
 
   final ScrollController _scrollController = ScrollController();
+  
+Future <void>fetchData(  {required String token})async {
+  final response = await http.get(
+  Uri.parse('http://app.ippu.or.ug/api/cpds'),
+  headers: {'Authorization': 'Bearer $token'},
+);
+print("${token}");
+print(response.body); // Print the response body to the console
 
+if (response.statusCode == 200) {
+  final data = json.decode(response.body);
+  print(data); // Print the parsed JSON data to the console
+} else {
+  throw Exception('Failed to load data');
+}
+ 
+
+}
   void _scrollToTop() {
     _scrollController.animateTo(0, duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
   }
@@ -131,6 +149,8 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds> with 
                 if (_searchQuery.isEmpty || activityname[index].toLowerCase().contains(_searchQuery.toLowerCase())) {
                   return InkWell(
                     onTap: () {
+                      // print("checking data");
+                      // fetchData(token:'72|jPS0HVL1RdGyEcgtenBUneuIBVqgkx0lqBGDBEge');
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) {

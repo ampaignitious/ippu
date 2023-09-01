@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:ippu/Widgets/SplashScreenWidgets/FirstSplashScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:ippu/models/UserProvider.dart';
 import 'package:provider/provider.dart';
+
+import 'providers/CpdProvider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,8 +17,11 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => UserProvider(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => UserProvider()),
+        ChangeNotifierProvider(create: (context) => CpdsProvider()), // Add this line
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
