@@ -228,8 +228,11 @@ Future<void> performLogout( {required String token}) async {
               // 
               //  
                InkWell(
-                onTap: () async {
-                    await performLogout(token: userData.token);
+                onTap: ()   {
+                    // await performLogout(token: userData.token);
+                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+  return LoginScreen();
+}));  
                 },
                  child: Card(
                   child: ListTile(
