@@ -12,6 +12,7 @@ import 'package:ippu/Screens/WhoWeAreScreen.dart';
 import 'package:ippu/Screens/WorkExperience.dart';
 import 'package:ippu/Widgets/AuthenticationWidgets/LoginScreen.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ippu/controllers/auth_controller.dart';
 import 'package:ippu/models/UserProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
@@ -26,7 +27,7 @@ class DrawerWidget extends StatefulWidget {
 
 class _DrawerWidgetState extends State<DrawerWidget> {
   @override
-
+AuthController authController = AuthController();
 // logout logic 
 Future<void> performLogout( {required String token}) async {
   final logoutUrl = Uri.parse('http://app.ippu.or.ug/api/logout');
@@ -230,6 +231,7 @@ Future<void> performLogout( {required String token}) async {
                InkWell(
                 onTap: ()   {
                     // await performLogout(token: userData.token);
+                    authController.signOut();
                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
   return LoginScreen();
 }));  

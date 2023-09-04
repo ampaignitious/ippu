@@ -3,6 +3,8 @@ import 'package:ippu/Widgets/CpdsScreenWidgets/CpdsSingleEventDisplay.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:ippu/controllers/auth_controller.dart';
+
 class ContainerDisplayingCpds extends StatefulWidget {
   const ContainerDisplayingCpds({super.key});
 
@@ -35,36 +37,15 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds> with 
     "1",
   ];
 
+
   final ScrollController _scrollController = ScrollController();
-  
-Future <void>fetchData(  {required String token})async {
-  final response = await http.get(
-  Uri.parse('http://app.ippu.or.ug/api/cpds'),
-  headers: {'Authorization': 'Bearer $token'},
-);
-print("${token}");
-print(response.body); // Print the response body to the console
-
-if (response.statusCode == 200) {
-  final data = json.decode(response.body);
-  print(data); // Print the parsed JSON data to the console
-} else {
-  throw Exception('Failed to load data');
-}
  
-
-}
+ 
   void _scrollToTop() {
     _scrollController.animateTo(0, duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
   }
 
   bool _showBackToTopButton = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _scrollController.addListener(_updateScrollVisibility);
-  }
 
   void _updateScrollVisibility() {
     setState(() {
@@ -80,6 +61,13 @@ if (response.statusCode == 200) {
     _searchController.dispose();
     super.dispose();
   }
+ AuthController authController = AuthController();
+
+  @override
+void initState() {
+  super.initState();
+  _scrollController.addListener(_updateScrollVisibility);
+}
 
   @override
   Widget build(BuildContext context) {
@@ -149,8 +137,7 @@ if (response.statusCode == 200) {
                 if (_searchQuery.isEmpty || activityname[index].toLowerCase().contains(_searchQuery.toLowerCase())) {
                   return InkWell(
                     onTap: () {
-                      // print("checking data");
-                      // fetchData(token:'81|oclAucp1y4eFgEeDlqkZhRHryFUemPOV68wnxXk5');
+                     
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) {
