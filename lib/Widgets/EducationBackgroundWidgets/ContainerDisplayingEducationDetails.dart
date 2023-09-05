@@ -1,131 +1,161 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-
+import 'package:ippu/controllers/auth_controller.dart';
 
 class ContainerDisplayingEducationDetails extends StatefulWidget {
-  const ContainerDisplayingEducationDetails({super.key});
+  const ContainerDisplayingEducationDetails({Key? key});
 
   @override
-  State<ContainerDisplayingEducationDetails> createState() => _ContainerDisplayingEducationDetailsState();
+  State<ContainerDisplayingEducationDetails> createState() =>
+      _ContainerDisplayingEducationDetailsState();
 }
 
-class _ContainerDisplayingEducationDetailsState extends State<ContainerDisplayingEducationDetails> {
+class _ContainerDisplayingEducationDetailsState
+    extends State<ContainerDisplayingEducationDetails> {
+  AuthController authController = AuthController();
+
   @override
-   List universities=[
-    "UCU",
-    "MAK",
-    "KYU",
-    "MUBS",
-    "KIU"
-  ];
-List education=[
-  "BSCS (4.0)",
-  "BSSE (4.23)",
-  "BSCS (4.0)",
-  "BSSE (4.23)",
-  "BSCS (4.0)",
-  "BSSE (4.23)"
-];
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return Scaffold( 
+    return Scaffold(
+      body: FutureBuilder<List<dynamic>>(
+        future: authController.getEducationDetails(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Center(child: Text('No data available'));
+          } else {
+            final data = snapshot.data;
+            if (data != null) {
+              return ListView.builder(
+                itemCount: data.length,
+                itemBuilder: (context, index) {
+                  final item = data[index];
 
-      body:
-      ListView.builder(
-    // controller: _scrollController,
-      scrollDirection: Axis.vertical,
-      itemCount: universities.length,
-      itemBuilder: (context,index){
-        return Stack(
-            children: [
-            Container(
-              margin: EdgeInsets.only(left:size.width*0.03, right:size.width*0.03, top: size.height*0.012),
-                height: size.height*0.195,
-                width: size.width*0.98,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                boxShadow: [
-              BoxShadow(
-          color: Colors.grey.withOpacity(0.5), // Adjust shadow color and opacity
-          offset: Offset(0.8, 1.0), // Adjust the shadow offset
-          blurRadius: 4.0, // Adjust the blur radius
-          spreadRadius: 0.2, // Adjust the spread radius
-              ),
-        
-            ],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: size.height*0.068,),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: size.width*0.06),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("${education[index]}", style:GoogleFonts.lato(
-                            fontWeight:FontWeight.bold)),
-                          Text("Jul 2011 - Aug 2016")
-                        ],
-                      ),
+                  return InkWell(
+                    child: Column(
+                      children: [
+                        SizedBox(height: size.height * 0.014),
+                        Container(
+                          height: size.height * 0.22,
+                          width: size.width * 0.8,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Color.fromARGB(255, 42, 129, 201),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                offset: Offset(0.8, 1.0),
+                                blurRadius: 4.0,
+                                spreadRadius: 0.2,
+                              ),
+                            ],
+                          ),
+                          child: Center(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(height: size.height * 0.008),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                          left: size.width * 0.03),
+                                          child: Icon(Icons.school,
+                                          color: Colors.white,
+                                          ),
+                                        )
+,                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              left: size.width * 0.03),
+                                          child: Text(
+                                            "${item['title']}",
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: size.height * 0.014,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          right: size.width * 0.03),
+                                      child: Text(
+                                        "Points: ${item['points']}", style: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                Divider(
+                                  color: Colors.white,
+                                ),
+                                Padding(
+                                 padding: EdgeInsets.only(
+                                          left: size.width * 0.03),
+                                  child: Text("Field: ${item['field']}", style:TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ) ,),
+                                ),
+                                Padding(
+                                 padding: EdgeInsets.all(
+                                            size.width * 0.03),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Text("Start date: ${item['start_date']}", style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: size.height * 0.012,
+                                      ),),
+                                      Text("End date: ${item['end_date']}", style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: size.height * 0.012,
+                                        
+                                      ),)
+                                    ],
+                                  ),
+                                ),
+                                Divider(
+                                  color: Colors.white,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Icon(Icons.edit,
+                                    color: Colors.white,
+                                    ),
+                                    Icon(Icons.delete,
+                                    color: Colors.amber[200],
+                                    )
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: size.height * 0.022),
+                      ],
                     ),
-                    Divider(),
-                    Padding(
-                      padding: EdgeInsets.only(left:size.width*0.47),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: Color.fromARGB(255, 42, 129, 201) ,// Change button color to green
-                            padding: EdgeInsets.all(size.height * 0.004),
-                          ),
-                          onPressed: (){
-                    
-                          },
-                          child: Text('Edit', style: GoogleFonts.lato(
-                             
-                          ),),
-                        ),
-                      ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.red ,// Change button color to green
-                            padding: EdgeInsets.all(size.height * 0.004),
-                          ),
-                          onPressed: (){
-                    
-                          },
-                          child: Text('Delete'),
-                        ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(left: size.width * 0.03, right: size.width * 0.03, top: size.height * 0.006),
-                height: size.height * 0.07,
-                width: size.width * 0.22,
-                decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 42, 129, 201),
-                  borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(20.0), // Circular border on top right corner
-                    bottomRight: Radius.circular(20.0), // Circular border on bottom right corner
-                  ),
-                ),
-                child: Center(child: Text('${universities[index]}', style: GoogleFonts.lato(
-                  color: Colors.white
-                ),)),
-              )
-            ],
-          );},),);
+                  );
+                },
+              );
+            } else {
+              return CircularProgressIndicator();
+            }
+          }
+        },
+      ),
+    );
   }
-
-
-
 }
-
-
-

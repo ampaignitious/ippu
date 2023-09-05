@@ -1,7 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ippu/Widgets/EducationBackgroundWidgets/ContainerDisplayingEducationDetails.dart';
-
+import 'package:http/http.dart' as http;
 
 class EducationBackgroundScreen extends StatefulWidget {
   const EducationBackgroundScreen({super.key});
@@ -11,7 +13,56 @@ class EducationBackgroundScreen extends StatefulWidget {
 }
 
 class _EducationBackgroundScreenState extends State<EducationBackgroundScreen> {
+TextEditingController _title = TextEditingController();
+TextEditingController _type = TextEditingController();
+TextEditingController _startDate = TextEditingController();
+TextEditingController _endDate = TextEditingController();
+TextEditingController _points = TextEditingController();
+TextEditingController _field = TextEditingController();
+TextEditingController _userId = TextEditingController();
+
+
   @override
+
+  // 
+  Future<void> addEducationBackground({
+  required String title,
+  required String type,
+  required String startDate,
+  required String endDate,
+  required String points,
+  required String field,
+  required int id,
+}) async {
+  final String apiUrl = 'http://app.ippu.or.ug/api/education-background';
+
+  final Map<String, dynamic> requestData = {
+    "title": title,
+    "type": type,
+    "start_date": startDate,
+    "end_date": endDate,
+    "points": points,
+    "field":field,
+    "id": id,
+  };
+
+  final response = await http.post(
+    Uri.parse(apiUrl),
+    body: json.encode(requestData),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  );
+
+  if (response.statusCode == 200) {
+    // Education background added successfully
+    print('Education background added successfully');
+  } else {
+    // Error handling for the failed request
+    print('Failed to add education background: ${response.statusCode}');
+  }
+}
+  // 
   Widget build(BuildContext context) {
     final size =MediaQuery.of(context).size;
     return Scaffold(
@@ -57,18 +108,23 @@ class _EducationBackgroundScreenState extends State<EducationBackgroundScreen> {
               children: [
                 TextField(
                   decoration: InputDecoration(labelText: 'Institute Name'),
+                  controller: _title,
                 ),
                 TextField(
                   decoration: InputDecoration(labelText: 'Field of Study'),
+                  controller: _field,
                 ),
                 TextField(
                   decoration: InputDecoration(labelText: 'Points Scored'),
+                  controller: _points,
                 ),
                 TextField(
                   decoration: InputDecoration(labelText: 'Start Date'),
+                  controller: _startDate,
                 ),
                 TextField(
                   decoration: InputDecoration(labelText: 'End Date'),
+                  controller: _endDate,
                 ),
               ],
             ),
@@ -83,6 +139,15 @@ class _EducationBackgroundScreenState extends State<EducationBackgroundScreen> {
             ElevatedButton(
               onPressed: () {
                 // Save education details and close dialog
+                addEducationBackground( 
+               title: _title.text,
+               field: _field.text,
+                type: _type.text,
+                startDate: _startDate.text,
+                endDate: _endDate.text,
+                points: _points.text,
+                id: 1,
+                );
                 Navigator.of(context).pop();
               },
               child: Text('Save'),
