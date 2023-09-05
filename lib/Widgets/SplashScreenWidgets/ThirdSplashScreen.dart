@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ippu/Util/TextWords.dart';
 import 'package:ippu/Widgets/AuthenticationWidgets/LoginScreen.dart';
-import 'package:ippu/Widgets/AuthenticationWidgets/RegisterScreen.dart';
-
+ 
 class ThirdSplashScreen extends StatefulWidget {
   const ThirdSplashScreen({super.key});
 
@@ -124,7 +123,7 @@ class _ThirdSplashScreenState extends State<ThirdSplashScreen> {
                   InkWell(
                   onTap: (){
                     Navigator.push(context, MaterialPageRoute(builder: (context){
-                  return RegisterScreen();
+                  return LoginScreen();
                 }));},
                   child: Container(
                     margin: EdgeInsets.only(right: size.width*0.04),

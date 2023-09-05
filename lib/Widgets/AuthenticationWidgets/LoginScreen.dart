@@ -53,17 +53,17 @@ class _LoginScreenState extends State<LoginScreen> {
                 "Invalid credentials, check your email and password and try again!"),
           ));
         } else {
-          final cps = await authController.getCpds();
-          final events = await authController.getEvents();
-          final upcomingCpds = await authController.getUpcomingCpds();
+          // final cps = await authController.getCpds();
+          // final events = await authController.getEvents();
+          // final upcomingCpds = await authController.getUpcomingCpds();
 
-          print("====================================================");
-          print(cps);
-          print("====================================================");
-          print(events);
-          print("====================================================");
-          print(upcomingCpds);
-          print("====================================================");
+          // print("====================================================");
+          // print(cps);
+          // print("====================================================");
+          // print(events);
+          // print("====================================================");
+          // print(upcomingCpds);
+          // print("====================================================");
           
 
           // Authentication was successful

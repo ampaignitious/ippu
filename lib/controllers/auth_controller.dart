@@ -108,7 +108,7 @@ class AuthController {
     }
   }
 
-  Future<dynamic> getCpds() async {
+  Future<List<dynamic>> getCpds() async {
     final dio = Dio();
     final client = AuthRestClient(dio);
     dio.options.headers['Authorization'] = "Bearer ${await getAccessToken()}";
@@ -119,16 +119,13 @@ class AuthController {
 
     try {
       final response = await client.getCpds();
-      return response;
+      return response['data'];
     } catch (e) {
-      return {
-        "error": "Failed to get cpds",
-        "status": "error",
-      };
+      return [];
     }
   }
 
-  Future<dynamic> getEvents() async {
+  Future<List<dynamic>> getEvents() async {
     final dio = Dio();
     final client = AuthRestClient(dio);
     print("Bearer ${await getAccessToken()}");
@@ -136,16 +133,13 @@ class AuthController {
     dio.options.headers['X-Requested-With'] = ['XMLHttpRequest'];
     try {
       final response = await client.getEvents();
-      return response;
+      return response['data'];
     } catch (e) {
-      return {
-        "error": "Failed to get events",
-        "status": "error",
-      };
+      return [];
     }
   }
 
-  Future<dynamic> getUpcomingCpds() async {
+  Future<List<dynamic>> getUpcomingCpds() async {
     final dio = Dio();
     final client = AuthRestClient(dio);
     print("Bearer ${await getAccessToken()}");
@@ -153,12 +147,9 @@ class AuthController {
     dio.options.headers['X-Requested-With'] = ['XMLHttpRequest'];
     try {
       final response = await client.getUpcomingCpds();
-      return response;
+      return response['data'];
     } catch (e) {
-      return {
-        "error": "Failed to get upcoming cpds",
-        "status": "error",
-      };
+      return [];
     }
   }
 
@@ -185,7 +176,6 @@ class AuthController {
 // authController.signOut();
 // authController.getAccountTypes();
 // authController.getEducationBackground(user_id, points, field);
-// authController.getCpds();
+// await authController.getCpds();
 // authController.getEvents();
 // authController.getUpcomingCpds();
-

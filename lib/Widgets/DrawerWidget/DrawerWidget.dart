@@ -29,24 +29,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
   @override
 AuthController authController = AuthController();
 // logout logic 
-Future<void> performLogout( {required String token}) async {
-  final logoutUrl = Uri.parse('http://app.ippu.or.ug/api/logout');
-  print("${token}");
-  final headers = {
-    'Authorization': 'Bearer $token',
-  };
-
-  final response = await http.post(logoutUrl, headers: headers);
-
-  if (response.statusCode == 200) {
-    // Logout was successful
-    print('Logged out successfully');
-
-  } else {
-    // Logout failed, handle errors
-    print('Logout failed: ${response.body}');
-  }
-}
+ 
 // 
   Widget build(BuildContext context) {
       final userData = Provider.of<UserProvider>(context).user;
@@ -229,12 +212,12 @@ Future<void> performLogout( {required String token}) async {
               // 
               //  
                InkWell(
-                onTap: ()   {
-                    // await performLogout(token: userData.token);
-                    authController.signOut();
-                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-  return LoginScreen();
-}));  
+                onTap: ()   async{
+                var response =await authController.signOut();
+                print(response);
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+                return LoginScreen();
+                }));  
                 },
                  child: Card(
                   child: ListTile(

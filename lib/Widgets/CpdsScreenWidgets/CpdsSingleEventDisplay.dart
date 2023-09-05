@@ -4,19 +4,25 @@ import 'package:google_fonts/google_fonts.dart';
 class CpdsSingleEventDisplay extends StatefulWidget {
   String imagelink;
   String cpdsname;
+  String date;
   String attendees;
-  CpdsSingleEventDisplay({super.key, required this.attendees, required this.cpdsname, required this.imagelink});
+  String content;
+  String target_group;
+  CpdsSingleEventDisplay({super.key,  required this.content ,required this.target_group,required this.date, required this.attendees, required this.cpdsname, required this.imagelink});
 
   @override
-  State<CpdsSingleEventDisplay> createState() => _CpdsSingleEventDisplayState(this.attendees, this.cpdsname, this.imagelink);
+  State<CpdsSingleEventDisplay> createState() => _CpdsSingleEventDisplayState( this.content , this.target_group ,this.attendees, this.cpdsname, this.imagelink, this.date);
 }
 
 class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
   @override
   String imagelink;
   String cpdsname;
+  String date;
   String attendees;
-  _CpdsSingleEventDisplayState(this.attendees, this.cpdsname, this.imagelink);
+  String target_group;
+  String content;
+  _CpdsSingleEventDisplayState( this.content ,this.target_group ,this.attendees, this.cpdsname, this.imagelink, this.date);
   Widget build(BuildContext context) {
     final size =MediaQuery.of(context).size;
     return Scaffold(
@@ -53,7 +59,7 @@ class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
               ),
               Padding(
                 padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.0008),
-                child: Text("this will be about learning sessions"),
+                child: Text("${content}"),
               ),
               Padding(
                padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.016),
@@ -61,7 +67,7 @@ class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
               ),
               Padding(
                 padding: EdgeInsets.only(left: size.width*0.06, right:size.width*0.06, top: size.height*0.0016),
-                child: Text("CEOs, CPOs, SPOs, Procurement Managers, Officers, Assistants, Function/ Department Heads,", textAlign: TextAlign.justify,),
+                child: Text("${target_group}", textAlign: TextAlign.justify,),
               ),
               SizedBox(height: size.height*0.016,),
               // container displaying the start, end rate and location
@@ -122,7 +128,7 @@ class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
               Center(
                 child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            primary: Color.fromARGB(255, 50, 155, 132), // Change button color to green
+                            primary:  Color.fromARGB(255, 42, 129, 201), // Change button color to green
                             padding: EdgeInsets.all(size.height * 0.024),
 
                           ),
@@ -135,6 +141,9 @@ class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
                           ),
                 ),
               ),
+              // 
+           // 
+              SizedBox(height: size.height*0.022,),
               // 
             ],
           ),

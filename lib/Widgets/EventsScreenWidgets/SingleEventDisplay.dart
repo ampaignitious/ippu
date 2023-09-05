@@ -3,25 +3,33 @@ import 'package:google_fonts/google_fonts.dart';
 
 class SingleEventDisplay extends StatefulWidget {
   String imagelink;
-  String cpdsname;
+  String eventName;
   String attendees;
-  SingleEventDisplay({super.key, required this.attendees, required this.cpdsname, required this.imagelink});
+  String startDate;
+  String endDate;
+  String totalEvents;
+  String description;
+  SingleEventDisplay({super.key, required this.totalEvents , required this.description ,required this.startDate, required this.endDate, required this.attendees, required this.eventName, required this.imagelink});
 
   @override
-  State<SingleEventDisplay> createState() => _SingleEventDisplayState(this.attendees, this.cpdsname, this.imagelink);
+  State<SingleEventDisplay> createState() => _SingleEventDisplayState( this.totalEvents ,this.description, this.attendees, this.eventName, this.imagelink, this.startDate, this.endDate);
 }
 
 class _SingleEventDisplayState extends State<SingleEventDisplay> {
   @override
   String imagelink;
-  String cpdsname;
+  String eventName;
   String attendees;
-  _SingleEventDisplayState(this.attendees, this.cpdsname, this.imagelink);
+  String startDate;
+  String endDate;
+  String description;
+  String totalEvents;
+  _SingleEventDisplayState(this.totalEvents ,this.description,this.attendees, this.eventName, this.imagelink, this.startDate, this.endDate);
   Widget build(BuildContext context) {
     final size =MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text("${cpdsname}", style: GoogleFonts.lato(),),
+        title: Text("${eventName}", style: GoogleFonts.lato(),),
         backgroundColor: Color.fromARGB(255, 42, 129, 201),
         elevation: 0,
       ),
@@ -47,13 +55,25 @@ class _SingleEventDisplayState extends State<SingleEventDisplay> {
               ),
               Padding(
                 padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.004),
+                child: Text("Event Name", style: GoogleFonts.lato(
+                  fontWeight: FontWeight.bold, 
+                ),),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.0008),
+                // child: Text("this will be about learning sessions"),
+                child: Text("${eventName}"),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.004),
                 child: Text("Description", style: GoogleFonts.lato(
                   fontWeight: FontWeight.bold, 
                 ),),
               ),
               Padding(
                 padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.0008),
-                child: Text("this will be about learning sessions"),
+                // child: Text("this will be about learning sessions"),
+                child: Text("${description}"),
               ),
               Padding(
                padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.016),
@@ -88,14 +108,14 @@ class _SingleEventDisplayState extends State<SingleEventDisplay> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text("Start Date", style: TextStyle(color: Colors.green),),
-                          Text("July 4, 2023, 12:00 am", style: TextStyle(fontSize: size.height*0.008),)
+                          Text("${startDate}", style: TextStyle(fontSize: size.height*0.008),)
                         ],
                       ),
                                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text("End Date", style: TextStyle(color: Colors.green),),
-                          Text("July 4, 2023, 12:00 am", style: TextStyle(fontSize: size.height*0.008),)
+                          Text("${endDate}", style: TextStyle(fontSize: size.height*0.008),)
                         ],
                       ),
                                       Column(
@@ -122,12 +142,12 @@ class _SingleEventDisplayState extends State<SingleEventDisplay> {
               Center(
                 child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            primary: Color.fromARGB(255, 50, 155, 132), // Change button color to green
+                            primary: Color.fromARGB(255, 42, 129, 201), // Change button color to green
                             padding: EdgeInsets.all(size.height * 0.024),
 
                           ),
                           onPressed: (){
-                      
+                       print("${eventName}");
                           },
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: size.width*0.12),
@@ -136,6 +156,9 @@ class _SingleEventDisplayState extends State<SingleEventDisplay> {
                 ),
               ),
               // 
+              // 
+              SizedBox(height: size.height*0.022,),
+              //
             ],
           ),
         ),

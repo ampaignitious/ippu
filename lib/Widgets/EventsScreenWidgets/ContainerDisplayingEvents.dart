@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ippu/Widgets/CpdsScreenWidgets/CpdsSingleEventDisplay.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ippu/Widgets/EventsScreenWidgets/SingleEventDisplay.dart';
+import 'package:ippu/controllers/auth_controller.dart';
 
 class ContainerDisplayingEvents extends StatefulWidget {
   const ContainerDisplayingEvents({super.key});
@@ -62,7 +64,7 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents> w
     _searchController.dispose();
     super.dispose();
   }
-
+ AuthController authController = AuthController();
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -122,38 +124,73 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents> w
             ),
           ),
           Divider(),
-          Expanded(
-            child: ListView.builder(
-              controller: _scrollController,
-              scrollDirection: Axis.vertical,
-              itemCount: 5,
-              itemBuilder: (context, index) {
-                if (_searchQuery.isEmpty || activityname[index].toLowerCase().contains(_searchQuery.toLowerCase())) {
-                  return InkWell(
-                    onTap: () {
-                      Navigator.push(
+           Expanded(
+            child: FutureBuilder<List<dynamic>>(
+              future: authController.getEvents(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return const Text('No data available');
+                } else {
+                  final data = snapshot.data;
+                  if (data != null) {
+                    return ListView.builder(
+                      // controller: _scrollController,
+                      scrollDirection: Axis.vertical,
+                      itemCount: data.length,
+                      itemBuilder: (context, index) {
+                        final item = data[index];
+                        // Ensure the properties accessed here match the structure of your API response
+                        final imagelink = 'assets/cpds0.jpg';
+                        final eventName = item['name'];
+                        final startDate = item['start_date'];
+                        final endData =item['end_date'];
+                        final attendees = item['points'].toString();
+                        final description = item['details'];
+                        final totalEvents =data.length.toString();
+                        if (_searchQuery.isEmpty ||
+                            eventName
+                                .toLowerCase()
+                                .contains(_searchQuery.toLowerCase())) {
+                          return InkWell(
+                            onTap: () {
+                              print(item);
+                         Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) {
-                          return CpdsSingleEventDisplay(
-                            attendees: attendees[index],
+                          return SingleEventDisplay(
+                            totalEvents: totalEvents,
+                            description: description,
+                            startDate: startDate ,
+                            endDate: endData ,
+                            attendees: attendees ,
                             imagelink: 'assets/cpds${index}.jpg',
-                            cpdsname: activityname[index],
+                            eventName: eventName ,
                           );
                         }),
                       );
                     },
-                    child: Column(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(right: size.height * 0.009, left: size.height * 0.009),
-                          height: size.height * 0.35,
-                          width: size.width * 0.85,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(image: AssetImage("assets/cpds${index}.jpg")),
-                          ),
-                        ),
-                        SizedBox(height: size.height * 0.014),
-                        Container(
+                            child: Column(
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(
+                                    right: size.height * 0.009,
+                                    left: size.height * 0.009,
+                                  ),
+                                  height: size.height * 0.35,
+                                  width: size.width * 0.85,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: AssetImage(imagelink),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: size.height * 0.014),
+ 
+                                Container(
                           height: size.height * 0.089,
                           width: size.width * 0.7,
                           decoration: BoxDecoration(
@@ -177,16 +214,16 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents> w
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Padding(
-                                      padding: EdgeInsets.only(left: size.width * 0.03),
-                                      child: Text(
-                                        "${activityname[index]}",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: size.height * 0.018,
-                                        ),
-                                      ),
-                                    ),
+  padding: EdgeInsets.only(left: size.width * 0.03),
+  child: Text(
+    "${item['name'].split(' ').take(2).join(' ')}", // Display only the first two words
+    style: TextStyle(
+      color: Colors.white,
+      fontWeight: FontWeight.bold,
+      fontSize: size.height * 0.014,
+    ),
+  ),
+),
                                     Padding(
                                       padding: EdgeInsets.only(right: size.width * 0.03),
                                       child: Icon(
@@ -223,7 +260,7 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents> w
                                           ],
                                         ),
                                         Text(
-                                          "July 4, 2023, 12:00 am",
+                                          "${item['start_date']}",
                                           style: TextStyle(fontSize: size.height * 0.008, color: Colors.white),
                                         ),
                                       ],
@@ -231,9 +268,9 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents> w
                                     Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text("Rate", style: TextStyle(color: Colors.white)),
+                                        Text("Points", style: TextStyle(color: Colors.white)),
                                         Text(
-                                          "Free",
+                                          "${item['points']}",
                                           style: TextStyle(fontSize: size.height * 0.008, color: Colors.white),
                                         )
                                       ],
@@ -245,16 +282,24 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents> w
                           ),
                         ),
                         SizedBox(height: size.height * 0.022),
-                      ],
-                    ),
-                  );
-                } else {
-                  return Container(); // Return an empty container for non-matching items
+                      
+                              ],
+                            ),
+                          );
+                        } else {
+                          return Container(); // Return an empty container for non-matching items
+                        }
+                      },
+                    );
+                  } else {
+                    return CircularProgressIndicator();
+                  }
                 }
               },
             ),
-          ),
-        ],
+          )
+        
+          ],
       ),
     );
   }

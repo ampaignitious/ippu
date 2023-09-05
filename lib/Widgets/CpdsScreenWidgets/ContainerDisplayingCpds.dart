@@ -9,47 +9,35 @@ class ContainerDisplayingCpds extends StatefulWidget {
   const ContainerDisplayingCpds({super.key});
 
   @override
-  State<ContainerDisplayingCpds> createState() => _ContainerDisplayingCpdsState();
+  State<ContainerDisplayingCpds> createState() =>
+      _ContainerDisplayingCpdsState();
 }
 
-class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds> with TickerProviderStateMixin {
-  List images = [
-    "cpds1.jpg",
-    "cpds2.jpg",
-    "cpds3.jpg",
-    "cpds4.jpg",
-    "cpds3.jpg",
-    "cpds2.jpg",
-    "cpds4.jpg",
-  ];
-  List activityname = [
-    "Contract Management",
-    "Integration and implementation",
-    "Sustainable Procurement",
-    "Free CPD For all",
-    "Test ver 2",
-  ];
-  List attendees = [
-    "20",
-    "5",
-    "100",
-    "2",
-    "1",
-  ];
+class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
+    with TickerProviderStateMixin {
+  AuthController authController = AuthController();
 
-
+ 
   final ScrollController _scrollController = ScrollController();
- 
- 
+
+  
   void _scrollToTop() {
-    _scrollController.animateTo(0, duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+    _scrollController.animateTo(0,
+        duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
   }
 
   bool _showBackToTopButton = false;
 
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_updateScrollVisibility);
+  }
+
   void _updateScrollVisibility() {
     setState(() {
-      _showBackToTopButton = _scrollController.offset > _scrollController.position.maxScrollExtent / 2;
+      _showBackToTopButton = _scrollController.offset >
+          _scrollController.position.maxScrollExtent / 2;
     });
   }
 
@@ -61,13 +49,6 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds> with 
     _searchController.dispose();
     super.dispose();
   }
- AuthController authController = AuthController();
-
-  @override
-void initState() {
-  super.initState();
-  _scrollController.addListener(_updateScrollVisibility);
-}
 
   @override
   Widget build(BuildContext context) {
@@ -89,15 +70,19 @@ void initState() {
       body: Column(
         children: [
           Padding(
-            padding: EdgeInsets.only(left:size.height * 0.012, right: size.height * 0.012, top: size.height * 0.012),
+            padding: EdgeInsets.only(
+                left: size.height * 0.012,
+                right: size.height * 0.012,
+                top: size.height * 0.012),
             child: TextField(
               controller: _searchController,
               decoration: InputDecoration(
-                contentPadding: EdgeInsets.symmetric(vertical: size.height*0.004, horizontal: size.width*0.035),
+                contentPadding: EdgeInsets.symmetric(
+                    vertical: size.height * 0.004,
+                    horizontal: size.width * 0.035),
                 labelText: 'Search CPDS by name',
                 labelStyle: GoogleFonts.lato(
-                  fontSize: size.height*0.022,
-                  color: Colors.grey),
+                    fontSize: size.height * 0.022, color: Colors.grey),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.0),
                 ),
@@ -129,38 +114,72 @@ void initState() {
           ),
           Divider(),
           Expanded(
-            child: ListView.builder(
-              controller: _scrollController,
-              scrollDirection: Axis.vertical,
-              itemCount: 5,
-              itemBuilder: (context, index) {
-                if (_searchQuery.isEmpty || activityname[index].toLowerCase().contains(_searchQuery.toLowerCase())) {
-                  return InkWell(
-                    onTap: () {
-                     
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) {
-                          return CpdsSingleEventDisplay(
-                            attendees: attendees[index],
-                            imagelink: 'assets/cpds${index}.jpg',
-                            cpdsname: activityname[index],
-                          );
-                        }),
-                      );
-                    },
-                    child: Column(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(right: size.height * 0.009, left: size.height * 0.009),
-                          height: size.height * 0.35,
-                          width: size.width * 0.85,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(image: AssetImage("assets/cpds${index}.jpg")),
-                          ),
-                        ),
-                        SizedBox(height: size.height * 0.014),
-                        Container(
+            child: FutureBuilder<List<dynamic>>(
+              future: authController.getCpds(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return const Text('No data available');
+                } else {
+                  final data = snapshot.data;
+                  if (data != null) {
+                    return ListView.builder(
+                      // controller: _scrollController,
+                      scrollDirection: Axis.vertical,
+                      itemCount: data.length,
+                      itemBuilder: (context, index) {
+                        final item = data[index];
+                        // Ensure the properties accessed here match the structure of your API response
+                        final imagelink = 'assets/cpds0.jpg';
+                        final activityName = item['topic'];
+                        final attendees = item['points'];
+                        final startDate =item['start_date'];
+                        final endDate =item['end_date'];
+                        final content = item['content'];
+                        final target_group = item['target_group'];
+
+                        if (_searchQuery.isEmpty ||
+                            activityName
+                                .toLowerCase()
+                                .contains(_searchQuery.toLowerCase())) {
+                          return InkWell(
+                            onTap: () {
+                              print(item);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) {
+                                  return CpdsSingleEventDisplay(
+                                    content: content,
+                                    target_group: target_group,
+                                    date: startDate[index],
+                                    attendees: attendees,
+                                    imagelink: imagelink,
+                                    cpdsname: activityName,
+                                  );
+                                }),
+                              );
+                            },
+                            child: Column(
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(
+                                    right: size.height * 0.009,
+                                    left: size.height * 0.009,
+                                  ),
+                                  height: size.height * 0.35,
+                                  width: size.width * 0.85,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: AssetImage(imagelink),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: size.height * 0.014),
+ 
+                                Container(
                           height: size.height * 0.089,
                           width: size.width * 0.7,
                           decoration: BoxDecoration(
@@ -186,11 +205,11 @@ void initState() {
                                     Padding(
                                       padding: EdgeInsets.only(left: size.width * 0.03),
                                       child: Text(
-                                        "${activityname[index]}",
+                                        "${item['topic']}",
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold,
-                                          fontSize: size.height * 0.018,
+                                          fontSize: size.height * 0.014,
                                         ),
                                       ),
                                     ),
@@ -230,7 +249,7 @@ void initState() {
                                           ],
                                         ),
                                         Text(
-                                          "July 4, 2023, 12:00 am",
+                                          "${item['start_date']}",
                                           style: TextStyle(fontSize: size.height * 0.008, color: Colors.white),
                                         ),
                                       ],
@@ -240,7 +259,7 @@ void initState() {
                                       children: [
                                         Text("Rate", style: TextStyle(color: Colors.white)),
                                         Text(
-                                          "Free",
+                                          "${item['type']}",
                                           style: TextStyle(fontSize: size.height * 0.008, color: Colors.white),
                                         )
                                       ],
@@ -252,15 +271,22 @@ void initState() {
                           ),
                         ),
                         SizedBox(height: size.height * 0.022),
-                      ],
-                    ),
-                  );
-                } else {
-                  return Container(); // Return an empty container for non-matching items
+                      
+                              ],
+                            ),
+                          );
+                        } else {
+                          return Container(); // Return an empty container for non-matching items
+                        }
+                      },
+                    );
+                  } else {
+                    return CircularProgressIndicator();
+                  }
                 }
               },
             ),
-          ),
+          )
         ],
       ),
     );

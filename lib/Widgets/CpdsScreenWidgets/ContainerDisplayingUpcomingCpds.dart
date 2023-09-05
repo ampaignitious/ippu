@@ -86,11 +86,12 @@ final size = MediaQuery.of(context).size;
       itemCount: 5,
       itemBuilder: (context,index){
         return InkWell(
-          onTap: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context){
-              return CpdsSingleEventDisplay(attendees: attendees[index], imagelink: 'assets/cpds${index}.jpg', cpdsname: activityname[index],);
-            }));
-          },
+          // onTap: (){
+          //   Navigator.push(context, MaterialPageRoute(builder: (context){
+          //     return CpdsSingleEventDisplay(
+          //       attendees: attendees[index], imagelink: 'assets/cpds${index}.jpg', cpdsname: activityname[index],);
+          //   }));
+          // },
           child: Column(
             children: [
               Container(

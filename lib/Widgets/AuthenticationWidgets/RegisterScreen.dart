@@ -27,14 +27,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Future<void> _submitForm() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-          setState(() {
-      _email = '';
-      _username = '';
-      _password = '';
-      _confirmPassword = '';
-      _agreedToTerms = false;
-      _selectedValue = 'Please select account type';
-    });
+    //  setState(() {
+    //   _email = '';
+    //   _username = '';
+    //   _password = '';
+    //   _confirmPassword = '';
+    //   _agreedToTerms = false;
+    //   _selectedValue = 'Please select account type';
+    // });
     setState(() {
   _selectedValue = 'Please select account type';
 });
@@ -93,6 +93,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (response.statusCode == 200) {
       // Registration successful, handle the response as needed.
       print('Registration successful');
+           setState(() {
+      _email = '';
+      _username = '';
+      _password = '';
+      _confirmPassword = '';
+      _agreedToTerms = false;
+      _selectedValue = 'Please select account type';
+    });
       Navigator.push(context, MaterialPageRoute(builder: (context) {
         return RegistrationFeedback();
       }));
