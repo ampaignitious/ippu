@@ -25,7 +25,10 @@ abstract class AuthRestClient {
 
   @POST(AppEndpoints.educationBackgroundEndPoint)
   Future<dynamic> getEducationBackground({@Body() required Map<String, String> body});
-
+  
+  @GET(AppEndpoints.educationBackgroundEndPoint)
+  Future<dynamic> getEducationDetails();
+  
   @GET(AppEndpoints.cpdsEndPoint)
   Future<dynamic> getCpds();
 

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:ippu/Widgets/SplashScreenWidgets/FirstSplashScreen.dart';
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:ippu/models/UserProvider.dart';
 import 'package:provider/provider.dart';
 
