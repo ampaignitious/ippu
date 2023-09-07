@@ -1,4 +1,10 @@
 // api_constants.dart
+ 
+
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:ippu/models/UserProvider.dart';
+import 'package:provider/provider.dart';
+
 
 class AppEndpoints {
   static const String baseUrl = "http://app.ippu.or.ug/api";
@@ -11,6 +17,8 @@ class AppEndpoints {
   static const String eventsEndPoint = "/events";
   static const String educationBackgroundEndPoint = "/education-background";
   static const String upcomingCpdsEndPoint = "/upcoming-cpds";
+  static const String upcomingEventsEndPoint = "/upcoming-events";
+  static const String myEventsEndPoint ="/attended-events/";
   static const String accountTypesEndPoint = "/account-types";
   static const String allCommunications ="/communications";
 

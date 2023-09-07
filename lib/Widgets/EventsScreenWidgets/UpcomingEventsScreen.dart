@@ -18,18 +18,9 @@ class _UpcomingEventsScreenState extends State<UpcomingEventsScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: size.height*0.04,),
+            SizedBox(height: size.height*0.025,),
             // this section displays upcoming CPDS
-            Padding(
-              padding: EdgeInsets.only(left: size.height*0.028),
-              child: Text("Upcoming Events", style: GoogleFonts.lato(
-            fontSize: size.height*0.024, fontWeight: FontWeight.bold, color: Colors.black.withOpacity(0.8)
-              ),),
-            ),
-            SizedBox(height: size.height*0.0045,),
-            Divider(
-              thickness: 1,
-            ),
+             
             SizedBox(height: size.height*0.002,),
             // this container has the container that returns the CPds
             Container(

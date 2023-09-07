@@ -12,29 +12,7 @@ class ContainerDisplayingEvents extends StatefulWidget {
 }
 
 class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents> with TickerProviderStateMixin {
-  List images = [
-    "cpds1.jpg",
-    "cpds2.jpg",
-    "cpds3.jpg",
-    "cpds4.jpg",
-    "cpds3.jpg",
-    "cpds2.jpg",
-    "cpds4.jpg",
-  ];
-  List activityname = [
-    "Contract Management",
-    "Integration and implementation",
-    "Sustainable Procurement",
-    "Free CPD For all",
-    "Test ver 2",
-  ];
-  List attendees = [
-    "20",
-    "5",
-    "100",
-    "2",
-    "1",
-  ];
+ 
 
   final ScrollController _scrollController = ScrollController();
 

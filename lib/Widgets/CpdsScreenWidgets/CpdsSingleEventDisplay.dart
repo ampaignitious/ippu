@@ -62,6 +62,7 @@ _CpdsSingleEventDisplayState( this.content , this.location, this.target_group ,t
                   fontWeight: FontWeight.bold, 
                 ),),
               ),
+              
               Padding(
                 padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.0008),
                 child: Text("${location}"),

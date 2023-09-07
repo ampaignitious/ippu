@@ -58,7 +58,7 @@ class _CpdsScreenState extends State<CpdsScreen> with TickerProviderStateMixin{
           Center(
             child: Padding(
               padding: EdgeInsets.only(right: size.width*0.06),
-              child: Text("Total: ${cpds}"),
+              child: Text("All Cpds: ${cpds}"),
             ),
           )
         ],

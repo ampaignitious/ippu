@@ -92,6 +92,7 @@ final size = MediaQuery.of(context).size;
                       // controller: _scrollController,
                       scrollDirection: Axis.vertical,
                       itemCount: data.length,
+                      
                       itemBuilder: (context, index) {
                         final item = data[index];
                          // Ensure the properties accessed here match the structure of your API response

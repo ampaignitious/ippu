@@ -106,7 +106,7 @@ int totalCPDS = 0;
                       borderRadius: BorderRadius.circular(5),
                       gradient: LinearGradient(
                         colors: [
-                          Colors.lightGreen,
+                          Color.fromARGB(200, 139, 195, 74),
                           Color.fromARGB(255, 42, 129, 201),
                         ],
                         begin: Alignment.centerLeft,

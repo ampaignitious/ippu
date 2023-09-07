@@ -1,3 +1,4 @@
+
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'auth_rest.dart';
@@ -232,6 +233,50 @@ class _AuthRestClient implements AuthRestClient {
         .compose(
           _dio.options,
           '/upcoming-cpds',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = _result.data;
+    return value;
+  }
+
+  //   @override
+  // Future<dynamic> myEvents() async {
+  //   const _extra = <String, dynamic>{};
+  //   final queryParameters = <String, dynamic>{};
+  //   final _headers = <String, dynamic>{};
+  //   final Map<String, dynamic>? _data = null;
+  //   final _result = await _dio.fetch(_setStreamType<dynamic>(Options(
+  //     method: 'GET',
+  //     headers: _headers,
+  //     extra: _extra,
+  //   )
+  //       .compose(
+  //         _dio.options,
+  //         '/attended-events',
+  //         queryParameters: queryParameters,
+  //         data: _data,
+  //       )
+  //       .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+  //   final value = _result.data;
+  //   return value;
+  // }
+
+  @override
+  Future<dynamic> getUpcomingEvents() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch(_setStreamType<dynamic>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/upcoming-events',
           queryParameters: queryParameters,
           data: _data,
         )

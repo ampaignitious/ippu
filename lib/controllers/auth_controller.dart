@@ -186,6 +186,23 @@ class AuthController {
     }
   }
 
+
+  Future<List<dynamic>> getUpcomingEvents() async {
+    final dio = Dio();
+    final client = AuthRestClient(dio);
+    print("Bearer ${await getAccessToken()}");
+    dio.options.headers['Authorization'] = "Bearer ${await getAccessToken()}";
+    dio.options.headers['X-Requested-With'] = ['XMLHttpRequest'];
+    try {
+      final response = await client.getUpcomingEvents();
+      return response['data'];
+    } catch (e) {
+      return [];
+    }
+  }
+
+
+
   Future<Map<String, dynamic>> signOut() async {
     final dio = Dio();
     final client = AuthRestClient(dio);

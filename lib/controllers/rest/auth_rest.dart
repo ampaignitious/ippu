@@ -1,4 +1,8 @@
+ 
 import 'package:dio/dio.dart' hide Headers;
+import 'package:flutter/cupertino.dart';
+import 'package:ippu/models/UserProvider.dart';
+import 'package:provider/provider.dart';
 import 'package:retrofit/retrofit.dart';
 
 import '../../Util/app_endpoints.dart';
@@ -38,9 +42,14 @@ abstract class AuthRestClient {
   @GET(AppEndpoints.eventsEndPoint)
   Future<dynamic> getEvents();
 
+  // @GET(AppEndpoints.myEventsEndPoint)
+  // Future<dynamic> myEvents();  
+
   @GET(AppEndpoints.upcomingCpdsEndPoint)
   Future<dynamic> getUpcomingCpds();
 
+  @GET(AppEndpoints.upcomingEventsEndPoint)
+  Future<dynamic> getUpcomingEvents();
   
 
   //logout

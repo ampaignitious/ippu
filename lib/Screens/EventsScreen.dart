@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ippu/Widgets/DrawerWidget/DrawerWidget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ippu/Widgets/EventsScreenWidgets/AllEventsScreen.dart';
+import 'package:ippu/Widgets/EventsScreenWidgets/MyEvents.dart';
 import 'package:ippu/Widgets/EventsScreenWidgets/UpcomingEventsScreen.dart';
 import 'package:ippu/models/UserProvider.dart';
 import 'package:provider/provider.dart';
@@ -56,7 +57,7 @@ class _EventsScreenState extends State<EventsScreen> with TickerProviderStateMix
               // 
               Padding(
                 padding: EdgeInsets.only(right: size.width*0.02),
-                child: Text("Total: ${event}", style: GoogleFonts.lato(
+                child: Text("All events: ${event}", style: GoogleFonts.lato(
                   fontSize: size.height*0.014,
                   letterSpacing:1,
                    ),),
@@ -122,7 +123,10 @@ class _EventsScreenState extends State<EventsScreen> with TickerProviderStateMix
         children: [
           AllEventsScreen(),
           UpcomingEventsScreen(),
-          Center(child: Text('To display all attended events ')),
+          // MyEvents()
+          Center(
+            child: Text("Display attended events "),
+          )
         ],
       ),
     );
