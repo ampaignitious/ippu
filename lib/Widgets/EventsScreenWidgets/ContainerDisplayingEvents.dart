@@ -144,13 +144,13 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents> w
                       itemBuilder: (context, index) {
                         final item = data[index];
                         // Ensure the properties accessed here match the structure of your API response
-                        final imagelink = 'assets/cpds0.jpg';
                         final eventName = item['name'];
                         final startDate = item['start_date'];
                         final endData =item['end_date'];
-                        final attendees = item['points'].toString();
                         final description = item['details'];
-                        final totalEvents =data.length.toString();
+                        final points= item['points'].toString();
+                        final rate = item['rate'];
+                        final imageLink = item['banner_name'];
                         if (_searchQuery.isEmpty ||
                             eventName
                                 .toLowerCase()
@@ -162,12 +162,12 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents> w
                         context,
                         MaterialPageRoute(builder: (context) {
                           return SingleEventDisplay(
-                            totalEvents: totalEvents,
+                            points: points,
+                            rate: rate,
                             description: description,
                             startDate: startDate ,
                             endDate: endData ,
-                            attendees: attendees ,
-                            imagelink: 'assets/cpds${index}.jpg',
+                            imagelink: 'http://app.ippu.or.ug/storage/banners/${imageLink}',
                             eventName: eventName ,
                           );
                         }),
@@ -183,8 +183,11 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents> w
                                   height: size.height * 0.35,
                                   width: size.width * 0.85,
                                   decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.lightBlue
+                                    ),
                                     image: DecorationImage(
-                                      image: AssetImage(imagelink),
+                                      image: NetworkImage('http://app.ippu.or.ug/storage/banners/${imageLink}'),
                                     ),
                                   ),
                                 ),

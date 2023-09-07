@@ -12,7 +12,7 @@ class AppEndpoints {
   static const String educationBackgroundEndPoint = "/education-background";
   static const String upcomingCpdsEndPoint = "/upcoming-cpds";
   static const String accountTypesEndPoint = "/account-types";
-
+  static const String allCommunications ="/communications";
 
 
 

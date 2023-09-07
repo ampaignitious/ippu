@@ -4,26 +4,31 @@ import 'package:google_fonts/google_fonts.dart';
 class CpdsSingleEventDisplay extends StatefulWidget {
   String imagelink;
   String cpdsname;
-  String date;
+  String startDate;
+  String endDate;
+  String type;
+  String location;
   String attendees;
   String content;
   String target_group;
-  CpdsSingleEventDisplay({super.key,  required this.content ,required this.target_group,required this.date, required this.attendees, required this.cpdsname, required this.imagelink});
+  CpdsSingleEventDisplay({super.key, required this.location, required this.startDate, required this.endDate, required this.type, required this.content ,required this.target_group,  required this.attendees, required this.cpdsname, required this.imagelink});
 
   @override
-  State<CpdsSingleEventDisplay> createState() => _CpdsSingleEventDisplayState( this.content , this.target_group ,this.attendees, this.cpdsname, this.imagelink, this.date);
+  State<CpdsSingleEventDisplay> createState() => _CpdsSingleEventDisplayState( this.location, this.content , this.target_group ,this.attendees, this.cpdsname, this.imagelink, this.startDate, this.endDate, this.type);
 }
 
 class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
   @override
   String imagelink;
   String cpdsname;
-  String date;
+  String startDate;
+  String endDate;
+  String type;
+  String location;
   String attendees;
-  String target_group;
   String content;
-  _CpdsSingleEventDisplayState( this.content ,this.target_group ,this.attendees, this.cpdsname, this.imagelink, this.date);
-  Widget build(BuildContext context) {
+  String target_group;
+_CpdsSingleEventDisplayState( this.content , this.location, this.target_group ,this.attendees, this.cpdsname, this.imagelink, this.startDate, this.endDate, this.type);  Widget build(BuildContext context) {
     final size =MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -47,7 +52,7 @@ class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
                         // border: Border.all(
                         //   // color: Colors.white,
                         // ),
-                        image: DecorationImage(image: AssetImage("${imagelink}"))
+                        image: DecorationImage(image: NetworkImage("${imagelink}"))
                       ),
                     ),
               ),
@@ -59,7 +64,7 @@ class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
               ),
               Padding(
                 padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.0008),
-                child: Text("${content}"),
+                child: Text("${location}"),
               ),
               Padding(
                padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.016),
@@ -94,28 +99,28 @@ class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text("Start Date", style: TextStyle(color: Colors.green),),
-                          Text("July 4, 2023, 12:00 am", style: TextStyle(fontSize: size.height*0.008),)
+                          Text("${startDate}", style: TextStyle(fontSize: size.height*0.008),)
                         ],
                       ),
                                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text("End Date", style: TextStyle(color: Colors.green),),
-                          Text("July 4, 2023, 12:00 am", style: TextStyle(fontSize: size.height*0.008),)
+                          Text("${endDate}", style: TextStyle(fontSize: size.height*0.008),)
                         ],
                       ),
                                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Rate", style: TextStyle(color: Colors.red),),
-                          Text("Free", style: TextStyle(fontSize: size.height*0.008),)
+                          Text("Type", style: TextStyle(color: Colors.red),),
+                          Text("${type}", style: TextStyle(fontSize: size.height*0.008),)
                         ],
                       ),
                                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text("Location", style: TextStyle(color: Colors.red),),
-                          Text("Kampale, plot 32", style: TextStyle(fontSize: size.height*0.008),)
+                          Text("${content}", style: TextStyle(fontSize: size.height*0.008),)
                         ],
                       ),
                     ],

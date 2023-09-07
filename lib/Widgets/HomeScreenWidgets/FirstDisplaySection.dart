@@ -7,6 +7,9 @@ import 'package:ippu/Screens/UserAppGuide.dart';
 import 'package:ippu/Widgets/HomeScreenWidgets/FirstSetOfRows.dart';
 import 'package:ippu/Widgets/HomeScreenWidgets/SecondSetOfRows.dart';
 import 'package:ippu/Widgets/HomeScreenWidgets/StatDisplayRow.dart';
+import 'package:ippu/controllers/auth_controller.dart';
+import 'package:ippu/models/UserProvider.dart';
+import 'package:provider/provider.dart';
 
 class FirstDisplaySection extends StatefulWidget {
   const FirstDisplaySection({super.key});
@@ -17,8 +20,44 @@ class FirstDisplaySection extends StatefulWidget {
 
 class _FirstDisplaySectionState extends State<FirstDisplaySection> {
   @override
+int totalCPDS = 0;
+  int totalEvents = 0;
+  int totalCommunications =0;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  Future<void> fetchData() async {
+    try {
+      AuthController authController = AuthController();
+      final cpds = await authController.getCpds();
+      final events = await authController.getEvents();
+      final communications = await authController.getAllCommunications();
+      setState(() {
+        totalCPDS = cpds.length;
+        totalEvents = events.length;
+        totalCommunications = communications.length;
+        Provider.of<UserProvider>(context, listen: false).totalNumberOfCPDS(totalCPDS);
+        Provider.of<UserProvider>(context, listen: false).totalNumberOfEvents(totalEvents);
+        Provider.of<UserProvider>(context, listen:false).totalNumberOfCommunications(totalCommunications);
+
+
+      });
+    } catch (e) {
+      // Handle any errors here
+      print('Error fetching data: $e');
+    }
+  }
+
+  // // 
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+  final cpds = Provider.of<UserProvider>(context).CPDS;
+   final event = Provider.of<UserProvider>(context).Events;
+   final communications = Provider.of<UserProvider>(context).totalCommunications;
     return Stack(
       children: [
         Container(
@@ -30,7 +69,7 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection> {
           child: Column(
             children: [
               Text(
-                "Welcome to IPPU mobile application",
+                "Welcome to IPPU mobile applications",
                 style: TextStyle(color: Colors.white, fontSize: size.height * 0.016),
               ),
               SizedBox(height: size.height * 0.026),
@@ -111,7 +150,7 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection> {
                             decoration: BoxDecoration(
                                 border: Border.all(color: Colors.white),
                                 borderRadius: BorderRadius.circular(8)),
-                            child: Center(child: Text("534,734", style: TextStyle(color: Colors.white))),
+                            child: Center(child: Text("${cpds}", style: TextStyle(color: Colors.white))),
                           ),
                         ),
                       ],
@@ -176,7 +215,7 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection> {
                             decoration: BoxDecoration(
                                 border: Border.all(color: Colors.white),
                                 borderRadius: BorderRadius.circular(8)),
-                            child: Center(child: Text("456,234", style: TextStyle(color: Colors.white))),
+                            child: Center(child: Text("${event}", style: TextStyle(color: Colors.white))),
                           ),
                         ),
                       ],
@@ -241,7 +280,7 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection> {
                             decoration: BoxDecoration(
                                 border: Border.all(color: Colors.white),
                                 borderRadius: BorderRadius.circular(8)),
-                            child: Center(child: Text("456,234", style: TextStyle(color: Colors.white))),
+                            child: Center(child: Text("${communications}", style: TextStyle(color: Colors.white))),
                           ),
                         ),
                       ],

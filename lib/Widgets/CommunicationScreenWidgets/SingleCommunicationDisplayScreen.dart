@@ -19,6 +19,7 @@ class _SingleCommunicationDisplayScreenState extends State<SingleCommunicationDi
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 42, 129, 201),
         title: Padding(
                       padding: EdgeInsets.only(left: size.width*0.02,  right: size.width*0.016,),
                       child: Text("${communicationtitle}", style: GoogleFonts.roboto(
@@ -31,7 +32,7 @@ class _SingleCommunicationDisplayScreenState extends State<SingleCommunicationDi
       ),
       body: Container(
                 margin: EdgeInsets.only(right:size.height*0.009, left:size.height*0.0098, top: size.height*0.02),
-                height: size.height*0.35,
+                height: size.height*0.8,
                 width: size.width*0.96,
                 decoration: BoxDecoration(
                   color: Colors.white,

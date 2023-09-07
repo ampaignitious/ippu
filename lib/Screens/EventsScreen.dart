@@ -3,6 +3,8 @@ import 'package:ippu/Widgets/DrawerWidget/DrawerWidget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ippu/Widgets/EventsScreenWidgets/AllEventsScreen.dart';
 import 'package:ippu/Widgets/EventsScreenWidgets/UpcomingEventsScreen.dart';
+import 'package:ippu/models/UserProvider.dart';
+import 'package:provider/provider.dart';
 
 class EventsScreen extends StatefulWidget {
   const EventsScreen({super.key});
@@ -28,6 +30,8 @@ class _EventsScreenState extends State<EventsScreen> with TickerProviderStateMix
 
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final event = Provider.of<UserProvider>(context).Events;
+
     return Scaffold(
       drawer:Drawer(
         width: size.width*0.8,
@@ -52,7 +56,7 @@ class _EventsScreenState extends State<EventsScreen> with TickerProviderStateMix
               // 
               Padding(
                 padding: EdgeInsets.only(right: size.width*0.02),
-                child: Text("34534 new events", style: GoogleFonts.lato(
+                child: Text("Total: ${event}", style: GoogleFonts.lato(
                   fontSize: size.height*0.014,
                   letterSpacing:1,
                    ),),

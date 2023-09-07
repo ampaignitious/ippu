@@ -53,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 "Invalid credentials, check your email and password and try again!"),
           ));
         } else {
-          // final cps = await authController.getCpds();
+          // final cpds = await authController.getCpds();
           // final events = await authController.getEvents();
           // final upcomingCpds = await authController.getUpcomingCpds();
 
@@ -78,8 +78,12 @@ class _LoginScreenState extends State<LoginScreen> {
             email: email,
             token: token,
           );
-
+          // int cpd = cpds.length;
+          // int event = events.length;
           Provider.of<UserProvider>(context, listen: false).setUser(userData);
+          // Provider.of<UserProvider>(context, listen: false).totalNumberOfCPDS(cpd);
+          // Provider.of<UserProvider>(context, listen: false).totalNumberOfEvents(event);
+
           Navigator.push(context, MaterialPageRoute(builder: (context) {
             return DefaultScreen();
           }));

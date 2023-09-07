@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:ippu/Widgets/CommunicationScreenWidgets/ContainerDiplayingCommunications.dart';
 import 'package:ippu/Widgets/DrawerWidget/DrawerWidget.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ippu/models/UserProvider.dart';
+import 'package:provider/provider.dart';
 class CommunicationScreen extends StatefulWidget {
   const CommunicationScreen({super.key});
 
@@ -14,6 +16,7 @@ class _CommunicationScreenState extends State<CommunicationScreen> with TickerPr
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final communication = Provider.of<UserProvider>(context).totalCommunications;
     return Scaffold(
             drawer:Drawer(
         width: size.width*0.8,
@@ -68,7 +71,7 @@ class _CommunicationScreenState extends State<CommunicationScreen> with TickerPr
                                     size: 24,  
                                   ),
                               Center(
-                                child: Text("342", style: GoogleFonts.lato(
+                                child: Text("${communication}", style: GoogleFonts.lato(
                                   color: Colors.white,
                                                     
                                 ),),
@@ -107,7 +110,7 @@ class _CommunicationScreenState extends State<CommunicationScreen> with TickerPr
                                 size: 24, 
                               ),
                               Center(
-                                child: Text("103", style: GoogleFonts.lato(
+                                child: Text("${communication}", style: GoogleFonts.lato(
                                   color: Colors.white,
                                                     
                                 ),),

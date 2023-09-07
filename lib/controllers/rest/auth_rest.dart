@@ -29,6 +29,9 @@ abstract class AuthRestClient {
   @GET(AppEndpoints.educationBackgroundEndPoint)
   Future<dynamic> getEducationDetails();
   
+  @GET(AppEndpoints.allCommunications)
+  Future<dynamic>getAllCommunications();
+
   @GET(AppEndpoints.cpdsEndPoint)
   Future<dynamic> getCpds();
 

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:ippu/Widgets/CpdsScreenWidgets/AllCpdsScreen.dart';
-import 'package:ippu/Widgets/CpdsScreenWidgets/ContainerDisplayingCpds.dart';
-import 'package:ippu/Widgets/CpdsScreenWidgets/ContainerDisplayingUpcomingCpds.dart';
+import 'package:ippu/Widgets/CpdsScreenWidgets/AttendedCpdsScreen.dart';
 import 'package:ippu/Widgets/CpdsScreenWidgets/UpcomingCpdsScreen.dart';
 import 'package:ippu/Widgets/DrawerWidget/DrawerWidget.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ippu/models/UserProvider.dart';
+import 'package:provider/provider.dart';
 
 class CpdsScreen extends StatefulWidget {
   const CpdsScreen({super.key});
@@ -30,7 +31,9 @@ class _CpdsScreenState extends State<CpdsScreen> with TickerProviderStateMixin{
   }
 
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+  final cpds = Provider.of<UserProvider>(context).CPDS;
+  final size = MediaQuery.of(context).size;
+  
     return Scaffold(
       drawer:Drawer(
         width: size.width*0.8,
@@ -55,7 +58,7 @@ class _CpdsScreenState extends State<CpdsScreen> with TickerProviderStateMixin{
           Center(
             child: Padding(
               padding: EdgeInsets.only(right: size.width*0.06),
-              child: Text("Total: 234,345"),
+              child: Text("Total: ${cpds}"),
             ),
           )
         ],
@@ -107,7 +110,7 @@ class _CpdsScreenState extends State<CpdsScreen> with TickerProviderStateMixin{
                   padding: EdgeInsets.only(
                     left: size.width*0.008
                   ),
-                  child: Text("My CPDS", style: GoogleFonts.lato(
+                  child: Text("Attended cpds", style: GoogleFonts.lato(
                     fontSize: size.height*0.014,
                   ),),
                 ),
@@ -122,7 +125,7 @@ class _CpdsScreenState extends State<CpdsScreen> with TickerProviderStateMixin{
         children: [
           AllCpdsScreen(),
           UpcommingCpdsScreen(),
-          Center(child: Text('To display my CPDS')),
+          AttendedCpdsScreen(),
         ],
       ),
     );

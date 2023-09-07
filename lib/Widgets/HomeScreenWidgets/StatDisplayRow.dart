@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ippu/models/UserProvider.dart';
+import 'package:provider/provider.dart';
 
 class StatDisplayRow extends StatefulWidget {
   const StatDisplayRow({super.key});
@@ -11,6 +13,8 @@ class StatDisplayRow extends StatefulWidget {
 class _StatDisplayRowState extends State<StatDisplayRow> {
   @override
   Widget build(BuildContext context) {
+      final cpds = Provider.of<UserProvider>(context).CPDS;
+   final event = Provider.of<UserProvider>(context).Events;
     final size = MediaQuery.of(context).size;
     return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -52,7 +56,7 @@ class _StatDisplayRowState extends State<StatDisplayRow> {
                           thickness: 2,
                           color: Color.fromARGB(210, 63, 131, 187),
                         ),
-                    Center(child: Text("5,235", style: TextStyle(fontSize: size.height*0.0342, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 50, 155, 132), letterSpacing: 1),))
+                    Center(child: Text("${event}", style: TextStyle(fontSize: size.height*0.0342, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 50, 155, 132), letterSpacing: 1),))
                       ],
                     ),
                     ),
@@ -94,7 +98,7 @@ class _StatDisplayRowState extends State<StatDisplayRow> {
                           thickness: 2,
                           color: Color.fromARGB(210, 63, 131, 187),
                         ),
-                    Center(child: Text("125", style: TextStyle(fontSize: size.height*0.0342, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 50, 155, 132),letterSpacing: 1),))
+                    Center(child: Text("${cpds}", style: TextStyle(fontSize: size.height*0.0342, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 50, 155, 132),letterSpacing: 1),))
                       ],
                     ),
                     ),

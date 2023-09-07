@@ -124,6 +124,23 @@ class AuthController {
       return [];
     }
   }
+
+    Future<List<dynamic>> getAllCommunications() async {
+    final dio = Dio();
+    final client = AuthRestClient(dio);
+    dio.options.headers['Authorization'] = "Bearer ${await getAccessToken()}";
+    //'X-Requested-With': 'XMLHttpRequest'
+    dio.options.headers['X-Requested-With'] = "XMLHttpRequest";
+    //print what is being sent
+    // dio.interceptors.add(LogInterceptor(responseBody: true));
+
+    try {
+      final response = await client.getAllCommunications();
+      return response['data'];
+    } catch (e) {
+      return [];
+    }
+  }
     Future<List<dynamic>> getEducationDetails() async {
     final dio = Dio();
     final client = AuthRestClient(dio);

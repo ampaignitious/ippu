@@ -4,6 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:ippu/controllers/auth_controller.dart';
+import 'package:ippu/models/UserProvider.dart';
+import 'package:provider/provider.dart';
 
 class ContainerDisplayingCpds extends StatefulWidget {
   const ContainerDisplayingCpds({super.key});
@@ -53,6 +55,7 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+     
 
     return Scaffold(
       floatingActionButton: Visibility(
@@ -132,13 +135,16 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                       itemCount: data.length,
                       itemBuilder: (context, index) {
                         final item = data[index];
-                        // Ensure the properties accessed here match the structure of your API response
+                         // Ensure the properties accessed here match the structure of your API response
                         final imagelink = 'assets/cpds0.jpg';
                         final activityName = item['topic'];
                         final attendees = item['points'];
                         final startDate =item['start_date'];
                         final endDate =item['end_date'];
                         final content = item['content'];
+                        final location = item['location'];
+                        final type = item['type'];
+                        final imageLink = item['banner'];
                         final target_group = item['target_group'];
 
                         if (_searchQuery.isEmpty ||
@@ -147,16 +153,19 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                                 .contains(_searchQuery.toLowerCase())) {
                           return InkWell(
                             onTap: () {
-                              print(item);
+                              print('${item}');
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) {
                                   return CpdsSingleEventDisplay(
                                     content: content,
                                     target_group: target_group,
-                                    date: startDate[index],
+                                    startDate: startDate,
+                                    endDate: endDate,
+                                    type: type,
+                                    location: location,
                                     attendees: attendees,
-                                    imagelink: imagelink,
+                                    imagelink: 'http://app.ippu.or.ug/storage/banners/${imageLink}',
                                     cpdsname: activityName,
                                   );
                                 }),
@@ -172,12 +181,15 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                                   height: size.height * 0.35,
                                   width: size.width * 0.85,
                                   decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.lightBlue
+                                    ),
                                     image: DecorationImage(
-                                      image: AssetImage(imagelink),
+                                      image: NetworkImage('http://app.ippu.or.ug/storage/banners/${imageLink}'),
                                     ),
                                   ),
                                 ),
-                                SizedBox(height: size.height * 0.014),
+                                SizedBox(height: size.height * 0.012),
  
                                 Container(
                           height: size.height * 0.089,
@@ -270,7 +282,7 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                             ),
                           ),
                         ),
-                        SizedBox(height: size.height * 0.022),
+                        SizedBox(height: size.height * 0.018),
                       
                               ],
                             ),
