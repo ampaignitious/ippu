@@ -2,37 +2,41 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SingleEventDisplay extends StatefulWidget {
-  String imagelink;
-  String eventName;
-  String rate;
+class AttendedSingleCpdDisplay extends StatefulWidget {
+    String imagelink;
+  String cpdsname;
   String startDate;
   String endDate;
-  String points;
-  String description;
-  SingleEventDisplay({super.key, required this.points , required this.description ,required this.startDate, required this.endDate, required this.rate, required this.eventName, required this.imagelink});
+  String type;
+  String location;
+ 
+  String content;
+  String target_group;
+    AttendedSingleCpdDisplay({super.key, required this.location, required this.startDate, required this.endDate, required this.type, required this.content ,required this.target_group,    required this.cpdsname, required this.imagelink});
 
   @override
-  State<SingleEventDisplay> createState() => _SingleEventDisplayState( this.points ,this.description, this.rate, this.eventName, this.imagelink, this.startDate, this.endDate);
+  State<AttendedSingleCpdDisplay> createState() => _AttendedSingleCpdDisplayState( this.content , this.location, this.target_group ,  this.cpdsname, this.imagelink, this.startDate, this.endDate, this.type);
 }
 
-class _SingleEventDisplayState extends State<SingleEventDisplay> {
+class _AttendedSingleCpdDisplayState extends State<AttendedSingleCpdDisplay> {
   @override
-  String imagelink;
-  String eventName;
-  String points;
+      String imagelink;
+  String cpdsname;
   String startDate;
   String endDate;
-  String description;
-  String rate;
-  _SingleEventDisplayState(this.rate ,this.description,this.points, this.eventName, this.imagelink, this.startDate, this.endDate);
+  String type;
+  String location;
+ 
+  String content;
+  String target_group;
+  _AttendedSingleCpdDisplayState( this.content , this.location, this.target_group   , this.cpdsname, this.imagelink, this.startDate, this.endDate, this.type);
   Widget build(BuildContext context) {
-    final size =MediaQuery.of(context).size;
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text("${eventName}", style: GoogleFonts.lato(),),
-        backgroundColor: Color.fromARGB(255, 42, 129, 201),
         elevation: 0,
+        backgroundColor: Color.fromARGB(255, 42, 129, 201),
+        title: Text("${cpdsname}"),
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
@@ -41,47 +45,42 @@ class _SingleEventDisplayState extends State<SingleEventDisplay> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              SizedBox(
+                height: size.height*0.008,
+              ),
               Center(
                 child: Container(
                       // margin: EdgeInsets.only(right:size.height*0.009, left:size.height*0.009),
                       height: size.height*0.46,
                       width: size.width*0.84,
                       decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.lightBlue,
-                        ),
+                        // border: Border.all(
+                        //   // color: Colors.white,
+                        // ),
                         image: DecorationImage(image: NetworkImage("${imagelink}"))
                       ),
                     ),
               ),
               Padding(
-                padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.008),
-                child: Text("Event Name", style: GoogleFonts.lato(
-                  fontWeight: FontWeight.bold, 
-                   color: Colors.blue,
-                  fontSize: size.height*0.027
-                ),),
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.0022),
-                // child: Text("this will be about learning sessions"),
-                child: Text("${eventName}", style: GoogleFonts.lato(
-                 
-                ),),
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.019),
-                child: Text("Description", style: GoogleFonts.lato(
-                  fontSize: size.height*0.027,
-                  color: Colors.blue,
+                padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.004),
+                child: Text("Name", style: GoogleFonts.lato(
                   fontWeight: FontWeight.bold, 
                 ),),
               ),
+              
               Padding(
-                padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.0019),
-                // child: Text("this will be about learning sessions"),
-                child:Html(
-  data: description,
+                padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.0008),
+                child: Text("${cpdsname}")
+              ),
+              Padding(
+               padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.016),
+                child: Text("Description", style: TextStyle(fontWeight: FontWeight.bold), textAlign: TextAlign.justify ,),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: size.width*0.06, right:size.width*0.06, top: size.height*0.0016),
+                child: 
+                Html(
+  data: content,
   style: {
     "p": Style( // Apply style to <p> tags
       fontSize: FontSize(16.0),
@@ -97,9 +96,16 @@ class _SingleEventDisplayState extends State<SingleEventDisplay> {
     // Add more style definitions for other HTML elements
   },
 ),
-                 
+                // Text("${content}", textAlign: TextAlign.justify,),
               ),
- 
+              Padding(
+               padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.016),
+                child: Text("Target Group", style: TextStyle(fontWeight: FontWeight.bold), textAlign: TextAlign.justify ,),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: size.width*0.06, right:size.width*0.06, top: size.height*0.0016),
+                child: Text("${target_group}", textAlign: TextAlign.justify,),
+              ),
               SizedBox(height: size.height*0.016,),
               // container displaying the start, end rate and location
               Container(
@@ -138,15 +144,15 @@ class _SingleEventDisplayState extends State<SingleEventDisplay> {
                                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Rate", style: TextStyle(color: Colors.red),),
-                          Text("${points}", style: TextStyle(fontSize: size.height*0.008),)
+                          Text("Type", style: TextStyle(color: Colors.red),),
+                          Text("${type}", style: TextStyle(fontSize: size.height*0.008),)
                         ],
                       ),
                                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Points", style: TextStyle(color: Colors.red),),
-                          Text("${rate}", style: TextStyle(fontSize: size.height*0.008),)
+                          Text("Location", style: TextStyle(color: Colors.red),),
+                          Text("${location}", style: TextStyle(fontSize: size.height*0.008),)
                         ],
                       ),
                     ],
@@ -156,30 +162,16 @@ class _SingleEventDisplayState extends State<SingleEventDisplay> {
               // 
               SizedBox(height: size.height*0.022,),
               // 
-              Center(
-                child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: Color.fromARGB(255, 42, 129, 201), // Change button color to green
-                            padding: EdgeInsets.all(size.height * 0.024),
-
-                          ),
-                          onPressed: (){
-                       print("${eventName}");
-                          },
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: size.width*0.12),
-                            child: Text('Register to Attend', style: GoogleFonts.lato(),),
-                          ),
-                ),
-              ),
+ 
               // 
-              // 
+           // 
               SizedBox(height: size.height*0.022,),
-              //
+              // 
             ],
           ),
         ),
       ),
+    
     );
   }
 }

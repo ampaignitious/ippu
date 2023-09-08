@@ -9,6 +9,32 @@ class InfoScreen extends StatefulWidget {
   @override
   State<InfoScreen> createState() => _InfoScreenState();
 }
+        // "id": 30,
+        // "name": "ampa",
+        // "email": "ignitiousampa08@gmail.com",
+        // "membership_number": "2",
+        // "address": "Kampala",
+        // "gender": "Male",
+        // "dob": "2022-03-17",
+        // "phone_no": "0786740604",
+        // "alt_phone_no": null,
+        // "email_verified_at": "2023-09-06T07:11:57.000000Z",
+        // "account_type_id": 1,
+        // "user_type": "Member",
+        // "status": "Inactive",
+        // "comment": null,
+        // "subscribed": 0,
+        // "default_pipeline": null,
+        // "points": "43",
+        // "created_at": "2023-09-06T07:04:06.000000Z",
+        // "updated_at": "2023-09-07T10:41:31.000000Z",
+        // "active_status": 0,
+        // "avatar": "avatar.png",
+        // "dark_mode": 0,
+        // "messenger_color": null,
+        // "nok_name": "Atuha",
+        // "nok_address": "Atuha@gmail.com",
+        // "nok_phone_no": "0786740604"
 
 class _InfoScreenState extends State<InfoScreen> {
   @override

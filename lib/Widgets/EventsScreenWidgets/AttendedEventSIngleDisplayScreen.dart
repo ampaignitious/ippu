@@ -1,36 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-class SingleEventDisplay extends StatefulWidget {
-  String imagelink;
-  String eventName;
-  String rate;
-  String startDate;
-  String endDate;
+class AttendedEventSIngleDisplayScreen extends StatefulWidget {
+  String name;
+  String details;
   String points;
-  String description;
-  SingleEventDisplay({super.key, required this.points , required this.description ,required this.startDate, required this.endDate, required this.rate, required this.eventName, required this.imagelink});
+  String imageLink;
+  String rate;
+  String start_date;
+  String end_date;
+
+   AttendedEventSIngleDisplayScreen({super.key, required this.start_date, required this.end_date, required this.name, required this.details, required this.imageLink, required this.points, required this.rate});
 
   @override
-  State<SingleEventDisplay> createState() => _SingleEventDisplayState( this.points ,this.description, this.rate, this.eventName, this.imagelink, this.startDate, this.endDate);
+  State<AttendedEventSIngleDisplayScreen> createState() => _AttendedEventSIngleDisplayScreenState(this.start_date, this.end_date, this.details, this.imageLink, this.name, this.points, this.rate,);
 }
 
-class _SingleEventDisplayState extends State<SingleEventDisplay> {
+class _AttendedEventSIngleDisplayScreenState extends State<AttendedEventSIngleDisplayScreen> {
   @override
-  String imagelink;
-  String eventName;
+  String name;
+  String details;
   String points;
-  String startDate;
-  String endDate;
-  String description;
+  String imageLink;
   String rate;
-  _SingleEventDisplayState(this.rate ,this.description,this.points, this.eventName, this.imagelink, this.startDate, this.endDate);
-  Widget build(BuildContext context) {
-    final size =MediaQuery.of(context).size;
+  String start_date;
+  String end_date;
+ _AttendedEventSIngleDisplayScreenState(this.start_date, this.end_date, this.details, this.imageLink, this.name, this.points, this.rate,);  Widget build(BuildContext context) {
+  final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text("${eventName}", style: GoogleFonts.lato(),),
+        title: Text("${name}"),
         backgroundColor: Color.fromARGB(255, 42, 129, 201),
         elevation: 0,
       ),
@@ -50,38 +49,31 @@ class _SingleEventDisplayState extends State<SingleEventDisplay> {
                         border: Border.all(
                           color: Colors.lightBlue,
                         ),
-                        image: DecorationImage(image: NetworkImage("${imagelink}"))
+                        image: DecorationImage(image: NetworkImage("http://app.ippu.or.ug/storage/banners/${imageLink}"))
                       ),
                     ),
               ),
               Padding(
-                padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.008),
-                child: Text("Event Name", style: GoogleFonts.lato(
-                  fontWeight: FontWeight.bold, 
-                   color: Colors.blue,
-                  fontSize: size.height*0.027
-                ),),
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.0022),
-                // child: Text("this will be about learning sessions"),
-                child: Text("${eventName}", style: GoogleFonts.lato(
-                 
-                ),),
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.019),
-                child: Text("Description", style: GoogleFonts.lato(
-                  fontSize: size.height*0.027,
-                  color: Colors.blue,
+                padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.004),
+                child: Text("Event name", style: GoogleFonts.lato(
                   fontWeight: FontWeight.bold, 
                 ),),
               ),
+              
               Padding(
-                padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.0019),
-                // child: Text("this will be about learning sessions"),
-                child:Html(
-  data: description,
+                padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.0008),
+                child: Text("${name}"),
+              ),
+              Padding(
+               padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.016),
+                child: 
+                
+                Text("Details", style: TextStyle(fontWeight: FontWeight.bold), textAlign: TextAlign.justify ,),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: size.width*0.06, right:size.width*0.06, top: size.height*0.0016),
+                child: Html(
+  data: details,
   style: {
     "p": Style( // Apply style to <p> tags
       fontSize: FontSize(16.0),
@@ -97,9 +89,9 @@ class _SingleEventDisplayState extends State<SingleEventDisplay> {
     // Add more style definitions for other HTML elements
   },
 ),
-                 
+                
+                // Text("${details}", textAlign: TextAlign.justify,),
               ),
- 
               SizedBox(height: size.height*0.016,),
               // container displaying the start, end rate and location
               Container(
@@ -125,28 +117,21 @@ class _SingleEventDisplayState extends State<SingleEventDisplay> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text("Start Date", style: TextStyle(color: Colors.green),),
-                          Text("${startDate}", style: TextStyle(fontSize: size.height*0.008),)
+                          Text("${start_date}", style: TextStyle(fontSize: size.height*0.008),)
                         ],
                       ),
                                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text("End Date", style: TextStyle(color: Colors.green),),
-                          Text("${endDate}", style: TextStyle(fontSize: size.height*0.008),)
-                        ],
-                      ),
-                                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Rate", style: TextStyle(color: Colors.red),),
-                          Text("${points}", style: TextStyle(fontSize: size.height*0.008),)
+                          Text("${end_date}", style: TextStyle(fontSize: size.height*0.008),)
                         ],
                       ),
                                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text("Points", style: TextStyle(color: Colors.red),),
-                          Text("${rate}", style: TextStyle(fontSize: size.height*0.008),)
+                          Text("${points}", style: TextStyle(fontSize: size.height*0.008),)
                         ],
                       ),
                     ],
@@ -159,27 +144,28 @@ class _SingleEventDisplayState extends State<SingleEventDisplay> {
               Center(
                 child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            primary: Color.fromARGB(255, 42, 129, 201), // Change button color to green
+                            primary:  Color.fromARGB(255, 42, 129, 201), // Change button color to green
                             padding: EdgeInsets.all(size.height * 0.024),
 
                           ),
                           onPressed: (){
-                       print("${eventName}");
+                      
                           },
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: size.width*0.12),
-                            child: Text('Register to Attend', style: GoogleFonts.lato(),),
+                            child: Text('Download certificate', style: GoogleFonts.lato(),),
                           ),
                 ),
               ),
               // 
-              // 
+           // 
               SizedBox(height: size.height*0.022,),
-              //
+              // 
             ],
           ),
         ),
       ),
+   
     );
   }
 }

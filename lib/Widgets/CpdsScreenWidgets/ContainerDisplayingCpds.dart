@@ -171,27 +171,27 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                                 }),
                               );
                             },
-                            child: Column(
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(
-                                    right: size.height * 0.009,
-                                    left: size.height * 0.009,
-                                  ),
-                                  height: size.height * 0.35,
-                                  width: size.width * 0.85,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.lightBlue
-                                    ),
-                                    image: DecorationImage(
-                                      image: NetworkImage('http://app.ippu.or.ug/storage/banners/${imageLink}'),
-                                    ),
-                                  ),
+                        child: Column(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(
+                                right: size.height * 0.009,
+                                left: size.height * 0.009,
+                              ),
+                              height: size.height * 0.35,
+                              width: size.width * 0.85,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.lightBlue
                                 ),
-                                SizedBox(height: size.height * 0.012),
- 
-                                Container(
+                                image: DecorationImage(
+                                  image: NetworkImage('http://app.ippu.or.ug/storage/banners/${imageLink}'),
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: size.height * 0.012),
+
+                            Container(
                           height: size.height * 0.089,
                           width: size.width * 0.7,
                           decoration: BoxDecoration(

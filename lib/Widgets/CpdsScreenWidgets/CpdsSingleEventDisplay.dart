@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CpdsSingleEventDisplay extends StatefulWidget {
@@ -28,7 +29,8 @@ class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
   String attendees;
   String content;
   String target_group;
-_CpdsSingleEventDisplayState( this.content , this.location, this.target_group ,this.attendees, this.cpdsname, this.imagelink, this.startDate, this.endDate, this.type);  Widget build(BuildContext context) {
+_CpdsSingleEventDisplayState( this.content , this.location, this.target_group ,this.attendees, this.cpdsname, this.imagelink, this.startDate, this.endDate, this.type); 
+ Widget build(BuildContext context) {
     final size =MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -65,7 +67,25 @@ _CpdsSingleEventDisplayState( this.content , this.location, this.target_group ,t
               
               Padding(
                 padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.0008),
-                child: Text("${location}"),
+                child: Html(
+  data: location,
+  style: {
+    "p": Style( // Apply style to <p> tags
+      fontSize: FontSize(16.0),
+      color: Colors.black,
+      // Add more style properties as needed
+    ),
+    "h1": Style( // Apply style to <h1> tags
+      fontSize: FontSize(24.0),
+      fontWeight: FontWeight.bold,
+      color: Colors.blue,
+      // Add more style properties as needed
+    ),
+    // Add more style definitions for other HTML elements
+  },
+),
+                
+                // Text("${location}"),
               ),
               Padding(
                padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.016),

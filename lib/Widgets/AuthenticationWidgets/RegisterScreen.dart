@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:ippu/Screens/DefaultScreen.dart';
 import 'package:ippu/Screens/IppuTermsOfUse.dart';
+import 'package:ippu/Widgets/AuthenticationWidgets/DropDownWidget.dart';
 import 'package:ippu/Widgets/AuthenticationWidgets/LoginScreen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
@@ -21,33 +24,50 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool _isPasswordVisible = false;
   bool _isConfirmPasswordVisible = false; 
 
-  final List<String> _accountTypes = ['cpp', 'student', 'corporate'];
+//  
  String _selectedValue = 'Please select account type';
-  TextEditingController _textEditingController = TextEditingController();
+ 
+  List<String> _accountTypes = ['Please select account type'];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchAccountTypes();
+  }
+
+  Future<void> _fetchAccountTypes() async {
+    final response = await http.get(Uri.parse('http://app.ippu.or.ug/api/account-types'));
+
+    if (response.statusCode == 200) {
+      final jsonData = json.decode(response.body);
+
+      if (jsonData.containsKey('data')) {
+        final data = jsonData['data'] as List<dynamic>;
+        final accountTypeNames = data.map<String>((item) => item['name'].toString()).toList();
+
+        setState(() {
+          _accountTypes.addAll(accountTypeNames); 
+        });
+      }
+    } else {
+      throw Exception('Failed to load account types from the API');
+    }
+  }
+  // TextEditingController _textEditingController = TextEditingController();
   Future<void> _submitForm() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-    //  setState(() {
-    //   _email = '';
-    //   _username = '';
-    //   _password = '';
-    //   _confirmPassword = '';
-    //   _agreedToTerms = false;
-    //   _selectedValue = 'Please select account type';
-    // });
-    setState(() {
-  _selectedValue = 'Please select account type';
-});
+ 
    String mapAccountType(String selectedIndex) {
     switch (selectedIndex) {
     case 'Please select account type':
       return "0"; // Or any other default value you want
     case 'CPP (200,000)':
       return "1"; // For 'CPP (200,000)'
-    case 'Affiliates (110,000)':
-      return "2"; // For 'Affiliates (110,000)'
+    case 'Student':
+      return "1"; // For 'Affiliates (110,000)'
     // Add more cases as needed...
-    case 'Student (20,000)':
+    case 'Affiliates (110,000)':
       return "3";
     case 'Graduate (150,000)':
       return "4";
@@ -62,6 +82,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 }
     // 
+    print(_selectedValue);
   final String accountTypeValue = mapAccountType(_selectedValue);
    
 
@@ -84,6 +105,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         );
       },
     );
+    print(requestData);
     final response = await http.post(
       Uri.parse('http://app.ippu.or.ug/api/register'),
       body: requestData,
@@ -93,7 +115,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (response.statusCode == 200) {
       // Registration successful, handle the response as needed.
       print('Registration successful');
-           setState(() {
+    setState(() {
       _email = '';
       _username = '';
       _password = '';
@@ -251,28 +273,29 @@ class _RegisterScreenState extends State<RegisterScreen> {
              SizedBox(height: size.height*0.018),
             //  
        DropdownButtonFormField<String>(
-              value: _selectedValue,
-              onChanged: (newValue) {
-                setState(() {
-                  _selectedValue = newValue!;
-                });
-              },
-              items: ['Please select account type', 'CPP (200,000)', 'Affiliates (110,000)', 'Student (20,000)', 'Graduate (150,000)','Felllow (250,000)','Corporate (600,000)','General Memeber (1,000,000)']
-                  .map<DropdownMenuItem<String>>(
-                    (String value) => DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    ),
-                  )
-                  .toList(),
-              decoration: InputDecoration(
-                labelText: 'Account Type',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20)
-                ),
-              ),
-            ),  
+      value: _selectedValue,
+      onChanged: (newValue) {
+        setState(() {
+          _selectedValue = newValue!;
+        });
+      },
+      items: _accountTypes
+          .map<DropdownMenuItem<String>>(
+            (String value) => DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            ),
+          )
+          .toList(),
+      decoration: InputDecoration(
+        labelText: 'Account Type',
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+      ),
+    ),
             // 
+      
                     Row(
                       // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

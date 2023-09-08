@@ -7,6 +7,7 @@ import 'package:ippu/Screens/EventsScreen.dart';
 import 'package:ippu/Screens/HomeScreen.dart';
 import 'package:ippu/Screens/JobsScreen.dart';
 import 'package:ippu/Screens/OurCoreValues.dart';
+import 'package:ippu/Screens/ProfileScreen.dart';
 import 'package:ippu/Screens/SettingsScreen.dart';
 import 'package:ippu/Screens/WhoWeAreScreen.dart';
 import 'package:ippu/Screens/WorkExperience.dart';
@@ -36,12 +37,19 @@ AuthController authController = AuthController();
     return SingleChildScrollView(
       child: Column(
             children: [
-              UserAccountsDrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                ),
-                currentAccountPicture: CircleAvatar(backgroundImage: AssetImage('assets/image9.png'),),
-                accountName: Text("${userData!.name}"), accountEmail: Text("${userData.email}")),
+              InkWell(
+                onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context){
+                  return ProfileScreen();
+                }));
+              },
+                child: UserAccountsDrawerHeader(
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                  ),
+                  currentAccountPicture: CircleAvatar(backgroundImage: AssetImage('assets/image9.png'),),
+                  accountName: Text("${userData!.name}"), accountEmail: Text("${userData.email}")),
+              ),
               InkWell(
                 onTap: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context){

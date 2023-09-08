@@ -123,10 +123,7 @@ class _EventsScreenState extends State<EventsScreen> with TickerProviderStateMix
         children: [
           AllEventsScreen(),
           UpcomingEventsScreen(),
-          // MyEvents()
-          Center(
-            child: Text("Display attended events "),
-          )
+          MyEvents(),
         ],
       ),
     );

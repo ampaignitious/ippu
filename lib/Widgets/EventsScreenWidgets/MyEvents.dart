@@ -1,120 +1,227 @@
-// import 'dart:convert';
-// import 'package:flutter/material.dart';
-// import 'package:google_fonts/google_fonts.dart';
-// import 'package:ippu/controllers/auth_controller.dart';
-// import 'package:ippu/models/UserProvider.dart';
-// import 'package:provider/provider.dart';
-// import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:ippu/Widgets/EventsScreenWidgets/AttendedEventSIngleDisplayScreen.dart';
+import 'package:ippu/controllers/auth_controller.dart';
+import 'package:ippu/models/UserProvider.dart';
+import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_html/flutter_html.dart';
 
-// class MyEvents extends StatefulWidget {
-//   const MyEvents({Key? key}) : super(key: key);
 
-//   @override
-//   State<MyEvents> createState() => _MyEventsState();
-// }
+class MyEvents extends StatefulWidget {
+  const MyEvents({Key? key}) : super(key: key);
 
-// class _MyEventsState extends State<MyEvents> {
-//   AuthController authController = AuthController();
+  @override
+  State<MyEvents> createState() => _MyEventsState();
+}
 
-//   Future<List<MyAttendedEvents>> fetchEventsData() async {
-//     final userData = Provider.of<UserProvider>(context, listen: false).user;
+class _MyEventsState extends State<MyEvents> {
+    late Future<List<MyAttendedEvents>> eventDataFuture;
 
-//     // Define the URL with userData.id
-//     final apiUrl = 'http://app.ippu.or.ug/api/attended-events/${userData?.id}';
+  @override
+  void initState() {
+    super.initState();
+    eventDataFuture = fetchEventsData();
+ 
+  }
+  Future<List<MyAttendedEvents>> fetchEventsData() async {
+  final userData = Provider.of<UserProvider>(context, listen: false).user;
 
-//     // Define the headers with the bearer token
-//     final headers = {
-//       'Authorization': 'Bearer ${userData?.token}',
-//     };
+  // Define the URL with userData.id
+  final apiUrl = 'http://app.ippu.or.ug/api/attended-events/${userData?.id}';
 
-//     try {
-//       final response = await http.get(Uri.parse(apiUrl), headers: headers);
-//       if (response.statusCode == 200) {
-//         List<dynamic> jsonData = jsonDecode(response.body);
-//         List<MyAttendedEvents> eventsData = jsonData.map((item) {
-//           return MyAttendedEvents(
-//             id: item['id'],
-//             name: item['name'],
-//             start_date: item['start_date'],
-//             end_date: item['end_date'],
-//             rate: item['rate'],
-//             member_rate: item['member_rate'],
-//             points: item['points'],
-//             attachment_name: item['attachment_name'],
-//             banner_name: item['banner_name'],
-//             details: item['details'],
-//           );
-//         }).toList();
-//         return eventsData;
-//       } else {
-//         throw Exception('Failed to load events data');
-//       }
-//     } catch (error) {
-//       // Handle the error here, e.g., display an error message to the user
-//       print('Error: $error');
-//       return []; // Return an empty list or handle the error in your UI
-//     }
-//   }
+  // Define the headers with the bearer token
+  final headers = {
+    'Authorization': 'Bearer ${userData?.token}',
+  };
 
-//   @override
-//   Widget build(BuildContext context) {
-//     final size = MediaQuery.of(context).size;
+  try {
+    final response = await http.get(Uri.parse(apiUrl), headers: headers);
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> jsonData = jsonDecode(response.body);
+      final List<dynamic> eventData = jsonData['data'];
+      List<MyAttendedEvents> eventsData = eventData.map((item) {
+        return MyAttendedEvents(
+          id: item['id'].toString(),
+          name: item['name'],
+          start_date: item['start_date'],
+          end_date: item['end_date'],
+          rate: item['rate'],
+          member_rate: item['member_rate'],
+          points: item['points'].toString(), // Convert points to string if needed
+          attachment_name: item['attachment_name'],
+          banner_name: item['banner_name'],
+          details: item['details'],
+        );
+      }).toList();
+      return eventsData;
+    } else {
+      throw Exception('Failed to load events data');
+    }
+  } catch (error) {
+    // Handle the error here, e.g., display an error message to the user
+    print('Error: $error');
+    return []; // Return an empty list or handle the error in your UI
+  }
+}
 
-//     return Scaffold(
-//       body: FutureBuilder<List<MyAttendedEvents>>(
-//         future: fetchEventsData,
-//         builder: (context, snapshot) {
-//           if (snapshot.connectionState == ConnectionState.waiting) {
-//             return Center(child: CircularProgressIndicator());
-//           } else if (snapshot.hasError) {
-//             return Center(
-//               child: Text("Check your internet connection to load the data"),
-//             );
-//           } else if (snapshot.hasData) {
-//             List<MyAttendedEvents> temperatureData = snapshot.data!;
-//             return ListView.builder(
-//               itemCount: temperatureData.length,
-//               itemBuilder: (context, index) {
-//                 MyAttendedEvents data = temperatureData[index];
-//                 return Card(
-//                   child: ListTile(
-//                     title: Text('System ID: ${data.systemId}'),
-                     
-//                   ),
-//                 );
-//               },
-//             );
-//           } else {
-//             return Center(child: Text('No data available'));
-//           }
-//         },
-//       ),
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
 
-// class MyAttendedEvents {
-//   String id;
-//   String name;
-//   String start_date;
-//   String end_date;
-//   String rate;
-//   String member_rate;
-//   String points;
-//   String attachment_name;
-//   String banner_name;
-//   String details;
+    return Scaffold(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+ 
+          Divider(),
+          Container(
+            height: size.height*0.65,
+            width: double.maxFinite,
+ 
+            child: FutureBuilder<List<MyAttendedEvents>>(
+              future: eventDataFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(
+                    child: Text("Check your internet connection to load the data"),
+                  );
+                } else if (snapshot.hasData) {
+                  List<MyAttendedEvents> eventData  = snapshot.data!;
+                  return ListView.builder(
+                    itemCount: eventData .length,
+                    itemBuilder: (context, index) {
+                      MyAttendedEvents data = eventData [index];
+                      return Container(
+                        height: size.height*0.46,
+                        width: size.width*0.84,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.lightBlue,
+                          ),
+                         ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                          Center(
+                            child: Container(
+                              height: size.height*0.22,
+                                            width: size.width*0.56,
+                                            decoration: BoxDecoration(
+                            // border: Border.all(
+                            //   color: Colors.lightBlue,
+                            // ),
+                            image: DecorationImage(image: NetworkImage("http://app.ippu.or.ug/storage/banners/${data.banner_name}"))
+                                            ),
+                            ),
+                          ),
+                          Divider(),
+                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                             Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                              padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.004),
+                              child: Text("Event name", style: GoogleFonts.lato(
+                                fontWeight: FontWeight.bold,
+                                fontSize: size.height*0.04,
+                              ),),
+                        ),
+                          Padding(
+                          padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.0008),
+                          child: Text("${data.name}", style: TextStyle(
+                            color: Colors.blue
+                          ),),
+                        ),
+                            ],
+                          ),
+                        Padding(
+                          padding: EdgeInsets.only(right: size.width*0.07),
+                          child: Column(
+                            children: [
+                          Padding(
+                           padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.016),
+                            child: Text("Points", style: TextStyle(fontWeight: FontWeight.bold), textAlign: TextAlign.justify ,),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: size.width*0.06, right:size.width*0.06, top: size.height*0.0016),
+                            child: Text("${data.points}", textAlign: TextAlign.justify, style: TextStyle(
+                              color: Colors.blue
+                            ),),
+                          ),
+                            ],
+                          ),
+                        ),
+                         
+                          ],
+                         ),
+                    SizedBox(
+          
+                      height: size.height*0.024,
+                    ),
+                        
+                    Center(
+                      child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  primary:  Color.fromARGB(255, 42, 129, 201), // Change button color to green
+                                  padding: EdgeInsets.all( size.height * 0.020),
+                            
+                                ),
+                                onPressed: (){
+                                  print(data.id);
 
-//   MyAttendedEvents({
-//     required this.id,
-//     required this.name,
-//     required this.start_date,
-//     required this.end_date,
-//     required this.rate,
-//     required this.member_rate,
-//     required this.points,
-//     required this.attachment_name,
-//     required this.banner_name,
-//     required this.details,
-//   });
-// }
+                            Navigator.push(context, MaterialPageRoute(builder: (context){
+                        return AttendedEventSIngleDisplayScreen( start_date: data.start_date, end_date: data.end_date, details: data.details, points: data.points, rate: data.rate, name: data.name, imageLink: data.banner_name,);
+                      }));
+                                },
+                                child: Text('Click to view more information', style: GoogleFonts.lato(),),
+                      ),
+                    ),
+                           
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                } else {
+                  return Center(child: Text('No data available'));
+                }
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class MyAttendedEvents {
+  String id;
+  String name;
+  String start_date;
+  String end_date;
+  String rate;
+  String member_rate;
+  String points;
+  String attachment_name;
+  String banner_name;
+  String details;
+
+  MyAttendedEvents({
+    required this.id,
+    required this.name,
+    required this.start_date,
+    required this.end_date,
+    required this.rate,
+    required this.member_rate,
+    required this.points,
+    required this.attachment_name,
+    required this.banner_name,
+    required this.details,
+  });
+}

@@ -50,25 +50,14 @@ class _ProfileScreenState extends State<ProfileScreen>
         bottom: TabBar(
           controller: _profileController,
           tabs: [
-            Tab(text: 'Edit Profile'),
             Tab(text: 'Info'),
+            Tab(text: 'Edit Profile'),
           ],
         ),
       ),
       body: TabBarView(
         controller: _profileController,
         children: [
-          // Edit Profile Tab Content
-          SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-
-                // Add content for Edit Profile tab here
-                EditProfile()
-              ],
-            ),
-          ),
 
           // Info Tab Content
           SingleChildScrollView(
@@ -82,6 +71,19 @@ class _ProfileScreenState extends State<ProfileScreen>
               ],
             ),
           ),
+
+          // Edit Profile Tab Content
+          SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+
+                // Add content for Edit Profile tab here
+                EditProfile()
+              ],
+            ),
+          ),
+
         ],
       ),
     );
