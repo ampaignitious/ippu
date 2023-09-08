@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ippu/Screens/EducationBackgroundScreen.dart';
+import 'package:ippu/models/UserProvider.dart';
+import 'package:provider/provider.dart';
 
 
 class InfoScreen extends StatefulWidget {
@@ -9,36 +11,14 @@ class InfoScreen extends StatefulWidget {
   @override
   State<InfoScreen> createState() => _InfoScreenState();
 }
-        // "id": 30,
-        // "name": "ampa",
-        // "email": "ignitiousampa08@gmail.com",
-        // "membership_number": "2",
-        // "address": "Kampala",
-        // "gender": "Male",
-        // "dob": "2022-03-17",
-        // "phone_no": "0786740604",
-        // "alt_phone_no": null,
-        // "email_verified_at": "2023-09-06T07:11:57.000000Z",
-        // "account_type_id": 1,
-        // "user_type": "Member",
-        // "status": "Inactive",
-        // "comment": null,
-        // "subscribed": 0,
-        // "default_pipeline": null,
-        // "points": "43",
-        // "created_at": "2023-09-06T07:04:06.000000Z",
-        // "updated_at": "2023-09-07T10:41:31.000000Z",
-        // "active_status": 0,
-        // "avatar": "avatar.png",
-        // "dark_mode": 0,
-        // "messenger_color": null,
-        // "nok_name": "Atuha",
-        // "nok_address": "Atuha@gmail.com",
-        // "nok_phone_no": "0786740604"
-
 class _InfoScreenState extends State<InfoScreen> {
   @override
   Widget build(BuildContext context) {
+    final userData = Provider.of<UserProvider>(context).user;
+    final cpds = Provider.of<UserProvider>(context).CPDS;
+    final event = Provider.of<UserProvider>(context).Events;
+
+
     final size =MediaQuery.of(context).size;
     return Column(
       children: [
@@ -49,11 +29,11 @@ class _InfoScreenState extends State<InfoScreen> {
                 ),
                 SizedBox(height: size.height * 0.014),
                 Text(
-                  'Username',
+                  "${userData!.name}",
                   style: GoogleFonts.lato(fontSize: size.height*0.03, fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  'user@gmail.com',
+                  '${userData.email}',
                   style: GoogleFonts.lato(color: Colors.grey),
                 ),
                 SizedBox(height: size.height * 0.02),
@@ -61,19 +41,55 @@ class _InfoScreenState extends State<InfoScreen> {
                 Card(
                   child: ListTile(
                    title: Text("Name"),
-                  subtitle: Text("Username"),
+                  subtitle: Text("${userData.name}"),
                  )),
                  Card(child: ListTile(
                   title: Text("Email"),
-                  subtitle: Text("User@gmail.com"),
+                  subtitle: Text("${userData.email}"),
+                 )),
+                 Card(child: ListTile(
+                  title: Text("Gender"),
+                  subtitle: Text("${userData.gender}"),
+                 )),
+                 Card(child: ListTile(
+                  title: Text("Date of birth"),
+                  subtitle: Text("${userData.dob}"),
+                 )),
+                 Card(child: ListTile(
+                  title: Text("Membership number"),
+                  subtitle: Text("${userData.membership_number}"),
+                 )),
+                 Card(child: ListTile(
+                  title: Text("Address"),
+                  subtitle: Text("${userData.address}"),
+                 )),
+                 Card(child: ListTile(
+                  title: Text("Phone number"),
+                  subtitle: Text("${userData.phone_no}"),
+                 )),
+                 Card(child: ListTile(
+                  title: Text("Alt Phone number"),
+                  subtitle: Text("${userData.alt_phone_no}"),
+                 )),
+                 Card(child: ListTile(
+                  title: Text("Next of Kin name"),
+                  subtitle: Text("${userData.nok_name}"),
+                 )),
+                 Card(child: ListTile(
+                  title: Text("Next of Kin address"),
+                  subtitle: Text("${userData.nok_address}"),
+                 )),
+                 Card(child: ListTile(
+                  title: Text("Next of Kin phone number"),
+                  subtitle: Text("${userData.nok_phone_no}"),
                  )),
                  Card(child: ListTile(
                   title: Text("Attended CPDS"),
-                  subtitle: Text(" 349"),
+                  subtitle: Text("${cpds}"),
                  )),
                  Card(child: ListTile(
                   title: Text("Attended Events"),
-                  subtitle: Text("24"),
+                  subtitle: Text("${event}"),
                  )),
                  SizedBox(height: size.height * 0.02),
                 //  

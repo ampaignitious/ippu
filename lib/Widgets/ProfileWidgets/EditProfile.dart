@@ -1,9 +1,12 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
 import 'package:ippu/Widgets/AuthenticationWidgets/LoginScreen.dart';
+import 'package:ippu/Widgets/ProfileWidgets/UserProfileForm.dart';
 import 'package:ippu/models/UserProvider.dart';
 import 'package:provider/provider.dart';
 class EditProfile extends StatefulWidget {
@@ -15,15 +18,36 @@ class EditProfile extends StatefulWidget {
 
 class _EditProfileState extends State<EditProfile> {
   @override
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  String name = '';
+  String gender = '';
+  String dob = '';
+  String membershipNumber = '';
+  String address = '';
+  String phoneNo = '';
+  String altPhoneNo = '';
+  String nokName = '';
+  String nokAddress = '';
+  String nokPhoneNo = '';
 
  late ImageProvider _avatarImage;
  late File _selectedImage;
+ TextEditingController _dateController = TextEditingController();
+  FocusNode _dateFocusNode = FocusNode();
   @override
   void initState() {
     super.initState();
     _avatarImage = AssetImage('assets/image9.png');
+    _dateFocusNode.addListener(() {
+      if (_dateFocusNode.hasFocus) {
+        _selectDate(context);
+      }
+    });
   }
 
+
+// image picker function
   Future<void> _pickImage() async {
     final pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
@@ -35,6 +59,33 @@ class _EditProfileState extends State<EditProfile> {
       });
     }
   }
+// 
+
+// date picker function
+Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime(2101),
+    );
+
+    if (picked != null) {
+      setState(() {
+        _dateController.text = picked.toLocal().toString().split(' ')[0];
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _dateController.dispose();
+    _dateFocusNode.dispose();
+    super.dispose();
+  }
+
+// 
+
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
      final userData = Provider.of<UserProvider>(context).user;
@@ -77,7 +128,7 @@ class _EditProfileState extends State<EditProfile> {
         Divider(height: 1),
         SizedBox(height: size.height * 0.02),
         Text(
-          'Edit Profile',
+          'Complete Profile',
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
@@ -85,252 +136,202 @@ class _EditProfileState extends State<EditProfile> {
           ),
         ),
         SizedBox(height: size.height * 0.02),
-        Card(
-          margin: EdgeInsets.symmetric(horizontal: size.width * 0.06),
-          child: ListTile(
-            tileColor: Color.fromARGB(255, 212, 218, 221),
-            leading: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Name",
-                  style: GoogleFonts.lato(
-                    fontWeight: FontWeight.bold,
+        // a form for editing user profile to be added here
+        // UserProfileForm(),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: size.width*0.016),
+          child: Column(
+            children: [
+              Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                    TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Name',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20)
                   ),
                 ),
-                Text("${userData.name}"),
-              ],
-            ),
-            trailing: IconButton(
-          icon: Icon(Icons.edit),
-          onPressed: _editName, // Call the function to show the edit name dialog
-        ),
-          ),
-        ),
-        SizedBox(height: size.height * 0.02),
-        Card(
-          margin: EdgeInsets.symmetric(horizontal: size.width * 0.06),
-          child: ListTile(
-            tileColor: Color.fromARGB(255, 212, 218, 221),
-            leading: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Email",
-                  style: GoogleFonts.lato(
-                    fontWeight: FontWeight.bold,
+                  onSaved: (value) => name = value!,
+                  initialValue: userData.name,
+              ),
+              SizedBox(height: size.height*0.018),
+              TextFormField(
+                decoration: InputDecoration(labelText: 'Gender',
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20)
                   ),
                 ),
-                Text("${userData.email}"),
-              ],
-            ),
-           trailing: IconButton(
-          icon: Icon(Icons.edit),
-          onPressed: _editEmail, // Call the function to show the edit name dialog
-        ),
-          ),
-        ),
-        SizedBox(height: size.height * 0.02),
-        Card(
-          margin: EdgeInsets.symmetric(horizontal: size.width * 0.06),
-          child: ListTile(
-            tileColor: Color.fromARGB(255, 212, 218, 221),
-            leading: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Password",
-                  style: GoogleFonts.lato(
-                    fontWeight: FontWeight.bold,
+                onSaved: (value) => gender = value!,
+                initialValue: userData.gender,
+              ),
+         
+              // 
+              SizedBox(height: size.height*0.018),
+              TextFormField(
+                decoration: InputDecoration(labelText: 'Date of Birth',
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20)
                   ),
                 ),
-                Text("********"),
-              ],
-            ),
-            trailing: IconButton(
-          icon: Icon(Icons.edit),
-          onPressed: _editPassword, // Call the function to show the edit name dialog
-        ),
+                onSaved: (value) => dob = value!,
+                initialValue: userData.dob,
+              ),
+              SizedBox(height: size.height*0.018),
+              TextFormField(
+                decoration: InputDecoration(labelText: 'Membership Number',
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20)
+                  ),
+                ),
+                onSaved: (value) => membershipNumber = value!,
+                initialValue: userData.membership_number,
+              ),
+              SizedBox(height: size.height*0.018),
+              TextFormField(
+                decoration: InputDecoration(labelText: 'Address',
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20)
+                  ),
+                ),
+                onSaved: (value) => address = value!,
+                initialValue: userData.address,
+              ),
+              SizedBox(height: size.height*0.018),
+              TextFormField(
+                decoration: InputDecoration(labelText: 'Phone Number',
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20)
+                  ),
+                ),
+                onSaved: (value) => phoneNo = value!,
+                initialValue: userData.phone_no,
+              ),
+              SizedBox(height: size.height*0.018),
+              TextFormField(
+                decoration: InputDecoration(labelText: 'Alternate Phone Number',
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20)
+                  ),
+                ),
+                onSaved: (value) => altPhoneNo = value!,
+                initialValue: userData.alt_phone_no,
+              ),
+              SizedBox(height: size.height*0.018),
+              TextFormField(
+                decoration: InputDecoration(labelText: 'Next of Kin Name',
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20)
+                  ),
+                ),
+                onSaved: (value) => nokName = value!,
+                initialValue: userData.nok_name,
+              ),
+              SizedBox(height: size.height*0.018),
+              TextFormField(
+                decoration: InputDecoration(labelText: 'Next of Kin Address',
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20)
+                  ),
+                ),
+                onSaved: (value) => nokAddress = value!,
+                initialValue: userData.nok_address,
+              ),
+              SizedBox(height: size.height*0.018),
+              TextFormField(
+                decoration: InputDecoration(labelText: 'Next of Kin Phone Number',
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20)
+                  ),
+                ),
+                onSaved: (value) => nokPhoneNo = value!,
+                initialValue: userData.nok_phone_no,
+              ),
+              SizedBox(height: size.height*0.018),
+                    ]
+                  )
+          )
+            ],
           ),
         ),
+        // form ends here
         SizedBox(height: size.height * 0.04),
-        InkWell(
-          onTap: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context){
-              return LoginScreen();
-            }));
-          },
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: size.width * 0.08),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Logout",
-                  style: GoogleFonts.lato(
-                      fontWeight: FontWeight.bold,
-                      fontSize: size.height * 0.03),
+        Center(
+                child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Color.fromARGB(255, 42, 129, 201), // Change button color to green
+                            padding: EdgeInsets.all(size.height * 0.024),
+
+                          ),
+                          onPressed: _submitForm,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: size.width*0.12),
+                            child: Text('update profile', style: GoogleFonts.lato(),),
+                          ),
                 ),
-                Icon(Icons.logout),
-              ],
-            ),
-          ),
-        ),
+              ),
+            SizedBox(height: size.height*0.018),
       ],
     );
   }
-
-  // code for editing the username
- String _name = "username"; 
-  void _editName() async {
-    String newName = await showDialog(
-      context: context,
-      builder: (context) {
-        TextEditingController _textFieldController = TextEditingController();
-        return AlertDialog(
-          title: Text("Edit Name"),
-          content: TextField(
-            controller: _textFieldController,
-            decoration: InputDecoration(hintText: "Enter new name"),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context); // Close the dialog
-              },
-              child: Text("Cancel"),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context, _textFieldController.text); // Return the edited name
-              },
-              child: Text("Save"),
-            ),
-          ],
-        );
-      },
-    );
-
-    if (newName != null && newName.isNotEmpty) {
-      setState(() {
-        _name = newName; // Update the name with the new value
-      });
-    }
-  }
-  // 
-
-    // code for editing the username
- String _email = "user@gmail.com"; 
-  void _editEmail() async {
-    String newEmail = await showDialog(
-      context: context,
-      builder: (context) {
-        TextEditingController _textEmailController = TextEditingController();
-        return AlertDialog(
-          title: Text("Change email"),
-          content: TextField(
-            controller: _textEmailController,
-            decoration: InputDecoration(hintText: "Enter new email"),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context); // Close the dialog
-              },
-              child: Text("Cancel"),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context, _textEmailController.text); // Return the edited name
-              },
-              child: Text("Save"),
-            ),
-          ],
-        );
-      },
-    );
-
-    if (newEmail != null && newEmail.isNotEmpty) {
-      setState(() {
-        _email = newEmail; // Update the name with the new value
-      });
-    }
-  }
-  // 
-
-
-
-  // code for editing the password
-  String _oldPassword = "";
-  String _newPassword = "";
-  String _confirmPassword = "";
-
-  void _editPassword() async {
-    await showDialog(
-      context: context,
-      builder: (context) {
-        TextEditingController _oldPasswordController = TextEditingController();
-        TextEditingController _newPasswordController = TextEditingController();
-        TextEditingController _confirmPasswordController = TextEditingController();
-
-        return AlertDialog(
-          title: Text("Change Password"),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: _oldPasswordController,
-                obscureText: true,
-                decoration: InputDecoration(hintText: "Enter old password"),
-              ),
-              TextField(
-                controller: _newPasswordController,
-                obscureText: true,
-                decoration: InputDecoration(hintText: "Enter new password"),
-              ),
-              TextField(
-                controller: _confirmPasswordController,
-                obscureText: true,
-                decoration: InputDecoration(hintText: "Confirm new password"),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context); // Close the dialog
-              },
-              child: Text("Cancel"),
-            ),
-            TextButton(
-              onPressed: () {
-                // Validate and update password logic here
-                String oldPassword = _oldPasswordController.text;
-                String newPassword = _newPasswordController.text;
-                String confirmPassword = _confirmPasswordController.text;
-
-                if (newPassword == confirmPassword) {
-                  // Update password logic here
-                  setState(() {
-                    _oldPassword = oldPassword;
-                    _newPassword = newPassword;
-                    _confirmPassword = confirmPassword;
-                  });
-                  Navigator.pop(context); // Close the dialog
-                } else {
-                  // Show an error or validation message
-                }
-              },
-              child: Text("Save"),
-            ),
-          ],
-        );
-      },
-    );
-  }
+ 
   // ...
+
+  
+  void _submitForm() {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      // Call the function to send data to the API
+      sendUserDataToApi();
+    }
+  }
+
+  void sendUserDataToApi() async {
+    final userData = Provider.of<UserProvider>(context, listen:false ).user;
+    final userId = userData?.id; // Replace with your actual user ID
+
+    final apiUrl = Uri.parse('http://app.ippu.or.ug/api/profile/$userId');
+
+    // Create a map of the data to send
+    final userDataMap = {
+      'name': name,
+      'gender': gender,
+      'dob': dob,
+      'membership_number': membershipNumber,
+      'address': address,
+      'phone_no': phoneNo,
+      'alt_phone_no': altPhoneNo,
+      'nok_name': nokName,
+      'nok_address': nokAddress,
+      'nok_phone_no': nokPhoneNo,
+    };
+  print(userDataMap);
+  print(userId);
+    try {
+      final response = await http.put(
+        apiUrl,
+        body: jsonEncode(userDataMap),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        // Handle a successful API response
+        print('Data sent successfully');
+      } else {
+        // Handle errors or unsuccessful response
+        print('Failed to send data to API');
+      }
+    } catch (error) {
+      // Handle network errors or exceptions
+      print('Error: $error');
+    }
+  }
 }
+
+ 
+ 
  

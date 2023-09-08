@@ -3,6 +3,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:google_fonts/google_fonts.dart';
 class AttendedEventSIngleDisplayScreen extends StatefulWidget {
   String name;
+  String eventId;
   String details;
   String points;
   String imageLink;
@@ -10,10 +11,10 @@ class AttendedEventSIngleDisplayScreen extends StatefulWidget {
   String start_date;
   String end_date;
 
-   AttendedEventSIngleDisplayScreen({super.key, required this.start_date, required this.end_date, required this.name, required this.details, required this.imageLink, required this.points, required this.rate});
+   AttendedEventSIngleDisplayScreen({super.key, required this.eventId, required this.start_date, required this.end_date, required this.name, required this.details, required this.imageLink, required this.points, required this.rate});
 
   @override
-  State<AttendedEventSIngleDisplayScreen> createState() => _AttendedEventSIngleDisplayScreenState(this.start_date, this.end_date, this.details, this.imageLink, this.name, this.points, this.rate,);
+  State<AttendedEventSIngleDisplayScreen> createState() => _AttendedEventSIngleDisplayScreenState(this.eventId, this.start_date, this.end_date, this.details, this.imageLink, this.name, this.points, this.rate,);
 }
 
 class _AttendedEventSIngleDisplayScreenState extends State<AttendedEventSIngleDisplayScreen> {
@@ -25,7 +26,8 @@ class _AttendedEventSIngleDisplayScreenState extends State<AttendedEventSIngleDi
   String rate;
   String start_date;
   String end_date;
- _AttendedEventSIngleDisplayScreenState(this.start_date, this.end_date, this.details, this.imageLink, this.name, this.points, this.rate,);  Widget build(BuildContext context) {
+  String eventId;
+ _AttendedEventSIngleDisplayScreenState(this.eventId, this.start_date, this.end_date, this.details, this.imageLink, this.name, this.points, this.rate,);  Widget build(BuildContext context) {
   final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -149,7 +151,7 @@ class _AttendedEventSIngleDisplayScreenState extends State<AttendedEventSIngleDi
 
                           ),
                           onPressed: (){
-                      
+                         
                           },
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: size.width*0.12),

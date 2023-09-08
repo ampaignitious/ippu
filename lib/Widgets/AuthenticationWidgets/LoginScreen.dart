@@ -76,14 +76,20 @@ class _LoginScreenState extends State<LoginScreen> {
             id: authResponse['user']['id'],
             name: name,
             email: email,
+            gender: authResponse['user']['gender'],
+            dob: authResponse['user']['dob'],
+            membership_number: authResponse['user']['membership_number'],
+            address: authResponse['user']['address'],
+            phone_no: authResponse['user']['phone_no'],
+            alt_phone_no: authResponse['user']['alt_phone_no'],
+            nok_name: authResponse['user']['nok_name'],
+            nok_address: authResponse['user']['nok_address'],
+            nok_phone_no: authResponse['user']['nok_phone_no'],
             token: token,
           );
-          // int cpd = cpds.length;
-          // int event = events.length;
+ 
           Provider.of<UserProvider>(context, listen: false).setUser(userData);
-          // Provider.of<UserProvider>(context, listen: false).totalNumberOfCPDS(cpd);
-          // Provider.of<UserProvider>(context, listen: false).totalNumberOfEvents(event);
-
+ 
           Navigator.push(context, MaterialPageRoute(builder: (context) {
             return DefaultScreen();
           }));

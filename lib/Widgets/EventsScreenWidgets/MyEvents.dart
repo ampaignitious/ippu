@@ -176,7 +176,7 @@ class _MyEventsState extends State<MyEvents> {
                                   print(data.id);
 
                             Navigator.push(context, MaterialPageRoute(builder: (context){
-                        return AttendedEventSIngleDisplayScreen( start_date: data.start_date, end_date: data.end_date, details: data.details, points: data.points, rate: data.rate, name: data.name, imageLink: data.banner_name,);
+                        return AttendedEventSIngleDisplayScreen(eventId: data.id, start_date: data.start_date, end_date: data.end_date, details: data.details, points: data.points, rate: data.rate, name: data.name, imageLink: data.banner_name,);
                       }));
                                 },
                                 child: Text('Click to view more information', style: GoogleFonts.lato(),),

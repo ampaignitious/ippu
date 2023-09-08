@@ -50,7 +50,7 @@ class _ProfileScreenState extends State<ProfileScreen>
         bottom: TabBar(
           controller: _profileController,
           tabs: [
-            Tab(text: 'Info'),
+            Tab(text: 'Bio data'),
             Tab(text: 'Edit Profile'),
           ],
         ),
