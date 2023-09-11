@@ -90,7 +90,7 @@ class PieChart2State extends State {
           );
         case 1:
           return PieChartSectionData(
-            color: AppColors.contentColorYellow,
+            color: AppColors.contentColorGreen,
             value: 40,
             title: '${totalUserPoints}%',
             radius: radius,
