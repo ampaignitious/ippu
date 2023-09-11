@@ -3,6 +3,8 @@ import 'package:ippu/Widgets/CpdsScreenWidgets/CpdsSingleEventDisplay.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ippu/Widgets/EventsScreenWidgets/SingleEventDisplay.dart';
 import 'package:ippu/controllers/auth_controller.dart';
+import 'package:ippu/models/UserProvider.dart';
+import 'package:provider/provider.dart';
 
 class ContainerDisplayingEvents extends StatefulWidget {
   const ContainerDisplayingEvents({super.key});
@@ -127,10 +129,12 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents> w
                         final startDate = item['start_date'];
                         final endData =item['end_date'];
                         final description = item['details'];
+                        final displaypoints = item['points'];
                         final points= item['points'].toString();
                         final rate = item['rate'];
                         final eventId = item['id'].toString();
                         final imageLink = item['banner_name'];
+                        Provider.of<UserProvider>(context).totalNumberOfPointsFromEvents(displaypoints);
                         if (_searchQuery.isEmpty ||
                             eventName
                                 .toLowerCase()

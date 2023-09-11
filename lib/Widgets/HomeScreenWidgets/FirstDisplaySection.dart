@@ -4,6 +4,7 @@ import 'package:ippu/Screens/CommunicationScreen.dart';
 import 'package:ippu/Screens/CpdsScreen.dart';
 import 'package:ippu/Screens/EventsScreen.dart';
 import 'package:ippu/Screens/UserAppGuide.dart';
+import 'package:ippu/Widgets/CpdsScreenWidgets/AttendedCpdsScreen.dart';
 import 'package:ippu/Widgets/HomeScreenWidgets/FirstSetOfRows.dart';
 import 'package:ippu/Widgets/HomeScreenWidgets/SecondSetOfRows.dart';
 import 'package:ippu/Widgets/HomeScreenWidgets/StatDisplayRow.dart';
@@ -23,6 +24,7 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection> {
 int totalCPDS = 0;
   int totalEvents = 0;
   int totalCommunications =0;
+  late String totaleventPoints;
 
   @override
   void initState() {
@@ -36,6 +38,7 @@ int totalCPDS = 0;
       final cpds = await authController.getCpds();
       final events = await authController.getEvents();
       final communications = await authController.getAllCommunications();
+      final eventPoints = await authController.getEvents();
       setState(() {
         totalCPDS = cpds.length;
         totalEvents = events.length;
@@ -43,7 +46,6 @@ int totalCPDS = 0;
         Provider.of<UserProvider>(context, listen: false).totalNumberOfCPDS(totalCPDS);
         Provider.of<UserProvider>(context, listen: false).totalNumberOfEvents(totalEvents);
         Provider.of<UserProvider>(context, listen:false).totalNumberOfCommunications(totalCommunications);
-
 
       });
     } catch (e) {
@@ -90,8 +92,8 @@ int totalCPDS = 0;
             child: Column(
               children: [
                 SizedBox(height: size.height * 0.018),
-                // FirstSetOfRows(),
-                // SizedBox(height: size.height * 0.018),
+                FirstSetOfRows(),
+                SizedBox(height: size.height * 0.018),
                 // SecondSetOfRows(),
                 // SizedBox(height: size.height * 0.018),
                 InkWell(

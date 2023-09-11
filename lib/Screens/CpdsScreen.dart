@@ -96,7 +96,7 @@ class _CpdsScreenState extends State<CpdsScreen> with TickerProviderStateMixin{
                     left: size.width*0.004
                   ),
                   child: Text("Upcoming CPDS", style: GoogleFonts.lato(
-                    fontSize: size.height*0.0135,
+                    fontSize: size.height*0.0130,
                   ),),
                 ),
               ]),
@@ -111,7 +111,7 @@ class _CpdsScreenState extends State<CpdsScreen> with TickerProviderStateMixin{
                     left: size.width*0.008
                   ),
                   child: Text("Attended cpds", style: GoogleFonts.lato(
-                    fontSize: size.height*0.014,
+                    fontSize: size.height*0.012,
                   ),),
                 ),
               ]),

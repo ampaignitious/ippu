@@ -88,6 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
             nok_name: authResponse['user']['nok_name'],
             nok_address: authResponse['user']['nok_address'],
             nok_phone_no: authResponse['user']['nok_phone_no'],
+            points: authResponse['user']['points'] ,
             token: token,
           );
           

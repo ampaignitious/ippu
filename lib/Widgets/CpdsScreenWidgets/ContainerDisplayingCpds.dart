@@ -81,11 +81,11 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
               controller: _searchController,
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.symmetric(
-                    vertical: size.height * 0.004,
+                    vertical: size.height * 0.0038,
                     horizontal: size.width * 0.035),
                 labelText: 'Search CPDS by name',
                 labelStyle: GoogleFonts.lato(
-                    fontSize: size.height * 0.022, color: Colors.grey),
+                    fontSize: size.height * 0.018, color: Colors.grey),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.0),
                 ),
@@ -99,7 +99,9 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                       _searchQuery = _searchController.text;
                     });
                   },
-                  icon: Icon(Icons.search),
+                  icon: Icon(Icons.search,
+                  color: Colors.lightBlue,
+                  ),
                 ),
               ),
             ),

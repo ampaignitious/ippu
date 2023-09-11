@@ -8,6 +8,7 @@ class UserData {
   final String? membership_number;
   final String? address;
   final String? phone_no;
+  final String? points;
   final String? alt_phone_no;
   final String? nok_name;
   final String? nok_address;
@@ -15,6 +16,7 @@ class UserData {
 
   UserData({
     required this.id,
+    this.points,
     required this.name,
     required this.email,
     required this.token,

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:ippu/Widgets/chartsWidget/AppColors.dart';
+import 'package:ippu/Widgets/chartsWidget/firstPieChart.dart';
+import 'package:ippu/Widgets/chartsWidget/indicator.dart';
 
 class FirstSetOfRows extends StatefulWidget {
   const FirstSetOfRows({super.key});
@@ -12,20 +15,51 @@ class _FirstSetOfRowsState extends State<FirstSetOfRows> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Container(
-                            height: size.height*0.14,
-                            width: size.width*0.35,
-                            decoration: BoxDecoration(
-                              //  borderRadius: BorderRadius.circular(10),
-                               shape: BoxShape.circle,
-                              color: Colors.lightGreen
-                            ),
-                          ),
-                          
-                        ],
-                      )
-                      ;
+            // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Container(
+                height: size.height*0.26,
+                width: size.width*0.88,
+                child: Row(
+                  children: [
+                    PieChartSample2(),
+                  Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Indicator(
+                      color: Colors.lightBlue,
+                      text: 'Events points',
+                      isSquare: true,
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Indicator(
+                      color: Colors.yellow,
+                      text: 'All User points',
+                      isSquare: true,
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Indicator(
+                      color: AppColors.contentColorPurple,
+                      text: 'Cpd points',
+                      isSquare: true,
+                    ),
+                    SizedBox(
+                      height: 40,
+                    ),
+                  ],
+                ),
+                
+                  ],
+                ),
+              ),
+              
+            ],
+          )
+          ;
   }
 }
