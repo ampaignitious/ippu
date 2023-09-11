@@ -132,9 +132,9 @@ class _JobsScreenState extends State<JobsScreen> {
                                   children: [
                                     Padding(
                                     padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.004),
-                                    child: Text("Title", style: GoogleFonts.lato(
+                                    child: Text("Job Title", style: GoogleFonts.lato(
                                       fontWeight: FontWeight.bold,
-                                      fontSize: size.height*0.032,
+                                      fontSize: size.height*0.028,
                                     ),),
                               ),
                                 Padding(

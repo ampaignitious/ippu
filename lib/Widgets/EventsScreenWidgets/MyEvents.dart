@@ -105,8 +105,18 @@ class _MyEventsState extends State<MyEvents> {
                               height: size.height*0.46,
                               width: size.width*0.84,
                               decoration: BoxDecoration(
+                                color: Colors.white,
+                              boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                offset: Offset(0.8, 1.0),
+                                blurRadius: 4.0,
+                                spreadRadius: 0.2,
+                              ),
+                            ],
+                                borderRadius: BorderRadius.circular(5),
                                 border: Border.all(
-                                  color: Colors.lightBlue,
+                                  color: Colors.grey.withOpacity(0.5)
                                 ),
                                ),
                               child: Column(

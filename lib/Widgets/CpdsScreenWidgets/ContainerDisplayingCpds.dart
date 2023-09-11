@@ -183,8 +183,18 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                               height: size.height * 0.35,
                               width: size.width * 0.85,
                               decoration: BoxDecoration(
+                                color: Colors.white,
+                              boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                offset: Offset(0.8, 1.0),
+                                blurRadius: 4.0,
+                                spreadRadius: 0.2,
+                              ),
+                            ],
+                                borderRadius: BorderRadius.circular(5),
                                 border: Border.all(
-                                  color: Colors.lightBlue
+                                  color: Colors.grey.withOpacity(0.5)
                                 ),
                                 image: DecorationImage(
                                   image: NetworkImage('http://app.ippu.or.ug/storage/banners/${imageLink}'),
@@ -199,14 +209,6 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             color: Color.fromARGB(255, 42, 129, 201),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                offset: Offset(0.8, 1.0),
-                                blurRadius: 4.0,
-                                spreadRadius: 0.2,
-                              ),
-                            ],
                           ),
                           child: Center(
                             child: Column(

@@ -124,8 +124,20 @@ class _ContainerDisplayingUpcomingEventsState
                                 height: size.height * 0.35,
                                 width: size.width * 0.85,
                                 decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.lightBlue),
-                                  image: DecorationImage(
+                                  color: Colors.white,
+                              boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                offset: Offset(0.8, 1.0),
+                                blurRadius: 4.0,
+                                spreadRadius: 0.2,
+                              ),
+                            ],
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(
+                                  color: Colors.grey.withOpacity(0.5)
+                                ),
+                                   image: DecorationImage(
                                     image: NetworkImage(
                                         'http://app.ippu.or.ug/storage/banners/$imageLink'),
                                   ),
