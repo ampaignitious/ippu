@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ippu/Widgets/JobScreenWidgets/SIngleJobDetailDisplay.dart';
 import 'package:ippu/models/UserProvider.dart';
 import 'package:provider/provider.dart';
 
@@ -44,7 +45,7 @@ class _JobsScreenState extends State<JobsScreen> {
       print(availableJobs);
       List<JobData> jobs = availableJobs.map((item) {
         return JobData(
-          id:item['id'],
+          id:item['id'] ,
           title:item['title'],
           description:item['description'],
           visibleFrom:item['visibleFrom'],
@@ -77,7 +78,7 @@ class _JobsScreenState extends State<JobsScreen> {
         children: [
           Center(
             child: Container(
-              height: size.height*0.70,
+              height: size.height*0.80,
               width: size.width*0.9,
            
               child: FutureBuilder<List<JobData>>(
@@ -97,18 +98,32 @@ class _JobsScreenState extends State<JobsScreen> {
                         JobData data = eventData [index];
                         return Column(
                           children: [
+                            SizedBox(
+                              height:size.height*0.012,
+                            ),
                             Container(
-                              height: size.height*0.46,
+                              height: size.height*0.26,
                               width: size.width*0.84,
                               decoration: BoxDecoration(
+                                 color: Colors.white,
                                 border: Border.all(
-                                  color: Colors.lightBlue,
+                                  
+                                  color: Color.fromARGB(255, 210, 211, 211),
                                 ),
+                         
+                                boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                offset: Offset(0.8, 1.0),
+                                blurRadius: 4.0,
+                                spreadRadius: 0.2,
+                              ),
+                            ],
                                ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
- 
+                                  Divider(),
                                Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
@@ -119,7 +134,7 @@ class _JobsScreenState extends State<JobsScreen> {
                                     padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.004),
                                     child: Text("Title", style: GoogleFonts.lato(
                                       fontWeight: FontWeight.bold,
-                                      fontSize: size.height*0.04,
+                                      fontSize: size.height*0.032,
                                     ),),
                               ),
                                 Padding(
@@ -163,8 +178,9 @@ class _JobsScreenState extends State<JobsScreen> {
                       
                             ),
                             onPressed: (){
-                              print(data);
-                              print(data.id);
+                             Navigator.push(context, MaterialPageRoute(builder: (context){
+                              return SingleJobDetailDisplayScreen(title:data.title, description:data.description, deadline:data.deadline.toString());
+                             }));
                             },
                             child: Text('Click to view more information', style: GoogleFonts.lato(),),
                             ),
@@ -195,16 +211,16 @@ class JobData {
       final int id;
       final String title;
       final String description;
-      final String visibleFrom;
-      final String visibleTo;
-      final String deadline;
+      final String? visibleFrom;
+      final String? visibleTo;
+      final String? deadline;
 
       JobData({
-        required this.id,
-        required this.title,
-        required this.description,
-        required this.visibleFrom,
-        required this.visibleTo,
-        required this.deadline,
+      required this.id,
+      required this.title,
+      required this.description,
+      this.visibleFrom,
+      this.visibleTo,
+      this.deadline,
       });
 }
