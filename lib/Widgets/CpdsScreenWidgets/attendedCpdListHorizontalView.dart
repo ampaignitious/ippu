@@ -95,67 +95,81 @@ Future<List<CpdModel>> fetchCpdData() async {
                       CpdModel data =  CpdData [index];
                       return Row(
                         children: [
-                          Container(
-                            height: size.height*0.3,
-                            width: size.width*0.64,
-                            decoration: BoxDecoration(
-                               color: Colors.white,
-                              boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                offset: Offset(0.8, 1.0),
-                                blurRadius: 4.0,
-                                spreadRadius: 0.2,
-                              ),
-                            ],
-                                  borderRadius: BorderRadius.circular(5),
-                                border: Border.all(
-                                  color: Colors.grey.withOpacity(0.5)
+                          InkWell(
+                            onTap: (){
+                               Navigator.push(context, MaterialPageRoute(builder: (context){
+                            return  AttendedSingleCpdDisplay(
+                                content: data.content,
+                                target_group: data.targetGroup,
+                                startDate: data.startDate,
+                                endDate: data.endDate,
+                                type: data.type,
+                                location: data.location,
+                                imagelink: 'http://app.ippu.or.ug/storage/banners/${data.banner}',
+                                cpdsname: data.topic,
+                                      
+                            );
+                          }));
+                            },
+                            child: Container(
+                              height: size.height*0.3,
+                              width: size.width*0.64,
+                              decoration: BoxDecoration(
+                                 color: Colors.white,
+                                boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  offset: Offset(0.8, 1.0),
+                                  blurRadius: 4.0,
+                                  spreadRadius: 0.2,
                                 ),
-                             ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                              Center(
-                                child: Container(
-                                  height: size.height*0.22,
-                                                width: size.width*0.56,
-                                                decoration: BoxDecoration(
-                                // border: Border.all(
-                                //   color: Colors.lightBlue,
-                                // ),
-                                image: DecorationImage(image: NetworkImage("http://app.ippu.or.ug/storage/banners/${data.banner}")),
-                                                ),
-                                ),
-                              ),
-                              Divider(),
-                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                 Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                  padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.004),
-                                  child: Text("Event name", style: GoogleFonts.lato(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: size.height*0.008,
-                                  ),),
-                            ),
-                              Padding(
-                              padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.0008),
-                              child: Text("${data.topic }", style: TextStyle(
-                                color: Colors.blue,
-                                fontSize: size.height*0.008,
-                              ),),
-                            ),
-                                ],
-                              )
-                             
                               ],
-                             )
-                            
-                      ],
+                                    borderRadius: BorderRadius.circular(5),
+                                  border: Border.all(
+                                    color: Colors.grey.withOpacity(0.5)
+                                  ),
+                               ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                Center(
+                                  child: Container(
+                                    height: size.height*0.22,
+                                      width: size.width*0.56,
+                                      decoration: BoxDecoration(
+                                  image: DecorationImage(image: NetworkImage("http://app.ippu.or.ug/storage/banners/${data.banner}")),
+                                                  ),
+                                  ),
+                                ),
+                                Divider(),
+                               Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                   Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                    padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.004),
+                                    child: Text("Event name", style: GoogleFonts.lato(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: size.height*0.008,
+                                    ),),
+                              ),
+                                Padding(
+                                padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.0008),
+                                child: Text("${data.topic }", style: TextStyle(
+                                  color: Colors.blue,
+                                  fontSize: size.height*0.008,
+                                ),),
+                              ),
+                                  ],
+                                )
+                               
+                                ],
+                               )
+                              
+                                                ],
+                              ),
                             ),
                           ),
                      SizedBox(

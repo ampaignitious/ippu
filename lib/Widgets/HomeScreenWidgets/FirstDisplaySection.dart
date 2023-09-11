@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:ippu/Screens/CommunicationScreen.dart';
 import 'package:ippu/Screens/CpdsScreen.dart';
 import 'package:ippu/Screens/EventsScreen.dart';
+import 'package:ippu/Screens/JobsScreen.dart';
 import 'package:ippu/Screens/UserAppGuide.dart';
 import 'package:ippu/Widgets/CpdsScreenWidgets/AttendedCpdsScreen.dart';
 import 'package:ippu/Widgets/HomeScreenWidgets/FirstSetOfRows.dart';
@@ -64,7 +65,7 @@ int totalCPDS = 0;
     return Stack(
       children: [
         Container(
-          height: size.height * 0.30,
+          height: size.height * 0.35,
           width: size.width * 1,
           decoration: BoxDecoration(
             color: Color.fromARGB(255, 42, 129, 201),
@@ -96,6 +97,8 @@ int totalCPDS = 0;
                 SizedBox(height: size.height * 0.018),
                 // SecondSetOfRows(),
                 // SizedBox(height: size.height * 0.018),
+
+                // 
                 InkWell(
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -161,7 +164,12 @@ int totalCPDS = 0;
                     ),
                   ),
                 ),
+
+                // 
+
                 SizedBox(height: size.height * 0.024),
+
+                // 
                 InkWell(
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -176,7 +184,7 @@ int totalCPDS = 0;
                       gradient: LinearGradient(
                         colors: [
                           Color.fromARGB(255, 42, 129, 201),
-                          Color.fromARGB(255, 42, 129, 201),
+                          Color.fromARGB(255, 42, 201, 161),
                         ],
                         begin: Alignment.centerLeft,
                         end: Alignment.centerRight,
@@ -226,7 +234,11 @@ int totalCPDS = 0;
                     ),
                   ),
                 ),
+
+                // 
                 SizedBox(height: size.height * 0.024),
+
+                // 
                 InkWell(
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -291,7 +303,81 @@ int totalCPDS = 0;
                     ),
                   ),
                 ),
+                
+                // 
+
                 SizedBox(height: size.height * 0.024),
+
+                // 
+                InkWell(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) {
+                      return JobsScreen();
+                    }));
+                  },
+                  child: Container(
+                    height: size.height * 0.098,
+                    width: size.width * 0.9,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      gradient: LinearGradient(
+                        colors: [
+                          Color.fromARGB(255, 42, 129, 201),
+                          Color.fromARGB(255, 42, 201, 161),
+                        ],
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.white,
+                            offset: Offset(0.8, 0.3),
+                            blurRadius: 0.3,
+                            spreadRadius: 0.3),
+                        BoxShadow(
+                            color: Colors.grey,
+                            offset: Offset(0.3, 0.9),
+                            blurRadius: 0.3,
+                            spreadRadius: 0.3),
+                      ],
+                    ),
+                    child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(left: size.width * 0.05),
+                          child: Icon(
+                            Icons.info,
+                            color: Colors.white,
+                            size: size.height * 0.040,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: size.width * 0.055),
+                          child: Text(
+                            "Available jobs",
+                            style: TextStyle(color: Colors.white, fontSize: size.height * 0.020),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: size.width * 0.04),
+                          child: Container(
+                            height: size.height * 0.06,
+                            width: size.width * 0.20,
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.white),
+                                borderRadius: BorderRadius.circular(8)),
+                            child: Center(child: Text("${communications}", style: TextStyle(color: Colors.white))),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(height: size.height * 0.024),
+
+
+                // 
                 InkWell(
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -345,6 +431,8 @@ int totalCPDS = 0;
                     ),
                   ),
                 ),
+              
+              // 
               ],
             ),
           ),

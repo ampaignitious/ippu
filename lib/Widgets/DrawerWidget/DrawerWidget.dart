@@ -34,28 +34,7 @@ AuthController authController = AuthController();
  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
       return LoginScreen();
     }));
-  // final userData = Provider.of<UserProvider>(context, listen: false).user;
-
-  // // Define the URL with userData.id
-  // final apiUrl = 'http://app.ippu.or.ug/api/logout';
-
-  // // Define the headers with the bearer token
-  // final headers = {
-  //   'Authorization': 'Bearer ${userData?.token}',
-  // };
-  // try {
-  //   final response = await http.get(Uri.parse(apiUrl), headers: headers);
-  //   if (response.statusCode == 200) {
-  //   print('Logged out successfully');
-  //   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-  //     return LoginScreen();
-  //   }));
-  //   }else{
-
-  //   }
-  // }catch(e){
-  //   print(e);
-  // }
+   
  
 }
 // 
@@ -72,7 +51,7 @@ AuthController authController = AuthController();
               },
                 child: UserAccountsDrawerHeader(
                   decoration: BoxDecoration(
-                    color: Colors.blue,
+                    color: Color.fromARGB(255, 42, 129, 201),
                   ),
                   currentAccountPicture: CircleAvatar(backgroundImage: AssetImage('assets/image9.png'),),
                   accountName: Text("${userData!.name}"), accountEmail: Text("${userData.email}")),

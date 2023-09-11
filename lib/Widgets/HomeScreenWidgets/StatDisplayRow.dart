@@ -17,13 +17,16 @@ class _StatDisplayRowState extends State<StatDisplayRow> {
    final event = Provider.of<UserProvider>(context).Events;
     final size = MediaQuery.of(context).size;
        final attendedCpds = Provider.of<UserProvider>(context).attendedCpd;
+          final communications = Provider.of<UserProvider>(context).totalCommunications;
+
+
     return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         // the home screen section displays ( available events)
                     Container(
-                    height: size.height*0.16,
-                    width: size.width*0.45,
+                    height: size.height*0.14,
+                    width: size.width*0.42,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color: Colors.white,
@@ -36,7 +39,7 @@ class _StatDisplayRowState extends State<StatDisplayRow> {
                           children: [
                             // container containing the event icon
                             Container(
-                    height: size.height*0.075,
+                    height: size.height*0.070,
                     width: size.width*0.10,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
@@ -48,6 +51,7 @@ class _StatDisplayRowState extends State<StatDisplayRow> {
                     ),
                     Text("Available Events", style: GoogleFonts.lato(
                       fontWeight: FontWeight.bold,
+                      fontSize: size.height*0.012,
                       color: Color.fromARGB(255, 42, 129, 201),
                     ))
                           ],
@@ -63,7 +67,7 @@ class _StatDisplayRowState extends State<StatDisplayRow> {
                     ),
                     // attend CPD
                   Container(
-                    height: size.height*0.16,
+                    height: size.height*0.14,
                     width: size.width*0.45,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
@@ -77,7 +81,7 @@ class _StatDisplayRowState extends State<StatDisplayRow> {
                           children: [
                             // container containing the event icon
                             Container(
-                    height: size.height*0.075,
+                    height: size.height*0.070,
                     width: size.width*0.10,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
@@ -88,8 +92,9 @@ class _StatDisplayRowState extends State<StatDisplayRow> {
                       size: size.height*0.024,
                       ),
                     ),
-                    Text("Attended CPDS", style: GoogleFonts.lato(
+                    Text("Available communications", style: GoogleFonts.lato(
                       fontWeight: FontWeight.bold,
+                      fontSize: size.height*0.012,
                       color: Color.fromARGB(255, 42, 129, 201),
                     ))
                           ],
@@ -99,7 +104,7 @@ class _StatDisplayRowState extends State<StatDisplayRow> {
                           thickness: 2,
                           color: Color.fromARGB(210, 63, 131, 187),
                         ),
-                    Center(child: Text("${attendedCpds}", style: TextStyle(fontSize: size.height*0.0342, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 50, 155, 132),letterSpacing: 1),))
+                    Center(child: Text("${communications}", style: TextStyle(fontSize: size.height*0.0342, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 50, 155, 132),letterSpacing: 1),))
                       ],
                     ),
                     ),
