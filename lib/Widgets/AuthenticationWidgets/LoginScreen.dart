@@ -72,6 +72,9 @@ class _LoginScreenState extends State<LoginScreen> {
           final String email = authResponse['user']['email'];
 
           // Create the UserData instance
+          // if(token!=null){
+            
+          // }
           UserData userData = UserData(
             id: authResponse['user']['id'],
             name: name,
@@ -87,12 +90,15 @@ class _LoginScreenState extends State<LoginScreen> {
             nok_phone_no: authResponse['user']['nok_phone_no'],
             token: token,
           );
- 
+          
           Provider.of<UserProvider>(context, listen: false).setUser(userData);
  
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return DefaultScreen();
-          }));
+          // Navigator.push(context, MaterialPageRoute(builder: (context) {
+          //   return DefaultScreen();
+          // }));
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+                return DefaultScreen();
+          })); 
         }
       } catch (e) {
         // Handle unexpected errors

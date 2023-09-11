@@ -71,9 +71,10 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents> w
                 labelText: 'Search Events by name',
                 labelStyle: GoogleFonts.lato(
                   fontSize: size.height*0.022,
-                  color: Colors.grey),
+                  color: Colors.black38),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
+                  borderRadius: BorderRadius.circular(
+                    10.0),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.0),
@@ -97,7 +98,7 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents> w
               style: GoogleFonts.lato(
                 fontSize: size.height * 0.012,
                 fontWeight: FontWeight.bold,
-                color: Colors.black.withOpacity(0.5),
+                color: Colors.lightBlue.withOpacity(0.5),
               ),
             ),
           ),
@@ -128,6 +129,7 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents> w
                         final description = item['details'];
                         final points= item['points'].toString();
                         final rate = item['rate'];
+                        final eventId = item['id'].toString();
                         final imageLink = item['banner_name'];
                         if (_searchQuery.isEmpty ||
                             eventName
@@ -140,6 +142,7 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents> w
                         context,
                         MaterialPageRoute(builder: (context) {
                           return SingleEventDisplay(
+                            id: eventId,
                             points: points,
                             rate: rate,
                             description: description,
@@ -151,7 +154,7 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents> w
                         }),
                       );
                     },
-                            child: Column(
+                    child: Column(
                               children: [
                                 Container(
                                   margin: EdgeInsets.only(

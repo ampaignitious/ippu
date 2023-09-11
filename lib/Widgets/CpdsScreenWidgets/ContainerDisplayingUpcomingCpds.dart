@@ -106,6 +106,7 @@ final size = MediaQuery.of(context).size;
                         final type = item['type'];
                         final imageLink = item['banner'];
                         final target_group = item['target_group'];
+                        final String cpdId = item['id'].toString();
 
                         if (_searchQuery.isEmpty ||
                             activityName
@@ -123,6 +124,7 @@ final size = MediaQuery.of(context).size;
                                     startDate: startDate,
                                     endDate: endDate,
                                     type: type,
+                                    cpdId:cpdId.toString(),
                                     location: location,
                                     attendees: attendees,
                                     imagelink: 'http://app.ippu.or.ug/storage/banners/${imageLink}',

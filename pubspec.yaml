@@ -31,6 +31,9 @@ dependencies:
   flutter_html:
   google_fonts: ^4.0.4
   http: 
+  pdf:
+  fl_chart:
+  fluttertoast:
   provider:
   flutter:
     sdk: flutter
@@ -44,7 +47,6 @@ dependencies:
 
 dev_dependencies:
   image_picker:
-  carousel_slider: ^4.2.1
   flutter_test:
     sdk: flutter
 

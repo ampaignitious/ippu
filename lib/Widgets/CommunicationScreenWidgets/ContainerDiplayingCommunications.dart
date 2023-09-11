@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ippu/Widgets/CommunicationScreenWidgets/SingleCommunicationDisplayScreen.dart';
 import 'package:ippu/controllers/auth_controller.dart';
@@ -14,7 +15,7 @@ class ContainerDisplayingCommunications extends StatefulWidget {
 class _ContainerDisplayingCommunicationsState
     extends State<ContainerDisplayingCommunications>
     with TickerProviderStateMixin {
-  int maxWords = 20;
+  int maxWords = 40;
   final ScrollController _scrollController = ScrollController();
   AuthController authController = AuthController();
   bool _showBackToTopButton = false;
@@ -86,7 +87,7 @@ class _ContainerDisplayingCommunicationsState
                           margin: EdgeInsets.symmetric(
                             horizontal: size.height * 0.009,
                           ),
-                          height: size.height * 0.32,
+                          height: size.height * 0.36,
                           width: size.width * 0.95,
                           decoration: BoxDecoration(
                             color: Colors.white,
@@ -121,13 +122,30 @@ class _ContainerDisplayingCommunicationsState
                               Padding(
                                 padding: EdgeInsets.only(
                                   left: size.width * 0.066,
-                                  top: size.height * 0.008,
+                                  top: size.height * 0.0025,
                                   right: size.width * 0.04,
                                   bottom: size.height * 0.008,
                                 ),
-                                child: Text(
-                                  shortenText(item['message'], maxWords),
-                                ),
+                                child: Html(
+                                data: shortenText(item['message'], maxWords),
+                                style: {
+                                  "p": Style( // Apply style to <p> tags
+                                    fontSize: FontSize(size.height*0.009),
+                                    color: Colors.black,
+                                    // Add more style properties as needed
+                                  ),
+                                  "h1": Style( // Apply style to <h1> tags
+                                    fontSize: FontSize(size.height*0.009),
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.blue,
+                                    // Add more style properties as needed
+                                  ),
+                                  // Add more style definitions for other HTML elements
+                                },
+                              ),
+                                // Text(
+                                //   shortenText(item['message'], maxWords),
+                                // ),
                               ),
                               Divider(),
                               Padding(

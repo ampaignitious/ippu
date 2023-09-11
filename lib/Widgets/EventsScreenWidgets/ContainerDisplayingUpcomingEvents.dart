@@ -93,6 +93,7 @@ class _ContainerDisplayingUpcomingEventsState
                         final points = events['points'].toString();
                         final rate = events['rate'];
                         final imageLink = events['banner_name'];
+                        final eventId = events['id'];
 
                         return InkWell(
                           onTap: () {
@@ -101,6 +102,7 @@ class _ContainerDisplayingUpcomingEventsState
                               context,
                               MaterialPageRoute(builder: (context) {
                                 return SingleEventDisplay(
+                                  id: eventId,
                                   points: points,
                                   rate: rate,
                                   description: description,

@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:ippu/models/UserProvider.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
+
 
 class CpdsSingleEventDisplay extends StatefulWidget {
   String imagelink;
@@ -11,11 +17,12 @@ class CpdsSingleEventDisplay extends StatefulWidget {
   String location;
   String attendees;
   String content;
+  String cpdId;
   String target_group;
-  CpdsSingleEventDisplay({super.key, required this.location, required this.startDate, required this.endDate, required this.type, required this.content ,required this.target_group,  required this.attendees, required this.cpdsname, required this.imagelink});
+  CpdsSingleEventDisplay({super.key, required this.cpdId, required this.location, required this.startDate, required this.endDate, required this.type, required this.content ,required this.target_group,  required this.attendees, required this.cpdsname, required this.imagelink});
 
   @override
-  State<CpdsSingleEventDisplay> createState() => _CpdsSingleEventDisplayState( this.location, this.content , this.target_group ,this.attendees, this.cpdsname, this.imagelink, this.startDate, this.endDate, this.type);
+  State<CpdsSingleEventDisplay> createState() => _CpdsSingleEventDisplayState(this.cpdId, this.location, this.content , this.target_group ,this.attendees, this.cpdsname, this.imagelink, this.startDate, this.endDate, this.type);
 }
 
 class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
@@ -25,11 +32,12 @@ class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
   String startDate;
   String endDate;
   String type;
+  String cpdId;
   String location;
   String attendees;
   String content;
   String target_group;
-_CpdsSingleEventDisplayState( this.content , this.location, this.target_group ,this.attendees, this.cpdsname, this.imagelink, this.startDate, this.endDate, this.type); 
+_CpdsSingleEventDisplayState( this.cpdId, this.content , this.location, this.target_group ,this.attendees, this.cpdsname, this.imagelink, this.startDate, this.endDate, this.type); 
  Widget build(BuildContext context) {
     final size =MediaQuery.of(context).size;
     return Scaffold(
@@ -159,7 +167,7 @@ _CpdsSingleEventDisplayState( this.content , this.location, this.target_group ,t
 
                           ),
                           onPressed: (){
-                      
+                         sendAttendanceRequest( cpdId);
                           },
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: size.width*0.12),
@@ -177,4 +185,56 @@ _CpdsSingleEventDisplayState( this.content , this.location, this.target_group ,t
       ),
     );
   }
+  
+void sendAttendanceRequest(String cpdID) async {
+  final userData = Provider.of<UserProvider>(context, listen: false).user;
+  final userId = userData?.id; // Replace with your actual user ID
+
+  final apiUrl = Uri.parse('http://app.ippu.or.ug/api/cpds/attend');
+
+  // Create a map of the data to send
+  final Map<String, dynamic> requestBody = {
+    'user_id': userId,
+    'cpd_id': cpdID,
+  };
+
+  try {
+    final response = await http.post(
+      apiUrl,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(requestBody),
+    );
+
+    if (response.statusCode == 200) {
+      // Handle a successful API response
+      CircularProgressIndicator();
+      print("Attendence registered successfully");
+      showBottomNotification('Attendance for event sent successfully');
+
+      
+      // Navigator.pop(context);
+    } else {
+        // Handle errors or unsuccessful response
+        print('Failed to send data to API');
+         print('Failed to send data to API. Status code: ${response.statusCode}');
+  print('Response body: ${response.body}');
+      }
+    } catch (error) {
+      // Handle network errors or exceptions
+      print('Error: $error');
+    }
+  }
+
+  // 
+void showBottomNotification(String message) {
+  Fluttertoast.showToast(
+    msg: message,
+    toastLength: Toast.LENGTH_SHORT,
+    gravity: ToastGravity.BOTTOM,
+    backgroundColor: Colors.black,
+    textColor: Colors.white,
+  );
+}
 }

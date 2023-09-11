@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:ippu/Screens/ProfileScreen.dart';
 import 'dart:io';
 
 import 'package:ippu/Widgets/AuthenticationWidgets/LoginScreen.dart';
@@ -321,6 +322,7 @@ Future<void> _selectDate(BuildContext context) async {
       if (response.statusCode == 200) {
         // Handle a successful API response
         print('Data sent successfully');
+        Navigator.push(context, MaterialPageRoute(builder: ((context) => ProfileScreen() )));
       } else {
         // Handle errors or unsuccessful response
         print('Failed to send data to API');

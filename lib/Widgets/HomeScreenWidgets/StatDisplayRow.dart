@@ -16,6 +16,7 @@ class _StatDisplayRowState extends State<StatDisplayRow> {
       final cpds = Provider.of<UserProvider>(context).CPDS;
    final event = Provider.of<UserProvider>(context).Events;
     final size = MediaQuery.of(context).size;
+       final attendedCpds = Provider.of<UserProvider>(context).attendedCpd;
     return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -98,7 +99,7 @@ class _StatDisplayRowState extends State<StatDisplayRow> {
                           thickness: 2,
                           color: Color.fromARGB(210, 63, 131, 187),
                         ),
-                    Center(child: Text("${cpds}", style: TextStyle(fontSize: size.height*0.0342, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 50, 155, 132),letterSpacing: 1),))
+                    Center(child: Text("${attendedCpds}", style: TextStyle(fontSize: size.height*0.0342, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 50, 155, 132),letterSpacing: 1),))
                       ],
                     ),
                     ),

@@ -30,7 +30,34 @@ class _DrawerWidgetState extends State<DrawerWidget> {
   @override
 AuthController authController = AuthController();
 // logout logic 
+ void performLogout() async {
+ Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+      return LoginScreen();
+    }));
+  // final userData = Provider.of<UserProvider>(context, listen: false).user;
+
+  // // Define the URL with userData.id
+  // final apiUrl = 'http://app.ippu.or.ug/api/logout';
+
+  // // Define the headers with the bearer token
+  // final headers = {
+  //   'Authorization': 'Bearer ${userData?.token}',
+  // };
+  // try {
+  //   final response = await http.get(Uri.parse(apiUrl), headers: headers);
+  //   if (response.statusCode == 200) {
+  //   print('Logged out successfully');
+  //   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+  //     return LoginScreen();
+  //   }));
+  //   }else{
+
+  //   }
+  // }catch(e){
+  //   print(e);
+  // }
  
+}
 // 
   Widget build(BuildContext context) {
       final userData = Provider.of<UserProvider>(context).user;
@@ -80,21 +107,21 @@ AuthController authController = AuthController();
                   ),
                 ),
               ),
-              InkWell(
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context){
-                    return ChartsScreen();
-                  }));
-                },
-                child: Card(
-                  child: ListTile(
-                    leading: Icon(Icons.message_rounded),
-                    title: Text("Chat", style: GoogleFonts.lato(
-                        fontWeight: FontWeight.bold,
-                      ),),
-                  ),
-                ),
-              ),
+              // InkWell(
+              //   onTap: (){
+              //     Navigator.push(context, MaterialPageRoute(builder: (context){
+              //       return ChartsScreen();
+              //     }));
+              //   },
+              //   child: Card(
+              //     child: ListTile(
+              //       leading: Icon(Icons.message_rounded),
+              //       title: Text("Chat", style: GoogleFonts.lato(
+              //           fontWeight: FontWeight.bold,
+              //         ),),
+              //     ),
+              //   ),
+              // ),
               // 
                InkWell(
                 onTap: (){
@@ -220,12 +247,10 @@ AuthController authController = AuthController();
               // 
               //  
                InkWell(
-                onTap: ()   async{
-                var response =await authController.signOut();
-                print(response);
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-                return LoginScreen();
-                }));  
+                onTap: ()  {
+                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+      return LoginScreen();
+    }));
                 },
                  child: Card(
                   child: ListTile(

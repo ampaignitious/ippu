@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:http/http.dart' as http;
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ippu/models/UserProvider.dart';
+ 
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pdfWidgets;
+import 'dart:typed_data';
+import 'dart:io';
+
+import 'package:provider/provider.dart';
 class AttendedEventSIngleDisplayScreen extends StatefulWidget {
   String name;
   String eventId;
@@ -151,7 +160,7 @@ class _AttendedEventSIngleDisplayScreenState extends State<AttendedEventSIngleDi
 
                           ),
                           onPressed: (){
-                         
+                         downloadAndSaveCertificateAsPDF(eventId);
                           },
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: size.width*0.12),
@@ -170,4 +179,49 @@ class _AttendedEventSIngleDisplayScreenState extends State<AttendedEventSIngleDi
    
     );
   }
+  // 
+  // printing certificate
+  Future<void> downloadAndSaveCertificateAsPDF(  String eventId) async {
+   final userData = Provider.of<UserProvider>(context, listen: false).user;
+   final userId = userData?.id;
+  final url = Uri.parse('http://app.ippu.or.ug/api/events/certificate/$userId/$eventId');
+
+  try {
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+    print("success");
+      final pdfDocument = pdfWidgets.Document();
+
+      // Create a PDF page with an image from the API response (assuming it's an image)
+      final Uint8List imageBytes = response.bodyBytes;
+      final pdfImage = pdfWidgets.MemoryImage(
+        imageBytes,
+        // dpi: PdfPageFormat.a4.width,
+        // height: PdfPageFormat.a4.height,
+      );
+      pdfDocument.addPage(
+        pdfWidgets.Page(
+          build: (context) {
+            return pdfWidgets.Center(
+              child: pdfWidgets.Image(pdfImage),
+            );
+          },
+        ),
+      );
+
+      // Save the PDF to a file
+      final String filePath = 'certificate_${userId}_$eventId.pdf';
+      final File file = File(filePath);
+      await file.writeAsBytes(await pdfDocument.save());
+
+      print('PDF saved to: $filePath');
+    } else {
+      print('Failed to download certificate: ${response.statusCode}');
+    }
+  } catch (e) {
+    print('Error: $e');
+  }
+}
+  // 
 }

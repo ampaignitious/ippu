@@ -146,6 +146,7 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                         final type = item['type'];
                         final imageLink = item['banner'];
                         final target_group = item['target_group'];
+                        final cpdId = item['id'].toString();
 
                         if (_searchQuery.isEmpty ||
                             activityName
@@ -163,6 +164,7 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                                     startDate: startDate,
                                     endDate: endDate,
                                     type: type,
+                                    cpdId:cpdId.toString(),
                                     location: location,
                                     attendees: attendees,
                                     imagelink: 'http://app.ippu.or.ug/storage/banners/${imageLink}',

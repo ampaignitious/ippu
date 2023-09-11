@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ippu/Widgets/EducationBackgroundWidgets/ContainerDisplayingEducationDetails.dart';
 import 'package:http/http.dart' as http;
+import 'package:ippu/Widgets/EducationBackgroundWidgets/ContainerDisplayingUserEducationDetails.dart';
+import 'package:ippu/models/UserProvider.dart';
+import 'package:provider/provider.dart';
 
 class EducationBackgroundScreen extends StatefulWidget {
   const EducationBackgroundScreen({super.key});
@@ -45,7 +47,7 @@ TextEditingController _userId = TextEditingController();
     "field":field,
     "id": id,
   };
-
+print(requestData);
   final response = await http.post(
     Uri.parse(apiUrl),
     body: json.encode(requestData),
@@ -66,12 +68,12 @@ TextEditingController _userId = TextEditingController();
   Widget build(BuildContext context) {
     final size =MediaQuery.of(context).size;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 42, 129, 201),
         elevation: 0,
         title: Text("Education Background",style:GoogleFonts.lato()),
       ),
-      resizeToAvoidBottomInset: false,
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color.fromARGB(255, 42, 129, 201),
         onPressed: _showAddEducationDialog,
@@ -84,9 +86,9 @@ TextEditingController _userId = TextEditingController();
             height: size.height*0.009,
           ),
           Container(
-            height: size.height*0.85,
+            height: size.height*0.86,
             width: double.maxFinite,
-            child: ContainerDisplayingEducationDetails()),
+            child: ContainerDisplayingUserEducationDetails()),
         ],
       ),
     );
@@ -100,6 +102,7 @@ TextEditingController _userId = TextEditingController();
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        final userData = Provider.of<UserProvider>(context).user;
         return AlertDialog(
           title: Text('Add New Background'),
           content: SingleChildScrollView(
@@ -139,14 +142,14 @@ TextEditingController _userId = TextEditingController();
             ElevatedButton(
               onPressed: () {
                 // Save education details and close dialog
-                addEducationBackground( 
+               addEducationBackground( 
                title: _title.text,
                field: _field.text,
                 type: _type.text,
                 startDate: _startDate.text,
                 endDate: _endDate.text,
                 points: _points.text,
-                id: 1,
+                id: userData!.id,
                 );
                 Navigator.of(context).pop();
               },

@@ -1,6 +1,14 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ippu/models/UserProvider.dart';
+import 'package:provider/provider.dart';
+
+
 
 class SingleEventDisplay extends StatefulWidget {
   String imagelink;
@@ -9,14 +17,22 @@ class SingleEventDisplay extends StatefulWidget {
   String startDate;
   String endDate;
   String points;
+  String id;
   String description;
-  SingleEventDisplay({super.key, required this.points , required this.description ,required this.startDate, required this.endDate, required this.rate, required this.eventName, required this.imagelink});
+  SingleEventDisplay({super.key, required this.id, required this.points , required this.description ,required this.startDate, required this.endDate, required this.rate, required this.eventName, required this.imagelink});
 
   @override
-  State<SingleEventDisplay> createState() => _SingleEventDisplayState( this.points ,this.description, this.rate, this.eventName, this.imagelink, this.startDate, this.endDate);
+  State<SingleEventDisplay> createState() => _SingleEventDisplayState( this.id, this.points ,this.description, this.rate, this.eventName, this.imagelink, this.startDate, this.endDate);
 }
 
 class _SingleEventDisplayState extends State<SingleEventDisplay> {
+  // 
+//   http://app.ippu.or.ug/api/cpds/attend(POST)
+// parameters
+// -user_id
+// -cpd_id
+
+  // 
   @override
   String imagelink;
   String eventName;
@@ -25,7 +41,11 @@ class _SingleEventDisplayState extends State<SingleEventDisplay> {
   String endDate;
   String description;
   String rate;
-  _SingleEventDisplayState(this.rate ,this.description,this.points, this.eventName, this.imagelink, this.startDate, this.endDate);
+  String id;
+  _SingleEventDisplayState(this.id, this.rate ,this.description,this.points, this.eventName, this.imagelink, this.startDate, this.endDate);
+  // 
+
+
   Widget build(BuildContext context) {
     final size =MediaQuery.of(context).size;
     return Scaffold(
@@ -78,7 +98,7 @@ class _SingleEventDisplayState extends State<SingleEventDisplay> {
                 ),),
               ),
               Padding(
-                padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.0019),
+                padding: EdgeInsets.only(left: size.width*0.02, top: size.height*0.0019),
                 // child: Text("this will be about learning sessions"),
                 child:Html(
   data: description,
@@ -163,8 +183,8 @@ class _SingleEventDisplayState extends State<SingleEventDisplay> {
                             padding: EdgeInsets.all(size.height * 0.024),
 
                           ),
-                          onPressed: (){
-                       print("${eventName}");
+                          onPressed: () {
+                      sendAttendanceRequest(id);
                           },
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: size.width*0.12),
@@ -182,4 +202,59 @@ class _SingleEventDisplayState extends State<SingleEventDisplay> {
       ),
     );
   }
+
+    //  logic for attend event
+  
+void sendAttendanceRequest(String eventID) async {
+  final userData = Provider.of<UserProvider>(context, listen: false).user;
+  final userId = userData?.id; // Replace with your actual user ID
+
+  final apiUrl = Uri.parse('http://app.ippu.or.ug/api/events/attend');
+
+  // Create a map of the data to send
+  final Map<String, dynamic> requestBody = {
+    'user_id': userId,
+    'event_id': eventID,
+  };
+
+  try {
+    final response = await http.post(
+      apiUrl,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(requestBody),
+    );
+
+    if (response.statusCode == 200) {
+      // Handle a successful API response
+      print('Attendance for event sent successfully');
+      CircularProgressIndicator();
+      showBottomNotification('Attendance for event sent successfully');
+
+      
+      // Navigator.pop(context);
+    } else {
+        // Handle errors or unsuccessful response
+        print('Failed to send data to API');
+         print('Failed to send data to API. Status code: ${response.statusCode}');
+  print('Response body: ${response.body}');
+      }
+    } catch (error) {
+      // Handle network errors or exceptions
+      print('Error: $error');
+    }
+  }
+
+  // 
+void showBottomNotification(String message) {
+  Fluttertoast.showToast(
+    msg: message,
+    toastLength: Toast.LENGTH_SHORT,
+    gravity: ToastGravity.BOTTOM,
+    backgroundColor: Colors.black,
+    textColor: Colors.white,
+  );
+}
+  // 
 }

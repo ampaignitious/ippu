@@ -1,11 +1,12 @@
 import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ippu/Widgets/EventsScreenWidgets/AttendedEventSIngleDisplayScreen.dart';
 import 'package:ippu/controllers/auth_controller.dart';
 import 'package:ippu/models/UserProvider.dart';
 import 'package:provider/provider.dart';
-import 'package:http/http.dart' as http;
+
 import 'package:flutter_html/flutter_html.dart';
 
 
@@ -75,123 +76,133 @@ class _MyEventsState extends State<MyEvents> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
  
-          Divider(),
-          Container(
-            height: size.height*0.65,
-            width: double.maxFinite,
- 
-            child: FutureBuilder<List<MyAttendedEvents>>(
-              future: eventDataFuture,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasError) {
-                  return Center(
-                    child: Text("Check your internet connection to load the data"),
-                  );
-                } else if (snapshot.hasData) {
-                  List<MyAttendedEvents> eventData  = snapshot.data!;
-                  return ListView.builder(
-                    itemCount: eventData .length,
-                    itemBuilder: (context, index) {
-                      MyAttendedEvents data = eventData [index];
-                      return Container(
-                        height: size.height*0.46,
-                        width: size.width*0.84,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.lightBlue,
-                          ),
-                         ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+          SizedBox(
+            height: size.height*0.006,
+          ),
+          Center(
+            child: Container(
+              height: size.height*0.70,
+              width: size.width*0.9,
+           
+              child: FutureBuilder<List<MyAttendedEvents>>(
+                future: eventDataFuture,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text("Check your internet connection to load the data"),
+                    );
+                  } else if (snapshot.hasData) {
+                    List<MyAttendedEvents> eventData  = snapshot.data!;
+                    return ListView.builder(
+                      itemCount: eventData .length,
+                      itemBuilder: (context, index) {
+                        MyAttendedEvents data = eventData [index];
+                        return Column(
                           children: [
-                          Center(
-                            child: Container(
-                              height: size.height*0.22,
-                                            width: size.width*0.56,
-                                            decoration: BoxDecoration(
-                            // border: Border.all(
-                            //   color: Colors.lightBlue,
-                            // ),
-                            image: DecorationImage(image: NetworkImage("http://app.ippu.or.ug/storage/banners/${data.banner_name}"))
-                                            ),
-                            ),
-                          ),
-                          Divider(),
-                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                             Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                              padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.004),
-                              child: Text("Event name", style: GoogleFonts.lato(
-                                fontWeight: FontWeight.bold,
-                                fontSize: size.height*0.04,
-                              ),),
-                        ),
-                          Padding(
-                          padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.0008),
-                          child: Text("${data.name}", style: TextStyle(
-                            color: Colors.blue
-                          ),),
-                        ),
-                            ],
-                          ),
-                        Padding(
-                          padding: EdgeInsets.only(right: size.width*0.07),
-                          child: Column(
-                            children: [
-                          Padding(
-                           padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.016),
-                            child: Text("Points", style: TextStyle(fontWeight: FontWeight.bold), textAlign: TextAlign.justify ,),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left: size.width*0.06, right:size.width*0.06, top: size.height*0.0016),
-                            child: Text("${data.points}", textAlign: TextAlign.justify, style: TextStyle(
-                              color: Colors.blue
-                            ),),
-                          ),
-                            ],
-                          ),
-                        ),
-                         
-                          ],
-                         ),
-                    SizedBox(
-          
-                      height: size.height*0.024,
-                    ),
-                        
-                    Center(
-                      child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  primary:  Color.fromARGB(255, 42, 129, 201), // Change button color to green
-                                  padding: EdgeInsets.all( size.height * 0.020),
-                            
+                            Container(
+                              height: size.height*0.46,
+                              width: size.width*0.84,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.lightBlue,
                                 ),
-                                onPressed: (){
-                                  print(data.id);
-
-                            Navigator.push(context, MaterialPageRoute(builder: (context){
-                        return AttendedEventSIngleDisplayScreen(eventId: data.id, start_date: data.start_date, end_date: data.end_date, details: data.details, points: data.points, rate: data.rate, name: data.name, imageLink: data.banner_name,);
-                      }));
-                                },
-                                child: Text('Click to view more information', style: GoogleFonts.lato(),),
+                               ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                Center(
+                                  child: Container(
+                                    height: size.height*0.22,
+                                                  width: size.width*0.56,
+                                                  decoration: BoxDecoration(
+                                  // border: Border.all(
+                                  //   color: Colors.lightBlue,
+                                  // ),
+                                  image: DecorationImage(image: NetworkImage("http://app.ippu.or.ug/storage/banners/${data.banner_name}"))
+                                                  ),
+                                  ),
+                                ),
+                                Divider(),
+                               Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                   Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                    padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.004),
+                                    child: Text("Event name", style: GoogleFonts.lato(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: size.height*0.04,
+                                    ),),
+                              ),
+                                Padding(
+                                padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.0008),
+                                child: Text("${data.name}", style: TextStyle(
+                                  color: Colors.blue
+                                ),),
+                              ),
+                                  ],
+                                ),
+                              Padding(
+                                padding: EdgeInsets.only(right: size.width*0.07),
+                                child: Column(
+                                  children: [
+                                Padding(
+                                 padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.016),
+                                  child: Text("Points", style: TextStyle(fontWeight: FontWeight.bold), textAlign: TextAlign.justify ,),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(left: size.width*0.06, right:size.width*0.06, top: size.height*0.0016),
+                                  child: Text("${data.points}", textAlign: TextAlign.justify, style: TextStyle(
+                                    color: Colors.blue
+                                  ),),
+                                ),
+                                  ],
+                                ),
+                              ),
+                               
+                                ],
+                               ),
+                      SizedBox(
+            
+                            height: size.height*0.024,
                       ),
-                    ),
-                           
+                              
+                      Center(
+                            child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        primary:  Color.fromARGB(255, 42, 129, 201), // Change button color to green
+                                        padding: EdgeInsets.all( size.height * 0.020),
+                                  
+                                      ),
+                                      onPressed: (){
+                                        print(data);
+                                        print(data.id);
+          
+                                  Navigator.push(context, MaterialPageRoute(builder: (context){
+                              return AttendedEventSIngleDisplayScreen(eventId: data.id, start_date: data.start_date, end_date: data.end_date, details: data.details, points: data.points, rate: data.rate, name: data.name, imageLink: data.banner_name,);
+                            }));
+                                      },
+                                      child: Text('Click to view more information', style: GoogleFonts.lato(),),
+                            ),
+                      ),
+                                 
+                                ],
+                              ),
+                            ),
+                            SizedBox(height:size.height*0.016),
                           ],
-                        ),
-                      );
-                    },
-                  );
-                } else {
-                  return Center(child: Text('No data available'));
-                }
-              },
+                        );
+                      },
+                    );
+                  } else {
+                    return Center(child: Text('No data available'));
+                  }
+                },
+              ),
             ),
           ),
         ],

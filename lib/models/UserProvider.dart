@@ -18,6 +18,10 @@ class UserProvider extends ChangeNotifier {
   int? totalCommunications =0;
   int? get communications => totalCommunications;
   // 
+    // events
+  int? attendedCpds =0;
+  int? get attendedCpd => attendedCpds;
+  // 
   void setUser(UserData userData) {
     _user = userData;
     notifyListeners();
@@ -27,8 +31,10 @@ class UserProvider extends ChangeNotifier {
     totalCPDS = cpds;
     notifyListeners();
   }
-  // fetching total number of events
-
+  // fetching total number of attended cpds
+  void totalNumberOfAttendedCpds(int attended){
+    attendedCpds = attended;
+  }
   // fetching total number of communications
   void totalNumberOfCommunications(int communication){
     totalCommunications = communication;
