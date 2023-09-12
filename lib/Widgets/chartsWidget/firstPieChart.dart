@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:ippu/Widgets/chartsWidget/AppColors.dart';
 import 'package:ippu/Widgets/chartsWidget/indicator.dart';
+import 'package:ippu/controllers/auth_controller.dart';
 import 'package:ippu/models/UserProvider.dart';
 import 'package:provider/provider.dart';
 
@@ -14,8 +15,39 @@ class PieChartSample2 extends StatefulWidget {
 
 class PieChart2State extends State {
   int touchedIndex = -1;
- 
   @override
+    void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  Future<void> fetchData() async {
+    try {
+      AuthController authController = AuthController();
+      final cpds = await authController.getCpds();
+      final events = await authController.getEvents();
+      final communications = await authController.getAllCommunications();
+      final eventPoints = await authController.getEvents();
+       int totalEventPoints = 0; // Initialize the total event points
+       int totalCpdPoints =0;
+    // Calculate total event points
+    for (final event in events) {
+      final points = event['points'] as int;
+      totalEventPoints += points;
+    }
+     Provider.of<UserProvider>(context, listen: false).totalNumberOfPointsFromEvents(totalEventPoints);
+    for (final cpd in cpds) {
+      final points = int.tryParse(cpd['points']) ;
+      totalCpdPoints += points!;
+    }
+    Provider.of<UserProvider>(context, listen:false).totalNumberOfPointsFromCpd(totalCpdPoints);
+
+    } catch (e) {
+      // Handle any errors here
+      print('Error fetching data: $e');
+    }
+  }
+
   Widget build(BuildContext context) {
     final size =MediaQuery.of(context).size;
     final userData = Provider.of<UserProvider>(context).user;

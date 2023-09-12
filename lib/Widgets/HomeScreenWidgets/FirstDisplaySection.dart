@@ -43,16 +43,6 @@ int totalCPDS = 0;
        int totalEventPoints = 0; // Initialize the total event points
        int totalCpdPoints =0;
     // Calculate total event points
-    for (final event in events) {
-      final points = event['points'] as int;
-      totalEventPoints += points;
-    }
-     Provider.of<UserProvider>(context, listen: false).totalNumberOfPointsFromEvents(totalEventPoints);
-    for (final cpd in cpds) {
-      final points = int.tryParse(cpd['points']) ;
-      totalCpdPoints += points!;
-    }
-    Provider.of<UserProvider>(context, listen:false).totalNumberOfPointsFromCpd(totalCpdPoints);
 
       setState(() {
         totalEvents = events.length;
