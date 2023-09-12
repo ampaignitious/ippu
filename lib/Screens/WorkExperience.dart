@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
@@ -16,6 +17,18 @@ class WorkExperience extends StatefulWidget {
 class _WorkExperienceState extends State<WorkExperience> {
    @override
     late Future<List<WorkingExperience>> WorkingExperienceFuture;
+  TextEditingController _title = TextEditingController();
+TextEditingController _type = TextEditingController();
+TextEditingController _startDate = TextEditingController();
+TextEditingController _endDate = TextEditingController();
+TextEditingController _points = TextEditingController();
+TextEditingController _field = TextEditingController();
+TextEditingController _userId = TextEditingController();
+TextEditingController _description = TextEditingController();
+TextEditingController _position  = TextEditingController();
+ 
+
+ 
 
   @override
   void initState() {
@@ -23,7 +36,7 @@ class _WorkExperienceState extends State<WorkExperience> {
     WorkingExperienceFuture = fetchWorkingExperience();
  
   }
-  // 
+  //  a function to fetch working experience
   Future<List<WorkingExperience>> fetchWorkingExperience() async {
   final userData = Provider.of<UserProvider>(context, listen: false).user;
   final userId = userData?.id;
@@ -69,9 +82,57 @@ class _WorkExperienceState extends State<WorkExperience> {
 }
 
   // 
+
+  // function to add a work experienc
+  Future<void> addEducationBackground({
+  required String title,
+  required String type,
+  required String startDate,
+  required String endDate,
+  required String description,
+  required String position,
+  required String field,
+  required int id,
+}) async {
+  final String apiUrl = 'http://app.ippu.or.ug/api/work-experience';
+
+  final Map<String, dynamic> requestData = {
+    "title": title,
+    "type": type,
+    "start_date": startDate,
+    "end_date": endDate,
+    "description": description,
+    "position" :position,
+    "field":field,
+    "id": id,
+  };
+print(requestData);
+  final response = await http.post(
+    Uri.parse(apiUrl),
+    body: json.encode(requestData),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  );
+
+  if (response.statusCode == 200) {
+    // Education background added successfully
+    print('Experience added successfully');
+    showBottomNotification('Experience added successfully');
+
+      
+  } else {
+    // Error handling for the failed request
+    print('Failed to add education background: ${response.statusCode}');
+  }
+}
+  // 
+  // 
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
+            resizeToAvoidBottomInset: false,
+
       appBar:AppBar(
         title: Text("Working Experience", style: GoogleFonts.lato(),),
         backgroundColor: Color.fromARGB(255, 42, 129, 201),
@@ -80,9 +141,8 @@ class _WorkExperienceState extends State<WorkExperience> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color.fromARGB(255, 42, 129, 201),
         child: Icon(Icons.add),
-        onPressed: (){
-
-      }),
+         onPressed: _showAddEducationDialog,
+        tooltip: 'Add working experience',),
       body: Column(
         children: [
           Center(
@@ -274,6 +334,92 @@ class _WorkExperienceState extends State<WorkExperience> {
     // Take the first 'wordCount' words and join them with a space.
     return words.take(wordCount).join(' ') + '......';
   }
+}
+
+//  
+
+// 
+
+  void _showAddEducationDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        final userData = Provider.of<UserProvider>(context).user;
+        return AlertDialog(
+          title: Text('Add Working Experience'),
+          content: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextField(
+                  decoration: InputDecoration(labelText: 'Title'),
+                  controller: _title,
+                ),
+                TextField(
+                  decoration: InputDecoration(labelText: 'Type'),
+                  controller: _type,
+                ),
+                TextField(
+                  decoration: InputDecoration(labelText: 'Start Date'),
+                  controller: _startDate,
+                ),
+                TextField(
+                  decoration: InputDecoration(labelText: 'End Date'),
+                  controller: _endDate,
+                ),
+                TextField(
+                  decoration: InputDecoration(labelText: 'description'),
+                  controller: _description,
+                ),
+                TextField(
+                  decoration: InputDecoration(labelText: 'position'),
+                  controller: _position,
+                ),
+                TextField(
+                  decoration: InputDecoration(labelText: 'field'),
+                  controller: _field,
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                // Save education details and close dialog
+               addEducationBackground( 
+               title: _title.text,
+               field: _field.text,
+               position: _position.text,
+                type: _type.text,
+                startDate: _startDate.text,
+                endDate: _endDate.text,
+                description: _description.text,
+                id: userData!.id,
+                );
+                Navigator.of(context).pop();
+              },
+              child: Text('Save'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+// 
+void showBottomNotification(String message) {
+  Fluttertoast.showToast(
+    msg: message,
+    toastLength: Toast.LENGTH_SHORT,
+    gravity: ToastGravity.BOTTOM,
+    backgroundColor: Colors.black,
+    textColor: Colors.white,
+  );
 }
   // 
 }

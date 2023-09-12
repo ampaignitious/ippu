@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+ 
 class SecondSetOfRows extends StatefulWidget {
   const SecondSetOfRows({super.key});
 
@@ -11,23 +11,28 @@ class _SecondSetOfRowsState extends State<SecondSetOfRows> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return Column(
+                        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Container(
-                            height: size.height*0.14,
-                            width: size.width*0.35,
-                            decoration: BoxDecoration(
-                              color: Colors.lightGreen
-                            ),
-                          ),
-                          Container(
-                            height: size.height*0.14,
-                            width: size.width*0.35,
-                            decoration: BoxDecoration(
-                              color: Colors.lightGreen
-                            ),
-                          ),
+                         Container(
+            margin: EdgeInsets.symmetric(
+              horizontal: size.height * 0.009,
+            ),
+            height: size.height * 0.39,
+            width: size.width * 0.90,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.4),
+                  offset: Offset(0.8, 1.0),
+                  blurRadius: 4.0,
+                  spreadRadius: 0.2,
+                ),
+              ],
+            ),
+            child:Text(""),
+            )
                           
                         ],
                       )

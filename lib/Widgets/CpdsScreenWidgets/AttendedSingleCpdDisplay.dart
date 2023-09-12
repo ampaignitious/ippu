@@ -3,16 +3,16 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AttendedSingleCpdDisplay extends StatefulWidget {
-    String imagelink;
-  String cpdsname;
-  String startDate;
-  String endDate;
-  String type;
-  String location;
+    String? imagelink;
+  String? cpdsname;
+  String? startDate;
+  String? endDate;
+  String? type;
+  String? location;
  
-  String content;
-  String target_group;
-    AttendedSingleCpdDisplay({super.key, required this.location, required this.startDate, required this.endDate, required this.type, required this.content ,required this.target_group,    required this.cpdsname, required this.imagelink});
+  String? content;
+  String? target_group;
+    AttendedSingleCpdDisplay({super.key,   this.location,   this.startDate,   this.endDate,   this.type,   this.content ,  this.target_group,      this.cpdsname,   this.imagelink});
 
   @override
   State<AttendedSingleCpdDisplay> createState() => _AttendedSingleCpdDisplayState( this.content , this.location, this.target_group ,  this.cpdsname, this.imagelink, this.startDate, this.endDate, this.type);
@@ -20,15 +20,15 @@ class AttendedSingleCpdDisplay extends StatefulWidget {
 
 class _AttendedSingleCpdDisplayState extends State<AttendedSingleCpdDisplay> {
   @override
-      String imagelink;
-  String cpdsname;
-  String startDate;
-  String endDate;
-  String type;
-  String location;
+    String? imagelink;
+  String? cpdsname;
+  String? startDate;
+  String? endDate;
+  String? type;
+  String? location;
  
-  String content;
-  String target_group;
+  String? content;
+  String? target_group;
   _AttendedSingleCpdDisplayState( this.content , this.location, this.target_group   , this.cpdsname, this.imagelink, this.startDate, this.endDate, this.type);
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;

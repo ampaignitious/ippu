@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:ippu/controllers/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:ippu/Widgets/CpdsScreenWidgets/AttendedSingleCpdDisplay.dart';
 import 'package:ippu/models/UserProvider.dart';
@@ -17,14 +17,15 @@ class attendedCpdListHorizontalView extends StatefulWidget {
 
 class _attendedCpdListHorizontalViewState extends State<attendedCpdListHorizontalView> {
   
+  AuthController authController = AuthController();
 
-    late Future<List<CpdModel>> CpdDataFuture;
+    late Future<List<CpdModel>> dataFuture;
    void initState() {
     super.initState();
-    CpdDataFuture =   fetchCpdData();
+    dataFuture =   fetchdata();
  
   }
-Future<List<CpdModel>> fetchCpdData() async {
+Future<List<CpdModel>> fetchdata() async {
   final userData = Provider.of<UserProvider>(context, listen: false).user;
 
   if (userData == null || userData.id == null || userData.token == null) {
@@ -42,8 +43,8 @@ Future<List<CpdModel>> fetchCpdData() async {
     final response = await http.get(Uri.parse(apiUrl), headers: headers);
     if (response.statusCode == 200) {
       final Map<String, dynamic> jsonData = jsonDecode(response.body);
-      final List<dynamic> CpdData = jsonData['data'];
-      List<CpdModel> eventsData = CpdData.map((item) {
+      final List<dynamic> data = jsonData['data'];
+      List<CpdModel> eventsData = data.map((item) {
         return CpdModel(
           id: item['id'].toString(),
           code: item['code'],
@@ -75,8 +76,8 @@ Future<List<CpdModel>> fetchCpdData() async {
 
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return FutureBuilder<List<CpdModel>>(
-              future: CpdDataFuture,
+    return FutureBuilder<List<dynamic>>(
+              future: authController.getUpcomingCpds(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
@@ -85,28 +86,30 @@ Future<List<CpdModel>> fetchCpdData() async {
                     child: Text("Check your internet connection to load the data"),
                   );
                 } else if (snapshot.hasData) {
-                  List<CpdModel>  CpdData  = snapshot.data!;
+                  // List<CpdModel>  data  = snapshot.data!;
+                  final data = snapshot.data;
                   return ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount:  CpdData .length,
+                    itemCount:  data! .length,
                     itemBuilder: (context, index) {
                       // totalNumberOfAttendedCpds(int attended)
-                        final userData = Provider.of<UserProvider>(context, listen: false).totalNumberOfAttendedCpds(CpdData.length);
-                      CpdModel data =  CpdData [index];
+                        final userData = Provider.of<UserProvider>(context, listen: false).totalNumberOfAttendedCpds(data.length);
+                      // CpdModel data =  data [index];
+                      final events = data[index];
                       return Row(
                         children: [
                           InkWell(
                             onTap: (){
                                Navigator.push(context, MaterialPageRoute(builder: (context){
                             return  AttendedSingleCpdDisplay(
-                                content: data.content,
-                                target_group: data.targetGroup,
-                                startDate: data.startDate,
-                                endDate: data.endDate,
-                                type: data.type,
-                                location: data.location,
-                                imagelink: 'http://app.ippu.or.ug/storage/banners/${data.banner}',
-                                cpdsname: data.topic,
+                                content:events['content'] ,
+                                target_group:events['targetGroup'] ,
+                                startDate:events['start_date'] ,
+                                endDate: events['end_date'],
+                                type: events['type'],
+                                location:events['location']  ,
+                                imagelink: 'http://app.ippu.or.ug/storage/banners/${events['banner']}',
+                                cpdsname: events['topic']  ,
                                       
                             );
                           }));
@@ -137,7 +140,7 @@ Future<List<CpdModel>> fetchCpdData() async {
                                     height: size.height*0.22,
                                       width: size.width*0.56,
                                       decoration: BoxDecoration(
-                                  image: DecorationImage(image: NetworkImage("http://app.ippu.or.ug/storage/banners/${data.banner}")),
+                                  image: DecorationImage(image: NetworkImage("http://app.ippu.or.ug/storage/banners/${events['banner']}")),
                                                   ),
                                   ),
                                 ),
@@ -157,7 +160,7 @@ Future<List<CpdModel>> fetchCpdData() async {
                               ),
                                 Padding(
                                 padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.0008),
-                                child: Text("${data.topic }", style: TextStyle(
+                                child: Text("${events['topic'] }", style: TextStyle(
                                   color: Colors.blue,
                                   fontSize: size.height*0.008,
                                 ),),
@@ -180,7 +183,9 @@ Future<List<CpdModel>> fetchCpdData() async {
                       );
                     },
                   );
-                } else {
+                } else if(snapshot == null){
+                  return Center(child: Text('No data available'));
+                }else{
                   return Center(child: Text('No data available'));
                 }
               },

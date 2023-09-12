@@ -30,7 +30,7 @@ class _AttendedCpdsScreenState extends State<AttendedCpdsScreen> {
  
           Divider(),
           Container(
-            height: size.height*0.90,
+            height: size.height*0.70,
             width: double.maxFinite,
  
             child: attendedCpdListBuilder(),
