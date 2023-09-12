@@ -40,14 +40,26 @@ int totalCPDS = 0;
       final events = await authController.getEvents();
       final communications = await authController.getAllCommunications();
       final eventPoints = await authController.getEvents();
+       int totalEventPoints = 0; // Initialize the total event points
+       int totalCpdPoints =0;
+    // Calculate total event points
+    for (final event in events) {
+      final points = event['points'] as int;
+      totalEventPoints += points;
+    }
+     Provider.of<UserProvider>(context, listen: false).totalNumberOfPointsFromEvents(totalEventPoints);
+    for (final cpd in cpds) {
+      final points = int.tryParse(cpd['points']) ;
+      totalCpdPoints += points!;
+    }
+    Provider.of<UserProvider>(context, listen:false).totalNumberOfPointsFromCpd(totalCpdPoints);
+
       setState(() {
-        totalCPDS = cpds.length;
         totalEvents = events.length;
         totalCommunications = communications.length;
         Provider.of<UserProvider>(context, listen: false).totalNumberOfCPDS(totalCPDS);
         Provider.of<UserProvider>(context, listen: false).totalNumberOfEvents(totalEvents);
         Provider.of<UserProvider>(context, listen:false).totalNumberOfCommunications(totalCommunications);
-
       });
     } catch (e) {
       // Handle any errors here

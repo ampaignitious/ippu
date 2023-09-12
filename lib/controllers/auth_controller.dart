@@ -222,9 +222,10 @@ class AuthController {
 
 //usage
 // AuthController authController = AuthController();
+// authController.signOut();
 // authController.signIn(email, password);
 // authController.signUp(email, password);
-// authController.signOut();
+
 // authController.getAccountTypes();
 // authController.getEducationBackground(user_id, points, field);
 // await authController.getCpds();

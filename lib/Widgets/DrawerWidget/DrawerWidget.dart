@@ -31,6 +31,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
 AuthController authController = AuthController();
 // logout logic 
  void performLogout() async {
+ 
+authController.signOut();
  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
       return LoginScreen();
     }));

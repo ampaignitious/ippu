@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:ippu/models/WorkingExperience.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ippu/Widgets/WorkExperienceWidgets/SIngleWorkingExperienceDisplayScreen.dart';
@@ -83,7 +83,7 @@ TextEditingController _position  = TextEditingController();
 
   // 
 
-  // function to add a work experienc
+// function to add a work experienc
   Future<void> addEducationBackground({
   required String title,
   required String type,
@@ -424,30 +424,3 @@ void showBottomNotification(String message) {
   // 
 }
  
-class WorkingExperience {
-  final String? id;
-  final String? user_id;
-  final String? title;
-  final String? description;
-  final String? start_date;
-  final String? end_date;
-  final String? attachment;
-  final String? field;
-  final String? points;
-  final String? position;
-  final String? type;
-
-  WorkingExperience({
-    this.id,
-    this.user_id,
-    this.title,
-    this.description,
-    this.start_date,
-    this.end_date,
-    this.attachment,
-    this.field,
-    this.points,
-    this.position,
-    this.type,
-  });
-}

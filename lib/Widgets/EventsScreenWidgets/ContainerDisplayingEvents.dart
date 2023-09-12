@@ -130,11 +130,10 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents> w
                         final endData =item['end_date'];
                         final description = item['details'];
                         final displaypoints = item['points'];
-                        final points= item['points'].toString();
                         final rate = item['rate'];
                         final eventId = item['id'].toString();
                         final imageLink = item['banner_name'];
-                        Provider.of<UserProvider>(context).totalNumberOfPointsFromEvents(displaypoints);
+                        final points= item['points'].toString();
                         if (_searchQuery.isEmpty ||
                             eventName
                                 .toLowerCase()
@@ -212,16 +211,16 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents> w
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Padding(
-  padding: EdgeInsets.only(left: size.width * 0.03),
-  child: Text(
-    "${item['name'].split(' ').take(2).join(' ')}", // Display only the first two words
-    style: TextStyle(
-      color: Colors.white,
-      fontWeight: FontWeight.bold,
-      fontSize: size.height * 0.014,
-    ),
-  ),
-),
+                                    padding: EdgeInsets.only(left: size.width * 0.03),
+                                    child: Text(
+                                      "${item['name'].split(' ').take(2).join(' ')}", // Display only the first two words
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: size.height * 0.014,
+                                      ),
+                                    ),
+                                    ),
                                     Padding(
                                       padding: EdgeInsets.only(right: size.width * 0.03),
                                       child: Icon(

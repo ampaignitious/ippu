@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ippu/models/EducationData.dart';
 import 'package:ippu/models/UserProvider.dart';
 import 'package:provider/provider.dart';
 import 'dart:convert';
@@ -222,32 +223,4 @@ class _ContainerDisplayingUserEducationDetailsState extends State<ContainerDispl
       ),
     );
   }
-}
-
-class EducationData {
-      String? id;
-      String? userId;
-      String? title;
-      String? description;
-      String? startDate;
-      String? endDate;
-      String? attachment;
-      String? field;
-      String? points;
-      String? position;
-      String? type;
-
-  EducationData({
-    this.id,
-    this.userId,
-    this.title,
-    this.description,
-    this.startDate,
-    this.endDate,
-    this.attachment,
-    this.field,
-    this.points,
-    this.position,
-    this.type,
-  });
 }

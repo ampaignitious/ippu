@@ -18,6 +18,11 @@ class UserProvider extends ChangeNotifier {
   int? PointsFromEvents =0;
   int? get EventsPoints => PointsFromEvents;
   // 
+
+  // points from cpds
+  int? PointsFromCpd =0;
+  int? get CpdPoints => PointsFromCpd;
+  // 
   // events
   int? totalCommunications =0;
   int? get communications => totalCommunications;
@@ -55,6 +60,11 @@ class UserProvider extends ChangeNotifier {
   // fetching total number of events
     void totalNumberOfPointsFromEvents(int eventPoints){
     PointsFromEvents =eventPoints;
+  }
+
+    // fetching total number of events
+    void totalNumberOfPointsFromCpd(int eventPoints){
+    PointsFromCpd =eventPoints;
   }
 
 }

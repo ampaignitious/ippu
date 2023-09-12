@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ippu/Widgets/JobScreenWidgets/SIngleJobDetailDisplay.dart';
+import 'package:ippu/models/JobData.dart';
 import 'package:ippu/models/UserProvider.dart';
 import 'package:provider/provider.dart';
 
@@ -206,21 +207,4 @@ class _JobsScreenState extends State<JobsScreen> {
       ),
     );
   }
-}
-class JobData {
-      final int id;
-      final String title;
-      final String description;
-      final String? visibleFrom;
-      final String? visibleTo;
-      final String? deadline;
-
-      JobData({
-      required this.id,
-      required this.title,
-      required this.description,
-      this.visibleFrom,
-      this.visibleTo,
-      this.deadline,
-      });
 }

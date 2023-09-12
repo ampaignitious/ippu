@@ -14,12 +14,13 @@ class PieChartSample2 extends StatefulWidget {
 
 class PieChart2State extends State {
   int touchedIndex = -1;
-
+ 
   @override
   Widget build(BuildContext context) {
     final size =MediaQuery.of(context).size;
     final userData = Provider.of<UserProvider>(context).user;
     final sizeHeight = Provider.of<UserProvider>(context).EventsPoints;
+    final pointsFromCpd  = Provider.of<UserProvider>(context).CpdPoints;
      final points = userData?.points;
 
     return AspectRatio(
@@ -54,7 +55,7 @@ class PieChart2State extends State {
                   ),
                   sectionsSpace: 0,
                   centerSpaceRadius: 40,
-                  sections: showingSections(sizeHeight!, points!),
+                  sections: showingSections(sizeHeight!, points!, pointsFromCpd! ),
                 ),
               ),
             ),
@@ -67,19 +68,19 @@ class PieChart2State extends State {
     );
   }
 
-  List<PieChartSectionData> showingSections(int eventsPoints, String totalUserPoints) {
+  List<PieChartSectionData> showingSections(int eventsPoints, String totalUserPoints , int cpdPoint) {
     return List.generate(3, (i) {
       final isTouched = i == touchedIndex;
       final fontSize = isTouched ? 25.0 : 16.0;
       final radius = isTouched ? 60.0 : 50.0;
-      final defaultpoints = 10;
+      final int defaultpoints = 10;
       const shadows = [Shadow(color: Colors.black, blurRadius: 2)];
       switch (i) {
         case 0:
           return PieChartSectionData(
             color: AppColors.contentColorBlue,
-            value: ((eventsPoints.toDouble())==null)? defaultpoints.toDouble():eventsPoints.toDouble(),
-            title: '${eventsPoints}%',
+            value: ((eventsPoints.toDouble())==0)? defaultpoints.toDouble():eventsPoints.toDouble(),
+            title: '${eventsPoints} ',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -92,7 +93,7 @@ class PieChart2State extends State {
           return PieChartSectionData(
             color: AppColors.contentColorGreen,
             value: 40,
-            title: '${totalUserPoints}%',
+            title: '${totalUserPoints} ',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -105,7 +106,7 @@ class PieChart2State extends State {
           return PieChartSectionData(
             color: AppColors.contentColorPurple,
             value: 15,
-            title: '15%',
+            title: '${cpdPoint}',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
