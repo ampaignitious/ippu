@@ -238,8 +238,8 @@ authController.signOut();
                InkWell(
                 onTap: ()  {
                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-      return LoginScreen();
-    }));
+                  return LoginScreen();
+                  }));
                 },
                  child: Card(
                   child: ListTile(

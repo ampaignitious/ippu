@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ippu/Widgets/CpdsScreenWidgets/CpdPaymentScreen.dart';
 import 'package:ippu/Widgets/EventsScreenWidgets/PaymentScreen.dart';
  
 
@@ -15,11 +17,12 @@ class CpdsSingleEventDisplay extends StatefulWidget {
   String attendees;
   String content;
   String cpdId;
+  String rate;
   String target_group;
-  CpdsSingleEventDisplay({super.key, required this.cpdId, required this.location, required this.startDate, required this.endDate, required this.type, required this.content ,required this.target_group,  required this.attendees, required this.cpdsname, required this.imagelink});
+  CpdsSingleEventDisplay({super.key, required this.rate, required this.cpdId, required this.location, required this.startDate, required this.endDate, required this.type, required this.content ,required this.target_group,  required this.attendees, required this.cpdsname, required this.imagelink});
 
   @override
-  State<CpdsSingleEventDisplay> createState() => _CpdsSingleEventDisplayState(this.cpdId, this.location, this.content , this.target_group ,this.attendees, this.cpdsname, this.imagelink, this.startDate, this.endDate, this.type);
+  State<CpdsSingleEventDisplay> createState() => _CpdsSingleEventDisplayState(this.cpdId, this.rate, this.location, this.content , this.target_group ,this.attendees, this.cpdsname, this.imagelink, this.startDate, this.endDate, this.type);
 }
 
 class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
@@ -30,11 +33,12 @@ class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
   String endDate;
   String type;
   String cpdId;
+  String? rate;
   String location;
   String attendees;
   String content;
   String target_group;
-_CpdsSingleEventDisplayState( this.cpdId, this.content , this.location, this.target_group ,this.attendees, this.cpdsname, this.imagelink, this.startDate, this.endDate, this.type); 
+_CpdsSingleEventDisplayState( this.cpdId, this.content , this.rate, this.location, this.target_group ,this.attendees, this.cpdsname, this.imagelink, this.startDate, this.endDate, this.type); 
  Widget build(BuildContext context) {
     final size =MediaQuery.of(context).size;
     return Scaffold(
@@ -164,7 +168,10 @@ _CpdsSingleEventDisplayState( this.cpdId, this.content , this.location, this.tar
 
                           ),
                           onPressed: (){
-                            PaymentScreen();
+                            Navigator.push(context, MaterialPageRoute(builder: (context){
+                              return   CpdPaymentScreen(eventAmount:rate, eventName: cpdsname, eventId: cpdId,);
+
+                            }));
                         //  sendAttendanceRequest( cpdId);
                           },
                           child: Padding(

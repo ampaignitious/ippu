@@ -288,7 +288,7 @@ int totalCPDS = 0;
                           padding: EdgeInsets.only(left: size.width * 0.055),
                           child: Text(
                             "Available communication",
-                            style: TextStyle(color: Colors.white, fontSize: size.height * 0.020),
+                            style: TextStyle(color: Colors.white, fontSize: size.height * 0.019),
                           ),
                         ),
                         Padding(

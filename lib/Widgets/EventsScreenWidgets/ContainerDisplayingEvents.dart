@@ -213,7 +213,7 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents> w
                                     Padding(
                                     padding: EdgeInsets.only(left: size.width * 0.03),
                                     child: Text(
-                                      "${item['name'].split(' ').take(2).join(' ')}", // Display only the first two words
+                                      "${item['name'].split(' ').take(4).join(' ')}", // Display only the first two words
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,

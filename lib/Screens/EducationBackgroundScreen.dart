@@ -62,7 +62,9 @@ print(requestData);
     print(response.body);
     print('Education background added successfully');
     showBottomNotification('education background added successfully');
-
+      Navigator.push(context, MaterialPageRoute(builder: (context){
+      return EducationBackgroundScreen();
+    }));
     
   } else {
     // Error handling for the failed request

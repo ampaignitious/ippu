@@ -18,12 +18,18 @@ class _FirstSetOfRowsState extends State<FirstSetOfRows> {
     final size = MediaQuery.of(context).size;
     return Column(
       children: [
+        Padding(
+          padding: EdgeInsets.only(left:size.width*0.4,),
+          child: Text("App points summary", style: GoogleFonts.lato(
+            fontSize:size.height*0.02
+          ),),
+        ),
         Row(
                 // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Container(
                     height: size.height*0.26,
-                    width: size.width*0.88,
+                    width: size.width*0.95,
                     child: Row(
                       children: [
                         PieChartSample2(),

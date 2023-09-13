@@ -6,22 +6,22 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ippu/models/UserProvider.dart';
 import 'package:provider/provider.dart';
 
-class PaymentScreen extends StatefulWidget {
+class CpdPaymentScreen extends StatefulWidget {
   String? eventName;
   String? eventAmount;
   String? eventId;
-   PaymentScreen({super.key, this.eventAmount, this.eventName, this.eventId});
+   CpdPaymentScreen({super.key, this.eventAmount, this.eventName, this.eventId});
 
   @override
-  State<PaymentScreen> createState() => _PaymentScreenState( this.eventAmount, this.eventName, this.eventId);
+  State<CpdPaymentScreen> createState() => _CpdPaymentScreenState( this.eventAmount, this.eventName, this.eventId);
 }
 
-class _PaymentScreenState extends State<PaymentScreen> {
+class _CpdPaymentScreenState extends State<CpdPaymentScreen> {
   @override
     String? eventName;
   String? eventAmount;
   String? eventId;
-_PaymentScreenState( this.eventAmount, this.eventName, this.eventId);
+_CpdPaymentScreenState( this.eventAmount, this.eventName, this.eventId);
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
@@ -111,14 +111,14 @@ _PaymentScreenState( this.eventAmount, this.eventName, this.eventId);
                           ),
                           onPressed: () {
                             
-                      sendAttendanceRequest(eventId!);
+                         sendAttendanceRequest(eventId!);
                           },
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: size.width*0.12),
                             child: Text('Confirm Attendence', style: GoogleFonts.lato(),),
                           ),
                 ), ),
-           
+
               // 
                   ],
                 ),
@@ -126,7 +126,6 @@ _PaymentScreenState( this.eventAmount, this.eventName, this.eventId);
       ),
     );
   }
-
 
   // 
   void sendAttendanceRequest(String cpdID) async {

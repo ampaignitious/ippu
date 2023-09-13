@@ -102,6 +102,7 @@ final size = MediaQuery.of(context).size;
                         final startDate =item['start_date'];
                         final endDate =item['end_date'];
                         final content = item['content'];
+                        final rate = item['normal_rate'];
                         final location = item['location'];
                         final type = item['type'];
                         final imageLink = item['banner'];
@@ -120,6 +121,7 @@ final size = MediaQuery.of(context).size;
                                 MaterialPageRoute(builder: (context) {
                                   return CpdsSingleEventDisplay(
                                     content: content,
+                                    rate: rate,
                                     target_group: target_group,
                                     startDate: startDate,
                                     endDate: endDate,

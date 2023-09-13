@@ -1,7 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:ippu/Widgets/chartsWidget/AppColors.dart';
-import 'package:ippu/Widgets/chartsWidget/indicator.dart';
 import 'package:ippu/controllers/auth_controller.dart';
 import 'package:ippu/models/UserProvider.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +19,7 @@ class PieChart2State extends State {
     super.initState();
     fetchData();
   }
-
+    int totalCpdPoints =0;
   Future<void> fetchData() async {
     try {
       AuthController authController = AuthController();
@@ -29,7 +28,7 @@ class PieChart2State extends State {
       final communications = await authController.getAllCommunications();
       final eventPoints = await authController.getEvents();
        int totalEventPoints = 0; // Initialize the total event points
-       int totalCpdPoints =0;
+
     // Calculate total event points
     for (final event in events) {
       final points = event['points'] as int;
@@ -37,6 +36,7 @@ class PieChart2State extends State {
     }
      Provider.of<UserProvider>(context, listen: false).totalNumberOfPointsFromEvents(totalEventPoints);
     for (final cpd in cpds) {
+      print(int.tryParse(cpd['points']) );
       final points = int.tryParse(cpd['points']) ;
       totalCpdPoints += points!;
     }
@@ -53,8 +53,7 @@ class PieChart2State extends State {
     final userData = Provider.of<UserProvider>(context).user;
     final sizeHeight = Provider.of<UserProvider>(context).EventsPoints;
     final pointsFromCpd  = Provider.of<UserProvider>(context).CpdPoints;
-     final points = userData?.points;
-
+    final points = userData?.points;
     return AspectRatio(
       aspectRatio: 1.2,
       child: Row(
@@ -87,7 +86,7 @@ class PieChart2State extends State {
                   ),
                   sectionsSpace: 0,
                   centerSpaceRadius: 40,
-                  sections: showingSections(sizeHeight!, points!, pointsFromCpd! ),
+                  sections: showingSections(sizeHeight!, points!, totalCpdPoints ),
                 ),
               ),
             ),

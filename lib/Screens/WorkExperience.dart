@@ -119,7 +119,9 @@ print(requestData);
     // Education background added successfully
     print('Experience added successfully');
     showBottomNotification('Experience added successfully');
-
+    Navigator.push(context, MaterialPageRoute(builder: (context){
+      return WorkExperience();
+    }));
       
   } else {
     // Error handling for the failed request

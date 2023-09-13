@@ -151,7 +151,7 @@ class _MyEventsState extends State<MyEvents> {
                               ),
                                 Padding(
                                 padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.0008),
-                                child: Text("${data.name}", style: TextStyle(
+                                child: Text("${data.name.split(' ').take(3).join(' ')}", style: TextStyle(
                                   color: Colors.blue
                                 ),),
                               ),

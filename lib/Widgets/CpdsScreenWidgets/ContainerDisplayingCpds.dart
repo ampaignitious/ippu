@@ -144,6 +144,7 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                         final startDate =item['start_date'];
                         final endDate =item['end_date'];
                         final content = item['content'];
+                        final rate = item['normal_rate'];
                         final location = item['location'];
                         final type = item['type'];
                         final imageLink = item['banner'];
@@ -165,9 +166,10 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                                     target_group: target_group,
                                     startDate: startDate,
                                     endDate: endDate,
+                                    rate: location.toString(),
                                     type: type,
                                     cpdId:cpdId.toString(),
-                                    location: location,
+                                    location: rate,
                                     attendees: attendees,
                                     imagelink: 'http://app.ippu.or.ug/storage/banners/${imageLink}',
                                     cpdsname: activityName,
@@ -223,7 +225,7 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                                     Padding(
                                       padding: EdgeInsets.only(left: size.width * 0.03),
                                       child: Text(
-                                        "${item['topic']}",
+                                        "${item['topic'].split(' ').take(4).join(' ')}",
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold,
