@@ -145,8 +145,8 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents> w
                         context,
                         MaterialPageRoute(builder: (context) {
                           return SingleEventDisplay(
-                            id: eventId,
-                            points: points,
+                            id: eventId.toString(),
+                            points: points.toString(),
                             rate: rate,
                             description: description,
                             startDate: startDate ,

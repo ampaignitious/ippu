@@ -40,8 +40,9 @@ int totalCPDS = 0;
       final events = await authController.getEvents();
       final communications = await authController.getAllCommunications();
       final eventPoints = await authController.getEvents();
-       int totalEventPoints = 0; // Initialize the total event points
-       int totalCpdPoints =0;
+      int totalCPDS = cpds.length;
+      int totalEventPoints = 0; // Initialize the total event points
+      int totalCpdPoints =0;
     // Calculate total event points
 
       setState(() {

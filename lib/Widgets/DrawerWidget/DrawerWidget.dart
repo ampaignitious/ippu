@@ -6,6 +6,7 @@ import 'package:ippu/Screens/EducationBackgroundScreen.dart';
 import 'package:ippu/Screens/EventsScreen.dart';
 import 'package:ippu/Screens/HomeScreen.dart';
 import 'package:ippu/Screens/JobsScreen.dart';
+import 'package:ippu/Screens/CpdsScreen.dart';
 import 'package:ippu/Screens/OurCoreValues.dart';
 import 'package:ippu/Screens/ProfileScreen.dart';
 import 'package:ippu/Screens/SettingsScreen.dart';
@@ -153,14 +154,21 @@ authController.signOut();
                   ),
                 ),
               ),
-                          Card(
-                child: ListTile(
-                  leading: Icon(Icons.workspace_premium),
-                  title: Text("CPD", style: GoogleFonts.lato(
-                      fontWeight: FontWeight.bold,
-                    ),),
+                InkWell(
+                  onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context){
+                    return CpdsScreen();
+                  }));
+                },
+                  child: Card(
+                  child: ListTile(
+                    leading: Icon(Icons.workspace_premium),
+                    title: Text("CPD", style: GoogleFonts.lato(
+                        fontWeight: FontWeight.bold,
+                      ),),
+                  ),
+                              ),
                 ),
-              ),
               // 
               // 
               InkWell(

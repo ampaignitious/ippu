@@ -3,7 +3,7 @@
    <application
         android:label="ippu"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+         android:icon="@mipmap/ppulogo">
         <activity
             android:name=".MainActivity"
             android:exported="true"

@@ -104,7 +104,7 @@ TextEditingController _position  = TextEditingController();
     "description": description,
     "position" :position,
     "field":field,
-    "id": id,
+    "user_id": id,
   };
 print(requestData);
   final response = await http.post(
@@ -243,6 +243,7 @@ print(requestData);
                                   Padding(
                                     padding: EdgeInsets.only(left: size.width*0.06, right:size.width*0.06, top: size.height*0.0016),
                                     child: Text("${data.position}", textAlign: TextAlign.justify, style: TextStyle(
+                                      fontSize: size.height*0.012,
                                       color: Colors.blue
                                     ),),
                                   ),

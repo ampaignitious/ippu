@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:ippu/models/UserProvider.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:provider/provider.dart';
+import 'package:ippu/Widgets/EventsScreenWidgets/PaymentScreen.dart';
+ 
 
 
 class CpdsSingleEventDisplay extends StatefulWidget {
@@ -167,7 +164,8 @@ _CpdsSingleEventDisplayState( this.cpdId, this.content , this.location, this.tar
 
                           ),
                           onPressed: (){
-                         sendAttendanceRequest( cpdId);
+                            PaymentScreen();
+                        //  sendAttendanceRequest( cpdId);
                           },
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: size.width*0.12),
@@ -186,55 +184,5 @@ _CpdsSingleEventDisplayState( this.cpdId, this.content , this.location, this.tar
     );
   }
   
-void sendAttendanceRequest(String cpdID) async {
-  final userData = Provider.of<UserProvider>(context, listen: false).user;
-  final userId = userData?.id; // Replace with your actual user ID
 
-  final apiUrl = Uri.parse('http://app.ippu.or.ug/api/cpds/attend');
-
-  // Create a map of the data to send
-  final Map<String, dynamic> requestBody = {
-    'user_id': userId,
-    'cpd_id': cpdID,
-  };
-
-  try {
-    final response = await http.post(
-      apiUrl,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode(requestBody),
-    );
-
-    if (response.statusCode == 200) {
-      // Handle a successful API response
-      CircularProgressIndicator();
-      print("Attendence registered successfully");
-      showBottomNotification('Attendance for event sent successfully');
-
-      
-      // Navigator.pop(context);
-    } else {
-        // Handle errors or unsuccessful response
-        print('Failed to send data to API');
-         print('Failed to send data to API. Status code: ${response.statusCode}');
-  print('Response body: ${response.body}');
-      }
-    } catch (error) {
-      // Handle network errors or exceptions
-      print('Error: $error');
-    }
-  }
-
-  // 
-void showBottomNotification(String message) {
-  Fluttertoast.showToast(
-    msg: message,
-    toastLength: Toast.LENGTH_SHORT,
-    gravity: ToastGravity.BOTTOM,
-    backgroundColor: Colors.black,
-    textColor: Colors.white,
-  );
-}
 }

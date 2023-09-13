@@ -14,7 +14,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Scaffold(
       appBar: AppBar(
         elevation:0,
+        backgroundColor:Color.fromARGB(255, 42, 129, 201) ,
         title:Text("Setting", style:GoogleFonts.lato())
+      ),
+      body: Center(
+        child: Text("App Settings to be added"),
       ),
     );
   }

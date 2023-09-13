@@ -67,6 +67,8 @@ class _FirstSetOfRowsState extends State<FirstSetOfRows> {
         SizedBox(
           height: size.height*0.016,
         ),
+
+        // container displaying the upcoming cpds in a horizontal 
         Container(
             margin: EdgeInsets.symmetric(
               horizontal: size.height * 0.009,
@@ -114,6 +116,7 @@ class _FirstSetOfRowsState extends State<FirstSetOfRows> {
                               ),
                             ])
         )
+        // 
       ],
     )
           ;

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:ippu/Widgets/EducationBackgroundWidgets/ContainerDisplayingUserEducationDetails.dart';
@@ -45,7 +46,7 @@ TextEditingController _userId = TextEditingController();
     "end_date": endDate,
     "points": points,
     "field":field,
-    "id": id,
+    "user_id": id,
   };
 print(requestData);
   final response = await http.post(
@@ -58,7 +59,11 @@ print(requestData);
 
   if (response.statusCode == 200) {
     // Education background added successfully
+    print(response.body);
     print('Education background added successfully');
+    showBottomNotification('education background added successfully');
+
+    
   } else {
     // Error handling for the failed request
     print('Failed to add education background: ${response.statusCode}');
@@ -118,6 +123,10 @@ print(requestData);
                   controller: _field,
                 ),
                 TextField(
+                  decoration: InputDecoration(labelText: 'Course Name'),
+                  controller: _type,
+                ),
+                TextField(
                   decoration: InputDecoration(labelText: 'Points Scored'),
                   controller: _points,
                 ),
@@ -161,5 +170,13 @@ print(requestData);
     );
   }
 // 
-
+void showBottomNotification(String message) {
+  Fluttertoast.showToast(
+    msg: message,
+    toastLength: Toast.LENGTH_SHORT,
+    gravity: ToastGravity.BOTTOM,
+    backgroundColor: Colors.black,
+    textColor: Colors.white,
+  );
+}
 }

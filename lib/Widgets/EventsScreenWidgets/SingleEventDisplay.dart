@@ -1,12 +1,10 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
-
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ippu/models/UserProvider.dart';
-import 'package:provider/provider.dart';
+import 'package:ippu/Widgets/EventsScreenWidgets/PaymentScreen.dart';
+ 
 
 
 
@@ -44,7 +42,7 @@ class _SingleEventDisplayState extends State<SingleEventDisplay> {
   String id;
   _SingleEventDisplayState(this.id, this.rate ,this.description,this.points, this.eventName, this.imagelink, this.startDate, this.endDate);
   // 
-
+ int attended =0;
 
   Widget build(BuildContext context) {
     final size =MediaQuery.of(context).size;
@@ -67,9 +65,14 @@ class _SingleEventDisplayState extends State<SingleEventDisplay> {
                       height: size.height*0.46,
                       width: size.width*0.84,
                       decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.lightBlue,
-                        ),
+                    color: Colors.white,
+                  boxShadow: [
+                BoxShadow(
+            color: Colors.grey.withOpacity(0.5), // Adjust shadow color and opacity
+            offset: Offset(0.8, 1.0), // Adjust the shadow offset
+            blurRadius: 4.0, // Adjust the blur radius
+            spreadRadius: 0.2, // Adjust the spread radius
+                )],
                         image: DecorationImage(image: NetworkImage("${imagelink}"))
                       ),
                     ),
@@ -177,21 +180,25 @@ class _SingleEventDisplayState extends State<SingleEventDisplay> {
               SizedBox(height: size.height*0.022,),
               // 
               Center(
-                child: ElevatedButton(
+                child:  ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             primary: Color.fromARGB(255, 42, 129, 201), // Change button color to green
                             padding: EdgeInsets.all(size.height * 0.024),
 
                           ),
                           onPressed: () {
-                      sendAttendanceRequest(id);
+                            Navigator.push(context, MaterialPageRoute(builder: (context){
+                              return PaymentScreen(eventAmount: points, eventId: id, eventName: eventName,);
+                            }));
+                            
+                      // sendAttendanceRequest(id);
                           },
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: size.width*0.12),
                             child: Text('Register to Attend', style: GoogleFonts.lato(),),
                           ),
-                ),
-              ),
+                ), ),
+           
               // 
               // 
               SizedBox(height: size.height*0.022,),
@@ -203,58 +210,4 @@ class _SingleEventDisplayState extends State<SingleEventDisplay> {
     );
   }
 
-    //  logic for attend event
-  
-void sendAttendanceRequest(String eventID) async {
-  final userData = Provider.of<UserProvider>(context, listen: false).user;
-  final userId = userData?.id; // Replace with your actual user ID
-
-  final apiUrl = Uri.parse('http://app.ippu.or.ug/api/events/attend');
-
-  // Create a map of the data to send
-  final Map<String, dynamic> requestBody = {
-    'user_id': userId,
-    'event_id': eventID,
-  };
-
-  try {
-    final response = await http.post(
-      apiUrl,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode(requestBody),
-    );
-
-    if (response.statusCode == 200) {
-      // Handle a successful API response
-      print('Attendance for event sent successfully');
-      CircularProgressIndicator();
-      showBottomNotification('Attendance for event sent successfully');
-
-      
-      // Navigator.pop(context);
-    } else {
-        // Handle errors or unsuccessful response
-        print('Failed to send data to API');
-         print('Failed to send data to API. Status code: ${response.statusCode}');
-  print('Response body: ${response.body}');
-      }
-    } catch (error) {
-      // Handle network errors or exceptions
-      print('Error: $error');
-    }
-  }
-
-  // 
-void showBottomNotification(String message) {
-  Fluttertoast.showToast(
-    msg: message,
-    toastLength: Toast.LENGTH_SHORT,
-    gravity: ToastGravity.BOTTOM,
-    backgroundColor: Colors.black,
-    textColor: Colors.white,
-  );
-}
-  // 
 }

@@ -73,6 +73,7 @@ class _ContainerDisplayingUserEducationDetailsState extends State<ContainerDispl
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
+            resizeToAvoidBottomInset: false,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
