@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ippu/Screens/CommunicationScreen.dart';
+import 'package:ippu/controllers/auth_controller.dart';
+import 'package:ippu/models/UserProvider.dart';
+import 'package:provider/provider.dart';
 
 class allCommunication extends StatefulWidget {
   const allCommunication({super.key});
@@ -10,8 +13,26 @@ class allCommunication extends StatefulWidget {
 
 class _allCommunicationState extends State<allCommunication> {
   @override
+
+  // 
+  Future<void> fetchData() async {
+    try {
+      AuthController authController = AuthController();
+      final communications = await authController.getAllCommunications();
+      int communication  =0;
+
+      setState(() {
+        communication  = communications.length;
+         Provider.of<UserProvider>(context).totalNumberOfCommunications(communication);
+      });
+    } catch (e) {
+      // Handle any errors here
+      print('Error fetching data: $e');
+    }
+  }
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final totalCommunication = Provider.of<UserProvider>(context).totalCommunications;
     return  InkWell(
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -69,7 +90,7 @@ class _allCommunicationState extends State<allCommunication> {
                             decoration: BoxDecoration(
                                 border: Border.all(color: Colors.white),
                                 borderRadius: BorderRadius.circular(8)),
-                            child: Center(child: Text("${2}", style: TextStyle(color: Colors.white))),
+                            child: Center(child: Text("${totalCommunication}", style: TextStyle(color: Colors.white))),
                           ),
                         ),
                       ],

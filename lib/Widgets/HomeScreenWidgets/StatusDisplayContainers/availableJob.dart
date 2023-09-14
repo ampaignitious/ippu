@@ -1,5 +1,10 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:ippu/Screens/JobsScreen.dart';
+import 'package:ippu/models/JobData.dart';
+import 'package:ippu/models/UserProvider.dart';
+import 'package:provider/provider.dart';
 
 class availableJob extends StatefulWidget {
   const availableJob({super.key});
@@ -9,7 +14,59 @@ class availableJob extends StatefulWidget {
 }
 
 class _availableJobState extends State<availableJob> {
+    late Future<List<JobData>> dataFuture;
+  late List<JobData> fetchedData = []; // Declare a list to store fetched data
+
   @override
+  void initState() {
+    super.initState();
+    // Assign the result of fetchdata to the fetchedData list
+    dataFuture = fetchJobData().then((data) {
+      fetchedData = data;
+      return data;
+    });
+    dataFuture = fetchJobData();
+  }
+   Future<List<JobData>> fetchJobData() async {
+  final userData = Provider.of<UserProvider>(context, listen: false).user;
+
+  // Define the URL with userData.id
+  final apiUrl = 'http://app.ippu.or.ug/api/jobs';
+
+  // Define the headers with the bearer token
+  final headers = {
+    'Authorization': 'Bearer ${userData?.token}',
+  };
+
+  try {
+    final response = await http.get(Uri.parse(apiUrl), headers: headers);
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> jsonData = jsonDecode(response.body);
+      final List<dynamic> availableJobs = jsonData['data'];
+      print(availableJobs);
+      List<JobData> jobs = availableJobs.map((item) {
+        return JobData(
+          id:item['id'] ,
+          title:item['title'],
+          description:item['description'],
+          visibleFrom:item['visibleFrom'],
+          visibleTo:item['visibleTo'],
+          deadline:item['deadline'],
+        );
+      }).toList();
+      return jobs;
+    } else {
+      throw Exception('Failed to load events data');
+    }
+  } catch (error) {
+    // Handle the error here, e.g., display an error message to the user
+    print("There is an error ");
+    print('Error: $error');
+    return []; // Return an empty list or handle the error in your UI
+  }
+}
+
+  //
   Widget build(BuildContext context) {
   final size = MediaQuery.of(context).size;
     return InkWell(
@@ -70,7 +127,7 @@ class _availableJobState extends State<availableJob> {
                             decoration: BoxDecoration(
                                 border: Border.all(color: Colors.white),
                                 borderRadius: BorderRadius.circular(8)),
-                            child: Center(child: Text("${3}", style: TextStyle(color: Colors.white))),
+                            child: Center(child: Text("${fetchedData.length}", style: TextStyle(color: Colors.white))),
                           ),
                         ),
                       ],

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -73,11 +72,10 @@ class _StatDisplayRowState extends State<StatDisplayRow> {
 }
 // 
   Widget build(BuildContext context) {
-  //     final cpds = Provider.of<UserProvider>(context).CPDS;
-  //  final event = Provider.of<UserProvider>(context).Events;
+
+  Provider.of<UserProvider>(context).totalNumberOfEvents(fetchedData.length);
     final size = MediaQuery.of(context).size;
-  //      final attendedCpds = Provider.of<UserProvider>(context).attendedCpd;
-  //         final communications = Provider.of<UserProvider>(context).totalCommunications;
+  final totalCommunication = Provider.of<UserProvider>(context).totalCommunications;
     return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -162,7 +160,7 @@ class _StatDisplayRowState extends State<StatDisplayRow> {
                           thickness: 2,
                           color: Color.fromARGB(210, 63, 131, 187),
                         ),
-                    Center(child: Text("${7}", style: TextStyle(fontSize: size.height*0.0342, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 50, 155, 132),letterSpacing: 1),))
+                    Center(child: Text("${totalCommunication}", style: TextStyle(fontSize: size.height*0.0342, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 50, 155, 132),letterSpacing: 1),))
                       ],
                     ),
                     ),
