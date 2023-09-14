@@ -1,5 +1,5 @@
-import 'dart:convert';
-
+ import 'dart:convert';
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,74 +12,72 @@ class EducationBackgroundScreen extends StatefulWidget {
   const EducationBackgroundScreen({super.key});
 
   @override
-  State<EducationBackgroundScreen> createState() => _EducationBackgroundScreenState();
+  State<EducationBackgroundScreen> createState() =>
+      _EducationBackgroundScreenState();
 }
 
 class _EducationBackgroundScreenState extends State<EducationBackgroundScreen> {
-TextEditingController _title = TextEditingController();
-TextEditingController _type = TextEditingController();
-TextEditingController _startDate = TextEditingController();
-TextEditingController _endDate = TextEditingController();
-TextEditingController _points = TextEditingController();
-TextEditingController _field = TextEditingController();
-TextEditingController _userId = TextEditingController();
+  TextEditingController _title = TextEditingController();
+  TextEditingController _type = TextEditingController();
+  TextEditingController _startDate = TextEditingController();
+  TextEditingController _endDate = TextEditingController();
+  TextEditingController _points = TextEditingController();
+  TextEditingController _field = TextEditingController();
+  TextEditingController _userId = TextEditingController();
 
-
+ 
   @override
 
   // 
   Future<void> addEducationBackground({
-  required String title,
-  required String type,
-  required String startDate,
-  required String endDate,
-  required String points,
-  required String field,
-  required int id,
-}) async {
-  final String apiUrl = 'http://app.ippu.or.ug/api/education-background';
+    required String title,
+    required String type,
+    required String startDate,
+    required String endDate,
+    required String points,
+    required String field,
+    required int id,
+  }) async {
+    final String apiUrl = 'http://app.ippu.or.ug/api/education-background';
 
-  final Map<String, dynamic> requestData = {
-    "title": title,
-    "type": type,
-    "start_date": startDate,
-    "end_date": endDate,
-    "points": points,
-    "field":field,
-    "user_id": id,
-  };
-print(requestData);
-  final response = await http.post(
-    Uri.parse(apiUrl),
-    body: json.encode(requestData),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  );
+    final Map<String, dynamic> requestData = {
+      "title": title,
+      "type": type,
+      "start_date": startDate,
+      "end_date": endDate,
+      "points": points,
+      "field": field,
+      "user_id": id,
+    };
+    print(requestData);
+    final response = await http.post(
+      Uri.parse(apiUrl),
+      body: json.encode(requestData),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    );
 
-  if (response.statusCode == 200) {
-    // Education background added successfully
-    print(response.body);
-    print('Education background added successfully');
-    showBottomNotification('education background added successfully');
-      Navigator.push(context, MaterialPageRoute(builder: (context){
-      return EducationBackgroundScreen();
-    }));
-    
-  } else {
-    // Error handling for the failed request
-    print('Failed to add education background: ${response.statusCode}');
+    if (response.statusCode == 200) {
+      // Education background added successfully
+      print(response.body);
+      print('Education background added successfully');
+      showBottomNotification('education background added successfully');
+ 
+    } else {
+      // Error handling for the failed request
+      print('Failed to add education background: ${response.statusCode}');
+    }
   }
-}
   // 
   Widget build(BuildContext context) {
-    final size =MediaQuery.of(context).size;
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 42, 129, 201),
         elevation: 0,
-        title: Text("Education Background",style:GoogleFonts.lato()),
+        title: Text("Education Background", style: GoogleFonts.lato()),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color.fromARGB(255, 42, 129, 201),
@@ -90,20 +88,19 @@ print(requestData);
       body: Column(
         children: [
           SizedBox(
-            height: size.height*0.009,
+            height: size.height * 0.009,
           ),
           Container(
-            height: size.height*0.86,
+            height: size.height * 0.86,
             width: double.maxFinite,
-            child: ContainerDisplayingUserEducationDetails()),
+            child: ContainerDisplayingUserEducationDetails(),
+          ),
         ],
       ),
     );
   }
 
-
-
-// 
+  // 
 
   void _showAddEducationDialog() {
     showDialog(
@@ -132,14 +129,17 @@ print(requestData);
                   decoration: InputDecoration(labelText: 'Points Scored'),
                   controller: _points,
                 ),
-                TextField(
-                  decoration: InputDecoration(labelText: 'Start Date'),
-                  controller: _startDate,
-                ),
-                TextField(
-                  decoration: InputDecoration(labelText: 'End Date'),
-                  controller: _endDate,
-                ),
+                TextFormField(
+                decoration: InputDecoration(labelText: 'Start Date'),
+                controller: _startDate,
+                onTap: () => _selectDate(context, _startDate),
+              ),
+              TextFormField(
+                decoration: InputDecoration(labelText: 'End Date'),
+                controller: _endDate,
+                onTap: () => _selectDate(context, _endDate),
+              ), 
+ 
               ],
             ),
           ),
@@ -153,16 +153,22 @@ print(requestData);
             ElevatedButton(
               onPressed: () {
                 // Save education details and close dialog
-               addEducationBackground( 
-               title: _title.text,
-               field: _field.text,
-                type: _type.text,
-                startDate: _startDate.text,
-                endDate: _endDate.text,
-                points: _points.text,
-                id: userData!.id,
+                addEducationBackground(
+                  title: _title.text,
+                  field: _field.text,
+                  type: _type.text,
+                  startDate: _startDate.text,
+                  endDate: _endDate.text,
+                  points: _points.text,
+                  id: userData!.id,
                 );
                 Navigator.of(context).pop();
+                                Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => EducationBackgroundScreen(),
+                ),
+              );
               },
               child: Text('Save'),
             ),
@@ -171,14 +177,31 @@ print(requestData);
       },
     );
   }
-// 
-void showBottomNotification(String message) {
-  Fluttertoast.showToast(
-    msg: message,
-    toastLength: Toast.LENGTH_SHORT,
-    gravity: ToastGravity.BOTTOM,
-    backgroundColor: Colors.black,
-    textColor: Colors.white,
+
+  // 
+
+Future<void> _selectDate(BuildContext context, TextEditingController controller) async {
+  final DateTime? picked = await showDatePicker(
+    context: context,
+    initialDate: DateTime.now(),
+    firstDate: DateTime(2000),
+    lastDate: DateTime(2101),
   );
+  if (picked != null) {
+    // Update the selected date in the text field
+    final formattedDate = DateFormat('yyyy-MM-dd').format(picked);
+    controller.text = formattedDate;
+  }
 }
+  // 
+
+  void showBottomNotification(String message) {
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      backgroundColor: Colors.black,
+      textColor: Colors.white,
+    );
+  }
 }

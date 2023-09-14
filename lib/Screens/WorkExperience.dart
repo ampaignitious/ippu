@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:ippu/models/WorkingExperience.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -119,9 +120,6 @@ print(requestData);
     // Education background added successfully
     print('Experience added successfully');
     showBottomNotification('Experience added successfully');
-    Navigator.push(context, MaterialPageRoute(builder: (context){
-      return WorkExperience();
-    }));
       
   } else {
     // Error handling for the failed request
@@ -362,14 +360,16 @@ print(requestData);
                   decoration: InputDecoration(labelText: 'Type'),
                   controller: _type,
                 ),
-                TextField(
-                  decoration: InputDecoration(labelText: 'Start Date'),
-                  controller: _startDate,
-                ),
-                TextField(
-                  decoration: InputDecoration(labelText: 'End Date'),
-                  controller: _endDate,
-                ),
+              TextFormField(
+                decoration: InputDecoration(labelText: 'Start Date'),
+                controller: _startDate,
+                onTap: () => _selectDate(context, _startDate),
+              ),
+              TextFormField(
+                decoration: InputDecoration(labelText: 'End Date'),
+                controller: _endDate,
+                onTap: () => _selectDate(context, _endDate),
+              ), 
                 TextField(
                   decoration: InputDecoration(labelText: 'description'),
                   controller: _description,
@@ -406,6 +406,12 @@ print(requestData);
                 id: userData!.id,
                 );
                 Navigator.of(context).pop();
+                Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => WorkExperience(),
+                ),
+              );
               },
               child: Text('Save'),
             ),
@@ -415,6 +421,21 @@ print(requestData);
     );
   }
 // 
+Future<void> _selectDate(BuildContext context, TextEditingController controller) async {
+  final DateTime? picked = await showDatePicker(
+    context: context,
+    initialDate: DateTime.now(),
+    firstDate: DateTime(2000),
+    lastDate: DateTime(2101),
+  );
+  if (picked != null) {
+    // Update the selected date in the text field
+    final formattedDate = DateFormat('yyyy-MM-dd').format(picked);
+    controller.text = formattedDate;
+  }
+}
+// 
+
 void showBottomNotification(String message) {
   Fluttertoast.showToast(
     msg: message,

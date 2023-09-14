@@ -14,15 +14,16 @@ class CpdsSingleEventDisplay extends StatefulWidget {
   String endDate;
   String type;
   String location;
+  bool  attendance_request;
   String attendees;
   String content;
   String cpdId;
   String rate;
   String target_group;
-  CpdsSingleEventDisplay({super.key, required this.rate, required this.cpdId, required this.location, required this.startDate, required this.endDate, required this.type, required this.content ,required this.target_group,  required this.attendees, required this.cpdsname, required this.imagelink});
+  CpdsSingleEventDisplay({super.key, required this.attendance_request, required this.rate, required this.cpdId, required this.location, required this.startDate, required this.endDate, required this.type, required this.content ,required this.target_group,  required this.attendees, required this.cpdsname, required this.imagelink});
 
   @override
-  State<CpdsSingleEventDisplay> createState() => _CpdsSingleEventDisplayState(this.cpdId, this.rate, this.location, this.content , this.target_group ,this.attendees, this.cpdsname, this.imagelink, this.startDate, this.endDate, this.type);
+  State<CpdsSingleEventDisplay> createState() => _CpdsSingleEventDisplayState(this.attendance_request,this.cpdId, this.rate, this.location, this.content , this.target_group ,this.attendees, this.cpdsname, this.imagelink, this.startDate, this.endDate, this.type);
 }
 
 class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
@@ -37,8 +38,9 @@ class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
   String location;
   String attendees;
   String content;
+  bool attendance_request;
   String target_group;
-_CpdsSingleEventDisplayState( this.cpdId, this.content , this.rate, this.location, this.target_group ,this.attendees, this.cpdsname, this.imagelink, this.startDate, this.endDate, this.type); 
+_CpdsSingleEventDisplayState(this.attendance_request, this.cpdId, this.content , this.rate, this.location, this.target_group ,this.attendees, this.cpdsname, this.imagelink, this.startDate, this.endDate, this.type); 
  Widget build(BuildContext context) {
     final size =MediaQuery.of(context).size;
     return Scaffold(
@@ -161,7 +163,12 @@ _CpdsSingleEventDisplayState( this.cpdId, this.content , this.rate, this.locatio
               SizedBox(height: size.height*0.022,),
               // 
               Center(
-                child: ElevatedButton(
+                child:attendance_request ==true? Text("Already registered for the CPD"
+                , style: GoogleFonts.lato(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.red,
+                ),
+                ) : ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             primary:  Color.fromARGB(255, 42, 129, 201), // Change button color to green
                             padding: EdgeInsets.all(size.height * 0.024),

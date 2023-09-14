@@ -1,5 +1,5 @@
 
-class MyAttendedEvents {
+class AllEventsModel {
   String id;
   String name;
   String start_date;
@@ -10,10 +10,12 @@ class MyAttendedEvents {
   String attachment_name;
   String banner_name;
   String details;
+  bool attandence_request;
 
-  MyAttendedEvents({
+  AllEventsModel({
     required this.id,
     required this.name,
+    required this.attandence_request,
     required this.start_date,
     required this.end_date,
     required this.rate,

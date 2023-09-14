@@ -4,7 +4,7 @@ class UserData {
   final String email;
   final String token;
   final String? gender;
-  final String? dob;
+  late final String? dob;
   final String? membership_number;
   final String? address;
   final String? phone_no;

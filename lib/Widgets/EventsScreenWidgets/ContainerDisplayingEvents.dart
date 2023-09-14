@@ -1,8 +1,11 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:ippu/Widgets/CpdsScreenWidgets/CpdsSingleEventDisplay.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ippu/Widgets/EventsScreenWidgets/SingleEventDisplay.dart';
 import 'package:ippu/controllers/auth_controller.dart';
+import 'package:ippu/models/AllEventsModel.dart';
 import 'package:ippu/models/UserProvider.dart';
 import 'package:provider/provider.dart';
 
@@ -23,10 +26,11 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents> w
   }
 
   bool _showBackToTopButton = false;
-
+  late Future<List<AllEventsModel>> eventDataFuture;
   @override
   void initState() {
     super.initState();
+        eventDataFuture = fetchAllEvents();
     _scrollController.addListener(_updateScrollVisibility);
   }
 
@@ -44,7 +48,51 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents> w
     _searchController.dispose();
     super.dispose();
   }
- AuthController authController = AuthController();
+ 
+  
+  Future<List<AllEventsModel>> fetchAllEvents() async {
+  final userData = Provider.of<UserProvider>(context, listen: false).user;
+
+  // Define the URL with userData.id
+  final apiUrl = 'http://app.ippu.or.ug/api/events/${userData?.id}';
+
+  // Define the headers with the bearer token
+  final headers = {
+    'Authorization': 'Bearer ${userData?.token}',
+  };
+
+  try {
+    final response = await http.get(Uri.parse(apiUrl), headers: headers);
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> jsonData = jsonDecode(response.body);
+      final List<dynamic> eventData = jsonData['data'];
+      List<AllEventsModel> eventsData = eventData.map((item) {
+        return AllEventsModel(
+          id: item['id'].toString(),
+          name: item['name'],
+          start_date: item['start_date'],
+          end_date: item['end_date'],
+          rate: item['rate'],
+          attandence_request: item['attendance_request'] ,
+          member_rate: item['member_rate'],
+          points: item['points'].toString(), // Convert points to string if needed
+          attachment_name: item['attachment_name'],
+          banner_name: item['banner_name'],
+          details: item['details'],
+        );
+      }).toList();
+      print(eventsData);
+      return eventsData;
+    } else {
+      throw Exception('Failed to load events data');
+    }
+  } catch (error) {
+    // Handle the error here, e.g., display an error message to the user
+    print('Error: $error');
+    return []; // Return an empty list or handle the error in your UI
+  }
+}
+// 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -106,8 +154,8 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents> w
           ),
           Divider(),
            Expanded(
-            child: FutureBuilder<List<dynamic>>(
-              future: authController.getEvents(),
+            child: FutureBuilder<List<AllEventsModel>>(
+              future: eventDataFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
@@ -125,27 +173,29 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents> w
                       itemBuilder: (context, index) {
                         final item = data[index];
                         // Ensure the properties accessed here match the structure of your API response
-                        final eventName = item['name'];
-                        final startDate = item['start_date'];
-                        final endData =item['end_date'];
-                        final description = item['details'];
-                        final displaypoints = item['points'];
-                        final rate = item['rate'];
-                        final eventId = item['id'].toString();
-                        final imageLink = item['banner_name'];
-                        final points= item['points'].toString();
+                        final eventName = item.name;
+                        final startDate = item.start_date;
+                        final endData =item.end_date;
+                        final description = item.details;
+                        final displaypoints = item.points;
+                        final attendance_request = item.attandence_request;
+                        final rate = item.rate;
+                        final eventId = item.id.toString();
+                        final imageLink = item.banner_name;
+                        final points= item.points.toString();
                         if (_searchQuery.isEmpty ||
                             eventName
                                 .toLowerCase()
                                 .contains(_searchQuery.toLowerCase())) {
                           return InkWell(
                             onTap: () {
-                              print(item);
+                              print(item.attandence_request);
                          Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) {
                           return SingleEventDisplay(
                             id: eventId.toString(),
+                            attendance_request: attendance_request,
                             points: points.toString(),
                             rate: rate,
                             description: description,
@@ -213,7 +263,7 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents> w
                                     Padding(
                                     padding: EdgeInsets.only(left: size.width * 0.03),
                                     child: Text(
-                                      "${item['name'].split(' ').take(4).join(' ')}", // Display only the first two words
+                                      "${item.name.split(' ').take(4).join(' ')}", // Display only the first two words
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,
@@ -257,7 +307,7 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents> w
                                           ],
                                         ),
                                         Text(
-                                          "${item['start_date']}",
+                                          "${item.start_date}",
                                           style: TextStyle(fontSize: size.height * 0.008, color: Colors.white),
                                         ),
                                       ],
@@ -267,7 +317,7 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents> w
                                       children: [
                                         Text("Points", style: TextStyle(color: Colors.white)),
                                         Text(
-                                          "${item['points']}",
+                                          "${item.points}",
                                           style: TextStyle(fontSize: size.height * 0.008, color: Colors.white),
                                         )
                                       ],

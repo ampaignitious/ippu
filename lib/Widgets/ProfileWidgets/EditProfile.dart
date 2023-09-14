@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:ippu/Screens/ProfileScreen.dart';
 import 'dart:io';
 
@@ -40,11 +41,7 @@ class _EditProfileState extends State<EditProfile> {
   void initState() {
     super.initState();
     _avatarImage = AssetImage('assets/image9.png');
-    _dateFocusNode.addListener(() {
-      if (_dateFocusNode.hasFocus) {
-        _selectDate(context);
-      }
-    });
+ 
   }
 
 
@@ -62,21 +59,7 @@ class _EditProfileState extends State<EditProfile> {
   }
 // 
 
-// date picker function
-Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(1900),
-      lastDate: DateTime(2101),
-    );
 
-    if (picked != null) {
-      setState(() {
-        _dateController.text = picked.toLocal().toString().split(' ')[0];
-      });
-    }
-  }
 
   @override
   void dispose() {
@@ -171,15 +154,17 @@ Future<void> _selectDate(BuildContext context) async {
          
               // 
               SizedBox(height: size.height*0.018),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Date of Birth',
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20)
+             TextFormField(
+                  decoration: InputDecoration(
+                    labelText: 'Date of Birth',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                   ),
+                  initialValue: userData.dob, // Set the initial value
+                  onSaved: (value) => dob = value!,
+                  onTap: () => _selectDate(context, _dateController),
                 ),
-                onSaved: (value) => dob = value!,
-                initialValue: userData.dob,
-              ),
               SizedBox(height: size.height*0.018),
               TextFormField(
                 decoration: InputDecoration(labelText: 'Membership Number',
@@ -279,7 +264,21 @@ Future<void> _selectDate(BuildContext context) async {
   }
  
   // ...
-
+  // date picker function
+Future<void> _selectDate(BuildContext context, TextEditingController controller) async {
+  final DateTime? picked = await showDatePicker(
+    context: context,
+    initialDate: DateTime.now(),
+    firstDate: DateTime(2000),
+    lastDate: DateTime(2101),
+  );
+  if (picked != null) {
+    // Update the selected date in the text field
+    final formattedDate = DateFormat('yyyy-MM-dd').format(picked);
+    controller.text = formattedDate;
+  }
+}
+  // 
   
   void _submitForm() {
     if (_formKey.currentState!.validate()) {

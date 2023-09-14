@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:ippu/Widgets/CpdsScreenWidgets/CpdsSingleEventDisplay.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ippu/controllers/auth_controller.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+ import 'package:ippu/models/CpdModel.dart';
+import 'package:ippu/models/UserProvider.dart';
+import 'package:provider/provider.dart';
 
 
 class ContainerDisplayingUpcomingCpds extends StatefulWidget {
@@ -12,9 +16,7 @@ class ContainerDisplayingUpcomingCpds extends StatefulWidget {
 }
 
 class _ContainerDisplayingUpcomingCpdsState extends State<ContainerDisplayingUpcomingCpds> with TickerProviderStateMixin {
-   
-   AuthController _authController = AuthController();
-  @override
+ 
 
   final ScrollController _scrollController = ScrollController();
 
@@ -24,15 +26,18 @@ class _ContainerDisplayingUpcomingCpdsState extends State<ContainerDisplayingUpc
 
   bool _showBackToTopButton = false;
 
+  late Future<List<CpdModel>> cpdDataFuture;
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(_updateScrollVisibility);
+    cpdDataFuture=fetchUpcomingCpds();
   }
 
   void _updateScrollVisibility() {
     setState(() {
       _showBackToTopButton = _scrollController.offset > _scrollController.position.maxScrollExtent / 2;
+      
     });
   }
 
@@ -44,7 +49,58 @@ class _ContainerDisplayingUpcomingCpdsState extends State<ContainerDisplayingUpc
     _searchController.dispose();
     super.dispose();
   }
- 
+ // function for fetching cpds 
+  Future<List<CpdModel>> fetchUpcomingCpds() async {
+  final userData = Provider.of<UserProvider>(context, listen: false).user;
+
+  // Define the URL with userData.id
+  final apiUrl = 'http://app.ippu.or.ug/api/upcoming-cpds/${userData?.id}';
+
+  // Define the headers with the bearer token
+  final headers = {
+    'Authorization': 'Bearer ${userData?.token}',
+  };
+
+  try {
+    final response = await http.get(Uri.parse(apiUrl), headers: headers);
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> jsonData = jsonDecode(response.body);
+      final List<dynamic> eventData = jsonData['data'];
+      List<CpdModel> cpdData = eventData.map((item) {
+        return CpdModel(
+          // 
+          id:item['id'].toString(),
+          code:item['code'],
+          topic: item['topic'],
+          content: item['content'],
+          hours: item['hours'],
+          points: item['points'],
+          targetGroup:item['target_group'],
+          location:item['location'],
+          startDate:item['start_date'],
+          endDate:item['end_date'],
+          normalRate:item['normal_rate'],
+          membersRate:item['members_rate'],
+          resource:item['resource'],
+          status:item['status'],
+          type:item['type'],
+          banner:item['banner'],
+          attendance_request:item['attendance_request']
+          // 
+        );
+      }).toList();
+      print(cpdData);
+      return cpdData;
+    } else {
+      throw Exception('Failed to load events data');
+    }
+  } catch (error) {
+    // Handle the error here, e.g., display an error message to the user
+    print('Error: $error');
+    return []; // Return an empty list or handle the error in your UI
+  }
+}
+//
 
   Widget build(BuildContext context) {
 final size = MediaQuery.of(context).size;
@@ -76,8 +132,8 @@ final size = MediaQuery.of(context).size;
           ),
           Divider(),
           Expanded(
-            child: FutureBuilder<List<dynamic>>(
-              future: _authController.getUpcomingCpds(),
+            child: FutureBuilder<List<CpdModel>>(
+              future: cpdDataFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
@@ -92,22 +148,22 @@ final size = MediaQuery.of(context).size;
                       // controller: _scrollController,
                       scrollDirection: Axis.vertical,
                       itemCount: data.length,
-                      
                       itemBuilder: (context, index) {
                         final item = data[index];
                          // Ensure the properties accessed here match the structure of your API response
                         final imagelink = 'assets/cpds0.jpg';
-                        final activityName = item['topic'];
-                        final attendees = item['points'];
-                        final startDate =item['start_date'];
-                        final endDate =item['end_date'];
-                        final content = item['content'];
-                        final rate = item['normal_rate'];
-                        final location = item['location'];
-                        final type = item['type'];
-                        final imageLink = item['banner'];
-                        final target_group = item['target_group'];
-                        final String cpdId = item['id'].toString();
+                        final activityName = item.topic;
+                        final points = item.points;
+                        final startDate =item.startDate;
+                        final endDate =item.endDate;
+                        final content = item.content;
+                        final attendance_request = item.attendance_request;
+                        final rate = item.normalRate;
+                        final location = item.location;
+                        final type = item.type;
+                        final imageLink = item.banner;
+                        final target_group = item.targetGroup;
+                        final cpdId = item.id.toString();
 
                         if (_searchQuery.isEmpty ||
                             activityName
@@ -120,24 +176,25 @@ final size = MediaQuery.of(context).size;
                                 context,
                                 MaterialPageRoute(builder: (context) {
                                   return CpdsSingleEventDisplay(
+                                    attendance_request: attendance_request ,
                                     content: content,
-                                    rate: rate,
                                     target_group: target_group,
                                     startDate: startDate,
                                     endDate: endDate,
+                                    rate: location.toString(),
                                     type: type,
                                     cpdId:cpdId.toString(),
-                                    location: location,
-                                    attendees: attendees,
+                                    location: rate,
+                                    attendees: points,
                                     imagelink: 'http://app.ippu.or.ug/storage/banners/${imageLink}',
                                     cpdsname: activityName,
                                   );
                                 }),
                               );
                             },
-                            child: Column(
-                              children: [
-                                Container(
+                        child: Column(
+                          children: [
+                            Container(
                               margin: EdgeInsets.only(
                                 right: size.height * 0.009,
                                 left: size.height * 0.009,
@@ -158,27 +215,19 @@ final size = MediaQuery.of(context).size;
                                 border: Border.all(
                                   color: Colors.grey.withOpacity(0.5)
                                 ),
-                                    image: DecorationImage(
-                                      image: NetworkImage('http://app.ippu.or.ug/storage/banners/${imageLink}'),
-                                    ),
-                                  ),
+                                image: DecorationImage(
+                                  image: NetworkImage('http://app.ippu.or.ug/storage/banners/${imageLink}'),
                                 ),
-                                SizedBox(height: size.height * 0.012),
- 
-                                Container(
+                              ),
+                            ),
+                            SizedBox(height: size.height * 0.012),
+
+                            Container(
                           height: size.height * 0.089,
                           width: size.width * 0.7,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             color: Color.fromARGB(255, 42, 129, 201),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                offset: Offset(0.8, 1.0),
-                                blurRadius: 4.0,
-                                spreadRadius: 0.2,
-                              ),
-                            ],
                           ),
                           child: Center(
                             child: Column(
@@ -191,7 +240,7 @@ final size = MediaQuery.of(context).size;
                                     Padding(
                                       padding: EdgeInsets.only(left: size.width * 0.03),
                                       child: Text(
-                                        "${item['topic']}",
+                                        "${item.topic.split(' ').take(4).join(' ')}",
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold,
@@ -235,7 +284,7 @@ final size = MediaQuery.of(context).size;
                                           ],
                                         ),
                                         Text(
-                                          "${item['start_date']}",
+                                          "${item.startDate}",
                                           style: TextStyle(fontSize: size.height * 0.008, color: Colors.white),
                                         ),
                                       ],
@@ -243,9 +292,9 @@ final size = MediaQuery.of(context).size;
                                     Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text("Type", style: TextStyle(color: Colors.white)),
+                                        Text("Rate", style: TextStyle(color: Colors.white)),
                                         Text(
-                                          "${item['type']}",
+                                          "${item.type}",
                                           style: TextStyle(fontSize: size.height * 0.008, color: Colors.white),
                                         )
                                       ],
@@ -273,7 +322,7 @@ final size = MediaQuery.of(context).size;
               },
             ),
           )
-        ],
+       ],
       ),
    );
   }

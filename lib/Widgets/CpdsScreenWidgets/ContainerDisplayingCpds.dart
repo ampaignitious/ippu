@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:ippu/controllers/auth_controller.dart';
+import 'package:ippu/models/CpdModel.dart';
 import 'package:ippu/models/UserProvider.dart';
 import 'package:provider/provider.dart';
 
@@ -17,7 +18,7 @@ class ContainerDisplayingCpds extends StatefulWidget {
 
 class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
     with TickerProviderStateMixin {
-  AuthController authController = AuthController();
+ 
 
  
   final ScrollController _scrollController = ScrollController();
@@ -31,9 +32,17 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
   bool _showBackToTopButton = false;
 
   @override
+    late Future<List<CpdModel>> cpdDataFuture;
+    late List<CpdModel> fetchedData = [];
   void initState() {
     super.initState();
     _scrollController.addListener(_updateScrollVisibility);
+    cpdDataFuture =fetchAllCpds();
+      cpdDataFuture = fetchAllCpds().then((data) {
+      fetchedData = data;
+      return data;
+    });
+    cpdDataFuture = fetchAllCpds();
   }
 
   void _updateScrollVisibility() {
@@ -51,7 +60,59 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
     _searchController.dispose();
     super.dispose();
   }
+// function for fetching cpds 
+  Future<List<CpdModel>> fetchAllCpds() async {
+  final userData = Provider.of<UserProvider>(context, listen: false).user;
 
+  // Define the URL with userData.id
+  final apiUrl = 'http://app.ippu.or.ug/api/cpds/${userData?.id}';
+
+  // Define the headers with the bearer token
+  final headers = {
+    'Authorization': 'Bearer ${userData?.token}',
+  };
+
+  try {
+    final response = await http.get(Uri.parse(apiUrl), headers: headers);
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> jsonData = jsonDecode(response.body);
+      final List<dynamic> eventData = jsonData['data'];
+      List<CpdModel> cpdData = eventData.map((item) {
+        return CpdModel(
+          // 
+          id:item['id'].toString(),
+          code:item['code'],
+          topic: item['topic'],
+          content: item['content'],
+          hours: item['hours'],
+          points: item['points'],
+          targetGroup:item['target_group'],
+          location:item['location'],
+          startDate:item['start_date'],
+          endDate:item['end_date'],
+          normalRate:item['normal_rate'],
+          membersRate:item['members_rate'],
+          resource:item['resource'],
+          status:item['status'],
+          type:item['type'],
+          banner:item['banner'],
+          attendance_request:item['attendance_request']
+          // 
+        );
+      }).toList();
+      print(cpdData);
+      return cpdData;
+    } else {
+      throw Exception('Failed to load events data');
+    }
+  } catch (error) {
+    // Handle the error here, e.g., display an error message to the user
+    print('Error: $error');
+    return []; // Return an empty list or handle the error in your UI
+  }
+}
+// 
+// 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -119,8 +180,8 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
           ),
           Divider(),
           Expanded(
-            child: FutureBuilder<List<dynamic>>(
-              future: authController.getCpds(),
+            child: FutureBuilder<List<CpdModel>>(
+              future: cpdDataFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
@@ -139,17 +200,18 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                         final item = data[index];
                          // Ensure the properties accessed here match the structure of your API response
                         final imagelink = 'assets/cpds0.jpg';
-                        final activityName = item['topic'];
-                        final attendees = item['points'];
-                        final startDate =item['start_date'];
-                        final endDate =item['end_date'];
-                        final content = item['content'];
-                        final rate = item['normal_rate'];
-                        final location = item['location'];
-                        final type = item['type'];
-                        final imageLink = item['banner'];
-                        final target_group = item['target_group'];
-                        final cpdId = item['id'].toString();
+                        final activityName = item.topic;
+                        final points = item.points;
+                        final startDate =item.startDate;
+                        final endDate =item.endDate;
+                        final content = item.content;
+                        final attendance_request = item.attendance_request;
+                        final rate = item.normalRate;
+                        final location = item.location;
+                        final type = item.type;
+                        final imageLink = item.banner;
+                        final target_group = item.targetGroup;
+                        final cpdId = item.id.toString();
 
                         if (_searchQuery.isEmpty ||
                             activityName
@@ -162,6 +224,7 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                                 context,
                                 MaterialPageRoute(builder: (context) {
                                   return CpdsSingleEventDisplay(
+                                    attendance_request: attendance_request ,
                                     content: content,
                                     target_group: target_group,
                                     startDate: startDate,
@@ -170,7 +233,7 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                                     type: type,
                                     cpdId:cpdId.toString(),
                                     location: rate,
-                                    attendees: attendees,
+                                    attendees: points,
                                     imagelink: 'http://app.ippu.or.ug/storage/banners/${imageLink}',
                                     cpdsname: activityName,
                                   );
@@ -225,7 +288,7 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                                     Padding(
                                       padding: EdgeInsets.only(left: size.width * 0.03),
                                       child: Text(
-                                        "${item['topic'].split(' ').take(4).join(' ')}",
+                                        "${item.topic.split(' ').take(4).join(' ')}",
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold,
@@ -269,7 +332,7 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                                           ],
                                         ),
                                         Text(
-                                          "${item['start_date']}",
+                                          "${item.startDate}",
                                           style: TextStyle(fontSize: size.height * 0.008, color: Colors.white),
                                         ),
                                       ],
@@ -279,7 +342,7 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                                       children: [
                                         Text("Rate", style: TextStyle(color: Colors.white)),
                                         Text(
-                                          "${item['type']}",
+                                          "${item.type}",
                                           style: TextStyle(fontSize: size.height * 0.008, color: Colors.white),
                                         )
                                       ],

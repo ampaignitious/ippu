@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ippu/Widgets/CpdsScreenWidgets/CpdsSingleEventDisplay.dart';
 import 'package:ippu/controllers/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:ippu/Widgets/CpdsScreenWidgets/AttendedSingleCpdDisplay.dart';
@@ -18,12 +19,11 @@ class attendedCpdListHorizontalView extends StatefulWidget {
 
 class _attendedCpdListHorizontalViewState extends State<attendedCpdListHorizontalView> {
   
-  AuthController authController = AuthController();
-
-    late Future<List<CpdModel>> dataFuture;
+  
+ late Future<List<CpdModel>> cpdDataFuture;
    void initState() {
     super.initState();
-    dataFuture =   fetchdata();
+        cpdDataFuture=fetchdata();
  
   }
 Future<List<CpdModel>> fetchdata() async {
@@ -34,7 +34,7 @@ Future<List<CpdModel>> fetchdata() async {
     return [];
   }
 
-  final apiUrl = 'http://app.ippu.or.ug/api/attended-cpds/${userData.id}';
+  final apiUrl = 'http://app.ippu.or.ug/api/upcoming-cpds/${userData.id}';
 
   final headers = {
     'Authorization': 'Bearer ${userData.token}',
@@ -47,6 +47,7 @@ Future<List<CpdModel>> fetchdata() async {
       final List<dynamic> data = jsonData['data'];
       List<CpdModel> eventsData = data.map((item) {
         return CpdModel(
+          attendance_request: item['attendance_request'],
           id: item['id'].toString(),
           code: item['code'],
           topic: item['topic'],
@@ -77,8 +78,8 @@ Future<List<CpdModel>> fetchdata() async {
 
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return FutureBuilder<List<dynamic>>(
-              future: authController.getUpcomingCpds(),
+    return FutureBuilder<List<CpdModel>>(
+              future: cpdDataFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
@@ -96,23 +97,38 @@ Future<List<CpdModel>> fetchdata() async {
                       // totalNumberOfAttendedCpds(int attended)
                         final userData = Provider.of<UserProvider>(context, listen: false).totalNumberOfAttendedCpds(data.length);
                       // CpdModel data =  data [index];
-                      final events = data[index];
+                      final item = data[index];
+                        final activityName = item.topic;
+                        final points = item.points;
+                        final startDate =item.startDate;
+                        final endDate =item.endDate;
+                        final content = item.content;
+                        final attendance_request = item.attendance_request;
+                        final rate = item.normalRate;
+                        final location = item.location;
+                        final type = item.type;
+                        final imageLink = item.banner;
+                        final target_group = item.targetGroup;
+                        final cpdId = item.id.toString();
                       return Row(
                         children: [
                           InkWell(
                             onTap: (){
                                Navigator.push(context, MaterialPageRoute(builder: (context){
-                            return  AttendedSingleCpdDisplay(
-                                content:events['content'] ,
-                                target_group:events['targetGroup'] ,
-                                startDate:events['start_date'] ,
-                                endDate: events['end_date'],
-                                type: events['type'],
-                                location:events['location']  ,
-                                imagelink: 'http://app.ippu.or.ug/storage/banners/${events['banner']}',
-                                cpdsname: events['topic']  ,
-                                      
-                            );
+                            return CpdsSingleEventDisplay(
+                                    attendance_request: attendance_request ,
+                                    content: content,
+                                    target_group: target_group,
+                                    startDate: startDate,
+                                    endDate: endDate,
+                                    rate: location.toString(),
+                                    type: type,
+                                    cpdId:cpdId.toString(),
+                                    location: rate,
+                                    attendees: points,
+                                    imagelink: 'http://app.ippu.or.ug/storage/banners/${imageLink}',
+                                    cpdsname: activityName,
+                                  );
                           }));
                             },
                             child: Container(
@@ -141,7 +157,7 @@ Future<List<CpdModel>> fetchdata() async {
                                     height: size.height*0.22,
                                       width: size.width*0.56,
                                       decoration: BoxDecoration(
-                                  image: DecorationImage(image: NetworkImage("http://app.ippu.or.ug/storage/banners/${events['banner']}")),
+                                  image: DecorationImage(image: NetworkImage("http://app.ippu.or.ug/storage/banners/${item.banner}")),
                                                   ),
                                   ),
                                 ),
@@ -161,7 +177,7 @@ Future<List<CpdModel>> fetchdata() async {
                               ),
                                 Padding(
                                 padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.0008),
-                                child: Text("${events['topic'] }", style: TextStyle(
+                                child: Text("${item.topic}", style: TextStyle(
                                   color: Colors.blue,
                                   fontSize: size.height*0.008,
                                 ),),

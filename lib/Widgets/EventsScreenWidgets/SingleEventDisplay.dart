@@ -16,11 +16,12 @@ class SingleEventDisplay extends StatefulWidget {
   String endDate;
   String points;
   String id;
+  bool attendance_request;
   String description;
-  SingleEventDisplay({super.key, required this.id, required this.points , required this.description ,required this.startDate, required this.endDate, required this.rate, required this.eventName, required this.imagelink});
+  SingleEventDisplay({super.key, required this.attendance_request ,required this.id, required this.points , required this.description ,required this.startDate, required this.endDate, required this.rate, required this.eventName, required this.imagelink});
 
   @override
-  State<SingleEventDisplay> createState() => _SingleEventDisplayState( this.id, this.points ,this.description, this.rate, this.eventName, this.imagelink, this.startDate, this.endDate);
+  State<SingleEventDisplay> createState() => _SingleEventDisplayState( this.attendance_request ,this.id, this.points ,this.description, this.rate, this.eventName, this.imagelink, this.startDate, this.endDate);
 }
 
 class _SingleEventDisplayState extends State<SingleEventDisplay> {
@@ -40,7 +41,8 @@ class _SingleEventDisplayState extends State<SingleEventDisplay> {
   String description;
   String rate;
   String id;
-  _SingleEventDisplayState(this.id, this.rate ,this.description,this.points, this.eventName, this.imagelink, this.startDate, this.endDate);
+  bool attendance_request;
+  _SingleEventDisplayState(this.attendance_request, this.id, this.rate ,this.description,this.points, this.eventName, this.imagelink, this.startDate, this.endDate);
   // 
  int attended =0;
 
@@ -180,8 +182,13 @@ class _SingleEventDisplayState extends State<SingleEventDisplay> {
               SizedBox(height: size.height*0.022,),
               // 
               Center(
-                child:  ElevatedButton(
-                          style: ElevatedButton.styleFrom(
+                child: attendance_request ==true? Text("Already registered for the Event"
+                , style: GoogleFonts.lato(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.red,
+                ),
+                ) :ElevatedButton(
+                          style: ElevatedButton.styleFrom( 
                             primary: Color.fromARGB(255, 42, 129, 201), // Change button color to green
                             padding: EdgeInsets.all(size.height * 0.024),
 
@@ -209,5 +216,7 @@ class _SingleEventDisplayState extends State<SingleEventDisplay> {
       ),
     );
   }
-
+  // 
+ 
+  // 
 }
