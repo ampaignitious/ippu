@@ -58,7 +58,7 @@ class _AttendedEventSIngleDisplayScreenState extends State<AttendedEventSIngleDi
                         border: Border.all(
                           color: Colors.lightBlue,
                         ),
-                        image: DecorationImage(image: NetworkImage("http://app.ippu.or.ug/storage/banners/${imageLink}"))
+                        image: DecorationImage(image: NetworkImage("https://ippu.org/storage/banners/${imageLink}"))
                       ),
                     ),
               ),
@@ -182,7 +182,7 @@ class _AttendedEventSIngleDisplayScreenState extends State<AttendedEventSIngleDi
   Future<void> downloadAndSaveCertificateAsPDF(  String eventId) async {
    final userData = Provider.of<UserProvider>(context, listen: false).user;
    final userId = userData?.id;
-  final url = Uri.parse('http://app.ippu.or.ug/api/events/certificate/$userId/$eventId');
+  final url = Uri.parse('https://ippu.org/api/events/certificate/$userId/$eventId');
 
   try {
     final response = await http.get(url);

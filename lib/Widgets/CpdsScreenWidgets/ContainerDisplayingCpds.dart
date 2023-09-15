@@ -3,8 +3,7 @@ import 'package:ippu/Widgets/CpdsScreenWidgets/CpdsSingleEventDisplay.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:ippu/controllers/auth_controller.dart';
-import 'package:ippu/models/CpdModel.dart';
+ import 'package:ippu/models/CpdModel.dart';
 import 'package:ippu/models/UserProvider.dart';
 import 'package:provider/provider.dart';
 
@@ -65,7 +64,7 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
   final userData = Provider.of<UserProvider>(context, listen: false).user;
 
   // Define the URL with userData.id
-  final apiUrl = 'http://app.ippu.or.ug/api/cpds/${userData?.id}';
+  final apiUrl = 'https://ippu.org/api/cpds/${userData?.id}';
 
   // Define the headers with the bearer token
   final headers = {
@@ -212,7 +211,6 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                         final imageLink = item.banner;
                         final target_group = item.targetGroup;
                         final cpdId = item.id.toString();
-
                         if (_searchQuery.isEmpty ||
                             activityName
                                 .toLowerCase()
@@ -234,7 +232,7 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                                     cpdId:cpdId.toString(),
                                     location: rate,
                                     attendees: points,
-                                    imagelink: 'http://app.ippu.or.ug/storage/banners/${imageLink}',
+                                    imagelink: 'https://ippu.org/storage/banners/${imageLink}',
                                     cpdsname: activityName,
                                   );
                                 }),
@@ -264,7 +262,7 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                                   color: Colors.grey.withOpacity(0.5)
                                 ),
                                 image: DecorationImage(
-                                  image: NetworkImage('http://app.ippu.or.ug/storage/banners/${imageLink}'),
+                                  image: NetworkImage('https://ippu.org/storage/banners/${imageLink}'),
                                 ),
                               ),
                             ),

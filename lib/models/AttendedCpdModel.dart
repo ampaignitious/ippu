@@ -1,4 +1,4 @@
-class CpdModel {
+class AttendedCpdModel {
   final String id;
   final String code;
   final String topic;
@@ -15,15 +15,14 @@ class CpdModel {
   final String status;
   final String type;
   final String banner;
-  bool  attendance_request;
 
-  CpdModel({
+
+  AttendedCpdModel({
     required this.id,
     required this.code,
     required this.topic,
     required this.content,
     required this.hours,
-    required this.attendance_request,
     required this.points,
     required this.targetGroup,
     required this.location,
@@ -37,4 +36,3 @@ class CpdModel {
     required this.banner,
   });
 }
-

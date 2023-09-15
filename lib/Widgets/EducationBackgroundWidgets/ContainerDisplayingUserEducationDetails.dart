@@ -4,8 +4,7 @@ import 'package:ippu/models/UserProvider.dart';
 import 'package:provider/provider.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:google_fonts/google_fonts.dart';
-
+ 
 
 class ContainerDisplayingUserEducationDetails extends StatefulWidget {
   const ContainerDisplayingUserEducationDetails({super.key});
@@ -30,7 +29,7 @@ class _ContainerDisplayingUserEducationDetailsState extends State<ContainerDispl
   final userData = Provider.of<UserProvider>(context, listen: false).user;
 
   // Define the URL with userData.id
-  final apiUrl = 'http://app.ippu.or.ug/api/education-background/${userData?.id}';
+  final apiUrl = 'https://ippu.org/api/education-background/${userData?.id}';
 
   // Define the headers with the bearer token
   final headers = {

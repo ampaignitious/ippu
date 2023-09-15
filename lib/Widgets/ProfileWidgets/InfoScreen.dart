@@ -22,7 +22,7 @@ class _InfoScreenState extends State<InfoScreen> {
     final size =MediaQuery.of(context).size;
     return Column(
       children: [
-                        SizedBox(height: 20),
+                SizedBox(height: 20),
                 CircleAvatar(
                   radius: 60,
                   backgroundImage: AssetImage('assets/image9.png'),

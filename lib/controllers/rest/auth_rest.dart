@@ -1,8 +1,5 @@
  
 import 'package:dio/dio.dart' hide Headers;
-import 'package:flutter/cupertino.dart';
-import 'package:ippu/models/UserProvider.dart';
-import 'package:provider/provider.dart';
 import 'package:retrofit/retrofit.dart';
 
 import '../../Util/app_endpoints.dart';

@@ -34,7 +34,7 @@ class _allCpdDisplayState extends State<allCpdDisplay> {
   final userData = Provider.of<UserProvider>(context, listen: false).user;
 
   // Define the URL with userData.id
-  final apiUrl = 'http://app.ippu.or.ug/api/cpds/${userData?.id}';
+  final apiUrl = 'https://ippu.org/api/cpds/${userData?.id}';
 
   // Define the headers with the bearer token
   final headers = {
@@ -83,6 +83,7 @@ class _allCpdDisplayState extends State<allCpdDisplay> {
 // 
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    Provider.of<UserProvider>(context).totalNumberOfCPDS(fetchedData.length);
     return InkWell(
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) {

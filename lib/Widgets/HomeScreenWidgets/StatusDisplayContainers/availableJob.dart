@@ -31,7 +31,7 @@ class _availableJobState extends State<availableJob> {
   final userData = Provider.of<UserProvider>(context, listen: false).user;
 
   // Define the URL with userData.id
-  final apiUrl = 'http://app.ippu.or.ug/api/jobs';
+  final apiUrl = 'https://ippu.org/api/jobs';
 
   // Define the headers with the bearer token
   final headers = {
@@ -80,7 +80,7 @@ class _availableJobState extends State<availableJob> {
                     width: size.width * 0.9,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
-                      gradient: LinearGradient(
+                      gradient: const LinearGradient(
                         colors: [
                           Color.fromARGB(255, 42, 129, 201),
                           Color.fromARGB(255, 42, 201, 161),
@@ -88,7 +88,7 @@ class _availableJobState extends State<availableJob> {
                         begin: Alignment.centerLeft,
                         end: Alignment.centerRight,
                       ),
-                      boxShadow: [
+                      boxShadow: const [
                         BoxShadow(
                             color: Colors.white,
                             offset: Offset(0.8, 0.3),

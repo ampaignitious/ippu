@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ippu/Widgets/CpdsScreenWidgets/attendedCpdListHorizontalView.dart';
+import 'package:ippu/Widgets/HomeScreenWidgets/ImageSlider.dart/image_slider.dart';
 import 'package:ippu/Widgets/chartsWidget/AppColors.dart';
 import 'package:ippu/Widgets/chartsWidget/firstPieChart.dart';
 import 'package:ippu/Widgets/chartsWidget/indicator.dart';
@@ -21,7 +22,9 @@ class _FirstSetOfRowsState extends State<FirstSetOfRows> {
         Padding(
           padding: EdgeInsets.only(left:size.width*0.4,),
           child: Text("App points summary", style: GoogleFonts.lato(
-            fontSize:size.height*0.02
+            fontSize:size.height*0.02,
+            fontWeight: FontWeight.bold,
+            color: Colors.white
           ),),
         ),
         Row(
@@ -75,53 +78,26 @@ class _FirstSetOfRowsState extends State<FirstSetOfRows> {
         ),
 
         // container displaying the upcoming cpds in a horizontal 
-        Container(
-            margin: EdgeInsets.symmetric(
-              horizontal: size.height * 0.009,
-            ),
-            height: size.height * 0.39,
-            width: size.width * 0.90,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.4),
-                  offset: Offset(0.8, 1.0),
-                  blurRadius: 4.0,
-                  spreadRadius: 0.2,
-                ),
-              ],
-            ),
-            child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(
-                                  left: size.width * 0.06,
-                                  top: size.height * 0.02,
-                                ),
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      "Upcoming Cpds",
-                                      style: GoogleFonts.roboto(
-                                        fontSize: size.height * 0.02,
-                                        fontWeight: FontWeight.bold,
-                                        fontStyle: FontStyle.normal,
-                                        color: Color.fromARGB(255, 7, 63, 109),
-                                      ),
-                                    
-                                    ),
-                                    Divider(),
-                                    Container(
-                                      height: size.height*0.30,
-                                      width: size.width*0.8,
-                                      child: attendedCpdListHorizontalView()),
-                                  ],
-                                ),
-                              ),
-                            ])
-        )
+        Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(
+                          left: size.width * 0.06,
+                          top: size.height * 0.02,
+                          right: size.width * 0.06,
+                        ),
+                        child: Column(
+                          children: [
+                            Divider(),
+                            Container(
+                              height: size.height*0.4,
+                              width: size.width*0.9,
+                              child: Image_Slider()),
+                          ],
+                        ),
+                      ),
+                    ])
         // 
       ],
     )

@@ -36,7 +36,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Future<void> _fetchAccountTypes() async {
-    final response = await http.get(Uri.parse('http://app.ippu.or.ug/api/account-types'));
+    final response = await http.get(Uri.parse('https://ippu.org/api/account-types'));
 
     if (response.statusCode == 200) {
       final jsonData = json.decode(response.body);

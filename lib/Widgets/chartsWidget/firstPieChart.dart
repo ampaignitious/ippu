@@ -17,42 +17,36 @@ class PieChart2State extends State {
   @override
     void initState() {
     super.initState();
-    fetchData();
+    // fetchData();
   }
-    int totalCpdPoints =0;
-  Future<void> fetchData() async {
-    try {
-      AuthController authController = AuthController();
-      final cpds = await authController.getCpds();
-      final events = await authController.getEvents();
-      final communications = await authController.getAllCommunications();
-      final eventPoints = await authController.getEvents();
-       int totalEventPoints = 0; // Initialize the total event points
+  //   int totalCpdPoints =0;
+  // Future<void> fetchData() async {
+  //   // try {
+  //   //   AuthController authController = AuthController();
+  //   //   final cpds = await authController.getCpds();
+  //   //   final events = await authController.getEvents();
+  //   //   final communications = await authController.getAllCommunications();
+  //   //   final eventPoints = await authController.getEvents();
+  //   //    int totalEventPoints = 0; // Initialize the total event points
 
-    // Calculate total event points
-    for (final event in events) {
-      final points = event['points'] as int;
-      totalEventPoints += points;
-    }
-     Provider.of<UserProvider>(context, listen: false).totalNumberOfPointsFromEvents(totalEventPoints);
-    for (final cpd in cpds) {
-      print(int.tryParse(cpd['points']) );
-      final points = int.tryParse(cpd['points']) ;
-      totalCpdPoints += points!;
-    }
-    Provider.of<UserProvider>(context, listen:false).totalNumberOfPointsFromCpd(totalCpdPoints);
 
-    } catch (e) {
-      // Handle any errors here
-      print('Error fetching data: $e');
-    }
-  }
+  //   // for (final cpd in cpds) {
+  //   //   print(int.tryParse(cpd['points']) );
+  //   //   final points = int.tryParse(cpd['points']) ;
+  //   //   totalCpdPoints += points!;
+  //   // }
+  //   // Provider.of<UserProvider>(context, listen:false).totalNumberOfPointsFromCpd(totalCpdPoints);
+
+  //   // } catch (e) {
+  //   //   // Handle any errors here
+  //   //   print('Error fetching data: $e');
+  //   // }
+  // }
 
   Widget build(BuildContext context) {
     final size =MediaQuery.of(context).size;
     final userData = Provider.of<UserProvider>(context).user;
     final sizeHeight = Provider.of<UserProvider>(context).EventsPoints;
-    final pointsFromCpd  = Provider.of<UserProvider>(context).CpdPoints;
     final points = userData?.points;
     return AspectRatio(
       aspectRatio: 1.2,
@@ -86,7 +80,7 @@ class PieChart2State extends State {
                   ),
                   sectionsSpace: 0,
                   centerSpaceRadius: 40,
-                  sections: showingSections(sizeHeight!, points!, totalCpdPoints ),
+                  sections: showingSections(sizeHeight!, points!, sizeHeight ),
                 ),
               ),
             ),
@@ -137,7 +131,7 @@ class PieChart2State extends State {
           return PieChartSectionData(
             color: AppColors.contentColorPurple,
             value: 15,
-            title: '${cpdPoint}',
+            title: '$cpdPoint',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,

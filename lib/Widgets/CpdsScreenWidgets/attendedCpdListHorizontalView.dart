@@ -34,7 +34,7 @@ Future<List<CpdModel>> fetchdata() async {
     return [];
   }
 
-  final apiUrl = 'http://app.ippu.or.ug/api/upcoming-cpds/${userData.id}';
+  final apiUrl = 'https://ippu.org/api/upcoming-cpds/${userData.id}';
 
   final headers = {
     'Authorization': 'Bearer ${userData.token}',
@@ -126,7 +126,7 @@ Future<List<CpdModel>> fetchdata() async {
                                     cpdId:cpdId.toString(),
                                     location: rate,
                                     attendees: points,
-                                    imagelink: 'http://app.ippu.or.ug/storage/banners/${imageLink}',
+                                    imagelink: 'https://ippu.org/storage/banners/${imageLink}',
                                     cpdsname: activityName,
                                   );
                           }));
@@ -157,7 +157,7 @@ Future<List<CpdModel>> fetchdata() async {
                                     height: size.height*0.22,
                                       width: size.width*0.56,
                                       decoration: BoxDecoration(
-                                  image: DecorationImage(image: NetworkImage("http://app.ippu.or.ug/storage/banners/${item.banner}")),
+                                  image: DecorationImage(image: NetworkImage("https:ippu.org/storage/banners/${item.banner}")),
                                                   ),
                                   ),
                                 ),

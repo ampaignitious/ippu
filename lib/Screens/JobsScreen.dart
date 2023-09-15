@@ -31,7 +31,7 @@ class _JobsScreenState extends State<JobsScreen> {
   final userData = Provider.of<UserProvider>(context, listen: false).user;
 
   // Define the URL with userData.id
-  final apiUrl = 'http://app.ippu.or.ug/api/jobs';
+  final apiUrl = 'https://ippu.org/api/jobs';
 
   // Define the headers with the bearer token
   final headers = {

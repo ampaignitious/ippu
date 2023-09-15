@@ -14,7 +14,7 @@ class _AuthRestClient implements AuthRestClient {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://app.ippu.or.ug/api';
+    baseUrl ??= 'https://ippu.org/api';
   }
 
   final Dio _dio;

@@ -292,7 +292,7 @@ Future<void> _selectDate(BuildContext context, TextEditingController controller)
     final userData = Provider.of<UserProvider>(context, listen:false ).user;
     final userId = userData?.id; // Replace with your actual user ID
 
-    final apiUrl = Uri.parse('http://app.ippu.or.ug/api/profile/$userId');
+    final apiUrl = Uri.parse('https://ippu.org/api/profile/$userId');
 
     // Create a map of the data to send
     final userDataMap = {

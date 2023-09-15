@@ -2,15 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:ippu/Screens/CommunicationScreen.dart';
-import 'package:ippu/Screens/CpdsScreen.dart';
-import 'package:ippu/Screens/EventsScreen.dart';
-import 'package:ippu/Screens/JobsScreen.dart';
-import 'package:ippu/Screens/UserAppGuide.dart';
-import 'package:ippu/Widgets/CpdsScreenWidgets/AttendedCpdsScreen.dart';
 import 'package:ippu/Widgets/HomeScreenWidgets/FirstSetOfRows.dart';
-import 'package:ippu/Widgets/HomeScreenWidgets/SecondSetOfRows.dart';
 import 'package:ippu/Widgets/HomeScreenWidgets/StatDisplayRow.dart';
 import 'package:ippu/Widgets/HomeScreenWidgets/StatusDisplayContainers/allCommunication.dart';
 import 'package:ippu/Widgets/HomeScreenWidgets/StatusDisplayContainers/allCpdDisplay.dart';
@@ -55,7 +47,7 @@ int totalCPDS = 0;
   final userData = Provider.of<UserProvider>(context, listen: false).user;
 
   // Define the URL with userData.id
-  final apiUrl = 'http://app.ippu.or.ug/api/cpds/${userData?.id}';
+  final apiUrl = 'https://ippu.org/api/cpds/${userData?.id}';
 
   // Define the headers with the bearer token
   final headers = {
@@ -173,6 +165,7 @@ int totalCPDS = 0;
             ],
           ),
         ),
+        // bottom colored container
         Container(
           margin: EdgeInsets.only(top: size.height * 0.24, left: size.width * 0.032),
           height: size.height * 0.56,

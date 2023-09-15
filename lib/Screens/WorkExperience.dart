@@ -42,7 +42,7 @@ TextEditingController _position  = TextEditingController();
   final userData = Provider.of<UserProvider>(context, listen: false).user;
   final userId = userData?.id;
   // Define the URL with userData.id
-  final apiUrl = 'http://app.ippu.or.ug/api/work-experience/$userId';
+  final apiUrl = 'https://ippu.org/api/work-experience/$userId';
 
   // Define the headers with the bearer token
   final headers = {

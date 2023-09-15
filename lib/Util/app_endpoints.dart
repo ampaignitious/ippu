@@ -1,13 +1,9 @@
 // api_constants.dart
  
 
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:ippu/models/UserProvider.dart';
-import 'package:provider/provider.dart';
-
 
 class AppEndpoints {
-  static const String baseUrl = "http://app.ippu.or.ug/api";
+  static const String baseUrl = "https://ippu.org/api";
   static const String loginEndPoint = "/login";
   static const String regiserEndPoint = "/register";
   static const String logoutEndPoint = "/logout";

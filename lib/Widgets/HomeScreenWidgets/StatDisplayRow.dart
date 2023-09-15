@@ -26,13 +26,14 @@ class _StatDisplayRowState extends State<StatDisplayRow> {
       return data;
     });
     dataFuture = fetchAllEvents();
+    print(fetchedData);
   }
 // 
   Future<List<AllEventsModel>> fetchAllEvents() async {
   final userData = Provider.of<UserProvider>(context, listen: false).user;
 
   // Define the URL with userData.id
-  final apiUrl = 'http://app.ippu.or.ug/api/events/${userData?.id}';
+  final apiUrl = 'https://ippu.org/api/events/${userData?.id}';
 
   // Define the headers with the bearer token
   final headers = {
@@ -69,7 +70,11 @@ class _StatDisplayRowState extends State<StatDisplayRow> {
     print('Error: $error');
     return []; // Return an empty list or handle the error in your UI
   }
+  
 }
+// 
+// 
+
 // 
   Widget build(BuildContext context) {
 

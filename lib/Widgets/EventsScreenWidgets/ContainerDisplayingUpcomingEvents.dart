@@ -51,7 +51,7 @@ class _ContainerDisplayingUpcomingEventsState
   final userData = Provider.of<UserProvider>(context, listen: false).user;
 
   // Define the URL with userData.id
-  final apiUrl = 'http://app.ippu.or.ug/api/upcoming-events/${userData?.id}';
+  final apiUrl = 'https://ippu.org/api/upcoming-events/${userData?.id}';
 
   // Define the headers with the bearer token
   final headers = {
@@ -160,7 +160,7 @@ class _ContainerDisplayingUpcomingEventsState
                             description: description,
                             startDate: startDate ,
                             endDate: endData ,
-                            imagelink: 'http://app.ippu.or.ug/storage/banners/${imageLink}',
+                            imagelink: 'https://ippu.org/storage/banners/${imageLink}',
                             eventName: eventName ,
                           );
                         }),
@@ -190,7 +190,7 @@ class _ContainerDisplayingUpcomingEventsState
                                   color: Colors.grey.withOpacity(0.5)
                                 ),
                                     image: DecorationImage(
-                                      image: NetworkImage('http://app.ippu.or.ug/storage/banners/${imageLink}'),
+                                      image: NetworkImage('https://ippu.org/storage/banners/${imageLink}'),
                                     ),
                                   ),
                                 ),

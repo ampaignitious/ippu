@@ -18,6 +18,10 @@ class UserProvider extends ChangeNotifier {
   int? PointsFromEvents =0;
   int? get EventsPoints => PointsFromEvents;
   // 
+  // 
+  String? eventsLinkImage;
+  String? get getLinkImage => eventsLinkImage;
+  // 
 
   // points from cpds
   int? PointsFromCpd =0;
@@ -61,10 +65,14 @@ class UserProvider extends ChangeNotifier {
     void totalNumberOfPointsFromEvents(int eventPoints){
     PointsFromEvents =eventPoints;
   }
-
+ 
     // fetching total number of events
     void totalNumberOfPointsFromCpd(int eventPoints){
     PointsFromCpd =eventPoints;
+  }
+   
+    void setLinkImage(String eventPoints){
+    eventsLinkImage =eventPoints;
   }
 
 }

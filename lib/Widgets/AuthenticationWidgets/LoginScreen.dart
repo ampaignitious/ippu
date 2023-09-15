@@ -1,10 +1,5 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:ippu/Screens/DefaultScreen.dart';
-import 'package:ippu/Screens/HomeScreen.dart';
-import 'package:ippu/Screens/IppuTermsOfUse.dart';
-import 'package:ippu/Widgets/AuthenticationWidgets/LoginScreen.dart';
 import 'package:ippu/Widgets/AuthenticationWidgets/RegisterScreen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ippu/controllers/auth_controller.dart';
@@ -53,28 +48,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 "Invalid credentials, check your email and password and try again!"),
           ));
         } else {
-          // final cpds = await authController.getCpds();
-          // final events = await authController.getEvents();
-          // final upcomingCpds = await authController.getUpcomingCpds();
-
-          // print("====================================================");
-          // print(cps);
-          // print("====================================================");
-          // print(events);
-          // print("====================================================");
-          // print(upcomingCpds);
-          // print("====================================================");
-          
-
-          // Authentication was successful
+ 
           final String token = authResponse['authorization']['token'];
           final String name = authResponse['user']['name'];
           final String email = authResponse['user']['email'];
-
-          // Create the UserData instance
-          // if(token!=null){
-            
-          // }
+ 
           UserData userData = UserData(
             id: authResponse['user']['id'],
             name: name,
@@ -94,9 +72,6 @@ class _LoginScreenState extends State<LoginScreen> {
           
           Provider.of<UserProvider>(context, listen: false).setUser(userData);
  
-          // Navigator.push(context, MaterialPageRoute(builder: (context) {
-          //   return DefaultScreen();
-          // }));
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
                 return DefaultScreen();
           })); 

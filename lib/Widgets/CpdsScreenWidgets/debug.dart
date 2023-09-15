@@ -755,3 +755,26 @@
 //           ),
 //         ),
         
+
+                // container displaying the upcoming cpds in a horizontal 
+        // Column(
+        //                 crossAxisAlignment: CrossAxisAlignment.start,
+        //                 children: [
+        //                   Padding(
+        //                     padding: EdgeInsets.only(
+        //                       left: size.width * 0.06,
+        //                       top: size.height * 0.02,
+        //                       right: size.width * 0.06,
+        //                     ),
+        //                     child: Column(
+        //                       children: [
+        //                         Divider(),
+        //                         Container(
+        //                           height: size.height*0.4,
+        //                           width: size.width*0.9,
+        //                           child: Image_Slider()),
+        //                       ],
+        //                     ),
+        //                   ),
+        //                 ])
+        // //

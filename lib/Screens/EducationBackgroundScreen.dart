@@ -38,7 +38,7 @@ class _EducationBackgroundScreenState extends State<EducationBackgroundScreen> {
     required String field,
     required int id,
   }) async {
-    final String apiUrl = 'http://app.ippu.or.ug/api/education-background';
+    final String apiUrl = 'https://ippu.org/api/education-background';
 
     final Map<String, dynamic> requestData = {
       "title": title,

@@ -131,7 +131,7 @@ class _MyEventsState extends State<MyEvents> {
                                   // border: Border.all(
                                   //   color: Colors.lightBlue,
                                   // ),
-                                  image: DecorationImage(image: NetworkImage("http://app.ippu.or.ug/storage/banners/${data.banner_name}"))
+                                  image: DecorationImage(image: NetworkImage("https://ippu.org/storage/banners/${data.banner_name}"))
                                                   ),
                                   ),
                                 ),

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ippu/Widgets/CpdsScreenWidgets/CpdPaymentScreen.dart';
-import 'package:ippu/Widgets/EventsScreenWidgets/PaymentScreen.dart';
- 
+  
 
 
 class CpdsSingleEventDisplay extends StatefulWidget {

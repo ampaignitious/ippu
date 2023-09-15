@@ -54,7 +54,7 @@ class _ContainerDisplayingUpcomingCpdsState extends State<ContainerDisplayingUpc
   final userData = Provider.of<UserProvider>(context, listen: false).user;
 
   // Define the URL with userData.id
-  final apiUrl = 'http://app.ippu.or.ug/api/upcoming-cpds/${userData?.id}';
+  final apiUrl = 'https://ippu.org/api/upcoming-cpds/${userData?.id}';
 
   // Define the headers with the bearer token
   final headers = {
@@ -186,7 +186,7 @@ final size = MediaQuery.of(context).size;
                                     cpdId:cpdId.toString(),
                                     location: rate,
                                     attendees: points,
-                                    imagelink: 'http://app.ippu.or.ug/storage/banners/${imageLink}',
+                                    imagelink: 'https://ippu.org/storage/banners/${imageLink}',
                                     cpdsname: activityName,
                                   );
                                 }),
@@ -216,7 +216,7 @@ final size = MediaQuery.of(context).size;
                                   color: Colors.grey.withOpacity(0.5)
                                 ),
                                 image: DecorationImage(
-                                  image: NetworkImage('http://app.ippu.or.ug/storage/banners/${imageLink}'),
+                                  image: NetworkImage('https://ippu.org/storage/banners/${imageLink}'),
                                 ),
                               ),
                             ),

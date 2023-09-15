@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:flutter/material.dart';
 import 'package:ippu/Widgets/CpdsScreenWidgets/AttendedSingleCpdDisplay.dart';
+import 'package:ippu/models/AttendedCpdModel.dart';
 import 'package:ippu/models/UserProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
@@ -18,13 +19,13 @@ class attendedCpdListBuilder extends StatefulWidget {
 class _attendedCpdListBuilderState extends State<attendedCpdListBuilder> {
   
 
-    late Future<List<CpdModel>> CpdDataFuture;
+    late Future<List<AttendedCpdModel>> CpdDataFuture;
    void initState() {
     super.initState();
     CpdDataFuture =   fetchCpdData();
  
   }
-Future<List<CpdModel>> fetchCpdData() async {
+Future<List<AttendedCpdModel>> fetchCpdData() async {
   final userData = Provider.of<UserProvider>(context, listen: false).user;
 
   if (userData == null || userData.id == null || userData.token == null) {
@@ -32,7 +33,7 @@ Future<List<CpdModel>> fetchCpdData() async {
     return [];
   }
 
-  final apiUrl = 'http://app.ippu.or.ug/api/attended-cpds/${userData.id}';
+  final apiUrl = 'https://ippu.org/api/attended-cpds/${userData.id}';
 
   final headers = {
     'Authorization': 'Bearer ${userData.token}',
@@ -43,8 +44,8 @@ Future<List<CpdModel>> fetchCpdData() async {
     if (response.statusCode == 200) {
       final Map<String, dynamic> jsonData = jsonDecode(response.body);
       final List<dynamic> CpdData = jsonData['data'];
-      List<CpdModel> eventsData = CpdData.map((item) {
-        return CpdModel(
+      List<AttendedCpdModel> eventsData = CpdData.map((item) {
+        return AttendedCpdModel(
           id: item['id'].toString(),
           code: item['code'],
           topic: item['topic'],
@@ -60,7 +61,7 @@ Future<List<CpdModel>> fetchCpdData() async {
           resource: item['resource'],
           status: item['status'],
           type: item['type'],
-          banner: item['banner'],
+          banner: item['banner'], 
         );
       }).toList();
       return eventsData;
@@ -75,7 +76,7 @@ Future<List<CpdModel>> fetchCpdData() async {
 
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return FutureBuilder<List<CpdModel>>(
+    return FutureBuilder<List<AttendedCpdModel>>(
               future: CpdDataFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -85,13 +86,13 @@ Future<List<CpdModel>> fetchCpdData() async {
                     child: Text("Check your internet connection to load the data"),
                   );
                 } else if (snapshot.hasData) {
-                  List<CpdModel>  CpdData  = snapshot.data!;
+                  List<AttendedCpdModel>  CpdData  = snapshot.data!;
                   return ListView.builder(
                     itemCount:  CpdData .length,
                     itemBuilder: (context, index) {
                       // totalNumberOfAttendedCpds(int attended)
                         final userData = Provider.of<UserProvider>(context, listen: false).totalNumberOfAttendedCpds(CpdData.length);
-                      CpdModel data =  CpdData [index];
+                      AttendedCpdModel data =  CpdData [index];
                       return Column(
                         children: [
                           Container(
@@ -123,7 +124,7 @@ Future<List<CpdModel>> fetchCpdData() async {
                                 // border: Border.all(
                                 //   color: Colors.lightBlue,
                                 // ),
-                                image: DecorationImage(image: NetworkImage("http://app.ippu.or.ug/storage/banners/${data.banner}")),
+                                image: DecorationImage(image: NetworkImage("https://ippu.org/storage/banners/${data.banner}")),
                                                 ),
                                 ),
                               ),
@@ -191,7 +192,7 @@ Future<List<CpdModel>> fetchCpdData() async {
                                 endDate: data.endDate,
                                 type: data.type,
                                 location: data.location,
-                                imagelink: 'http://app.ippu.or.ug/storage/banners/${data.banner}',
+                                imagelink: 'https://ippu.org/storage/banners/${data.banner}',
                                 cpdsname: data.topic,
                                       
                             );
@@ -219,41 +220,4 @@ Future<List<CpdModel>> fetchCpdData() async {
             );
           
   }
-}
-class CpdModel {
-  final String id;
-  final String code;
-  final String topic;
-  final String content;
-  final String hours;
-  final String points;
-  final String targetGroup;
-  final String location;
-  final String startDate;
-  final String endDate;
-  final String normalRate;
-  final String membersRate;
-  final String resource;
-  final String status;
-  final String type;
-  final String banner;
-
-  CpdModel({
-    required this.id,
-    required this.code,
-    required this.topic,
-    required this.content,
-    required this.hours,
-    required this.points,
-    required this.targetGroup,
-    required this.location,
-    required this.startDate,
-    required this.endDate,
-    required this.normalRate,
-    required this.membersRate,
-    required this.resource,
-    required this.status,
-    required this.type,
-    required this.banner,
-  });
 }

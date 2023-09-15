@@ -158,7 +158,7 @@ class _UserProfileFormState extends State<UserProfileForm> {
     final userData = Provider.of<UserProvider>(context).user;
     final userId = userData?.id; // Replace with your actual user ID
 
-    final apiUrl = 'http://app.ippu.or.ug/api/profile/$userId';
+    final apiUrl = 'https://ippu.org/api/profile/$userId';
 
     // Create a map of the data to send
     final userDataMap = {
@@ -170,7 +170,7 @@ class _UserProfileFormState extends State<UserProfileForm> {
       'phone_no': phoneNo,
       'alt_phone_no': altPhoneNo,
       'nok_name': nokName,
-      'nok_email': nokAddress,
+      'nok_address': nokAddress,
       'nok_phone_no': nokPhoneNo,
     };
 
@@ -185,6 +185,7 @@ class _UserProfileFormState extends State<UserProfileForm> {
 
       if (response.statusCode == 200) {
         // Handle a successful API response
+        print(response);
         print('Data sent successfully');
       } else {
         // Handle errors or unsuccessful response

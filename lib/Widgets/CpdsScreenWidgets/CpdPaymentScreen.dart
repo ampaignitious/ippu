@@ -132,7 +132,7 @@ _CpdPaymentScreenState( this.eventAmount, this.eventName, this.eventId);
   final userData = Provider.of<UserProvider>(context, listen: false).user;
   final userId = userData?.id; // Replace with your actual user ID
 
-  final apiUrl = Uri.parse('http://app.ippu.or.ug/api/cpds/attend');
+  final apiUrl = Uri.parse('https://ippu.org/api/cpds/attend');
 
   // Create a map of the data to send
   final Map<String, dynamic> requestBody = {

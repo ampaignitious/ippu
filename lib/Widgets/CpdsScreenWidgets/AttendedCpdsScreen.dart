@@ -1,12 +1,8 @@
-import 'dart:convert';
-import 'package:google_fonts/google_fonts.dart';
+ 
 
 import 'package:flutter/material.dart';
-import 'package:ippu/Widgets/CpdsScreenWidgets/AttendedSingleCpdDisplay.dart';
-import 'package:ippu/Widgets/CpdsScreenWidgets/attendedCpdListBuilder.dart';
-import 'package:ippu/models/UserProvider.dart';
-import 'package:provider/provider.dart';
-import 'package:http/http.dart' as http;
+ import 'package:ippu/Widgets/CpdsScreenWidgets/attendedCpdListBuilder.dart';
+ 
 
 
 class AttendedCpdsScreen extends StatefulWidget {

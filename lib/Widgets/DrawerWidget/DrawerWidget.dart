@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:ippu/Screens/ChartsScreen.dart';
 import 'package:ippu/Screens/CommunicationScreen.dart';
 import 'package:ippu/Screens/DefaultScreen.dart';
 import 'package:ippu/Screens/EducationBackgroundScreen.dart';
 import 'package:ippu/Screens/EventsScreen.dart';
-import 'package:ippu/Screens/HomeScreen.dart';
 import 'package:ippu/Screens/JobsScreen.dart';
 import 'package:ippu/Screens/CpdsScreen.dart';
 import 'package:ippu/Screens/OurCoreValues.dart';
@@ -17,7 +15,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:ippu/controllers/auth_controller.dart';
 import 'package:ippu/models/UserProvider.dart';
 import 'package:provider/provider.dart';
-import 'package:http/http.dart' as http;
 
 
 class DrawerWidget extends StatefulWidget {
@@ -89,22 +86,6 @@ authController.signOut();
                   ),
                 ),
               ),
-              // InkWell(
-              //   onTap: (){
-              //     Navigator.push(context, MaterialPageRoute(builder: (context){
-              //       return ChartsScreen();
-              //     }));
-              //   },
-              //   child: Card(
-              //     child: ListTile(
-              //       leading: Icon(Icons.message_rounded),
-              //       title: Text("Chat", style: GoogleFonts.lato(
-              //           fontWeight: FontWeight.bold,
-              //         ),),
-              //     ),
-              //   ),
-              // ),
-              // 
                InkWell(
                 onTap: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context){
