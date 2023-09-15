@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ippu/Screens/CommunicationScreen.dart';
 import 'package:ippu/Screens/CpdsScreen.dart';
 import 'package:ippu/Screens/EventsScreen.dart';
 import 'package:ippu/Screens/HomeScreen.dart';
 import 'package:ippu/Widgets/DrawerWidget/DrawerWidget.dart';
+import 'package:ippu/models/UserProvider.dart';
+import 'package:provider/provider.dart';
 
 // import '../widgets/drawerWidgets/DrawerWidget.dart';
 // import 'HomeScreen.dart';
@@ -40,6 +43,7 @@ class _DefaultScreenState extends State<DefaultScreen> {
     }
   Widget build(BuildContext context) {
     final size =MediaQuery.of(context).size;
+
     return Scaffold(
       // drawer:Drawer(
       //   width: size.width*0.8,
@@ -72,4 +76,13 @@ class _DefaultScreenState extends State<DefaultScreen> {
       ),
     );
   }
+    void showBottomNotification(String message) {
+  Fluttertoast.showToast(
+    msg: message,
+    toastLength: Toast.LENGTH_SHORT,
+    gravity: ToastGravity.TOP,
+    backgroundColor: Colors.black,
+    textColor: Colors.white,
+  );
+}
 }

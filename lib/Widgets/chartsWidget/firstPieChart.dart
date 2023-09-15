@@ -118,7 +118,7 @@ class PieChart2State extends State {
           return PieChartSectionData(
             color: AppColors.contentColorGreen,
             value: 40,
-            title: '${totalUserPoints} ',
+            title: '$totalUserPoints ',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,

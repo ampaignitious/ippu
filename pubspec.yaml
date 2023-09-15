@@ -31,7 +31,6 @@ dependencies:
   flutter_html:
   google_fonts: ^4.0.4
   http: 
-  carousel_slider:
   flutter_pdfview:
   fl_chart:
   fluttertoast:

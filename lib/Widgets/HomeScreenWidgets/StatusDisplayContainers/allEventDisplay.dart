@@ -17,21 +17,26 @@ class allEventDisplay extends StatefulWidget {
 class _allEventDisplayState extends State<allEventDisplay> {
   late Future<List<AllEventsModel>> dataFuture;
   late List<AllEventsModel> fetchedData = []; // Declare a list to store fetched data
-
+  int totalEventPoints =0;
   @override
   void initState() {
     super.initState();
     // Assign the result of fetchdata to the fetchedData list
     dataFuture = fetchAllEvents().then((data) {
       fetchedData = data;
+      for (final cpd in fetchedData) {
+      int? points = int.tryParse(cpd.points);
+      if (points != null) {
+        totalEventPoints += points;
+      }
+    }
       return data;
     });
     dataFuture = fetchAllEvents();
   }
-
+ 
   Future<List<AllEventsModel>> fetchAllEvents() async {
     final userData = Provider.of<UserProvider>(context, listen: false).user;
-
     // Define the URL with userData.id
     final apiUrl = 'https://ippu.org/api/events/${userData?.id}';
 
@@ -71,11 +76,11 @@ class _allEventDisplayState extends State<allEventDisplay> {
       return []; // Return an empty list or handle the error in your UI
     }
   }
-
+  
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    Provider.of<UserProvider>(context).totalNumberOfPointsFromEvents(totalEventPoints);
     final eventPoints = Provider.of<UserProvider>(context).EventsPoints;
-
     // Calculate the total points
     int totalPoints = 0;
     for (var event in fetchedData) {

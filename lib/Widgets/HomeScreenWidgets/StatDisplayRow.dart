@@ -80,6 +80,8 @@ class _StatDisplayRowState extends State<StatDisplayRow> {
 
   Provider.of<UserProvider>(context).totalNumberOfEvents(fetchedData.length);
     final size = MediaQuery.of(context).size;
+        final eventPoints = Provider.of<UserProvider>(context).EventsPoints;
+
   final totalCommunication = Provider.of<UserProvider>(context).totalCommunications;
     return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,

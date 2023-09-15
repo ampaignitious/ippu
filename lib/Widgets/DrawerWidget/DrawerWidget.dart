@@ -217,11 +217,13 @@ authController.signOut();
               // 
               //  
                InkWell(
-                onTap: ()  {
-                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-                  return LoginScreen();
-                  }));
-                },
+                onTap: () {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginScreen()),
+                      (Route<dynamic> route) => false,  
+                    );
+                  },
                  child: Card(
                   child: ListTile(
                     leading: Icon(Icons.exit_to_app_rounded,

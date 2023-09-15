@@ -49,38 +49,35 @@ class ProfileModel {
     this.latestMembership,
   });
 
-  // factory ProfileModel.fromJson(Map<String, dynamic> json) {
-  //   return ProfileModel(
-  //     id: json['data']['id'],
-  //     name: json['data']['name'],
-  //     email: json['data']['email'],
-  //     membershipNumber: json['data']['membership_number'],
-  //     address: json['data']['address'],
-  //     gender: json['data']['gender'],
-  //     dob: json['data']['dob'],
-  //     phoneNo: json['data']['phone_no'],
-  //     altPhoneNo: json['data']['alt_phone_no'],
-  //     emailVerifiedAt: json['data']['email_verified_at'],
-  //     accountTypeId: json['data']['account_type_id'],
-  //     userType: json['data']['user_type'],
-  //     status: json['data']['status'],
-  //     comment: json['data']['comment'],
-  //     subscribed: json['data']['subscribed'],
-  //     defaultPipeline: json['data']['default_pipeline'],
-  //     points: json['data']['points'],
-  //     createdAt: json['data']['created_at'],
-  //     updatedAt: json['data']['updated_at'],
-  //     activeStatus: json['data']['active_status'],
-  //     avatar: json['data']['avatar'],
-  //     darkMode: json['data']['dark_mode'],
-  //     messengerColor: json['data']['messenger_color'],
-  //     nokName: json['data']['nok_name'],
-  //     nokAddress: json['data']['nok_address'],
-  //     nokPhoneNo: json['data']['nok_phone_no'],
-  //     subscriptionStatus: json['data']['subscription_status'],
-  //     latestMembership: LatestMembership.fromJson(json['data']['latest_membership']),
-  //   );
-  // }
+  factory ProfileModel.fromJson(Map<String, dynamic> json) {
+    return ProfileModel(
+      id: json['data']['id'],
+      name: json['data']['name'],
+      email: json['data']['email'],
+      membershipNumber: json['data']['membership_number'],
+      address: json['data']['address'],
+      gender: json['data']['gender'],
+      dob: json['data']['dob'],
+      phoneNo: json['data']['phone_no'],
+      altPhoneNo: json['data']['alt_phone_no'],
+ 
+      accountTypeId: json['data']['account_type_id'],
+      userType: json['data']['user_type'],
+      status: json['data']['status'],
+      comment: json['data']['comment'],
+      subscribed: json['data']['subscribed'],
+       points: json['data']['points'],
+ 
+      activeStatus: json['data']['active_status'],
+      avatar: json['data']['avatar'],
+      darkMode: json['data']['dark_mode'],
+       nokName: json['data']['nok_name'],
+      nokAddress: json['data']['nok_address'],
+      nokPhoneNo: json['data']['nok_phone_no'],
+      subscriptionStatus: json['data']['subscription_status'],
+      latestMembership: LatestMembership.fromJson(json['data']['latest_membership']),
+    );
+  }
 }
 
 class LatestMembership {

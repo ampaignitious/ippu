@@ -102,7 +102,7 @@ class _availableJobState extends State<availableJob> {
                       ],
                     ),
                     child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Padding(
                           padding: EdgeInsets.only(left: size.width * 0.05),
@@ -120,7 +120,7 @@ class _availableJobState extends State<availableJob> {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(left: size.width * 0.04),
+                          padding: EdgeInsets.only(left: size.width * 0.20),
                           child: Container(
                             height: size.height * 0.06,
                             width: size.width * 0.20,

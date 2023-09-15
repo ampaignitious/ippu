@@ -107,7 +107,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
     print(requestData);
     final response = await http.post(
-      Uri.parse('http://app.ippu.or.ug/api/register'),
+      Uri.parse('https://ippu.org/api/register'),
       body: requestData,
     );
     // Close the loading indicator dialog

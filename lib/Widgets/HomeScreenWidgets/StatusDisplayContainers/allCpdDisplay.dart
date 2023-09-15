@@ -18,13 +18,19 @@ class _allCpdDisplayState extends State<allCpdDisplay> {
   @override
   late Future<List<CpdModel>> dataFuture;
   late List<CpdModel> fetchedData = []; // Declare a list to store fetched data
-
+  int totalCpdPoints=0;
   @override
   void initState() {
     super.initState();
     // Assign the result of fetchdata to the fetchedData list
     dataFuture = fetchAllCpds().then((data) {
       fetchedData = data;
+      for (final cpd in fetchedData) {
+      int? points = int.tryParse(cpd.points);
+      if (points != null) {
+        totalCpdPoints += points;
+      }
+    }
       return data;
     });
     dataFuture = fetchAllCpds();
@@ -84,6 +90,7 @@ class _allCpdDisplayState extends State<allCpdDisplay> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     Provider.of<UserProvider>(context).totalNumberOfCPDS(fetchedData.length);
+    Provider.of<UserProvider>(context).totalNumberOfPointsFromCpd(totalCpdPoints);
     return InkWell(
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) {

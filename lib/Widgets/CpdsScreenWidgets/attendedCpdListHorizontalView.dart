@@ -23,59 +23,61 @@ class _attendedCpdListHorizontalViewState extends State<attendedCpdListHorizonta
  late Future<List<CpdModel>> cpdDataFuture;
    void initState() {
     super.initState();
-        cpdDataFuture=fetchdata();
+        cpdDataFuture=fetchUpcomingCpds();
  
   }
-Future<List<CpdModel>> fetchdata() async {
+ // function for fetching cpds 
+  Future<List<CpdModel>> fetchUpcomingCpds() async {
   final userData = Provider.of<UserProvider>(context, listen: false).user;
 
-  if (userData == null || userData.id == null || userData.token == null) {
-    // Handle the case where userData or its properties are null
-    return [];
-  }
+  // Define the URL with userData.id
+  final apiUrl = 'https://ippu.org/api/upcoming-cpds/${userData?.id}';
 
-  final apiUrl = 'https://ippu.org/api/upcoming-cpds/${userData.id}';
-
+  // Define the headers with the bearer token
   final headers = {
-    'Authorization': 'Bearer ${userData.token}',
+    'Authorization': 'Bearer ${userData?.token}',
   };
 
   try {
     final response = await http.get(Uri.parse(apiUrl), headers: headers);
     if (response.statusCode == 200) {
       final Map<String, dynamic> jsonData = jsonDecode(response.body);
-      final List<dynamic> data = jsonData['data'];
-      List<CpdModel> eventsData = data.map((item) {
+      final List<dynamic> eventData = jsonData['data'];
+      List<CpdModel> cpdData = eventData.map((item) {
         return CpdModel(
-          attendance_request: item['attendance_request'],
-          id: item['id'].toString(),
-          code: item['code'],
+          // 
+          id:item['id'].toString(),
+          code:item['code'],
           topic: item['topic'],
           content: item['content'],
           hours: item['hours'],
           points: item['points'],
-          targetGroup: item['target_group'], // Use correct key name
-          location: item['location'],
-          startDate: item['start_date'], // Use correct key name
-          endDate: item['end_date'], // Use correct key name
-          normalRate: item['normal_rate'], // Use correct key name
-          membersRate: item['members_rate'], // Use correct key name
-          resource: item['resource'],
-          status: item['status'],
-          type: item['type'],
-          banner: item['banner'],
+          targetGroup:item['target_group'],
+          location:item['location'],
+          startDate:item['start_date'],
+          endDate:item['end_date'],
+          normalRate:item['normal_rate'],
+          membersRate:item['members_rate'],
+          resource:item['resource'],
+          status:item['status'],
+          type:item['type'],
+          banner:item['banner'],
+          attendance_request:item['attendance_request']
+          // 
         );
       }).toList();
-      return eventsData;
+      print(cpdData);
+      return cpdData;
     } else {
       throw Exception('Failed to load events data');
     }
   } catch (error) {
+    // Handle the error here, e.g., display an error message to the user
     print('Error: $error');
-    return [];
+    return []; // Return an empty list or handle the error in your UI
   }
 }
-
+//
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return FutureBuilder<List<CpdModel>>(
@@ -84,20 +86,20 @@ Future<List<CpdModel>> fetchdata() async {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
-                  return Center(
-                    child: Text("Check your internet connection to load the data"),
-                  );
-                } else if (snapshot.hasData) {
-                  // List<CpdModel>  data  = snapshot.data!;
+                  return Text('Error: ${snapshot.error}');
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return Center(child:  Text('No data available, Or check internet connection'));
+                } else {
                   final data = snapshot.data;
-                  return ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount:  data! .length,
-                    itemBuilder: (context, index) {
-                      // totalNumberOfAttendedCpds(int attended)
-                        final userData = Provider.of<UserProvider>(context, listen: false).totalNumberOfAttendedCpds(data.length);
-                      // CpdModel data =  data [index];
-                      final item = data[index];
+                  if (data != null) {
+                    return ListView.builder(
+                      // controller: _scrollController,
+                      // scrollDirection: Axis.horizontal,
+                      itemCount: data.length,
+                      itemBuilder: (context, index) {
+                        final item = data[index];
+                         // Ensure the properties accessed here match the structure of your API response
+                        final imagelink = 'assets/cpds0.jpg';
                         final activityName = item.topic;
                         final points = item.points;
                         final startDate =item.startDate;
@@ -110,12 +112,13 @@ Future<List<CpdModel>> fetchdata() async {
                         final imageLink = item.banner;
                         final target_group = item.targetGroup;
                         final cpdId = item.id.toString();
-                      return Row(
-                        children: [
-                          InkWell(
-                            onTap: (){
-                               Navigator.push(context, MaterialPageRoute(builder: (context){
-                            return CpdsSingleEventDisplay(
+                          return InkWell(
+                            onTap: () {
+                              print('${item}');
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) {
+                                  return CpdsSingleEventDisplay(
                                     attendance_request: attendance_request ,
                                     content: content,
                                     target_group: target_group,
@@ -129,13 +132,30 @@ Future<List<CpdModel>> fetchdata() async {
                                     imagelink: 'https://ippu.org/storage/banners/${imageLink}',
                                     cpdsname: activityName,
                                   );
-                          }));
+                                }),
+                              );
                             },
-                            child: Container(
-                              height: size.height*0.3,
-                              width: size.width*0.64,
-                              decoration: BoxDecoration(
-                                 color: Colors.white,
+                        child: Container(
+                                height: size.height * 0.35,
+                                width: size.width * 0.85,
+                          child: Column(
+                            children: [
+                              Text("Upcoming Cpds",
+                              style: GoogleFonts.lato(
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromARGB(255, 42, 129, 201),
+                              ),
+                              ),
+                              SizedBox(height: size.height*0.010,),
+                              Container(
+                                margin: EdgeInsets.only(
+                                  right: size.height * 0.009,
+                                  left: size.height * 0.009,
+                                ),
+                                height: size.height * 0.28,
+                                width: size.width * 0.62,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
                                 boxShadow: [
                                 BoxShadow(
                                   color: Colors.grey.withOpacity(0.5),
@@ -144,69 +164,32 @@ Future<List<CpdModel>> fetchdata() async {
                                   spreadRadius: 0.2,
                                 ),
                               ],
-                                    borderRadius: BorderRadius.circular(5),
+                                  borderRadius: BorderRadius.circular(5),
                                   border: Border.all(
                                     color: Colors.grey.withOpacity(0.5)
                                   ),
-                               ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                Center(
-                                  child: Container(
-                                    height: size.height*0.22,
-                                      width: size.width*0.56,
-                                      decoration: BoxDecoration(
-                                  image: DecorationImage(image: NetworkImage("https:ippu.org/storage/banners/${item.banner}")),
-                                                  ),
+                                  image: DecorationImage(
+                                    image: NetworkImage('https://ippu.org/storage/banners/${imageLink}'),
                                   ),
                                 ),
-                                Divider(),
-                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                    padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.004),
-                                    child: Text("Event name", style: GoogleFonts.lato(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: size.height*0.008,
-                                    ),),
                               ),
-                                Padding(
-                                padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.0008),
-                                child: Text("${item.topic}", style: TextStyle(
-                                  color: Colors.blue,
-                                  fontSize: size.height*0.008,
-                                ),),
-                              ),
-                                  ],
-                                )
-                               
-                                ],
-                               )
-                              
-                                                ],
-                              ),
-                            ),
+                              Text("Click to read more",
+                              style: GoogleFonts.lato(
+                                fontWeight: FontWeight.bold,
+                                fontSize: size.height*0.015,
+                                color: Color.fromARGB(255, 42, 129, 201),
+                              )),
+                            ],
                           ),
-                     SizedBox(
-          
-                          width: size.height*0.024,
-                    ),
-                        ],
-                      );
-                    },
-                  );
-                } else if(snapshot == null){
-                  return Center(child: Text('No data available'));
-                }else{
-                  return Center(child: Text('No data available'));
+                        ),
+                          );
+                      },
+                    );
+                  } else {
+                    return CircularProgressIndicator();
+                  }
                 }
               },
-            );
-          
+            );          
   }
 }

@@ -27,11 +27,11 @@ class UserProvider extends ChangeNotifier {
   int? PointsFromCpd =0;
   int? get CpdPoints => PointsFromCpd;
   // 
-  // events
+  // communication
   int? totalCommunications =0;
   int? get communications => totalCommunications;
   // 
-    // events
+    // cpds
   int? attendedCpds =0;
   int? get attendedCpd => attendedCpds;
   // 

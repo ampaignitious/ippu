@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ippu/Screens/EducationBackgroundScreen.dart';
+import 'package:ippu/models/ProfileModel.dart';
+import 'package:http/http.dart' as http;
 import 'package:ippu/models/UserProvider.dart';
 import 'package:provider/provider.dart';
 
@@ -13,6 +17,8 @@ class InfoScreen extends StatefulWidget {
 }
 class _InfoScreenState extends State<InfoScreen> {
   @override
+ 
+ 
   Widget build(BuildContext context) {
     final userData = Provider.of<UserProvider>(context).user;
     final cpds = Provider.of<UserProvider>(context).CPDS;

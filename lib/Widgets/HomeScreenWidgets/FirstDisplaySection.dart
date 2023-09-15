@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -156,6 +157,17 @@ int totalCPDS = 0;
           ),
           child: Column(
             children: [
+               userData!.gender == null?  Container(
+                height: size.height*0.04,
+                width: size.width*0.95,
+                margin: EdgeInsets.only(bottom:size.height*0.004 ),
+                decoration: BoxDecoration(
+                  color:Colors.green[100] ,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Center(child: Text("Please Complete your profile",
+                style:GoogleFonts.lato() ,
+                ))):Text(""),
               Text(
                 "Welcome to IPPU mobile applications",
                 style: TextStyle(color: Colors.white, fontSize: size.height * 0.016),
@@ -179,7 +191,7 @@ int totalCPDS = 0;
               children: [
                 SizedBox(height: size.height * 0.018),
                 FirstSetOfRows(),
-                SizedBox(height: size.height * 0.018),
+                SizedBox(height: size.height * 0.002),
                 // SecondSetOfRows(),
                 // SizedBox(height: size.height * 0.018),
 

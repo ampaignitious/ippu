@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ippu/Screens/ProfileScreen.dart';
 import 'package:ippu/Screens/SettingsScreen.dart';
 import 'package:ippu/Widgets/DrawerWidget/DrawerWidget.dart';
@@ -17,7 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   
   Widget build(BuildContext context) {
-    final userData = Provider.of<UserProvider>(context).user;
+
     final size = MediaQuery.of(context).size;
     return Scaffold(
             drawer:Drawer(
@@ -59,4 +60,14 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+  void showBottomNotification(String message) {
+  Fluttertoast.showToast(
+    msg: message,
+    toastLength: Toast.LENGTH_SHORT,
+    gravity: ToastGravity.TOP,
+    backgroundColor: Colors.black,
+    textColor: Colors.white,
+  );
+}
+  // 
 }
