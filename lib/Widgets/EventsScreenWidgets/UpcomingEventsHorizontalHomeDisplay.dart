@@ -153,6 +153,9 @@ class _UpcomingEventsHorizontalHomeDisplayState
                                Container(
                                 height: size.height * 0.35,
                                 width: size.width * 0.85,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
                           child: Column(
                             children: [
                               Text("Upcoming Events",

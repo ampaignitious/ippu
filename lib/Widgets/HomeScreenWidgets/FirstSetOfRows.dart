@@ -122,7 +122,6 @@ class _FirstSetOfRowsState extends State<FirstSetOfRows> {
                 width: size.width*0.7,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10)
-                  // color: Colors.pink,
                 ),
                 child: attendedCpdListHorizontalView(),
               ),
