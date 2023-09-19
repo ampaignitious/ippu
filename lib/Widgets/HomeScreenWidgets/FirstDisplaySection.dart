@@ -240,7 +240,11 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection> {
                             child: Center(
                               child: Text(
                                 "Please Complete your profile",
-                                style: GoogleFonts.lato(),
+                                style: GoogleFonts.lato(
+                                  color: Colors.blue,
+                                  fontWeight: FontWeight.bold,
+                                  decoration: TextDecoration.underline,
+                                ),
                               ),
                             ),
                           ),
