@@ -13,7 +13,7 @@ class _IppuTermsOfUseState extends State<IppuTermsOfUse> {
     return Scaffold(
       appBar: AppBar(
         title: Text("IPPU Terms of use",),
-        backgroundColor: Color.fromARGB(255, 50, 155, 132),
+        backgroundColor:Color.fromARGB(255, 42, 129, 201),
         elevation: 0,
       ),
     );

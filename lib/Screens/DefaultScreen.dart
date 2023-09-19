@@ -7,15 +7,6 @@ import 'package:ippu/Screens/HomeScreen.dart';
 import 'package:ippu/Widgets/DrawerWidget/DrawerWidget.dart';
 import 'package:ippu/models/UserProvider.dart';
 import 'package:provider/provider.dart';
-
-// import '../widgets/drawerWidgets/DrawerWidget.dart';
-// import 'HomeScreen.dart';
-// import 'MessageScreen/MessageScreen.dart';
-// import 'ReportScreen.dart';
-// import 'ServiceScreen.dart';
-// import 'SettingScreen.dart';
-
-
 class DefaultScreen extends StatefulWidget {
   const DefaultScreen({super.key});
 
@@ -30,10 +21,6 @@ class _DefaultScreenState extends State<DefaultScreen> {
  CpdsScreen(),
  EventsScreen(),
  CommunicationScreen(),
-//  HomeScreen(),This will have the settings page
-//  ServiceScreen(),
-//  ReportScreen(),
-//  SettingScreen(),
 
         ];
     void onItemTapped(int index) {

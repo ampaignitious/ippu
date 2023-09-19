@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:ippu/Screens/ProfileScreen.dart';
 import 'package:ippu/Widgets/HomeScreenWidgets/FirstSetOfRows.dart';
 import 'package:ippu/Widgets/HomeScreenWidgets/StatDisplayRow.dart';
 import 'package:ippu/Widgets/HomeScreenWidgets/StatusDisplayContainers/allCommunication.dart';
@@ -24,20 +25,23 @@ class FirstDisplaySection extends StatefulWidget {
 
 class _FirstDisplaySectionState extends State<FirstDisplaySection> {
   @override
-int totalCPDS = 0;
+  int totalCPDS = 0;
   int totalEvents = 0;
-  int totalCommunications =0;
+  int totalCommunications = 0;
   late String totaleventPoints;
 
+  late Future<List<CpdModel>> cpdDataFuture;
+  late List<CpdModel> fetchedData = [];
+
+  bool isProfileIncomplete = true;
+
   @override
-    late Future<List<CpdModel>> cpdDataFuture;
-    late List<CpdModel> fetchedData = [];
   void initState() {
     super.initState();
     fetchData();
-  
-    cpdDataFuture =fetchAllCpds();
-      cpdDataFuture = fetchAllCpds().then((data) {
+
+    cpdDataFuture = fetchAllCpds();
+    cpdDataFuture = fetchAllCpds().then((data) {
       fetchedData = data;
       return data;
     });
@@ -139,7 +143,7 @@ int totalCPDS = 0;
         final userData = Provider.of<UserProvider>(context).user;
         void completeProfile(){
           if(userData!.nok_address == null){
-            showBottomNotification("Please complete your profil");
+            showBottomNotification("Please complete your profile");
           }
         }
     final size = MediaQuery.of(context).size;
@@ -157,17 +161,6 @@ int totalCPDS = 0;
           ),
           child: Column(
             children: [
-               userData!.gender == null?  Container(
-                height: size.height*0.04,
-                width: size.width*0.95,
-                margin: EdgeInsets.only(bottom:size.height*0.004 ),
-                decoration: BoxDecoration(
-                  color:Colors.green[100] ,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Center(child: Text("Please Complete your profile",
-                style:GoogleFonts.lato() ,
-                ))):Text(""),
               Text(
                 "Welcome to IPPU mobile applications",
                 style: TextStyle(color: Colors.white, fontSize: size.height * 0.016),
@@ -222,6 +215,50 @@ int totalCPDS = 0;
             ),
           ),
         ),
+             userData!.gender == null
+        ? Center(
+            child: isProfileIncomplete
+                ? Container(
+                    height: size.height * 0.08,
+                    width: size.width * 0.95,
+                    margin: EdgeInsets.only(bottom: size.height * 0.004),
+                    decoration: BoxDecoration(
+                      color: Colors.green[100],
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: size.width * 0.08),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                return ProfileScreen();
+                              }));
+                            },
+                            child: Center(
+                              child: Text(
+                                "Please Complete your profile",
+                                style: GoogleFonts.lato(),
+                              ),
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                isProfileIncomplete = false;
+                              });
+                            },
+                            child: Icon(Icons.close),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                : SizedBox.shrink(),
+          )
+        : Text(""),
       ],
     );
   }
