@@ -146,10 +146,10 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection> {
             showBottomNotification("Please complete your profile");
           }
         }
-    final size = MediaQuery.of(context).size;
-  final cpds = Provider.of<UserProvider>(context).CPDS;
-   final event = Provider.of<UserProvider>(context).Events;
-   final communications = Provider.of<UserProvider>(context).totalCommunications;
+      final size = MediaQuery.of(context).size;
+      final cpds = Provider.of<UserProvider>(context).CPDS;
+      final event = Provider.of<UserProvider>(context).Events;
+      final communications = Provider.of<UserProvider>(context).totalCommunications;
 
     return Stack(
       children: [
@@ -185,9 +185,6 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection> {
                 SizedBox(height: size.height * 0.018),
                 FirstSetOfRows(),
                 SizedBox(height: size.height * 0.002),
-                // SecondSetOfRows(),
-                // SizedBox(height: size.height * 0.018),
-
                 // 
                 allCpdDisplay(),
                 // 
@@ -223,7 +220,14 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection> {
                     width: size.width * 0.95,
                     margin: EdgeInsets.only(bottom: size.height * 0.004),
                     decoration: BoxDecoration(
-                      color: Colors.green[100],
+                      color: Color.fromARGB(255, 235, 235, 235),
+                  boxShadow: [
+                    BoxShadow(color: Colors.grey,
+                    offset: Offset(0.4, 0.2),
+                    blurRadius: 0.2,
+                    spreadRadius: 0.4,
+                    )
+                  ],
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Padding(

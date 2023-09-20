@@ -4,7 +4,7 @@ import 'package:ippu/Widgets/DrawerWidget/DrawerWidget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ippu/Widgets/ProfileWidgets/EditProfile.dart';
 import 'package:ippu/Widgets/ProfileWidgets/InfoScreen.dart';
-
+import 'package:ippu/Widgets/ProfileWidgets/InformationScreen.dart';
 class ProfileScreen extends StatefulWidget {
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -65,7 +65,11 @@ class _ProfileScreenState extends State<ProfileScreen>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Add content for Info tab here
-                InfoScreen(),
+                // InfoScreen(),
+                Container(
+                  height: size.height*0.9,
+                  width: double.maxFinite,
+                  child: InformationScreen()),
                 
                 
               ],
