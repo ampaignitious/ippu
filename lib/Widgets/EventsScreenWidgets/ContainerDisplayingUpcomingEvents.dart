@@ -121,7 +121,14 @@ class _ContainerDisplayingUpcomingEventsState
                 } else if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return const Text('No data available');
+                  return Center(
+                    child: Column(
+                      children: [
+                        Image(image: AssetImage('assets/no_data.png')),
+                        Text("Check your internet connection")
+                      ],
+                    ),
+                  );
                 } else {
                   final data = snapshot.data;
                   if (data != null) {
@@ -158,8 +165,8 @@ class _ContainerDisplayingUpcomingEventsState
                             points: points.toString(),
                             rate: rate,
                             description: description,
-                            startDate: startDate ,
-                            endDate: endData ,
+                            startDate: extractDate(startDate) ,
+                            endDate: extractDate(endData) ,
                             imagelink: 'https://ippu.org/storage/banners/${imageLink}',
                             eventName: eventName ,
                           );
@@ -266,7 +273,7 @@ class _ContainerDisplayingUpcomingEventsState
                                           ],
                                         ),
                                         Text(
-                                          "${item.start_date}",
+                                          "${extractDate(item.start_date)}",
                                           style: TextStyle(fontSize: size.height * 0.008, color: Colors.white),
                                         ),
                                       ],
@@ -308,4 +315,11 @@ class _ContainerDisplayingUpcomingEventsState
       ),
     );
   }
+           String extractDate(String fullDate) {
+  // Split the full date at the 'T' to separate the date and time
+  List<String> parts = fullDate.split('T');
+
+  // Return the date part
+  return parts[0];
+}
 }

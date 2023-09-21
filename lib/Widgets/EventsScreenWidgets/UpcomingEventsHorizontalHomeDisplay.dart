@@ -140,8 +140,8 @@ class _UpcomingEventsHorizontalHomeDisplayState
                             points: points.toString(),
                             rate: rate,
                             description: description,
-                            startDate: startDate ,
-                            endDate: endData ,
+                            startDate: extractDate(startDate) ,
+                            endDate: extractDate(endData) ,
                             imagelink: 'https://ippu.org/storage/banners/${imageLink}',
                             eventName: eventName ,
                           );
@@ -215,4 +215,11 @@ class _UpcomingEventsHorizontalHomeDisplayState
  
     );
   }
+         String extractDate(String fullDate) {
+  // Split the full date at the 'T' to separate the date and time
+  List<String> parts = fullDate.split('T');
+
+  // Return the date part
+  return parts[0];
+}
 }

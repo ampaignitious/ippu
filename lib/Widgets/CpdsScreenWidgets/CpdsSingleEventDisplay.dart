@@ -129,14 +129,14 @@ _CpdsSingleEventDisplayState(this.attendance_request, this.cpdId, this.content ,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text("Start Date", style: TextStyle(color: Colors.green),),
-                          Text("${startDate}", style: TextStyle(fontSize: size.height*0.008),)
+                          Text("${extractDate(startDate)}", style: TextStyle(fontSize: size.height*0.008),)
                         ],
                       ),
                                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text("End Date", style: TextStyle(color: Colors.green),),
-                          Text("${endDate}", style: TextStyle(fontSize: size.height*0.008),)
+                          Text("${extractDate(endDate)}", style: TextStyle(fontSize: size.height*0.008),)
                         ],
                       ),
                                       Column(
@@ -195,6 +195,12 @@ _CpdsSingleEventDisplayState(this.attendance_request, this.cpdId, this.content ,
       ),
     );
   }
-  
+  String extractDate(String fullDate) {
+  // Split the full date at the 'T' to separate the date and time
+  List<String> parts = fullDate.split('T');
+
+  // Return the date part
+  return parts[0];
+}
 
 }

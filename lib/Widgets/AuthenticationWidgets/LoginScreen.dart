@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
 import 'package:flutter/material.dart';
 import 'package:ippu/Screens/DefaultScreen.dart';
 import 'package:ippu/Widgets/AuthenticationWidgets/RegisterScreen.dart';
@@ -85,6 +88,28 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     }
   }
+  // 
+    Future<ProfileData> fetchProfileData() async {
+  final userData = Provider.of<UserProvider>(context, listen: false).user;
+  if (userData == null) {
+    throw Exception('User data is null');
+  }
+
+  final String apiUrl = 'https://ippu.org/api/profile/${userData.id}';
+  final response = await http.get(
+    Uri.parse(apiUrl),
+    headers: {
+      'Authorization': 'Bearer ${userData.token}',
+    },
+  );
+
+  if (response.statusCode == 200) {
+    return ProfileData.fromJson(json.decode(response.body));
+  } else {
+    throw Exception('Failed to load profile data');
+  }
+}
+  // 
 
   @override
   Widget build(BuildContext context) {

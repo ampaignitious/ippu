@@ -17,4 +17,4 @@ String knowledgeandInformationSharing="An institute that promotes knowledge and 
 
 String discoverAboutIPPU =" Bringing together Public & Private Sector Procurement & Supply Chain Professionals in Uganda.";
 String eventsAndTraining ="Get access to all Events & CPD Trainings in the procurement and supply chain professional community."; 
-String effectiveCommunication ="Get timely updates and and do not miss out on important communications";
+String effectiveCommunication ="Get timely updates and do not miss out on important communications";

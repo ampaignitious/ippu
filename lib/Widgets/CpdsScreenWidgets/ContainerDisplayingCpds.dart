@@ -59,6 +59,7 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
     _searchController.dispose();
     super.dispose();
   }
+  
 // function for fetching cpds 
   Future<List<CpdModel>> fetchAllCpds() async {
   final userData = Provider.of<UserProvider>(context, listen: false).user;
@@ -185,9 +186,20 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
+                  // return Text('Error: ${snapshot.error}');
+                  return Center(
+                    child: Image(image: AssetImage('assets/check_data_connection.png')),
+                  );
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return const Text('No data available');
+                  // return const Text('No data available');
+                  return Center(
+                    child: Column(
+                      children: [
+                        Image(image: AssetImage('assets/no_data.png')),
+                        Text("Check your internet connection")
+                      ],
+                    ),
+                  );
                 } else {
                   final data = snapshot.data;
                   if (data != null) {
@@ -330,7 +342,7 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                                           ],
                                         ),
                                         Text(
-                                          "${item.startDate}",
+                                          "${extractDate(item.startDate)}",
                                           style: TextStyle(fontSize: size.height * 0.008, color: Colors.white),
                                         ),
                                       ],
@@ -372,4 +384,11 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
       ),
     );
   }
+    String extractDate(String fullDate) {
+  // Split the full date at the 'T' to separate the date and time
+  List<String> parts = fullDate.split('T');
+
+  // Return the date part
+  return parts[0];
+}
 }

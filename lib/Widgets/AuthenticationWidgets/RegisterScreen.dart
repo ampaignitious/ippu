@@ -203,37 +203,70 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       },
                     ),
                     SizedBox(height: size.height*0.018),
-                    TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  suffixIcon: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _isPasswordVisible = !_isPasswordVisible;
-                      });
-                    },
-                    child: Icon(
-                      _isPasswordVisible
-                          ? Icons.visibility
-                          : Icons.visibility_off,
-                    ),
-                  ),
-                ),
-                obscureText: !_isPasswordVisible,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a password';
-                  }
-                  // You can add more validation here if needed
-                  return null;
-                },
-                onSaved: (value) {
-                  _password = value!;
-                },
-              ),
+            //         TextFormField(
+            //     decoration: InputDecoration(
+            //       labelText: 'Password',
+            //       border: OutlineInputBorder(
+            //         borderRadius: BorderRadius.circular(20),
+            //       ),
+            //       suffixIcon: GestureDetector(
+            //         onTap: () {
+            //           setState(() {
+            //             _isPasswordVisible = !_isPasswordVisible;
+            //           });
+            //         },
+            //         child: Icon(
+            //           _isPasswordVisible
+            //               ? Icons.visibility
+            //               : Icons.visibility_off,
+            //         ),
+            //       ),
+            //     ),
+            //     obscureText: !_isPasswordVisible,
+            //     validator: (value) {
+            //       if (value == null || value.isEmpty) {
+            //         return 'Please enter a password';
+            //       }
+            //       // You can add more validation here if needed
+            //       return null;
+            //     },
+            //     onSaved: (value) {
+            //       _password = value!;
+            //     },
+            //   ),
+            TextFormField(
+  decoration: InputDecoration(
+    labelText: 'Password',
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(20),
+    ),
+    suffixIcon: GestureDetector(
+      onTap: () {
+        setState(() {
+          _isPasswordVisible = !_isPasswordVisible;
+        });
+      },
+      child: Icon(
+        _isPasswordVisible
+            ? Icons.visibility
+            : Icons.visibility_off,
+      ),
+    ),
+  ),
+  obscureText: !_isPasswordVisible,
+  validator: (value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter a password';
+    }
+    if (value.length < 6) {
+      return 'Password must be at least 6 characters long';
+    }
+    return null;
+  },
+  onSaved: (value) {
+    _password = value!;
+  },
+),
              SizedBox(height: size.height*0.018),
         TextFormField(
         decoration: InputDecoration(
@@ -296,37 +329,37 @@ class _RegisterScreenState extends State<RegisterScreen> {
     ),
             // 
       
-                    Row(
-                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Checkbox(
-        value: _agreedToTerms,
-        onChanged: (bool? value) {
-          setState(() {
-            _agreedToTerms = value!;
-          });
-        },
-          ),
-          Padding(
-        padding: EdgeInsets.only(left: size.width*0.04),
-        child: Text("By registering you agree", style: GoogleFonts.lato(
-          fontSize: size.height*0.015, color: Colors.black, fontWeight: FontWeight.bold
-        ),),
-          ),
-          InkWell(
-        onTap: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context){
-            return IppuTermsOfUse();
-          }));
-        },
-        child: Padding(
-          padding: EdgeInsets.only(left: size.width*0.015),
-          child: Text("IPPU Terms of use", style: TextStyle(fontSize: size.height*0.015, color:Color.fromARGB(255, 42, 129, 201), fontWeight: FontWeight.bold),),
-        ),
-          ),
-        ],
-      ),
-            SizedBox(height: size.height*0.004),
+      //               Row(
+      //                 // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //   children: [
+      //     Checkbox(
+      //   value: _agreedToTerms,
+      //   onChanged: (bool? value) {
+      //     setState(() {
+      //       _agreedToTerms = value!;
+      //     });
+      //   },
+      //     ),
+      //     Padding(
+      //   padding: EdgeInsets.only(left: size.width*0.04),
+      //   child: Text("By registering you agree", style: GoogleFonts.lato(
+      //     fontSize: size.height*0.015, color: Colors.black, fontWeight: FontWeight.bold
+      //   ),),
+      //     ),
+      //     InkWell(
+      //   onTap: (){
+      //     Navigator.push(context, MaterialPageRoute(builder: (context){
+      //       return IppuTermsOfUse();
+      //     }));
+      //   },
+      //   child: Padding(
+      //     padding: EdgeInsets.only(left: size.width*0.015),
+      //     child: Text("IPPU Terms of use", style: TextStyle(fontSize: size.height*0.015, color:Color.fromARGB(255, 42, 129, 201), fontWeight: FontWeight.bold),),
+      //   ),
+      //     ),
+      //   ],
+      // ),
+            SizedBox(height: size.height*0.04),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 primary:  Color.fromARGB(255, 42, 129, 201), // Change button color to green

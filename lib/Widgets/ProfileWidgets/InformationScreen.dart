@@ -46,10 +46,10 @@ class _InformationScreenState extends State<InformationScreen> {
 }
   @override
   Widget build(BuildContext context) {
-        final userData = Provider.of<UserProvider>(context).user;
-            final cpds = Provider.of<UserProvider>(context).CPDS;
+    final userData = Provider.of<UserProvider>(context).user;
+    final cpds = Provider.of<UserProvider>(context).CPDS;
     final event = Provider.of<UserProvider>(context).Events;
-        final size = MediaQuery.of(context).size;
+    final size = MediaQuery.of(context).size;
     return  FutureBuilder<ProfileData>(
         future: fetchProfileData(),
         builder: (context, snapshot) {
@@ -63,9 +63,19 @@ class _InformationScreenState extends State<InformationScreen> {
               child: ListView.builder(
                 itemCount: 1,
                 itemBuilder: (context, index) {
+                  String subscriptionStatus;
+                  if(snapshot.data!.data['latest_membership']==null){
+                  Provider.of<UserProvider>(context).setSubscriptionStatus('Not specified');
+
+                  }else if(snapshot.data!.data['latest_membership']['status'] != null){
+                  Provider.of<UserProvider>(context).setSubscriptionStatus('${snapshot.data!.data['latest_membership']['status']}');
+
+                  }
                   return Column(
-                    children: [
-                 SizedBox(height: size.height*0.012),
+                children: [
+                // SizedBox(height: size.height*0.008),
+                // setSubscriptionStatus
+                SizedBox(height: size.height*0.012),
                 CircleAvatar(
                   radius: 60,
                   backgroundImage: AssetImage('assets/image9.png'),
@@ -126,8 +136,9 @@ class _InformationScreenState extends State<InformationScreen> {
                   title: Text("Next of Kin phone number"),
                   subtitle: Text("${snapshot.data!.data['nok_phone_no']}"),
                  )),
+
                  //  
-                             SizedBox(height: size.height * 0.02),
+            SizedBox(height: size.height * 0.02),
             Divider(),
             SizedBox(height: size.height * 0.02),
               Padding(
@@ -193,12 +204,12 @@ class _InformationScreenState extends State<InformationScreen> {
                   
                     ],
                   );
-                },
-              ),
-            );
-          }
-        },
-    );
-  }
+                 },
+                ),
+               );
+              }
+            },
+          );
+        }
 }
  

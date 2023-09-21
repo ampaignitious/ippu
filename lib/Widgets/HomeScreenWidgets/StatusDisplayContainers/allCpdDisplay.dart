@@ -155,7 +155,6 @@ class _allCpdDisplayState extends State<allCpdDisplay> {
                       ],
                     ),
                   ),
-                ) 
-;
+                );
   }
 }

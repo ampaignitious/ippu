@@ -140,7 +140,14 @@ final size = MediaQuery.of(context).size;
                 } else if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return const Text('No data available');
+                  return Center(
+                    child: Column(
+                      children: [
+                        Image(image: AssetImage('assets/no_data.png')),
+                        Text("Check your internet connection")
+                      ],
+                    ),
+                  );
                 } else {
                   final data = snapshot.data;
                   if (data != null) {
@@ -154,8 +161,8 @@ final size = MediaQuery.of(context).size;
                         final imagelink = 'assets/cpds0.jpg';
                         final activityName = item.topic;
                         final points = item.points;
-                        final startDate =item.startDate;
-                        final endDate =item.endDate;
+                        final startDate =extractDate(item.startDate);
+                        final endDate =extractDate(item.endDate);
                         final content = item.content;
                         final attendance_request = item.attendance_request;
                         final rate = item.normalRate;
@@ -284,7 +291,7 @@ final size = MediaQuery.of(context).size;
                                           ],
                                         ),
                                         Text(
-                                          "${item.startDate}",
+                                          "${extractDate(item.startDate)}",
                                           style: TextStyle(fontSize: size.height * 0.008, color: Colors.white),
                                         ),
                                       ],
@@ -326,4 +333,11 @@ final size = MediaQuery.of(context).size;
       ),
    );
   }
+               String extractDate(String fullDate) {
+  // Split the full date at the 'T' to separate the date and time
+  List<String> parts = fullDate.split('T');
+
+  // Return the date part
+  return parts[0];
+}
 }

@@ -10,6 +10,10 @@ class UserProvider extends ChangeNotifier {
   int? get CPDS => totalCPDS;
   // 
 
+  String? checkRegistration  ;
+  String? get registrationStatus => checkRegistration;
+  // 
+
   // events
   int? totalEvents =0;
   int? get Events => totalEvents;
@@ -21,6 +25,10 @@ class UserProvider extends ChangeNotifier {
   // 
   String? eventsLinkImage;
   String? get getLinkImage => eventsLinkImage;
+  // 
+  // 
+  String? subscription;
+  String? get getSubscriptionStatus => subscription;
   // 
 
   // points from cpds
@@ -48,6 +56,10 @@ class UserProvider extends ChangeNotifier {
   void totalNumberOfAttendedCpds(int attended){
     attendedCpds = attended;
   }
+  // fetching subscription status  
+  void setSubscriptionStatus(String status){
+    subscription = status;
+  }
   // fetching total number of communications
   void totalNumberOfCommunications(int communication){
     totalCommunications = communication;
@@ -59,6 +71,11 @@ class UserProvider extends ChangeNotifier {
   // fetching total number of events
   void totalNumberOfEvents(int event){
     totalEvents = event;
+    notifyListeners();
+  }
+  // check registration status
+  void registrationStatusSetFunction(String status){
+    eventsLinkImage = status;
     notifyListeners();
   }
   // fetching total number of events
