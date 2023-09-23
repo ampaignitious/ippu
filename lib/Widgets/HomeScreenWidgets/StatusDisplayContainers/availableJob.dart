@@ -69,6 +69,8 @@ class _availableJobState extends State<availableJob> {
   //
   Widget build(BuildContext context) {
   final size = MediaQuery.of(context).size;
+   Provider.of<UserProvider>(context, listen: false).fetchTotalJobs(fetchedData.length);
+
     return InkWell(
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) {

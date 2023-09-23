@@ -17,8 +17,8 @@ class _StatDisplayRowState extends State<StatDisplayRow> {
 
   Widget build(BuildContext context) {
 
-    final size = MediaQuery.of(context).size;
-     final totalEvents =Provider.of<UserProvider>(context).totalEvents;
+  final size = MediaQuery.of(context).size;
+  final totalEvents =Provider.of<UserProvider>(context).totalEvents;
   final totalCommunication = Provider.of<UserProvider>(context).totalCommunications;
     return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,

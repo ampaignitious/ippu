@@ -43,14 +43,41 @@ class _ProfileScreenState extends State<ProfileScreen>
         backgroundColor: Color.fromARGB(255, 42, 129, 201),
         elevation: 0,
         actions: [
-          IconButton(
-            icon: Icon(Icons.settings),
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context){
-                return SettingsScreen();
-              }));
-            },
-          ),
+          // IconButton(
+          //   icon: Icon(Icons.settings),
+          //   onPressed: () {
+          //     Navigator.push(context, MaterialPageRoute(builder: (context){
+          //       return SettingsScreen();
+          //     }));
+          //   },
+          // ),
+          
+          Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                              // top: size.height*0.008,
+                              left: size.width*0.034),
+                            child: Text("Subscription State: ",
+                            style: GoogleFonts.lato(
+                              color: Color.fromARGB(255, 15, 255, 23) ,
+                              fontSize: size.height*0.018,
+                              fontWeight: FontWeight.bold
+                            ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(right: size.width*0.016),
+                            child: Text("${status}",
+                            style: GoogleFonts.lato(
+                              fontSize: size.height*0.015,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold
+                            ),
+                            ),
+                          ),
+         ] )
         ],
         bottom: TabBar(
           controller: _profileController,
@@ -71,108 +98,11 @@ class _ProfileScreenState extends State<ProfileScreen>
               children: [
                 // Add content for Info tab here
                 // InfoScreen(),
-                SizedBox(height: size.height*0.012),
-                status == null?Text(''):Center(
-                  child: Container(
-                    height: size.height*0.06,
-                    width: size.width*0.95,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: Color.fromARGB(255, 42, 129, 201),
-                      boxShadow: [
-                        BoxShadow(
-                        color: Colors.grey.withOpacity(0.2), // Adjust shadow color and opacity
-                        offset: Offset(0.8, 1.0), // Adjust the shadow offset
-                        blurRadius: 4.0, // Adjust the blur radius
-                        spreadRadius: 0.2, // Adjust the spread radius
-                            ),
-                          ],
-                    ),
-                    child: Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(
-                                  top: size.height*0.008,
-                                  left: size.width*0.034),
-                                child: Text("Subscription State",
-                                style: GoogleFonts.lato(
-                                  color: Colors.white,
-                                  fontSize: size.height*0.018,
-                                  fontWeight: FontWeight.bold
-                                ),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(left: size.width*0.034),
-                                child: Text("${status}",
-                                style: GoogleFonts.lato(
-                                  fontSize: size.height*0.015,
-                                  color: Colors.white,
-                                ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          // 
-                    status != "Approved"?InkWell(
-                      onTap: (){
-                        sendRequest();
-                      },
-                      child: Container(
-                      height: size.height*0.06,
-                      width: size.width*0.55,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(2),
-                        color: Colors.green[500],
-                        boxShadow: [
-                          BoxShadow(
-                          color: Colors.grey.withOpacity(0.2), // Adjust shadow color and opacity
-                          offset: Offset(0.8, 1.0), // Adjust the shadow offset
-                          blurRadius: 4.0, // Adjust the blur radius
-                          spreadRadius: 0.2, // Adjust the spread radius
-                              ),
-                            ],
-                      ),
-                      
-                               child: Column(
-                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                  padding: EdgeInsets.only(left: size.width*0.029,
-                                  top: size.height*0.012,
-                                  ),
-                    
-                                    child: Text("Click to subscribe",
-                                    style: GoogleFonts.lato(
-                                      color: Colors.white,
-                                      fontSize: size.height*0.022,
-                                      fontWeight: FontWeight.bold
-                                    ),
-                                    ),
-                                  ),
-                                ],
-                                                       ),
-                             ),
-                    ):Text(""),
-                        // 
-                        ],
-                      ),
-                      ),
-                      // 
-                      
-                      ),
-                ),
+                
                 Container(
                   height: size.height*0.9,
                   width: double.maxFinite,
-                  child: InformationScreen()),
-                
-                
+                  child: InformationScreen()),  
               ],
             ),
           ),

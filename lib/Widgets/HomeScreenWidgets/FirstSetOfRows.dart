@@ -133,6 +133,9 @@ class _FirstSetOfRowsState extends State<FirstSetOfRows> {
                 ),
                 child: attendedCpdListHorizontalView(),
               ),
+              SizedBox(
+                width: size.height*0.05,
+              ),
                Container(
                 height: size.height*0.35,
                 width: size.width*0.7,

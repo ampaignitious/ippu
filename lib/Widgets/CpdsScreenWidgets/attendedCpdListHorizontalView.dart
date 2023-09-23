@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ippu/Screens/CommunicationScreen.dart';
 import 'package:ippu/Widgets/CpdsScreenWidgets/CpdsSingleEventDisplay.dart';
 import 'package:ippu/controllers/auth_controller.dart';
 import 'package:flutter/material.dart';
@@ -86,9 +87,94 @@ class _attendedCpdListHorizontalViewState extends State<attendedCpdListHorizonta
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
+                  // 
+                  return InkWell(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context){
+                        return CommunicationScreen();
+                      }));
+                    },
+                    child: Container(
+                      height: size.height*0.04,
+                      width: size.width*0.10,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                        color: Colors.grey.withOpacity(0.4)
+                        ),
+                        //  image: DecorationImage(image: AssetImage("assets/checkcommunication.png")),
+                        color: Colors.lightBlue[50]
+                      ),
+                      child: Column(children: [
+                        SizedBox(
+                          height: size.height*0.04,
+                        ),
+                        Text("Check out some of our communications"
+                       ,style: GoogleFonts.lato(
+                        fontSize: size.width*0.028
+                       )
+                        ),
+                        SizedBox(
+                          height: size.height*0.02,
+                        ),
+                        Container(
+                      height: size.height*0.2,
+                      width: size.width*0.65,
+                      decoration: BoxDecoration(
+                        // border: Border.all(
+                        // color: Colors.grey.withOpacity(0.4)
+                        // ),
+                         image: DecorationImage(image: AssetImage("assets/checkcommunication.png")),
+                        color: Colors.lightBlue[50]
+                      )
+                      )
+                      ]),
+                    ),
+                  );
+                  // 
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return Center(child:  Text('No data available, Or check internet connection'));
+                  // return Center(child:  Text('No data available, Or check internet connection'));
+                  return InkWell(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context){
+                       return CommunicationScreen();
+                      }));
+                    },
+                    child: Container(
+                      height: size.height*0.04,
+                      width: size.width*0.10,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                        color: Colors.grey.withOpacity(0.4)
+                        ),
+                        //  image: DecorationImage(image: AssetImage("assets/checkcommunication.png")),
+                        color: Colors.lightBlue[50]
+                      ),
+                      child: Column(children: [
+                        SizedBox(
+                          height: size.height*0.04,
+                        ),
+                        Text("Check out some of our communications"
+                       ,style: GoogleFonts.lato(
+                        fontSize: size.width*0.028
+                       )
+                        ),
+                        SizedBox(
+                          height: size.height*0.02,
+                        ),
+                        Container(
+                      height: size.height*0.2,
+                      width: size.width*0.65,
+                      decoration: BoxDecoration(
+                        // border: Border.all(
+                        // color: Colors.grey.withOpacity(0.4)
+                        // ),
+                         image: DecorationImage(image: AssetImage("assets/checkcommunication.png")),
+                        color: Colors.lightBlue[50]
+                      )
+                      )
+                      ]),
+                    ),
+                  );
                 } else {
                   final data = snapshot.data;
                   if (data != null) {

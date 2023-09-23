@@ -69,11 +69,50 @@ class _JobsScreenState extends State<JobsScreen> {
   // 
   Widget build(BuildContext context) {
     final size =MediaQuery.of(context).size;
+      final availableJobs = Provider.of<UserProvider>(context, listen: false).getTotalJobs;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 42, 129, 201),
         elevation: 0,
         title: Text("Jobs",style:GoogleFonts.lato()),
+       actions: [
+          // IconButton(
+          //   icon: Icon(Icons.settings),
+          //   onPressed: () {
+          //     Navigator.push(context, MaterialPageRoute(builder: (context){
+          //       return SettingsScreen();
+          //     }));
+          //   },
+          // ),
+          
+          Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                              // top: size.height*0.008,
+                              left: size.width*0.034),
+                            child: Text("Total jobs available: ",
+                            style: GoogleFonts.lato(
+                              color: Color.fromARGB(255, 15, 255, 23) ,
+                              fontSize: size.height*0.018,
+                              fontWeight: FontWeight.bold
+                            ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(right: size.width*0.016),
+                            child: Text("$availableJobs",
+                            style: GoogleFonts.lato(
+                              fontSize: size.height*0.015,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold
+                            ),
+                            ),
+                          ),
+         ] )
+        ],
       ),
       body: Column(
         children: [

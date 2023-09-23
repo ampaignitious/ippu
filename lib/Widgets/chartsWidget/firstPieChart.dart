@@ -47,14 +47,15 @@ class PieChart2State extends State {
     final size =MediaQuery.of(context).size;
     final userData = Provider.of<UserProvider>(context).user;
     final sizeHeight = Provider.of<UserProvider>(context).EventsPoints;
+    final cpdpoints =Provider.of<UserProvider>(context).PointsFromCpd;
     final points = userData?.points;
     return AspectRatio(
       aspectRatio: 1.2,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          const SizedBox(
-            height: 18,
+        SizedBox(
+            height: size.height*0.23,
           ),
           Expanded(
             child: AspectRatio(
@@ -79,8 +80,8 @@ class PieChart2State extends State {
                     show: false,
                   ),
                   sectionsSpace: 0,
-                  centerSpaceRadius: 40,
-                  sections: showingSections(sizeHeight!, points!, sizeHeight ),
+                  centerSpaceRadius: size.width*0.09,
+                  sections: showingSections(sizeHeight!, int.parse(points!), cpdpoints! ),
                 ),
               ),
             ),
@@ -93,7 +94,7 @@ class PieChart2State extends State {
     );
   }
 
-  List<PieChartSectionData> showingSections(int eventsPoints, String totalUserPoints , int cpdPoint) {
+  List<PieChartSectionData> showingSections(int eventsPoints, int totalUserPoints , int cpdPoint) {
     return List.generate(3, (i) {
       final isTouched = i == touchedIndex;
       final fontSize = isTouched ? 25.0 : 16.0;
@@ -117,7 +118,7 @@ class PieChart2State extends State {
         case 1:
           return PieChartSectionData(
             color: AppColors.contentColorGreen,
-            value: 40,
+            value: totalUserPoints.toDouble(),
             title: '$totalUserPoints ',
             radius: radius,
             titleStyle: TextStyle(
@@ -130,7 +131,7 @@ class PieChart2State extends State {
         case 2:
           return PieChartSectionData(
             color: AppColors.contentColorPurple,
-            value: 15,
+            value: cpdPoint.toDouble(),
             title: '$cpdPoint',
             radius: radius,
             titleStyle: TextStyle(
