@@ -173,7 +173,7 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection> {
         // bottom colored container
         Container(
           margin: EdgeInsets.only(top: size.height * 0.24, left: size.width * 0.032),
-          height: size.height * 0.56,
+          height: size.height * 0.52,
           width: size.width * 0.95,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
