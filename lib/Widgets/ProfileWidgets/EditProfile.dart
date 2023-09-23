@@ -6,9 +6,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:ippu/Screens/ProfileScreen.dart';
 import 'dart:io';
-
-import 'package:ippu/Widgets/AuthenticationWidgets/LoginScreen.dart';
-import 'package:ippu/Widgets/ProfileWidgets/UserProfileForm.dart';
 import 'package:ippu/models/UserProvider.dart';
 import 'package:provider/provider.dart';
 class EditProfile extends StatefulWidget {
@@ -243,7 +240,7 @@ class _EditProfileState extends State<EditProfile> {
           ),
         ),
         // form ends here
-        SizedBox(height: size.height * 0.04),
+        SizedBox(height: size.height * 0.01),
         Center(
                 child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
@@ -317,7 +314,7 @@ Future<void> _selectDate(BuildContext context, TextEditingController controller)
           'Content-Type': 'application/json',
         },
       );
-
+      CircleAvatar();
       if (response.statusCode == 200) {
         // Handle a successful API response
         print('Data sent successfully');

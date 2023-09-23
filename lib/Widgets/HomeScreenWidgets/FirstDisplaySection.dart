@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
@@ -34,10 +35,16 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection> {
   late List<CpdModel> fetchedData = [];
 
   bool isProfileIncomplete = true;
+    bool isSubscription = true;
 
   @override
   void initState() {
     super.initState();
+  Timer(Duration(seconds: 10), () {
+    setState(() {
+      isSubscription = false;
+    });
+  });
     fetchData();
 
     cpdDataFuture = fetchAllCpds();
@@ -173,7 +180,12 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection> {
         // bottom colored container
         Container(
           margin: EdgeInsets.only(top: size.height * 0.24, left: size.width * 0.032),
+<<<<<<< HEAD
           height: size.height * 0.52,
+=======
+          // height: size.height * 0.56,
+          height: size.height * 0.51,
+>>>>>>> 4ac2ae88c4fd6f67519b508b0cae391547c61b95
           width: size.width * 0.95,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
@@ -212,6 +224,7 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection> {
             ),
           ),
         ),
+        // container displaying the notifcation
              userData!.gender == null
         ? Center(
             child: isProfileIncomplete
@@ -219,17 +232,21 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection> {
                     height: size.height * 0.08,
                     width: size.width * 0.95,
                     margin: EdgeInsets.only(bottom: size.height * 0.004),
-                    decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 235, 235, 235),
-                  boxShadow: [
-                    BoxShadow(color: Colors.grey,
-                    offset: Offset(0.4, 0.2),
-                    blurRadius: 0.2,
-                    spreadRadius: 0.4,
-                    )
-                  ],
-                      borderRadius: BorderRadius.circular(10),
+                 decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(
+                      color:Colors.white,
                     ),
+                    color: Color.fromARGB(255, 42, 129, 201),
+                    boxShadow: [
+                      BoxShadow(
+                      color: Color.fromARGB(255, 247, 245, 245) , // Adjust shadow color and opacity
+                      offset: Offset(0.8, 0.8), // Adjust the shadow offset
+                      blurRadius: 4.0, // Adjust the blur radius
+                      spreadRadius: 0.2, // Adjust the spread radius
+                          ),
+                        ],
+                  ),
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: size.width * 0.08),
                       child: Row(
@@ -245,7 +262,7 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection> {
                               child: Text(
                                 "Please Complete your profile",
                                 style: GoogleFonts.lato(
-                                  color: Colors.blue,
+                                  color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                   decoration: TextDecoration.underline,
                                 ),
@@ -258,7 +275,10 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection> {
                                 isProfileIncomplete = false;
                               });
                             },
-                            child: Icon(Icons.close),
+                            child: Icon(
+                              Icons.close,
+                              color: Colors.white,
+                              ),
                           ),
                         ],
                       ),
@@ -267,6 +287,8 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection> {
                 : SizedBox.shrink(),
           )
         : Text(""),
+
+        
       ],
     );
   }

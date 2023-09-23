@@ -159,7 +159,19 @@ print(requestData);
                     return Center(
                       child: Text("Check your internet connection to load the data"),
                     );
-                  } else if (snapshot.hasData) {
+                  }else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  // return const Text('No data available');
+                  return Center(
+                    child: Column(
+                      children: [
+                        SizedBox(height: size.height*0.14,),
+                        Image(image: AssetImage('assets/no_data.png')),
+                        Text("No working experience data available")
+                      ],
+                    ),
+                  );
+                } 
+                  else if (snapshot.hasData) {
                     List<WorkingExperience> eventData  = snapshot.data!;
                     return ListView.builder(
                       itemCount: eventData .length,

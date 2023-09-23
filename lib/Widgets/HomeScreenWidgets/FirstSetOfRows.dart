@@ -60,6 +60,14 @@ class _FirstSetOfRowsState extends State<FirstSetOfRows> {
             color: Colors.blue
           ),),
         ),
+        Padding(
+          padding: EdgeInsets.only(left:size.width*0.4,),
+          child: Text("( Touch on the graph to see changes )", style: GoogleFonts.lato(
+            fontSize:size.height*0.01,
+            fontWeight: FontWeight.bold,
+            color: Colors.green
+          ),),
+        ),
         Row(
                 // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -124,6 +132,9 @@ class _FirstSetOfRowsState extends State<FirstSetOfRows> {
                   borderRadius: BorderRadius.circular(10)
                 ),
                 child: attendedCpdListHorizontalView(),
+              ),
+              SizedBox(
+                width: size.height*0.05,
               ),
                Container(
                 height: size.height*0.35,

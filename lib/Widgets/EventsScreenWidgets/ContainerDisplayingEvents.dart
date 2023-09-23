@@ -162,7 +162,14 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents> w
                 } else if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return const Text('No data available');
+                  return Center(
+                    child: Column(
+                      children: [
+                        Image(image: AssetImage('assets/no_data.png')),
+                        Text("Check your internet connection")
+                      ],
+                    ),
+                  );
                 } else {
                   final data = snapshot.data;
                   if (data != null) {
@@ -307,7 +314,7 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents> w
                                           ],
                                         ),
                                         Text(
-                                          "${item.start_date}",
+                                          "${extractDate(item.start_date)}",
                                           style: TextStyle(fontSize: size.height * 0.008, color: Colors.white),
                                         ),
                                       ],
@@ -350,4 +357,11 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents> w
       ),
     );
   }
+      String extractDate(String fullDate) {
+  // Split the full date at the 'T' to separate the date and time
+  List<String> parts = fullDate.split('T');
+
+  // Return the date part
+  return parts[0];
+}
 }

@@ -166,7 +166,7 @@ class _ContainerDisplayingCommunicationsState
                                               fontWeight: FontWeight.bold),
                                         ),
                                         Text(
-                                          "${item['created_at']}",
+                                          "${extractDate(item['created_at'])}",
                                           style: GoogleFonts.roboto(
                                             fontSize: size.height * 0.016,
                                           ),
@@ -217,4 +217,11 @@ class _ContainerDisplayingCommunicationsState
     _scrollController.animateTo(0,
         duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
   }
+             String extractDate(String fullDate) {
+  // Split the full date at the 'T' to separate the date and time
+  List<String> parts = fullDate.split('T');
+
+  // Return the date part
+  return parts[0];
+}
 }

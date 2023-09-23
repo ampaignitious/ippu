@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+
+import 'package:ippu/models/AllEventsModel.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ippu/Screens/ProfileScreen.dart';
 import 'package:ippu/Screens/SettingsScreen.dart';
 import 'package:ippu/Widgets/DrawerWidget/DrawerWidget.dart';
 import 'package:ippu/Widgets/HomeScreenWidgets/FirstDisplaySection.dart';
-import 'package:ippu/models/UserProvider.dart';
-import 'package:provider/provider.dart';
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,10 +14,9 @@ class HomeScreen extends StatefulWidget {
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
-
+ 
 class _HomeScreenState extends State<HomeScreen> {
-  @override
-  
+
   Widget build(BuildContext context) {
 
     final size = MediaQuery.of(context).size;

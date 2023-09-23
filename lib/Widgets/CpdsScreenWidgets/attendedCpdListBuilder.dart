@@ -85,6 +85,15 @@ Future<List<AttendedCpdModel>> fetchCpdData() async {
                   return Center(
                     child: Text("Check your internet connection to load the data"),
                   );
+                }  else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return Center(
+                    child: Column(
+                      children: [
+                        Image(image: AssetImage('assets/no_data.png')),
+                        Text("Check your internet connection")
+                      ],
+                    ),
+                  );
                 } else if (snapshot.hasData) {
                   List<AttendedCpdModel>  CpdData  = snapshot.data!;
                   return ListView.builder(

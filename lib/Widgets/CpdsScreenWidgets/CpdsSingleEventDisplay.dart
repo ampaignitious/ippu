@@ -77,24 +77,22 @@ _CpdsSingleEventDisplayState(this.attendance_request, this.cpdId, this.content ,
               Padding(
                 padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.0008),
                 child: Html(
-  data: location,
-  style: {
-    "p": Style( // Apply style to <p> tags
-      fontSize: FontSize(16.0),
-      color: Colors.black,
-      // Add more style properties as needed
-    ),
-    "h1": Style( // Apply style to <h1> tags
-      fontSize: FontSize(24.0),
-      fontWeight: FontWeight.bold,
-      color: Colors.blue,
-      // Add more style properties as needed
-    ),
-    // Add more style definitions for other HTML elements
-  },
-),
-                
-                // Text("${location}"),
+                data: location,
+                style: {
+                  "p": Style( // Apply style to <p> tags
+                    fontSize: FontSize(16.0),
+                    color: Colors.black,
+                    // Add more style properties as needed
+                  ),
+                  "h1": Style( // Apply style to <h1> tags
+                    fontSize: FontSize(24.0),
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue,
+                    // Add more style properties as needed
+                  ),
+                  // Add more style definitions for other HTML elements
+                },
+                )
               ),
               Padding(
                padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.016),
@@ -106,7 +104,7 @@ _CpdsSingleEventDisplayState(this.attendance_request, this.cpdId, this.content ,
               ),
               SizedBox(height: size.height*0.016,),
               // container displaying the start, end rate and location
-              Container(
+        Container(
                 margin: EdgeInsets.only(left: size.width*0.03),
                 height: size.height*0.08,
                 width: size.width*0.96,
@@ -129,24 +127,24 @@ _CpdsSingleEventDisplayState(this.attendance_request, this.cpdId, this.content ,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text("Start Date", style: TextStyle(color: Colors.green),),
-                          Text("${startDate}", style: TextStyle(fontSize: size.height*0.008),)
+                          Text("${extractDate(startDate)}", style: TextStyle(fontSize: size.height*0.008),)
                         ],
                       ),
-                                      Column(
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text("End Date", style: TextStyle(color: Colors.green),),
-                          Text("${endDate}", style: TextStyle(fontSize: size.height*0.008),)
+                          Text("${extractDate(endDate)}", style: TextStyle(fontSize: size.height*0.008),)
                         ],
                       ),
-                                      Column(
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text("Type", style: TextStyle(color: Colors.red),),
                           Text("${type}", style: TextStyle(fontSize: size.height*0.008),)
                         ],
                       ),
-                                      Column(
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text("Location", style: TextStyle(color: Colors.red),),
@@ -195,6 +193,11 @@ _CpdsSingleEventDisplayState(this.attendance_request, this.cpdId, this.content ,
       ),
     );
   }
-  
+  String extractDate(String fullDate) {
+   List<String> parts = fullDate.split('T');
+
+  // Return the date part
+  return parts[0];
+}
 
 }

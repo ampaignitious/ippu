@@ -89,7 +89,7 @@ class _allEventDisplayState extends State<allEventDisplay> {
     print(totalPoints);
     // Update the UserProvider with the total points for events
     Provider.of<UserProvider>(context, listen: false)
-        .totalNumberOfEvents(totalPoints);
+        .totalNumberOfEvents(fetchedData.length);
 
     return InkWell(
       onTap: () {

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
  import 'package:google_fonts/google_fonts.dart';
+import 'package:ippu/Screens/EventsScreen.dart';
 import 'package:ippu/Widgets/EventsScreenWidgets/SingleEventDisplay.dart';
 import 'package:ippu/controllers/auth_controller.dart';
 import 'package:ippu/models/AllEventsModel.dart';
@@ -101,9 +102,182 @@ class _UpcomingEventsHorizontalHomeDisplayState
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
+                   return InkWell(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context){
+                        return EventsScreen();
+                      }));
+                    },
+                    child: Container(
+                      height: size.height*0.04,
+                      width: size.width*0.10,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                        color: Colors.grey.withOpacity(0.4)
+                        ),
+                        //  image: DecorationImage(image: AssetImage("assets/checkcommunication.png")),
+                        color: Colors.lightBlue[50]
+                      ),
+                      child: Column(children: [
+                        SizedBox(
+                          height: size.height*0.04,
+                        ),
+                        Text("Check out some of our events"
+                       ,style: GoogleFonts.lato(
+                        fontSize: size.width*0.028
+                       )
+                        ),
+                        SizedBox(
+                          height: size.height*0.02,
+                        ),
+                        Container(
+                      height: size.height*0.2,
+                      width: size.width*0.65,
+                      decoration: BoxDecoration(
+                        // border: Border.all(
+                        // color: Colors.grey.withOpacity(0.4)
+                        // ),
+                         image: DecorationImage(image: AssetImage("assets/attendEvents.png")),
+                        color: Colors.lightBlue[50]
+                      )
+                      )
+                      ]),
+                    ),
+                  );
+                  // 
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return const Text('No data available');
+                  // return Center(child:  Text('No data available, Or check internet connection'));
+                  return InkWell(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context){
+                       return EventsScreen();
+                      }));
+                    },
+                    child: Container(
+                      height: size.height*0.04,
+                      width: size.width*0.10,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                        color: Colors.grey.withOpacity(0.4)
+                        ),
+                        //  image: DecorationImage(image: AssetImage("assets/checkcommunication.png")),
+                        color: Colors.lightBlue[50]
+                      ),
+                      child: Column(children: [
+                        SizedBox(
+                          height: size.height*0.04,
+                        ),
+                        Text("Check out some of our events"
+                       ,style: GoogleFonts.lato(
+                        fontSize: size.width*0.028
+                       )
+                        ),
+                        SizedBox(
+                          height: size.height*0.02,
+                        ),
+                        Container(
+                      height: size.height*0.2,
+                      width: size.width*0.65,
+                      decoration: BoxDecoration(
+                        // border: Border.all(
+                        // color: Colors.grey.withOpacity(0.4)
+                        // ),
+                         image: DecorationImage(image: AssetImage("assets/attendEvents.png")),
+                        color: Colors.lightBlue[50]
+                      )
+                      )
+                      ]),
+                    ),
+                  );
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  // return Center(child:  Text('No data available, Or check internet connection'));
+                  return InkWell(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context){
+                        return EventsScreen();
+                      }));
+                    },
+                    child: Container(
+                      height: size.height*0.04,
+                      width: size.width*0.10,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                        color: Colors.grey.withOpacity(0.4)
+                        ),
+                        //  image: DecorationImage(image: AssetImage("assets/checkcommunication.png")),
+                        color: Colors.lightBlue[50]
+                      ),
+                      child: Column(children: [
+                        SizedBox(
+                          height: size.height*0.04,
+                        ),
+                        Text("Check out some of our communications"
+                       ,style: GoogleFonts.lato(
+                        fontSize: size.width*0.028
+                       )
+                        ),
+                        SizedBox(
+                          height: size.height*0.02,
+                        ),
+                        Container(
+                      height: size.height*0.2,
+                      width: size.width*0.65,
+                      decoration: BoxDecoration(
+                        // border: Border.all(
+                        // color: Colors.grey.withOpacity(0.4)
+                        // ),
+                         image: DecorationImage(image: AssetImage("assets/attendEvents.png")),
+                        color: Colors.lightBlue[50]
+                      )
+                      )
+                      ]),
+                    ),
+                  );
+                  // 
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  // return Center(child:  Text('No data available, Or check internet connection'));
+                  return InkWell(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context){
+                       return EventsScreen();
+                      }));
+                    },
+                    child: Container(
+                      height: size.height*0.04,
+                      width: size.width*0.10,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                        color: Colors.grey.withOpacity(0.4)
+                        ),
+                        //  image: DecorationImage(image: AssetImage("assets/checkcommunication.png")),
+                        color: Colors.lightBlue[50]
+                      ),
+                      child: Column(children: [
+                        SizedBox(
+                          height: size.height*0.04,
+                        ),
+                        Text("Check out some of our communications"
+                       ,style: GoogleFonts.lato(
+                        fontSize: size.width*0.028
+                       )
+                        ),
+                        SizedBox(
+                          height: size.height*0.02,
+                        ),
+                        Container(
+                      height: size.height*0.2,
+                      width: size.width*0.65,
+                      decoration: BoxDecoration(
+                        // border: Border.all(
+                        // color: Colors.grey.withOpacity(0.4)
+                        // ),
+                         image: DecorationImage(image: AssetImage("assets/checkcommunication.png")),
+                        color: Colors.lightBlue[50]
+                      )
+                      )
+                      ]),
+                    ),
+                  );
                 } else {
                   final data = snapshot.data;
                   if (data != null) {
@@ -140,8 +314,8 @@ class _UpcomingEventsHorizontalHomeDisplayState
                             points: points.toString(),
                             rate: rate,
                             description: description,
-                            startDate: startDate ,
-                            endDate: endData ,
+                            startDate: extractDate(startDate) ,
+                            endDate: extractDate(endData) ,
                             imagelink: 'https://ippu.org/storage/banners/${imageLink}',
                             eventName: eventName ,
                           );
@@ -215,4 +389,11 @@ class _UpcomingEventsHorizontalHomeDisplayState
  
     );
   }
+         String extractDate(String fullDate) {
+  // Split the full date at the 'T' to separate the date and time
+  List<String> parts = fullDate.split('T');
+
+  // Return the date part
+  return parts[0];
+}
 }
