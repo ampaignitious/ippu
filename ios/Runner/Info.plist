@@ -41,11 +41,21 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSPhotoLibraryUsageDescription</key>
+    <string>We need access to your photos to let you upload images to your profile.</string>
+	<key>CFBundleIcons</key>
+    <dict>
+    <key>CFBundlePrimaryIcon</key>
+    <dict>
+        <key>CFBundleIconFiles</key>
+        <array>
+            <string>ic_launcher</string>
+        </array>
+    </dict>
+</dict>
 </dict>
 </plist>
