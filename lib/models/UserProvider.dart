@@ -31,8 +31,12 @@ class UserProvider extends ChangeNotifier {
   String? get getLinkImage => eventsLinkImage;
   // 
   // 
-  String? subscription;
-  String? get getSubscriptionStatus => subscription;
+  bool? subscription;
+  bool? get getSubscriptionStatus => subscription;
+  // 
+    // 
+  String? subscription2;
+  String? get getSubscriptionStatus2 => subscription2;
   // 
 
   // points from cpds
@@ -61,8 +65,12 @@ class UserProvider extends ChangeNotifier {
     attendedCpds = attended;
   }
   // fetching subscription status  
-  void setSubscriptionStatus(String status){
+  void setSubscriptionStatus(bool status){
     subscription = status;
+  }
+    // fetching subscription status  
+  void setSubscriptionStatus2(String status){
+    subscription2 = status;
   }
   // fetching total number of communications
   void totalNumberOfCommunications(int communication){

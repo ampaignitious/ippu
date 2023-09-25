@@ -30,7 +30,8 @@ environment:
 dependencies:
   flutter_html: ^3.0.0-alpha.6
   google_fonts: ^4.0.4
-  http: 
+  http:
+  flutter_cache_manager: 
   flutter_pdfview:
   fl_chart:
   fluttertoast:

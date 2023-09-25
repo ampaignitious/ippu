@@ -74,7 +74,9 @@ class _SecondSplashScreenState extends State<SecondSplashScreen>  with SingleTic
               height: size.height*0.048,
             ),
             Text("EVENTS & CPD Trainings", style: GoogleFonts.lato(
-            fontSize: size.height*0.0415, fontWeight: FontWeight.bold,color: Color.fromARGB(255, 42, 129, 201)
+              fontSize: size.width * 0.082,
+               fontWeight: FontWeight.bold,
+               color: Color.fromARGB(255, 42, 129, 201)
             ),),
             
             SizedBox(

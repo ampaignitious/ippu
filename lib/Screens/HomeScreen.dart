@@ -1,11 +1,15 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:ippu/models/AllEventsModel.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ippu/Screens/ProfileScreen.dart';
 import 'package:ippu/Screens/SettingsScreen.dart';
 import 'package:ippu/Widgets/DrawerWidget/DrawerWidget.dart';
 import 'package:ippu/Widgets/HomeScreenWidgets/FirstDisplaySection.dart';
+import 'package:ippu/models/UserProvider.dart';
+import 'package:provider/provider.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -16,9 +20,52 @@ class HomeScreen extends StatefulWidget {
 }
  
 class _HomeScreenState extends State<HomeScreen> {
+ 
+late List<ProfileData> profileDataList = [];
+void initState() {
+  super.initState();
+  fetchProfileData(); // Call the function to fetch profile data
+}
+Future<void> fetchProfileData() async {
+  try {
+    final userData = Provider.of<UserProvider>(context, listen: false).user;
+    if (userData == null) {
+      throw Exception('User data is null');
+    }
 
+    final String apiUrl = 'https://ippu.org/api/profile/${userData.id}';
+    final response = await http.get(
+      Uri.parse(apiUrl),
+      headers: {
+        'Authorization': 'Bearer ${userData.token}',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      ProfileData profileData = ProfileData.fromJson(json.decode(response.body));
+      setState(() {
+        profileDataList.add(profileData);
+      });
+    } else {
+      throw Exception('Failed to load profile data');
+    }
+  } catch (error) {
+    print('Error fetching profile data: $error');
+  }
+}
   Widget build(BuildContext context) {
+    print("===================================");
+    print(profileDataList.length);
+     for (var profileData in profileDataList) {
+    final subscriptionStatus = profileData.data['subscription_status'];
+    if(profileData.data['subscription_status']==false){
+    Provider.of<UserProvider>(context).setSubscriptionStatus(subscriptionStatus);
+    }else{
+    Provider.of<UserProvider>(context).setSubscriptionStatus2(subscriptionStatus);
+    }
 
+    }
+    print("===================================");
     final size = MediaQuery.of(context).size;
     return Scaffold(
             drawer:Drawer(
@@ -70,4 +117,13 @@ class _HomeScreenState extends State<HomeScreen> {
   );
 }
   // 
+}
+class ProfileData {
+  final Map<String, dynamic> data;
+
+  ProfileData({required this.data});
+
+  factory ProfileData.fromJson(Map<String, dynamic> json) {
+    return ProfileData(data: json['data']);
+  }
 }

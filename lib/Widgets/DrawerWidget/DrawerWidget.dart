@@ -6,6 +6,7 @@ import 'package:ippu/Screens/EventsScreen.dart';
 import 'package:ippu/Screens/JobsScreen.dart';
 import 'package:ippu/Screens/CpdsScreen.dart';
 import 'package:ippu/Screens/OurCoreValues.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:ippu/Screens/ProfileScreen.dart';
 import 'package:ippu/Screens/SettingsScreen.dart';
 import 'package:ippu/Screens/WhoWeAreScreen.dart';
@@ -215,28 +216,32 @@ authController.signOut();
                            ),
                ),
               // 
-              //  
-               InkWell(
-                onTap: () {
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginScreen()),
-                      (Route<dynamic> route) => false,  
-                    );
-                  },
-                 child: Card(
+              //
+              InkWell(
+                onTap: () async {
+                  // Clear the cache
+                  await DefaultCacheManager().emptyCache();
+
+                  // Navigate to the login screen and remove all routes from the stack
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginScreen()),
+                    (Route<dynamic> route) => false,
+                  );
+                },
+                child: Card(
                   child: ListTile(
-                    leading: Icon(Icons.exit_to_app_rounded,
-                    color: Colors.red,
+                    leading: Icon(Icons.exit_to_app_rounded, color: Colors.red),
+                    title: Text(
+                      "Logout",
+                      style: GoogleFonts.lato(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.red,
+                      ),
                     ),
-                    title: Text("Logout", style: GoogleFonts.lato(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.red
-                    ),),
                   ),
-                           ),
-               ),
-              //  
+                ),
+              ),    
             ],
           ),
     );
