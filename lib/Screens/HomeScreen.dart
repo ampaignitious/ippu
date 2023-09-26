@@ -8,6 +8,7 @@ import 'package:ippu/Screens/ProfileScreen.dart';
 import 'package:ippu/Screens/SettingsScreen.dart';
 import 'package:ippu/Widgets/DrawerWidget/DrawerWidget.dart';
 import 'package:ippu/Widgets/HomeScreenWidgets/FirstDisplaySection.dart';
+import 'package:ippu/models/UserData.dart';
 import 'package:ippu/models/UserProvider.dart';
 import 'package:provider/provider.dart';
 
@@ -56,15 +57,40 @@ Future<void> fetchProfileData() async {
   Widget build(BuildContext context) {
     print("===================================");
     print(profileDataList.length);
-     for (var profileData in profileDataList) {
-    final subscriptionStatus = profileData.data['subscription_status'];
-    if(profileData.data['subscription_status']==false){
-    Provider.of<UserProvider>(context).setSubscriptionStatus(subscriptionStatus);
-    }else{
-    Provider.of<UserProvider>(context).setSubscriptionStatus2(subscriptionStatus);
+        // setting userData
+    for (var profileData in profileDataList) {
+    final userInfo = Provider.of<UserProvider>(context, listen: false).user;
+  print(profileData);
+            UserData userData = UserData(
+            id: profileData.data['id'],
+            name: profileData.data['name'],
+            email: profileData.data['email'],
+            gender: profileData.data['gender'],
+            dob: profileData.data['dob'],
+            membership_number: profileData.data['membership_number'],
+            address: profileData.data['address'],
+            phone_no: profileData.data['phone_no'],
+            alt_phone_no: profileData.data['alt_phone_no'],
+            nok_name: profileData.data['nok_name'],
+            nok_address: profileData.data['nok_address'],
+            nok_phone_no: profileData.data['nok_phone_no'],
+            points: profileData.data['points'] ,
+            subscription_status: profileData.data['subscription_status'].toString(),
+            // subscription_status2: profileData.data['subscription_status'],
+            token: userInfo!.token,
+          );
+      Provider.of<UserProvider>(context, listen: false).setUser(userData);
+      Provider.of<UserProvider>(context, listen: false).setSubscriptionStatus(profileData.data['subscription_status'].toString());
     }
+    // 
+        final status  =    Provider.of<UserProvider>(context, listen: false).getSubscriptionStatus;
 
-    }
+
+      final userdata = Provider.of<UserProvider>(context).user;
+
+      Provider.of<UserProvider>(context).setProfileStatus('${userdata!.gender}');
+
+    // 
     print("===================================");
     final size = MediaQuery.of(context).size;
     return Scaffold(

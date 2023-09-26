@@ -30,7 +30,8 @@ class _EditProfileState extends State<EditProfile> {
   String nokName = '';
   String nokAddress = '';
   String nokPhoneNo = '';
-
+// 
+// 
  late ImageProvider _avatarImage;
  late File _selectedImage;
  
@@ -145,27 +146,33 @@ Future<void> _pickImage() async {
                     borderRadius: BorderRadius.circular(20)
                   ),
                 ),
-                  onSaved: (value) => name = value!,
+                    onSaved: (value) {
+                      name = value ?? userData.name;
+                    },
                   initialValue: userData.name,
               ),
               SizedBox(height: size.height*0.018),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Gender',
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20)
-                  ),
-                ),
-                onSaved: (value) => gender = value!,
-                initialValue: userData.gender,
-              ),
+      TextFormField(
+        decoration: InputDecoration(
+          labelText: 'Gender',
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20)
+          ),
+        ),
+        initialValue: userData.gender,
+        onSaved: (value) {
+          gender = (value ?? userData.gender)!;
+        },
+          validator: (value) {
+    if (value == null || value.isEmpty) {
+      return 'this field is required';
+    }
+    return null;
+  },
+      ),
          
               // 
               SizedBox(height: size.height*0.018),
-            // TextFormField(
-            //     decoration: InputDecoration(labelText: 'Start Date'),
-            //     controller: _startDate,
-            //     onTap: () => _selectDate(context, _startDate),
-            //   ),
              TextFormField(
                   decoration: InputDecoration(
                     labelText: 'Date of Birth',
@@ -173,8 +180,17 @@ Future<void> _pickImage() async {
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),
+                 
+              onSaved: (value) {
+                dob = (value ?? userData.dob)!;
+              },
                   initialValue: userData.dob, // Set the initial value
-                
+                 validator: (value) {
+    if (value == null || value.isEmpty) {
+      return 'this field is required';
+    }
+    return null;
+  },
                 ),
               SizedBox(height: size.height*0.018),
               TextFormField(
@@ -183,8 +199,16 @@ Future<void> _pickImage() async {
                     borderRadius: BorderRadius.circular(20)
                   ),
                 ),
-                onSaved: (value) => membershipNumber = value!,
+                onSaved: (value) {
+                membershipNumber = (value ?? userData.membership_number)!;
+              },
                 initialValue: userData.membership_number,
+                 validator: (value) {
+    if (value == null || value.isEmpty) {
+      return 'this field is required';
+    }
+    return null;
+  },
               ),
               SizedBox(height: size.height*0.018),
               TextFormField(
@@ -193,8 +217,16 @@ Future<void> _pickImage() async {
                     borderRadius: BorderRadius.circular(20)
                   ),
                 ),
-                onSaved: (value) => address = value!,
+              onSaved: (value) {
+                address = (value ?? userData.address)!;
+              },
                 initialValue: userData.address,
+                 validator: (value) {
+    if (value == null || value.isEmpty) {
+      return 'this field is required';
+    }
+    return null;
+  },
               ),
               SizedBox(height: size.height*0.018),
               TextFormField(
@@ -203,8 +235,16 @@ Future<void> _pickImage() async {
                     borderRadius: BorderRadius.circular(20)
                   ),
                 ),
-                onSaved: (value) => phoneNo = value!,
+                onSaved: (value) {
+                phoneNo = (value ?? userData.phone_no)!;
+              },
                 initialValue: userData.phone_no,
+                 validator: (value) {
+    if (value == null || value.isEmpty) {
+      return 'this field is required';
+    }
+    return null;
+  },
               ),
               SizedBox(height: size.height*0.018),
               TextFormField(
@@ -213,8 +253,16 @@ Future<void> _pickImage() async {
                     borderRadius: BorderRadius.circular(20)
                   ),
                 ),
-                onSaved: (value) => altPhoneNo = value!,
+              onSaved: (value) {
+                altPhoneNo = (value ?? userData.alt_phone_no)!;
+              },
                 initialValue: userData.alt_phone_no,
+                 validator: (value) {
+    if (value == null || value.isEmpty) {
+      return 'this field is required';
+    }
+    return null;
+  },
               ),
               SizedBox(height: size.height*0.018),
               TextFormField(
@@ -223,8 +271,16 @@ Future<void> _pickImage() async {
                     borderRadius: BorderRadius.circular(20)
                   ),
                 ),
-                onSaved: (value) => nokName = value!,
+                onSaved: (value) {
+                nokName = (value ?? userData.nok_name)!;
+              },
                 initialValue: userData.nok_name,
+                 validator: (value) {
+    if (value == null || value.isEmpty) {
+      return 'this field is required';
+    }
+    return null;
+  },
               ),
               SizedBox(height: size.height*0.018),
               TextFormField(
@@ -233,8 +289,16 @@ Future<void> _pickImage() async {
                     borderRadius: BorderRadius.circular(20)
                   ),
                 ),
-                onSaved: (value) => nokAddress = value!,
+                onSaved: (value) {
+                nokAddress = (value ?? userData.nok_address)!;
+              },
                 initialValue: userData.nok_address,
+                 validator: (value) {
+    if (value == null || value.isEmpty) {
+      return 'this field is required';
+    }
+    return null;
+  },
               ),
               SizedBox(height: size.height*0.018),
               TextFormField(
@@ -243,8 +307,16 @@ Future<void> _pickImage() async {
                     borderRadius: BorderRadius.circular(20)
                   ),
                 ),
-                onSaved: (value) => nokPhoneNo = value!,
+                onSaved: (value) {
+                nokPhoneNo = (value ?? userData.nok_phone_no)!;
+              },
                 initialValue: userData.nok_phone_no,
+                 validator: (value) {
+    if (value == null || value.isEmpty) {
+      return 'this field is required';
+    }
+    return null;
+  },
               ),
               SizedBox(height: size.height*0.018),
                     ]
@@ -337,6 +409,7 @@ Future<void> _selectDate(BuildContext context,   String dob) async {
       if (response.statusCode == 200) {
         // Handle a successful API response
         print('Data sent successfully');
+        CircleAvatar();
         showBottomNotification('Profile information updated successfully');
         Navigator.push(context, MaterialPageRoute(builder: ((context) => ProfileScreen() )));
       } else {

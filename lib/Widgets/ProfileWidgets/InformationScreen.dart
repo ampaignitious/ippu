@@ -66,7 +66,7 @@ class _InformationScreenState extends State<InformationScreen> {
     final cpds = Provider.of<UserProvider>(context).CPDS;
     final event = Provider.of<UserProvider>(context).Events;
     final size = MediaQuery.of(context).size;
-    final status  =    Provider.of<UserProvider>(context, listen: false).getSubscriptionStatus;
+    final status  =  Provider.of<UserProvider>(context, listen: false).getSubscriptionStatus;
     return  FutureBuilder<ProfileData>(
         future: fetchProfileData(),
         builder: (context, snapshot) {
@@ -80,21 +80,10 @@ class _InformationScreenState extends State<InformationScreen> {
               child: ListView.builder(
                 itemCount: 1,
                 itemBuilder: (context, index) {
- 
-                // if(snapshot.data!.data['subscription_status']==false){
-                //   Provider.of<UserProvider>(context).setSubscriptionStatus(snapshot.data!.data['subscription_status']);
-
-                // }else{
-                // Provider.of<UserProvider>(context).setSubscriptionStatus2(snapshot.data!.data['subscription_status']);
-
-                // }
                 
                   return Column(
                 children: [
-                // SizedBox(height: size.height*0.008),
-                // setSubscriptionStatus
-                // 
-                // displaying subscription status
+ 
                 SizedBox(height: size.height*0.008),
                
                 SizedBox(height: size.height*0.012),

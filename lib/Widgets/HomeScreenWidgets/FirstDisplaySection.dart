@@ -166,18 +166,14 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection> with SingleTi
 
   // // 
   Widget build(BuildContext context) {
-        final userData = Provider.of<UserProvider>(context).user;
-        void completeProfile(){
-          if(userData!.nok_address == null){
-            showBottomNotification("Please complete your profile");
-          }
-        }
-      final size = MediaQuery.of(context).size;
-      final cpds = Provider.of<UserProvider>(context).CPDS;
-      final event = Provider.of<UserProvider>(context).Events;
-      final communications = Provider.of<UserProvider>(context).totalCommunications;
+    final size = MediaQuery.of(context).size;
      final status  =    Provider.of<UserProvider>(context, listen: false).getSubscriptionStatus;
-
+     final profileStatus  =Provider.of<UserProvider>(context, listen: false).profileStatusCheck;
+  print("==================================");
+  print("==================================");
+  print("==================================");
+  print(status);
+  print("==================================");
     return Stack(
       children: [
         Container(
@@ -242,7 +238,7 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection> with SingleTi
         ),
         // 
                        // container displaying the subscription button
-            status == false?AnimatedBuilder(
+            status == 'false'?AnimatedBuilder(
               animation: _animation,
                 builder: (context, child) {
                   return Transform.scale(
@@ -292,17 +288,17 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection> with SingleTi
                                   ),
                                 ),
                               ),
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    isProfileIncomplete = false;
-                                  });
-                                },
-                                child: Icon(
-                                  Icons.close,
-                                  color: Colors.white,
-                                  ),
-                              ),
+                              // InkWell(
+                              //   onTap: () {
+                              //     setState(() {
+                              //       isProfileIncomplete = false;
+                              //     });
+                              //   },
+                              //   child: Icon(
+                              //     Icons.close,
+                              //     color: Colors.white,
+                              //     ),
+                              // ),
                             ],
                           ),
                         ),
@@ -313,7 +309,7 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection> with SingleTi
         //
         // 
         // container displaying the notifcation
-        userData!.gender == null
+        profileStatus == null
         ? Center(
             child: isProfileIncomplete
                 ? Container(

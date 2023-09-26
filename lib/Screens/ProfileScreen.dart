@@ -1,8 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ippu/Screens/DefaultScreen.dart';
-import 'package:ippu/Screens/SettingsScreen.dart';
 import 'package:ippu/Widgets/DrawerWidget/DrawerWidget.dart';
 import 'package:ippu/Widgets/ProfileWidgets/EditProfile.dart';
  import 'package:ippu/Widgets/ProfileWidgets/InformationScreen.dart';
@@ -17,10 +18,12 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen>
     with TickerProviderStateMixin {
   late TabController _profileController;
-
+  late List<ProfileData> profileDataList = [];
+ 
   @override
   void initState() {
     super.initState();
+
     _profileController = TabController(length: 2, vsync: this);
   }
 
@@ -29,11 +32,14 @@ class _ProfileScreenState extends State<ProfileScreen>
     _profileController.dispose();
     super.dispose();
   }
-
+// 
+// 
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final status  =    Provider.of<UserProvider>(context, listen: false).getSubscriptionStatus;
-    final status2 = Provider.of<UserProvider>(context, listen: false).getSubscriptionStatus2;
+    // final status2 = Provider.of<UserProvider>(context, listen: false).getSubscriptionStatus2;
+
+    // 
     return Scaffold(
       drawer: Drawer(
         width: size.width * 0.8,
@@ -67,7 +73,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                               color: Colors.white,
                               // fontWeight: FontWeigh
                             ),
-                            ):Text("$status2",
+                            ):Text("$status",
                             style: GoogleFonts.lato(
                               fontSize: size.height*0.015,
                               color: Colors.white,
@@ -98,7 +104,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                 // Add content for Info tab here
                 // InfoScreen(),
                 SizedBox(height: size.height*0.012),
-                 status == false?InkWell(
+                 status == 'false'?InkWell(
                   onTap: (){
                     sendRequest();
                   },
@@ -160,6 +166,7 @@ class _ProfileScreenState extends State<ProfileScreen>
 
                 // Add content for Edit Profile tab here
                 EditProfile()
+                // EditUserProfile()
               ],
             ),
           ),
