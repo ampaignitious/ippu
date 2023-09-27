@@ -1,12 +1,10 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:http/http.dart' as http;
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ippu/models/UserProvider.dart';
  
-import 'dart:typed_data';
-import 'dart:io';
-
 import 'package:provider/provider.dart';
 class AttendedEventSIngleDisplayScreen extends StatefulWidget {
   String name;
@@ -197,5 +195,50 @@ class _AttendedEventSIngleDisplayScreenState extends State<AttendedEventSIngleDi
     print('Error: $e');
   }
 }
+// Future<void> downloadAndSaveCertificateAsPDF(String eventId) async {
+//   final userData = Provider.of<UserProvider>(context, listen: false).user;
+//   final userId = userData?.id;
+
+//   final url = Uri.parse('https://ippu.org/api/events/certificate/$userId/$eventId');
+
+//   try {
+//     final response = await http.get(url);
+
+//     if (response.statusCode == 200) {
+//       // Parse certificate data from the response
+//       final certificateData = json.decode(response.body);
+
+//       final pdf = pdfWidgets.Document();
+//       pdf.addPage(
+//         pdfWidgets.Page(
+//           build: (context) {
+//             return pdfWidgets.Center(
+//               child: pdfWidgets.Text('Certificate for Event ID: $eventId'),
+//             );
+//           },
+//         ),
+//       );
+
+//       final pdfBytes = await pdf.save();
+
+//       // Get the application documents directory
+//       final directory = await getApplicationDocumentsDirectory();
+//       final filePath = '${directory.path}/certificate_$eventId.pdf';
+
+//       File file = File(filePath);
+//       await file.writeAsBytes(pdfBytes);
+
+//       // Open the PDF file using open_file package
+//       OpenFile.open(filePath);
+//     } else {
+//       print('Failed to fetch certificate data: ${response.statusCode}');
+//     }
+//   } catch (e) {
+//     print('Error: $e');
+//   }
+// }
+
+
+
   // 
 }

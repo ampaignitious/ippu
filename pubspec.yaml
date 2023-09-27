@@ -32,8 +32,11 @@ dependencies:
   image_picker: ^0.8.4+4
   google_fonts: ^4.0.4
   http:
+  # pdf:
+  # path_provider:
+  # open_file:
   flutter_cache_manager: 
-  flutter_pdfview:
+  # flutter_pdfview:
   fl_chart:
   fluttertoast:
   provider:

@@ -23,7 +23,7 @@ class UserData {
     required this.token,
     this.gender,
     this.dob,
-     this.subscription_status,
+    this.subscription_status,
     this.membership_number,
     this.address,
     this.phone_no,

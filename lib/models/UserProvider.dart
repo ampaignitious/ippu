@@ -35,9 +35,6 @@ class UserProvider extends ChangeNotifier {
   String? subscription;
   String? get getSubscriptionStatus => subscription;
   // 
-    // 
- 
-
   // points from cpds
   int? PointsFromCpd =0;
   int? get CpdPoints => PointsFromCpd;

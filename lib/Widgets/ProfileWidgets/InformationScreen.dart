@@ -27,17 +27,13 @@ class InformationScreen extends StatefulWidget {
 class _InformationScreenState extends State<InformationScreen> {
 
   bool isProfileIncomplete = true;
-    bool isSubscription = true;
+  
 
   @override
   void initState() {
     super.initState();
     fetchProfileData();
-  Timer(Duration(seconds: 10), () {
-    setState(() {
-      isSubscription = false;
-    });
-  });
+  
   }
 
   Future<ProfileData> fetchProfileData() async {

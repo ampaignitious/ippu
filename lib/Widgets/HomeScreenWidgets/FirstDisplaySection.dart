@@ -169,11 +169,7 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection> with SingleTi
     final size = MediaQuery.of(context).size;
      final status  =    Provider.of<UserProvider>(context, listen: false).getSubscriptionStatus;
      final profileStatus  =Provider.of<UserProvider>(context, listen: false).profileStatusCheck;
-  print("==================================");
-  print("==================================");
-  print("==================================");
-  print(status);
-  print("==================================");
+ 
     return Stack(
       children: [
         Container(
@@ -309,7 +305,7 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection> with SingleTi
         //
         // 
         // container displaying the notifcation
-        profileStatus == null
+        profileStatus == 'null'
         ? Center(
             child: isProfileIncomplete
                 ? Container(

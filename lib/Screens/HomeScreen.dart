@@ -1,7 +1,6 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+
 import 'package:ippu/models/AllEventsModel.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ippu/Screens/ProfileScreen.dart';
@@ -22,76 +21,11 @@ class HomeScreen extends StatefulWidget {
  
 class _HomeScreenState extends State<HomeScreen> {
  
-late List<ProfileData> profileDataList = [];
-void initState() {
-  super.initState();
-  fetchProfileData(); // Call the function to fetch profile data
-}
-Future<void> fetchProfileData() async {
-  try {
-    final userData = Provider.of<UserProvider>(context, listen: false).user;
-    if (userData == null) {
-      throw Exception('User data is null');
-    }
 
-    final String apiUrl = 'https://ippu.org/api/profile/${userData.id}';
-    final response = await http.get(
-      Uri.parse(apiUrl),
-      headers: {
-        'Authorization': 'Bearer ${userData.token}',
-      },
-    );
 
-    if (response.statusCode == 200) {
-      ProfileData profileData = ProfileData.fromJson(json.decode(response.body));
-      setState(() {
-        profileDataList.add(profileData);
-      });
-    } else {
-      throw Exception('Failed to load profile data');
-    }
-  } catch (error) {
-    print('Error fetching profile data: $error');
-  }
-}
+
   Widget build(BuildContext context) {
-    print("===================================");
-    print(profileDataList.length);
-        // setting userData
-    for (var profileData in profileDataList) {
-    final userInfo = Provider.of<UserProvider>(context, listen: false).user;
-  print(profileData);
-            UserData userData = UserData(
-            id: profileData.data['id'],
-            name: profileData.data['name'],
-            email: profileData.data['email'],
-            gender: profileData.data['gender'],
-            dob: profileData.data['dob'],
-            membership_number: profileData.data['membership_number'],
-            address: profileData.data['address'],
-            phone_no: profileData.data['phone_no'],
-            alt_phone_no: profileData.data['alt_phone_no'],
-            nok_name: profileData.data['nok_name'],
-            nok_address: profileData.data['nok_address'],
-            nok_phone_no: profileData.data['nok_phone_no'],
-            points: profileData.data['points'] ,
-            subscription_status: profileData.data['subscription_status'].toString(),
-            // subscription_status2: profileData.data['subscription_status'],
-            token: userInfo!.token,
-          );
-      Provider.of<UserProvider>(context, listen: false).setUser(userData);
-      Provider.of<UserProvider>(context, listen: false).setSubscriptionStatus(profileData.data['subscription_status'].toString());
-    }
-    // 
-        final status  =    Provider.of<UserProvider>(context, listen: false).getSubscriptionStatus;
 
-
-      final userdata = Provider.of<UserProvider>(context).user;
-
-      Provider.of<UserProvider>(context).setProfileStatus('${userdata!.gender}');
-
-    // 
-    print("===================================");
     final size = MediaQuery.of(context).size;
     return Scaffold(
             drawer:Drawer(
@@ -143,13 +77,4 @@ Future<void> fetchProfileData() async {
   );
 }
   // 
-}
-class ProfileData {
-  final Map<String, dynamic> data;
-
-  ProfileData({required this.data});
-
-  factory ProfileData.fromJson(Map<String, dynamic> json) {
-    return ProfileData(data: json['data']);
-  }
 }
