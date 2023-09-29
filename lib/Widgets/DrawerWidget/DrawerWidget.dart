@@ -208,7 +208,7 @@ authController.signOut();
                   child: ListTile(
                     leading: Icon(Icons.settings,
                     ),
-                    title: Text("Settings", style: GoogleFonts.lato(
+                    title: Text("Account Settings", style: GoogleFonts.lato(
                       fontWeight: FontWeight.bold,
                       color: Colors.black
                     ),),

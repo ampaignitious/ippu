@@ -8,7 +8,6 @@ import 'package:ippu/models/UserProvider.dart';
 import 'package:lecle_downloads_path_provider/lecle_downloads_path_provider.dart';
 import 'package:clean_dialog/clean_dialog.dart';
 
-
 import 'package:provider/provider.dart';
 
 class AttendedEventSIngleDisplayScreen extends StatefulWidget {
@@ -253,94 +252,54 @@ class _AttendedEventSIngleDisplayScreenState
     );
   }
 
-void _showDialog() {
-  showDialog(
-    context: context,
-    builder: (context) => CleanDialog(
-    title: 'Certificate Downloaded',
-    content: 'Certificate saved in downloads folder',
-    backgroundColor: Colors.blue,
-    titleTextStyle: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Colors.white),
-    contentTextStyle: const TextStyle(fontSize: 16, color: Colors.white),
-    actions: [
-        CleanDialogActionButtons(
+  void _showDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => CleanDialog(
+        title: 'Certificate Downloaded',
+        content: 'Certificate saved in downloads folder',
+        backgroundColor: Colors.blue,
+        titleTextStyle: const TextStyle(
+            fontSize: 25, fontWeight: FontWeight.bold, color: Colors.white),
+        contentTextStyle: const TextStyle(fontSize: 16, color: Colors.white),
+        actions: [
+          CleanDialogActionButtons(
             actionTitle: 'OK',
             onPressed: () => Navigator.pop(context),
-        )
-    ],
-    ),
-);
-}
+          )
+        ],
+      ),
+    );
+  }
 
   //
   // printing certificate
-Future<void> downloadAndSaveCertificateAsPDF(String eventId) async {
-  final userData = Provider.of<UserProvider>(context, listen: false).user;
-  final userId = userData?.id;
-  final url = Uri.parse('https://ippu.org/api/events/certificate/$userId/$eventId');
+  Future<void> downloadAndSaveCertificateAsPDF(String eventId) async {
+    final userData = Provider.of<UserProvider>(context, listen: false).user;
+    final userId = userData?.id;
+    final url =
+        Uri.parse('https://ippu.org/api/events/certificate/$userId/$eventId');
 
-  try {
-    final response = await http.get(url);
+    try {
+      final response = await http.get(url);
 
-    if (response.statusCode == 200) {
-      //get the downloads directory
-      final downloadsPath = (await DownloadsPath.downloadsDirectory())?.path ??"downloads path not found";
-      final filePath = '$downloadsPath/certificate_$eventId.pdf';
-      // Save the PDF file to the device
-      File file = File(filePath);
-      await file.writeAsBytes(response.bodyBytes);
+      if (response.statusCode == 200) {
+        //get the downloads directory
+        final downloadsPath =
+            (await DownloadsPath.downloadsDirectory())?.path ??
+                "downloads path not found";
+        final filePath = '$downloadsPath/certificate_$eventId.pdf';
+        // Save the PDF file to the device
+        File file = File(filePath);
+        await file.writeAsBytes(response.bodyBytes);
 
-      //show dialog
-      _showDialog();
-    } else {
-      print('Failed to download certificate: ${response.statusCode}');
+        //show dialog
+        _showDialog();
+      } else {
+        print('Failed to download certificate: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
     }
-  } catch (e) {
-    print('Error: $e');
   }
-}
-// Future<void> downloadAndSaveCertificateAsPDF(String eventId) async {
-//   final userData = Provider.of<UserProvider>(context, listen: false).user;
-//   final userId = userData?.id;
-
-//   final url = Uri.parse('https://ippu.org/api/events/certificate/$userId/$eventId');
-
-//   try {
-//     final response = await http.get(url);
-
-//     if (response.statusCode == 200) {
-//       // Parse certificate data from the response
-//       final certificateData = json.decode(response.body);
-
-//       final pdf = pdfWidgets.Document();
-//       pdf.addPage(
-//         pdfWidgets.Page(
-//           build: (context) {
-//             return pdfWidgets.Center(
-//               child: pdfWidgets.Text('Certificate for Event ID: $eventId'),
-//             );
-//           },
-//         ),
-//       );
-
-//       final pdfBytes = await pdf.save();
-
-//       // Get the application documents directory
-//       final directory = await getApplicationDocumentsDirectory();
-//       final filePath = '${directory.path}/certificate_$eventId.pdf';
-
-//       File file = File(filePath);
-//       await file.writeAsBytes(pdfBytes);
-
-//       // Open the PDF file using open_file package
-//       OpenFile.open(filePath);
-//     } else {
-//       print('Failed to fetch certificate data: ${response.statusCode}');
-//     }
-//   } catch (e) {
-//     print('Error: $e');
-//   }
-// }
-
-  //
 }

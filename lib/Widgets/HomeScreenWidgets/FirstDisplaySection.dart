@@ -222,9 +222,9 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection> with SingleTi
 
                 availableJob(),
                 // 
-                 SizedBox(height: size.height * 0.024),
+                //  SizedBox(height: size.height * 0.024),
 
-                 userAppGuide(),
+                //  userAppGuide(),
                 // 
                 
               // 
