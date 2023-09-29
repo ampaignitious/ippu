@@ -307,7 +307,7 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                                       ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.only(right: size.width * 0.03),
+                                      padding: EdgeInsets.only(right: size.width * 0.01),
                                       child: Icon(
                                         Icons.read_more,
                                         size: size.height * 0.02,
