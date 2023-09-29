@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 
 import 'package:ippu/models/AllEventsModel.dart';
@@ -6,6 +7,9 @@ import 'package:ippu/Screens/ProfileScreen.dart';
 import 'package:ippu/Screens/SettingsScreen.dart';
 import 'package:ippu/Widgets/DrawerWidget/DrawerWidget.dart';
 import 'package:ippu/Widgets/HomeScreenWidgets/FirstDisplaySection.dart';
+import 'package:ippu/models/UserData.dart';
+import 'package:ippu/models/UserProvider.dart';
+import 'package:provider/provider.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -16,6 +20,9 @@ class HomeScreen extends StatefulWidget {
 }
  
 class _HomeScreenState extends State<HomeScreen> {
+ 
+
+
 
   Widget build(BuildContext context) {
 

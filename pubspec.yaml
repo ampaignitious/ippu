@@ -31,8 +31,12 @@ dependencies:
   flutter_html: ^3.0.0-alpha.6
   image_picker: ^0.8.4+4
   google_fonts: ^4.0.4
-  http: 
-  flutter_pdfview:
+  http:
+  # pdf:
+  # path_provider:
+  # open_file:
+  flutter_cache_manager: 
+  # flutter_pdfview:
   fl_chart:
   fluttertoast:
   provider:
@@ -46,6 +50,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   retrofit: ^4.0.1
   shared_preferences: ^2.2.1
+  lecle_downloads_path_provider: ^0.0.2+8
+  clean_dialog: ^0.0.16
 
 dev_dependencies:
   flutter_test:

@@ -108,7 +108,7 @@ class _FirstSplashScreenState extends State<FirstSplashScreen>
               "Discover about IPPU",
               style: GoogleFonts.lato(
                   letterSpacing: 1,
-                  fontSize: size.height * 0.044,
+                  fontSize: size.width * 0.082,
                   fontWeight: FontWeight.bold,
                   color: Color.fromARGB(255, 42, 129, 201)),
             ),

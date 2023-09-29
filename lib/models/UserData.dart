@@ -13,7 +13,8 @@ class UserData {
   final String? nok_name;
   final String? nok_address;
   final String? nok_phone_no;
-
+  final String? subscription_status;
+ 
   UserData({
     required this.id,
     this.points,
@@ -22,6 +23,7 @@ class UserData {
     required this.token,
     this.gender,
     this.dob,
+    this.subscription_status,
     this.membership_number,
     this.address,
     this.phone_no,

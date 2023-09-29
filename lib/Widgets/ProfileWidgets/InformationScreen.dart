@@ -27,16 +27,13 @@ class InformationScreen extends StatefulWidget {
 class _InformationScreenState extends State<InformationScreen> {
 
   bool isProfileIncomplete = true;
-    bool isSubscription = true;
+  
 
   @override
   void initState() {
     super.initState();
-  Timer(Duration(seconds: 10), () {
-    setState(() {
-      isSubscription = false;
-    });
-  });
+    fetchProfileData();
+  
   }
 
   Future<ProfileData> fetchProfileData() async {
@@ -65,7 +62,7 @@ class _InformationScreenState extends State<InformationScreen> {
     final cpds = Provider.of<UserProvider>(context).CPDS;
     final event = Provider.of<UserProvider>(context).Events;
     final size = MediaQuery.of(context).size;
-    final status  =    Provider.of<UserProvider>(context, listen: false).getSubscriptionStatus;
+    final status  =  Provider.of<UserProvider>(context, listen: false).getSubscriptionStatus;
     return  FutureBuilder<ProfileData>(
         future: fetchProfileData(),
         builder: (context, snapshot) {
@@ -79,117 +76,12 @@ class _InformationScreenState extends State<InformationScreen> {
               child: ListView.builder(
                 itemCount: 1,
                 itemBuilder: (context, index) {
-                  String subscriptionStatus;
-                  if(snapshot.data!.data['latest_membership']==null){
-                  Provider.of<UserProvider>(context).setSubscriptionStatus('Not specified');
-
-                  }else if(snapshot.data!.data['latest_membership']['status'] != null){
-                  Provider.of<UserProvider>(context).setSubscriptionStatus('${snapshot.data!.data['latest_membership']['status']}');
-
-                  }
+                
                   return Column(
                 children: [
-                // SizedBox(height: size.height*0.008),
-                // setSubscriptionStatus
-                // 
-                // displaying subscription status
+ 
                 SizedBox(height: size.height*0.008),
-                status == "inactive"?Center(
-                  child: Container(
-                    height: size.height*0.06,
-                    width: size.width*0.95,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: Color.fromARGB(255, 42, 129, 201),
-                      boxShadow: [
-                        BoxShadow(
-                        color: Colors.grey.withOpacity(0.2), // Adjust shadow color and opacity
-                        offset: Offset(0.8, 1.0), // Adjust the shadow offset
-                        blurRadius: 4.0, // Adjust the blur radius
-                        spreadRadius: 0.2, // Adjust the spread radius
-                            ),
-                          ],
-                    ),
-                    child: Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(
-                                  top: size.height*0.008,
-                                  left: size.width*0.034),
-                                child: Text("Subscription State",
-                                style: GoogleFonts.lato(
-                                  color: Colors.white,
-                                  fontSize: size.height*0.018,
-                                  fontWeight: FontWeight.bold
-                                ),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(left: size.width*0.034),
-                                child: Text("${status}",
-                                style: GoogleFonts.lato(
-                                  fontSize: size.height*0.015,
-                                  color: Colors.white,
-                                ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          // 
-                    // status != "Approved"?InkWell(
-                    //   onTap: (){
-                    //     sendRequest();
-                    //   },
-                    //   child: Container(
-                    //   height: size.height*0.06,
-                    //   width: size.width*0.55,
-                    //   decoration: BoxDecoration(
-                    //     borderRadius: BorderRadius.circular(2),
-                    //     color: Colors.green[500],
-                    //     boxShadow: [
-                    //       BoxShadow(
-                    //       color: Colors.grey.withOpacity(0.2), // Adjust shadow color and opacity
-                    //       offset: Offset(0.8, 1.0), // Adjust the shadow offset
-                    //       blurRadius: 4.0, // Adjust the blur radius
-                    //       spreadRadius: 0.2, // Adjust the spread radius
-                    //           ),
-                    //         ],
-                    //   ),
-                      
-                    //            child: Column(
-                    //              crossAxisAlignment: CrossAxisAlignment.start,
-                    //             children: [
-                    //               Padding(
-                    //               padding: EdgeInsets.only(left: size.width*0.029,
-                    //               top: size.height*0.012,
-                    //               ),
-                    
-                    //                 child: Text("Click to subscribe",
-                    //                 style: GoogleFonts.lato(
-                    //                   color: Colors.white,
-                    //                   fontSize: size.height*0.022,
-                    //                   fontWeight: FontWeight.bold
-                    //                 ),
-                    //                 ),
-                    //               ),
-                    //             ],
-                    //                                    ),
-                    //          ),
-                    // ):Text(""),
-                        // 
-                        ],
-                      ),
-                      ),
-                      // 
-                      
-                      ),
-                ):Text(''),
-                // 
+               
                 SizedBox(height: size.height*0.012),
                 CircleAvatar(
                   radius: 60,
@@ -326,44 +218,5 @@ class _InformationScreenState extends State<InformationScreen> {
             },
           );
         }
-          Future<void> sendRequest( ) async {
-    final userData = Provider.of<UserProvider>(context, listen: false).user;
-  final url = 'https://ippu.org/api/subscribe';
-
-  // Create the request body
-  final body = {
-    'user_id': userData!.id.toString(),
-    'auth_token': userData.token,
-  };
-
-  try {
-    final response = await http.post(
-      Uri.parse(url),
-      body: body,
-    );
-
-    if (response.statusCode == 200) {
-      // Successful response, return the response body as a message
-      showBottomNotification('Application submitted successfully, check your email address');
-      
-
-    } else {
-      // If the request was not successful, throw an exception
-      throw Exception('Failed to send request: ${response.statusCode}');
-    }
-  } catch (error) {
-    // Handle any errors that occurred during the request
-    throw Exception('Failed to send request: $error');
-  }
-}
-void showBottomNotification(String message) {
-  Fluttertoast.showToast(
-    msg: message,
-    toastLength: Toast.LENGTH_SHORT,
-    gravity: ToastGravity.BOTTOM,
-    backgroundColor: Colors.black,
-    textColor: Colors.white,
-  );
-}
 }
  

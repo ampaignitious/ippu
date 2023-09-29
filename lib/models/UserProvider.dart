@@ -5,6 +5,7 @@ class UserProvider extends ChangeNotifier {
   UserData? _user;
 
   UserData? get user => _user;
+ 
   // cpds
   int? totalCPDS =0;
   int? get CPDS => totalCPDS;
@@ -30,11 +31,10 @@ class UserProvider extends ChangeNotifier {
   String? eventsLinkImage;
   String? get getLinkImage => eventsLinkImage;
   // 
-  // 
+ 
   String? subscription;
   String? get getSubscriptionStatus => subscription;
   // 
-
   // points from cpds
   int? PointsFromCpd =0;
   int? get CpdPoints => PointsFromCpd;
@@ -47,10 +47,20 @@ class UserProvider extends ChangeNotifier {
   int? attendedCpds =0;
   int? get attendedCpd => attendedCpds;
   // 
+    // 
+  String? profileStatus;
+  String? get profileStatusCheck => profileStatus;
+  // 
+    void setProfileStatus(String status) {
+   profileStatus = status;
+    notifyListeners();
+  }
+  // 
   void setUser(UserData userData) {
     _user = userData;
     notifyListeners();
   }
+ 
   // fetching total number of cpds
   void totalNumberOfCPDS(int cpds){
     totalCPDS = cpds;
@@ -64,6 +74,8 @@ class UserProvider extends ChangeNotifier {
   void setSubscriptionStatus(String status){
     subscription = status;
   }
+    // fetching subscription status  
+ 
   // fetching total number of communications
   void totalNumberOfCommunications(int communication){
     totalCommunications = communication;

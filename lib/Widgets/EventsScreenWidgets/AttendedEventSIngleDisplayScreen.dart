@@ -1,13 +1,15 @@
+import 'dart:io';
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:http/http.dart' as http;
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ippu/models/UserProvider.dart';
- 
-import 'dart:typed_data';
-import 'dart:io';
+import 'package:lecle_downloads_path_provider/lecle_downloads_path_provider.dart';
+import 'package:clean_dialog/clean_dialog.dart';
 
 import 'package:provider/provider.dart';
+
 class AttendedEventSIngleDisplayScreen extends StatefulWidget {
   String name;
   String eventId;
@@ -18,13 +20,33 @@ class AttendedEventSIngleDisplayScreen extends StatefulWidget {
   String start_date;
   String end_date;
 
-   AttendedEventSIngleDisplayScreen({super.key, required this.eventId, required this.start_date, required this.end_date, required this.name, required this.details, required this.imageLink, required this.points, required this.rate});
+  AttendedEventSIngleDisplayScreen(
+      {super.key,
+      required this.eventId,
+      required this.start_date,
+      required this.end_date,
+      required this.name,
+      required this.details,
+      required this.imageLink,
+      required this.points,
+      required this.rate});
 
   @override
-  State<AttendedEventSIngleDisplayScreen> createState() => _AttendedEventSIngleDisplayScreenState(this.eventId, this.start_date, this.end_date, this.details, this.imageLink, this.name, this.points, this.rate,);
+  State<AttendedEventSIngleDisplayScreen> createState() =>
+      _AttendedEventSIngleDisplayScreenState(
+        this.eventId,
+        this.start_date,
+        this.end_date,
+        this.details,
+        this.imageLink,
+        this.name,
+        this.points,
+        this.rate,
+      );
 }
 
-class _AttendedEventSIngleDisplayScreenState extends State<AttendedEventSIngleDisplayScreen> {
+class _AttendedEventSIngleDisplayScreenState
+    extends State<AttendedEventSIngleDisplayScreen> {
   @override
   String name;
   String details;
@@ -34,8 +56,18 @@ class _AttendedEventSIngleDisplayScreenState extends State<AttendedEventSIngleDi
   String start_date;
   String end_date;
   String eventId;
- _AttendedEventSIngleDisplayScreenState(this.eventId, this.start_date, this.end_date, this.details, this.imageLink, this.name, this.points, this.rate,);  Widget build(BuildContext context) {
-  final size = MediaQuery.of(context).size;
+  _AttendedEventSIngleDisplayScreenState(
+    this.eventId,
+    this.start_date,
+    this.end_date,
+    this.details,
+    this.imageLink,
+    this.name,
+    this.points,
+    this.rate,
+  );
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text("${name}"),
@@ -51,176 +83,223 @@ class _AttendedEventSIngleDisplayScreenState extends State<AttendedEventSIngleDi
             children: [
               Center(
                 child: Container(
-                      // margin: EdgeInsets.only(right:size.height*0.009, left:size.height*0.009),
-                      height: size.height*0.46,
-                      width: size.width*0.84,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.lightBlue,
-                        ),
-                        image: DecorationImage(image: NetworkImage("https://ippu.org/storage/banners/${imageLink}"))
+                  // margin: EdgeInsets.only(right:size.height*0.009, left:size.height*0.009),
+                  height: size.height * 0.46,
+                  width: size.width * 0.84,
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.lightBlue,
                       ),
-                    ),
+                      image: DecorationImage(
+                          image: NetworkImage(
+                              "https://ippu.org/storage/banners/${imageLink}"))),
+                ),
               ),
               Padding(
-                padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.004),
-                child: Text("Event name", style: GoogleFonts.lato(
-                  fontWeight: FontWeight.bold, 
-                ),),
+                padding: EdgeInsets.only(
+                    left: size.width * 0.06, top: size.height * 0.004),
+                child: Text(
+                  "Event name",
+                  style: GoogleFonts.lato(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
-              
+
               Padding(
-                padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.0008),
+                padding: EdgeInsets.only(
+                    left: size.width * 0.06, top: size.height * 0.0008),
                 child: Text("${name}"),
               ),
               Padding(
-               padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.016),
-                child: 
-                
-                Text("Details", style: TextStyle(fontWeight: FontWeight.bold), textAlign: TextAlign.justify ,),
+                padding: EdgeInsets.only(
+                    left: size.width * 0.06, top: size.height * 0.016),
+                child: Text(
+                  "Details",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.justify,
+                ),
               ),
               Padding(
-                padding: EdgeInsets.only(left: size.width*0.06, right:size.width*0.06, top: size.height*0.0016),
+                padding: EdgeInsets.only(
+                    left: size.width * 0.06,
+                    right: size.width * 0.06,
+                    top: size.height * 0.0016),
                 child: Html(
-  data: details,
-  style: {
-    "p": Style( // Apply style to <p> tags
-      fontSize: FontSize(16.0),
-      color: Colors.black,
-      // Add more style properties as needed
-    ),
-    "h1": Style( // Apply style to <h1> tags
-      fontSize: FontSize(24.0),
-      fontWeight: FontWeight.bold,
-      color: Colors.blue,
-      // Add more style properties as needed
-    ),
-    // Add more style definitions for other HTML elements
-  },
-),
-                
+                  data: details,
+                  style: {
+                    "p": Style(
+                      // Apply style to <p> tags
+                      fontSize: FontSize(16.0),
+                      color: Colors.black,
+                      // Add more style properties as needed
+                    ),
+                    "h1": Style(
+                      // Apply style to <h1> tags
+                      fontSize: FontSize(24.0),
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blue,
+                      // Add more style properties as needed
+                    ),
+                    // Add more style definitions for other HTML elements
+                  },
+                ),
+
                 // Text("${details}", textAlign: TextAlign.justify,),
               ),
-              SizedBox(height: size.height*0.016,),
+              SizedBox(
+                height: size.height * 0.016,
+              ),
               // container displaying the start, end rate and location
               Container(
-                margin: EdgeInsets.only(left: size.width*0.03),
-                height: size.height*0.08,
-                width: size.width*0.96,
+                margin: EdgeInsets.only(left: size.width * 0.03),
+                height: size.height * 0.08,
+                width: size.width * 0.96,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   boxShadow: [
-                    BoxShadow(color: Colors.grey,
-                    offset: Offset(0.4, 0.2),
-                    blurRadius: 0.2,
-                    spreadRadius: 0.4,
+                    BoxShadow(
+                      color: Colors.grey,
+                      offset: Offset(0.4, 0.2),
+                      blurRadius: 0.2,
+                      spreadRadius: 0.4,
                     )
                   ],
                 ),
                 child: Padding(
-                  padding:EdgeInsets.only(top:size.height*0.017),
+                  padding: EdgeInsets.only(top: size.height * 0.017),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Start Date", style: TextStyle(color: Colors.green),),
-                          Text("${start_date}", style: TextStyle(fontSize: size.height*0.008),)
+                          Text(
+                            "Start Date",
+                            style: TextStyle(color: Colors.green),
+                          ),
+                          Text(
+                            "${start_date}",
+                            style: TextStyle(fontSize: size.height * 0.008),
+                          )
                         ],
                       ),
-                                      Column(
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("End Date", style: TextStyle(color: Colors.green),),
-                          Text("${end_date}", style: TextStyle(fontSize: size.height*0.008),)
+                          Text(
+                            "End Date",
+                            style: TextStyle(color: Colors.green),
+                          ),
+                          Text(
+                            "${end_date}",
+                            style: TextStyle(fontSize: size.height * 0.008),
+                          )
                         ],
                       ),
-                                      Column(
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Points", style: TextStyle(color: Colors.red),),
-                          Text("${points}", style: TextStyle(fontSize: size.height*0.008),)
+                          Text(
+                            "Points",
+                            style: TextStyle(color: Colors.red),
+                          ),
+                          Text(
+                            "${points}",
+                            style: TextStyle(fontSize: size.height * 0.008),
+                          )
                         ],
                       ),
                     ],
                   ),
                 ),
               ),
-              // 
-              SizedBox(height: size.height*0.022,),
-              // 
+              //
+              SizedBox(
+                height: size.height * 0.022,
+              ),
+              //
               Center(
                 child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary:  Color.fromARGB(255, 42, 129, 201), // Change button color to green
-                            padding: EdgeInsets.all(size.height * 0.024),
-
-                          ),
-                          onPressed: (){
-                         downloadAndSaveCertificateAsPDF(eventId);
-                          },
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: size.width*0.12),
-                            child: Text('Download certificate', style: GoogleFonts.lato(),),
-                          ),
+                  style: ElevatedButton.styleFrom(
+                    primary: Color.fromARGB(
+                        255, 42, 129, 201), // Change button color to green
+                    padding: EdgeInsets.all(size.height * 0.024),
+                  ),
+                  onPressed: () {
+                    downloadAndSaveCertificateAsPDF(eventId);
+                  },
+                  child: Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: size.width * 0.12),
+                    child: Text(
+                      'Download certificate',
+                      style: GoogleFonts.lato(),
+                    ),
+                  ),
                 ),
               ),
-              // 
-           // 
-              SizedBox(height: size.height*0.022,),
-              // 
+              //
+              //
+              SizedBox(
+                height: size.height * 0.022,
+              ),
+              //
             ],
           ),
         ),
       ),
-   
     );
   }
-  // 
-  // printing certificate
-  Future<void> downloadAndSaveCertificateAsPDF(  String eventId) async {
-   final userData = Provider.of<UserProvider>(context, listen: false).user;
-   final userId = userData?.id;
-  final url = Uri.parse('https://ippu.org/api/events/certificate/$userId/$eventId');
 
-  try {
-    final response = await http.get(url);
-
-    if (response.statusCode == 200) {
-    print("success");
- 
-      // final pdfDocument = pdfWidgets.Document();
-
-      // // Create a PDF page with an image from the API response (assuming it's an image)
-      // final Uint8List imageBytes = response.bodyBytes;
-      // final pdfImage = pdfWidgets.MemoryImage(
-      //   imageBytes,
-      //   // dpi: PdfPageFormat.a4.width,
-      //   // height: PdfPageFormat.a4.height,
-      // );
-      // pdfDocument.addPage(
-      //   pdfWidgets.Page(
-      //     build: (context) {
-      //       return pdfWidgets.Center(
-      //         child: pdfWidgets.Image(pdfImage),
-      //       );
-      //     },
-      //   ),
-      // );
-
-      // // Save the PDF to a file
-      // final String filePath = 'certificate_${userId}_$eventId.pdf';
-      // final File file = File(filePath);
-      // await file.writeAsBytes(await pdfDocument.save());
-
-      // print('PDF saved to: $filePath');
-    } else {
-      print('Failed to download certificate: ${response.statusCode}');
-    }
-  } catch (e) {
-    print('Error: $e');
+  void _showDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => CleanDialog(
+        title: 'Certificate Downloaded',
+        content: 'Certificate saved in downloads folder',
+        backgroundColor: Colors.blue,
+        titleTextStyle: const TextStyle(
+            fontSize: 25, fontWeight: FontWeight.bold, color: Colors.white),
+        contentTextStyle: const TextStyle(fontSize: 16, color: Colors.white),
+        actions: [
+          CleanDialogActionButtons(
+            actionTitle: 'OK',
+            onPressed: () => Navigator.pop(context),
+          )
+        ],
+      ),
+    );
   }
-}
-  // 
+
+  //
+  // printing certificate
+  Future<void> downloadAndSaveCertificateAsPDF(String eventId) async {
+    final userData = Provider.of<UserProvider>(context, listen: false).user;
+    final userId = userData?.id;
+    final url =
+        Uri.parse('https://ippu.org/api/events/certificate/$userId/$eventId');
+
+    try {
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        //get the downloads directory
+        final downloadsPath =
+            (await DownloadsPath.downloadsDirectory())?.path ??
+                "downloads path not found";
+        final filePath = '$downloadsPath/certificate_$eventId.pdf';
+        // Save the PDF file to the device
+        File file = File(filePath);
+        await file.writeAsBytes(response.bodyBytes);
+
+        //show dialog
+        _showDialog();
+      } else {
+        print('Failed to download certificate: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
 }

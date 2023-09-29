@@ -51,7 +51,9 @@ class _ThirdSplashScreenState extends State<ThirdSplashScreen> {
               SizedBox(
               height: size.height*0.048,
             ),
-            Text("Effective communication", style: TextStyle(fontSize: size.height*0.041, fontWeight: FontWeight.bold,color: Color.fromARGB(255, 42, 129, 201)),),
+            Text("Effective communication", style: TextStyle(
+              fontSize: size.width * 0.082, 
+              fontWeight: FontWeight.bold,color: Color.fromARGB(255, 42, 129, 201)),),
             SizedBox(
               height: size.height*0.015,
             ),

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -24,7 +25,7 @@ class FirstDisplaySection extends StatefulWidget {
   State<FirstDisplaySection> createState() => _FirstDisplaySectionState();
 }
 
-class _FirstDisplaySectionState extends State<FirstDisplaySection> {
+class _FirstDisplaySectionState extends State<FirstDisplaySection> with SingleTickerProviderStateMixin{
   @override
   int totalCPDS = 0;
   int totalEvents = 0;
@@ -36,7 +37,8 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection> {
 
   bool isProfileIncomplete = true;
     bool isSubscription = true;
-
+  late AnimationController _controller;
+  late Animation<double> _animation;
   @override
   void initState() {
     super.initState();
@@ -53,7 +55,24 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection> {
       return data;
     });
     cpdDataFuture = fetchAllCpds();
+        _controller = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 2),
+    );
+
+    _animation = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOut,
+    );
+
+    timeDilation = 2.0; // Slowing down the animation for demonstration purposes
+
+    _controller.repeat(reverse: true);
   }
+  // 
+  
+  
+  // 
 // function for fetching cpds 
   Future<List<CpdModel>> fetchAllCpds() async {
   final userData = Provider.of<UserProvider>(context, listen: false).user;
@@ -147,17 +166,10 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection> {
 
   // // 
   Widget build(BuildContext context) {
-        final userData = Provider.of<UserProvider>(context).user;
-        void completeProfile(){
-          if(userData!.nok_address == null){
-            showBottomNotification("Please complete your profile");
-          }
-        }
-      final size = MediaQuery.of(context).size;
-      final cpds = Provider.of<UserProvider>(context).CPDS;
-      final event = Provider.of<UserProvider>(context).Events;
-      final communications = Provider.of<UserProvider>(context).totalCommunications;
-
+    final size = MediaQuery.of(context).size;
+     final status  =    Provider.of<UserProvider>(context, listen: false).getSubscriptionStatus;
+     final profileStatus  =Provider.of<UserProvider>(context, listen: false).profileStatusCheck;
+ 
     return Stack(
       children: [
         Container(
@@ -210,9 +222,9 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection> {
 
                 availableJob(),
                 // 
-                 SizedBox(height: size.height * 0.024),
+                //  SizedBox(height: size.height * 0.024),
 
-                 userAppGuide(),
+                //  userAppGuide(),
                 // 
                 
               // 
@@ -220,8 +232,80 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection> {
             ),
           ),
         ),
+        // 
+                       // container displaying the subscription button
+            status == 'false'?AnimatedBuilder(
+              animation: _animation,
+                builder: (context, child) {
+                  return Transform.scale(
+                    scale: 0.9 + 0.08 * _animation.value,
+                    child: child,
+                  );
+                },
+              child: Center(
+                child: Container(
+                        height: size.height * 0.075,
+                        width: size.width * 0.96,
+                        margin: EdgeInsets.only(bottom: size.height * 0.004),
+                     decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          color:Colors.white,
+                        ),
+                        color: Color.fromARGB(255, 255, 118, 118),
+                        boxShadow: [
+                          BoxShadow(
+                          color: Color.fromARGB(255, 247, 245, 245) , // Adjust shadow color and opacity
+                          offset: Offset(0.8, 0.8), // Adjust the shadow offset
+                          blurRadius: 4.0, // Adjust the blur radius
+                          spreadRadius: 0.2, // Adjust the spread radius
+                              ),
+                            ],
+                      ),
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: size.width * 0.08),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                    return ProfileScreen();
+                                  }));
+                                },
+                                child: Center(
+                                  child: Text(
+                                    "please complete subscription",
+                                    style: GoogleFonts.lato(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              // InkWell(
+                              //   onTap: () {
+                              //     setState(() {
+                              //       isProfileIncomplete = false;
+                              //     });
+                              //   },
+                              //   child: Icon(
+                              //     Icons.close,
+                              //     color: Colors.white,
+                              //     ),
+                              // ),
+                            ],
+                          ),
+                        ),
+                      ),
+              ),
+            ):Text(""),
+   
+        //
+        // 
         // container displaying the notifcation
-             userData!.gender == null
+        profileStatus == 'null'
         ? Center(
             child: isProfileIncomplete
                 ? Container(
@@ -233,7 +317,7 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection> {
                     border: Border.all(
                       color:Colors.white,
                     ),
-                    color: Color.fromARGB(255, 42, 129, 201),
+                    color: Color.fromARGB(255, 255, 118, 118),
                     boxShadow: [
                       BoxShadow(
                       color: Color.fromARGB(255, 247, 245, 245) , // Adjust shadow color and opacity
@@ -245,38 +329,22 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection> {
                   ),
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: size.width * 0.08),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                return ProfileScreen();
-                              }));
-                            },
-                            child: Center(
-                              child: Text(
-                                "Please Complete your profile",
-                                style: GoogleFonts.lato(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  decoration: TextDecoration.underline,
-                                ),
-                              ),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) {
+                            return ProfileScreen();
+                          }));
+                        },
+                        child: Center(
+                          child: Text(
+                            "Please Complete your profile",
+                            style: GoogleFonts.lato(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              decoration: TextDecoration.underline,
                             ),
                           ),
-                          InkWell(
-                            onTap: () {
-                              setState(() {
-                                isProfileIncomplete = false;
-                              });
-                            },
-                            child: Icon(
-                              Icons.close,
-                              color: Colors.white,
-                              ),
-                          ),
-                        ],
+                        ),
                       ),
                     ),
                   )
@@ -284,7 +352,8 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection> {
           )
         : Text(""),
 
-        
+        // 
+  
       ],
     );
   }

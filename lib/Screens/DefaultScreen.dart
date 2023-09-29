@@ -5,8 +5,9 @@ import 'package:ippu/Screens/CpdsScreen.dart';
 import 'package:ippu/Screens/EventsScreen.dart';
 import 'package:ippu/Screens/HomeScreen.dart';
 import 'dart:convert';
+import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:ippu/models/AllEventsModel.dart';
+import 'package:ippu/models/UserData.dart';
 import 'package:ippu/models/UserProvider.dart';
 import 'package:provider/provider.dart';
  
@@ -18,6 +19,11 @@ class DefaultScreen extends StatefulWidget {
 }
 
 class _DefaultScreenState extends State<DefaultScreen> {
+  late List<ProfileData> profileDataList = [];
+  void initState() {
+  super.initState();
+  fetchProfileData(); // Call the function to fetch profile data
+}
   int _selectedIndex = 0;
   List Page = [
  HomeScreen(),
@@ -31,95 +37,72 @@ class _DefaultScreenState extends State<DefaultScreen> {
       _selectedIndex = index;
     });
     }
-      @override
-      late Future<List<AllEventsModel>> dataFuture;
-  late List<AllEventsModel> fetchedData = []; // Declare a list to store fetched data
-
-  @override
-  void initState() {
-    super.initState();
-    // Assign the result of fetchdata to the fetchedData list
-    dataFuture = fetchAllEvents().then((data) {
-      fetchedData = data;
-      return data;
-    });
-    dataFuture = fetchAllEvents();
-    print(fetchedData);
-  }
-
-// checking subscription
-  Future<ProfileData> fetchProfileData() async {
-  final userData = Provider.of<UserProvider>(context, listen: false).user;
-  if (userData == null) {
-    throw Exception('User data is null');
-  }
-
-  final String apiUrl = 'https://ippu.org/api/profile/${userData.id}';
-  final response = await http.get(
-    Uri.parse(apiUrl),
-    headers: {
-      'Authorization': 'Bearer ${userData.token}',
-    },
-  );
-
-  if (response.statusCode == 200) {
-    return ProfileData.fromJson(json.decode(response.body));
-  } else {
-    throw Exception('Failed to load profile data');
-  }
-}
-// 
-// 
-// fetching events 
-  Future<List<AllEventsModel>> fetchAllEvents() async {
-  final userData = Provider.of<UserProvider>(context, listen: false).user;
-
-  // Define the URL with userData.id
-  final apiUrl = 'https://ippu.org/api/events/${userData?.id}';
-
-  // Define the headers with the bearer token
-  final headers = {
-    'Authorization': 'Bearer ${userData?.token}',
-  };
-
+ Future<void> fetchProfileData() async {
   try {
-    final response = await http.get(Uri.parse(apiUrl), headers: headers);
+    final userData = Provider.of<UserProvider>(context, listen: false).user;
+    if (userData == null) {
+      throw Exception('User data is null');
+    }
+
+    final String apiUrl = 'https://ippu.org/api/profile/${userData.id}';
+    final response = await http.get(
+      Uri.parse(apiUrl),
+      headers: {
+        'Authorization': 'Bearer ${userData.token}',
+      },
+    );
+
     if (response.statusCode == 200) {
-      final Map<String, dynamic> jsonData = jsonDecode(response.body);
-      final List<dynamic> eventData = jsonData['data'];
-      List<AllEventsModel> eventsData = eventData.map((item) {
-        return AllEventsModel(
-          id: item['id'].toString(),
-          name: item['name'],
-          start_date: item['start_date'],
-          end_date: item['end_date'],
-          rate: item['rate'],
-          attandence_request: item['attendance_request'] ,
-          member_rate: item['member_rate'],
-          points: item['points'].toString(), // Convert points to string if needed
-          attachment_name: item['attachment_name'],
-          banner_name: item['banner_name'],
-          details: item['details'],
-        );
-      }).toList();
-      print(eventsData);
-      return eventsData;
+      ProfileData profileData = ProfileData.fromJson(json.decode(response.body));
+      setState(() {
+        profileDataList.add(profileData);
+      });
     } else {
-      throw Exception('Failed to load events data');
+      throw Exception('Failed to load profile data');
     }
   } catch (error) {
-    // Handle the error here, e.g., display an error message to the user
-    print('Error: $error');
-    return []; // Return an empty list or handle the error in your UI
+    print('Error fetching profile data: $error');
   }
-  
 }
-// 
-//
-  Widget build(BuildContext context) {
-      Provider.of<UserProvider>(context).totalNumberOfEvents(fetchedData.length);
-    final size =MediaQuery.of(context).size;
 
+  Widget build(BuildContext context) {
+    
+    print("===================================");
+    print(profileDataList.length);
+        // setting userData
+    for (var profileData in profileDataList) {
+    final userInfo = Provider.of<UserProvider>(context, listen: false).user;
+ 
+            UserData userData = UserData(
+            id: profileData.data['id'],
+            name: profileData.data['name'],
+            email: profileData.data['email'],
+            gender: profileData.data['gender'].toString(),
+            dob: profileData.data['dob'],
+            membership_number: profileData.data['membership_number'],
+            address: profileData.data['address'],
+            phone_no: profileData.data['phone_no'],
+            alt_phone_no: profileData.data['alt_phone_no'],
+            nok_name: profileData.data['nok_name'],
+            nok_address: profileData.data['nok_address'],
+            nok_phone_no: profileData.data['nok_phone_no'],
+            points: profileData.data['points'] ,
+            subscription_status: profileData.data['subscription_status'].toString(),
+            // subscription_status2: profileData.data['subscription_status'],
+            token: userInfo!.token,
+          );
+      Provider.of<UserProvider>(context, listen: false).setUser(userData);
+      Provider.of<UserProvider>(context, listen: false).setSubscriptionStatus(profileData.data['subscription_status'].toString());
+      Provider.of<UserProvider>(context, listen: false).setProfileStatus(profileData.data['gender'].toString());
+
+    }
+    // 
+      final status  =    Provider.of<UserProvider>(context, listen: false).getSubscriptionStatus;
+      final userdata = Provider.of<UserProvider>(context).user;
+      Provider.of<UserProvider>(context).setProfileStatus('${userdata!.gender}');
+    // 
+    print("===================================");
+    final size =MediaQuery.of(context).size;
     return Scaffold(
       body: Page[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
