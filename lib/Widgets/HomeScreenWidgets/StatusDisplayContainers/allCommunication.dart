@@ -41,7 +41,7 @@ class _allCommunicationState extends State<allCommunication> {
                   },
                   child: Container(
                     height: size.height * 0.098,
-                    width: size.width * 0.9,
+                    width: size.width,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
                       gradient: LinearGradient(

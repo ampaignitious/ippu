@@ -28,8 +28,7 @@ class AttendedEventSIngleDisplayScreen extends StatefulWidget {
       required this.name,
       required this.details,
       required this.imageLink,
-      required this.points,
-      required this.rate});
+      required this.points, required this.rate});
 
   @override
   State<AttendedEventSIngleDisplayScreen> createState() =>

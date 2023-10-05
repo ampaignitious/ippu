@@ -90,7 +90,6 @@ class _allEventDisplayState extends State<allEventDisplay> {
     // Update the UserProvider with the total points for events
     Provider.of<UserProvider>(context, listen: false)
         .totalNumberOfEvents(fetchedData.length);
-
     return InkWell(
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -99,7 +98,7 @@ class _allEventDisplayState extends State<allEventDisplay> {
       },
       child: Container(
         height: size.height * 0.098,
-        width: size.width * 0.9,
+        width: size.width,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
           gradient: LinearGradient(
