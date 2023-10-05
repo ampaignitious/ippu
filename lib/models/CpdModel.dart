@@ -15,7 +15,7 @@ class CpdModel {
   final String status;
   final String type;
   final String banner;
-  bool  attendance_request;
+  bool attendance_request;
 
   CpdModel({
     required this.id,
@@ -36,5 +36,30 @@ class CpdModel {
     required this.type,
     required this.banner,
   });
-}
 
+  String getStatus() {
+    DateTime currentDate = DateTime.now();
+    DateTime startDate = DateTime.parse(this.startDate);
+    DateTime endDate = DateTime.parse(this.endDate);
+
+    if (currentDate.isBefore(startDate)) {
+      return "Pending";
+    } else if (currentDate.isAfter(endDate)) {
+      return "Happened";
+    } else {
+      return "Ongoing";
+    }
+  }
+
+  //check if an event happened and return true else false
+  bool isHappened() {
+    DateTime currentDate = DateTime.now();
+    DateTime endDate = DateTime.parse(this.endDate);
+
+    if (currentDate.isAfter(endDate)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+}

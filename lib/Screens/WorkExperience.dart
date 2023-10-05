@@ -1,13 +1,14 @@
 import 'dart:convert';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
-import 'package:ippu/models/WorkingExperience.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ippu/Widgets/WorkExperienceWidgets/SIngleWorkingExperienceDisplayScreen.dart';
+import 'package:http/http.dart' as http;
 import 'package:ippu/models/UserProvider.dart';
+import 'package:ippu/models/WorkingExperience.dart';
 import 'package:provider/provider.dart';
+import 'package:timeline_tile/timeline_tile.dart';
+
 class WorkExperience extends StatefulWidget {
   const WorkExperience({super.key});
 
@@ -16,447 +17,406 @@ class WorkExperience extends StatefulWidget {
 }
 
 class _WorkExperienceState extends State<WorkExperience> {
-   @override
-    late Future<List<WorkingExperience>> WorkingExperienceFuture;
-  TextEditingController _title = TextEditingController();
-TextEditingController _type = TextEditingController();
-TextEditingController _startDate = TextEditingController();
-TextEditingController _endDate = TextEditingController();
-TextEditingController _points = TextEditingController();
-TextEditingController _field = TextEditingController();
-TextEditingController _userId = TextEditingController();
-TextEditingController _description = TextEditingController();
-TextEditingController _position  = TextEditingController();
- 
-
- 
-
+  //to control the visibility of the form
+  bool _isFormVisible = false;
+  late Future<List<WorkingExperience>> WorkingExperienceFuture;
   @override
   void initState() {
     super.initState();
     WorkingExperienceFuture = fetchWorkingExperience();
- 
   }
-  //  a function to fetch working experience
-  Future<List<WorkingExperience>> fetchWorkingExperience() async {
-  final userData = Provider.of<UserProvider>(context, listen: false).user;
-  final userId = userData?.id;
-  // Define the URL with userData.id
-  final apiUrl = 'https://ippu.org/api/work-experience/$userId';
 
-  // Define the headers with the bearer token
-  final headers = {
-    'Authorization': 'Bearer ${userData?.token}',
-  };
+  TextEditingController _title = TextEditingController();
+  TextEditingController _startDate = TextEditingController();
+  TextEditingController _endDate = TextEditingController();
+  TextEditingController _userId = TextEditingController();
+  TextEditingController _description = TextEditingController();
+  TextEditingController _position = TextEditingController();
 
-  try {
-    final response = await http.get(Uri.parse(apiUrl), headers: headers);
+  Future<void> addWorkExperience(
+      {required String title,
+      required String startDate,
+      required String endDate,
+      required String description,
+      required String position,
+      required int id}) async {
+    const String apiUrl = 'https://ippu.org/api/work-experience';
+
+    final Map<String, dynamic> requestData = {
+      "title": title,
+      "start_date": startDate,
+      "end_date": endDate,
+      "description": description,
+      "position": position,
+      "user_id": id,
+    };
+    print(requestData);
+    final response = await http.post(
+      Uri.parse(apiUrl),
+      body: json.encode(requestData),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    );
+
     if (response.statusCode == 200) {
-      final Map<String, dynamic> jsonData = jsonDecode(response.body);
-      final List<dynamic> availableExperience = jsonData['data'];
-      print(availableExperience);
-      List<WorkingExperience> Experience = availableExperience.map((item) {
-        return WorkingExperience(
-          id:item['id'].toString() ,
-          title:item['title'],
-          user_id:item['user_id'].toString(),
-          description:item['description'],
-          start_date: item['start_date'],
-          end_date: item['end_date'],
-          attachment: item['attachment'],
-          field: item['field'],
-          points: item['points'],
-          position: item['position'],
-          type: item['type']
-        );
-      }).toList();
-      return Experience;
+      // WorkExperience background added successfully
+      print(response.body);
+      print('Work Experience added successfully');
+      showBottomNotification('work experience added successfully');
+
+      setState(() {
+        WorkingExperienceFuture = fetchWorkingExperience();
+      });
     } else {
-      throw Exception('Failed to load events data');
+      // Error handling for the failed request
+      print('Failed to add work experience: ${response.statusCode}');
     }
-  } catch (error) {
-    // Handle the error here, e.g., display an error message to the user
-          print("There is an error ");
-    print('Error: $error');
-    return []; // Return an empty list or handle the error in your UI
   }
-}
 
-  // 
-
-// function to add a work experienc
-  Future<void> addEducationBackground({
-  required String title,
-  required String type,
-  required String startDate,
-  required String endDate,
-  required String description,
-  required String position,
-  required String field,
-  required int id,
-}) async {
-  final String apiUrl = 'http://app.ippu.or.ug/api/work-experience';
-
-  final Map<String, dynamic> requestData = {
-    "title": title,
-    "type": type,
-    "start_date": startDate,
-    "end_date": endDate,
-    "description": description,
-    "position" :position,
-    "field":field,
-    "user_id": id,
-  };
-print(requestData);
-  final response = await http.post(
-    Uri.parse(apiUrl),
-    body: json.encode(requestData),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  );
-
-  if (response.statusCode == 200) {
-    // Education background added successfully
-    print('Experience added successfully');
-    showBottomNotification('Experience added successfully');
-      
-  } else {
-    // Error handling for the failed request
-    print('Failed to add education background: ${response.statusCode}');
-  }
-}
-  // 
-  // 
+  //
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-            resizeToAvoidBottomInset: false,
-
-      appBar:AppBar(
-        title: Text("Working Experience", style: GoogleFonts.lato(),),
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 42, 129, 201),
         elevation: 0,
-      ) ,
+        title: Text("Work Experience", style: GoogleFonts.lato()),
+      ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color.fromARGB(255, 42, 129, 201),
+        onPressed: _toggleFormVisibility,
+        tooltip: 'Add Work Experience',
         child: Icon(Icons.add),
-         onPressed: _showAddEducationDialog,
-        tooltip: 'Add working experience',),
+      ),
       body: Column(
         children: [
-          Center(
-            child: Container(
-              height: size.height*0.80,
-              width: size.width*0.9,
-           
-              child: FutureBuilder<List<WorkingExperience>>(
-                future: WorkingExperienceFuture,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
-                  } else if (snapshot.hasError) {
-                    return Center(
-                      child: Text("Check your internet connection to load the data"),
-                    );
-                  }else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  // return const Text('No data available');
-                  return Center(
-                    child: Column(
-                      children: [
-                        SizedBox(height: size.height*0.14,),
-                        Image(image: AssetImage('assets/no_data.png')),
-                        Text("No working experience data available")
-                      ],
-                    ),
-                  );
-                } 
-                  else if (snapshot.hasData) {
-                    List<WorkingExperience> eventData  = snapshot.data!;
-                    return ListView.builder(
-                      itemCount: eventData .length,
-                      itemBuilder: (context, index) {
-                        WorkingExperience data = eventData [index];
-                        return Column(
-                          children: [
-                            SizedBox(
-                              height:size.height*0.012,
-                            ),
-                            InkWell(
-                              onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context){
-                                  return SingleWorkingExperienceDisplayScreen(
-                              id: data.id.toString(),
-                              title:data.title,
-                              user_id:data.user_id.toString(),
-                              description:data.description,
-                              start_date: data.start_date,
-                              end_date: data.end_date,
-                              attachment: data.attachment,
-                              field: data.field,
-                              points: data.points,
-                              position: data.position,
-                              type: data.type
-                                  );
-                                }));
-                              },
-                              child: Container(
-                                height: size.height*0.26,
-                                width: size.width*0.84,
-                                decoration: BoxDecoration(
-                                   color: Colors.white,
-                                  border: Border.all(
-                                    
-                                    color: Color.fromARGB(255, 210, 211, 211),
-                                  ),
-                                                     
-                                  boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  offset: Offset(0.8, 1.0),
-                                  blurRadius: 4.0,
-                                  spreadRadius: 0.2,
-                                ),
-                              ],
-                                 ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Divider(),
-                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                     Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                      padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.004),
-                                      child: Text("Job Title", style: GoogleFonts.lato(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: size.height*0.028,
-                                      ),),
-                                ),
-                                  Padding(
-                                  padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.0008),
-                                  child: Text("${data.title}", style: TextStyle(
-                                    color: Colors.blue
-                                  ),),
-                                ),
-                                    ],
-                                  ),
-                                Padding(
-                                  padding: EdgeInsets.only(right: size.width*0.07),
-                                  child: Column(
-                                    children: [
-                                  Padding(
-                                   padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.016),
-                                    child: Text("Position", style: TextStyle(fontWeight: FontWeight.bold), textAlign: TextAlign.justify ,),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(left: size.width*0.06, right:size.width*0.06, top: size.height*0.0016),
-                                    child: Text("${data.position}", textAlign: TextAlign.justify, style: TextStyle(
-                                      fontSize: size.height*0.012,
-                                      color: Colors.blue
-                                    ),),
-                                  ),
-                                    ],
-                                  ),
-                                ),
-                                 
-                                  ],
-                                 ),
-                                                  SizedBox(
-                                        
-                              height: size.height*0.024,
-                                                  ),
-                                                      Divider(), 
-                                                      // 
-                                                      Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                     Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                      padding: EdgeInsets.only(left: size.width*0.06, top: size.height*0.004),
-                                      child: Text("Description", style: GoogleFonts.lato(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: size.height*0.022,
-                                      ),),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(left: size.width * 0.06, top: size.height * 0.0008),
-                                  child: Text(
-                                      "${truncateDescription(data.description.toString(), 3)}",
-                                      style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: size.height * 0.016,
-                                    ),
-                                  ),
-                                )
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(right:size.width*0.006),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Icon(Icons.read_more),
-                                        Text("read more", style: TextStyle(
-                                          fontSize: size.height*0.012,
-                                        ),)
-                                      ],
-                                    ),
-                                  )
-                                  ],
-                                 ),
-                                                  // 
-                                   
-                                ],
-                                ),
-                              ),
-                            ),
-                            SizedBox(height:size.height*0.016),
-                          ],
-                        );
-                      },
-                    );
-                  } else {
-                    return Center(child: Text('No data available'));
-                  }
-                },
-              ),
-            ),
+          SizedBox(
+            height: size.height * 0.009,
           ),
-                              SizedBox(
-            
-                            height: size.height*0.029,
-                      ),
-        
+          // Conditionally render the content based on the _isFormVisible flag
+          _isFormVisible ? _buildWorkForm() : _buildExistingContent(),
         ],
       ),
     );
   }
-  // 
-  String truncateDescription(String description, int wordCount) {
-  List<String> words = description.split(' ');
-  
-  if (words.length <= wordCount) {
-    return description;
-  } else {
-    // Take the first 'wordCount' words and join them with a space.
-    return words.take(wordCount).join(' ') + '......';
-  }
-}
 
-//  
+  //
 
-// 
+  Widget _buildExistingContent() {
+    // Fetch the WorkExperience data from the API
+    final experienceData = fetchWorkingExperience();
+    final size = MediaQuery.of(context).size;
 
-  void _showAddEducationDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        final userData = Provider.of<UserProvider>(context).user;
-        return AlertDialog(
-          title: Text('Add Working Experience'),
-          content: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextField(
-                  decoration: InputDecoration(labelText: 'Title'),
-                  controller: _title,
-                ),
-                TextField(
-                  decoration: InputDecoration(labelText: 'Type'),
-                  controller: _type,
-                ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Start Date'),
-                controller: _startDate,
-                onTap: () => _selectDate(context, _startDate),
-              ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'End Date'),
-                controller: _endDate,
-                onTap: () => _selectDate(context, _endDate),
-              ), 
-                TextField(
-                  decoration: InputDecoration(labelText: 'description'),
-                  controller: _description,
-                ),
-                TextField(
-                  decoration: InputDecoration(labelText: 'position'),
-                  controller: _position,
-                ),
-                TextField(
-                  decoration: InputDecoration(labelText: 'field'),
-                  controller: _field,
-                ),
-              ],
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Divider(),
+        Center(
+          child: SizedBox(
+            height: size.height * 0.78,
+            width: size.width * 0.85,
+            child: FutureBuilder<List<WorkingExperience>>(
+              future: WorkingExperienceFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return const Center(
+                    child:
+                        Text("Check your internet connection to load the data"),
+                  );
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  // return const Text('No data available');
+                  return Center(
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: size.height * 0.14,
+                        ),
+                        Image(image: AssetImage('assets/no_data.png')),
+                        Text("No Work Experience Available")
+                      ],
+                    ),
+                  );
+                } else if (snapshot.hasData) {
+                  List<WorkingExperience> eventData = snapshot.data!;
+                  return ListView.builder(
+                    itemCount: eventData.length,
+                    itemBuilder: (context, index) {
+                      final experience = eventData[index];
+                      return TimelineTile(
+                        alignment: TimelineAlign.manual,
+                        lineXY: 0.1,
+                        indicatorStyle: IndicatorStyle(
+                          width: 20,
+                          height: 20,
+                          indicator:
+                              _buildIndicator(), // You can customize your indicator here
+                        ),
+                        beforeLineStyle: const LineStyle(
+                          color: Colors.grey,
+                        ),
+                        endChild: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Card(
+                            elevation: 5,
+                            color: Colors.blue,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '${experience.title}'.toUpperCase(),
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Center(
+                                    child: Text(
+                                      '${experience.start_date} to ${experience.end_date}',
+                                      style: const TextStyle(
+                                          fontSize: 16, color: Colors.white),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    'Position: ${experience.position}',
+                                    style: const TextStyle(
+                                        fontSize: 18, color: Colors.white),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  const Text(
+                                    'Description',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    '${experience.description}',
+                                    style: const TextStyle(
+                                        fontSize: 18, color: Colors.white),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                } else {
+                  return const Center(child: Text('No data available'));
+                }
+              },
             ),
           ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Cancel'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                // Save education details and close dialog
-               addEducationBackground( 
-               title: _title.text,
-               field: _field.text,
-               position: _position.text,
-                type: _type.text,
-                startDate: _startDate.text,
-                endDate: _endDate.text,
-                description: _description.text,
-                id: userData!.id,
-                );
-                Navigator.of(context).pop();
-                Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => WorkExperience(),
-                ),
-              );
-              },
-              child: Text('Save'),
-            ),
-          ],
-        );
-      },
+        ),
+      ],
     );
   }
-// 
-Future<void> _selectDate(BuildContext context, TextEditingController controller) async {
-  final DateTime? picked = await showDatePicker(
-    context: context,
-    initialDate: DateTime.now(),
-    firstDate: DateTime(2000),
-    lastDate: DateTime(2101),
-  );
-  if (picked != null) {
-    // Update the selected date in the text field
-    final formattedDate = DateFormat('yyyy-MM-dd').format(picked);
-    controller.text = formattedDate;
+
+  Future<void> _selectDate(
+      BuildContext context, TextEditingController controller) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+    if (picked != null) {
+      // Update the selected date in the text field
+      final formattedDate = DateFormat('yyyy-MM-dd').format(picked);
+      controller.text = formattedDate;
+    }
+  }
+  //
+
+  void showBottomNotification(String message) {
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      backgroundColor: Colors.black,
+      textColor: Colors.white,
+    );
+  }
+
+  void _toggleFormVisibility() {
+    setState(() {
+      _isFormVisible = !_isFormVisible;
+    });
+  }
+
+  Widget _buildWorkForm() {
+    final size = MediaQuery.of(context).size;
+    final userData = Provider.of<UserProvider>(context).user;
+
+    // Define border radius and border width for the input fields
+    final OutlineInputBorder outlineInputBorder = OutlineInputBorder(
+      borderRadius: BorderRadius.circular(10.0),
+      borderSide: BorderSide(
+        color: Colors.grey, // Border color
+        width: 1.0, // Border width
+      ),
+    );
+
+    return Padding(
+      padding: EdgeInsets.all(size.width * 0.06),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Center(
+            // Display the form title
+            child: Text(
+              'Add Work Experience',
+              style: TextStyle(
+                fontSize: size.height * 0.02,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          SizedBox(height: size.height * 0.02),
+          TextField(
+            decoration: InputDecoration(
+              labelText: 'Title',
+              border: outlineInputBorder,
+            ),
+            controller: _title,
+          ),
+          SizedBox(height: size.height * 0.02),
+          TextFormField(
+            decoration: InputDecoration(
+              labelText: 'Start Date',
+              border: outlineInputBorder,
+            ),
+            controller: _startDate,
+            onTap: () => _selectDate(context, _startDate),
+          ),
+          SizedBox(height: size.height * 0.02),
+          TextFormField(
+            decoration: InputDecoration(
+              labelText: 'End Date',
+              border: outlineInputBorder,
+            ),
+            controller: _endDate,
+            onTap: () => _selectDate(context, _endDate),
+          ),
+          SizedBox(height: size.height * 0.02),
+          TextField(
+            decoration: InputDecoration(
+              labelText: 'Description',
+              border: outlineInputBorder,
+            ),
+            controller: _description,
+            maxLines:
+                5, // Setting maxLines to null allows the TextField to behave like a TextArea
+          ),
+          SizedBox(height: size.height * 0.02),
+          TextField(
+            decoration: InputDecoration(
+              labelText: 'Position',
+              border: outlineInputBorder,
+            ),
+            controller: _position,
+          ),
+          SizedBox(height: size.height * 0.02),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  // Clear form fields and hide the form
+                  _clearForm();
+                  _toggleFormVisibility();
+                },
+                child: Text('Cancel'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  // Save WorkExperience details and close the form
+                  addWorkExperience(
+                    title: _title.text,
+                    startDate: _startDate.text,
+                    endDate: _endDate.text,
+                    description: _description.text,
+                    position: _position.text,
+                    id: userData!.id,
+                  );
+                  _clearForm();
+                  _toggleFormVisibility();
+                },
+                child: Text('Save'),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _clearForm() {
+    // Clear form fields when the form is closed or submitted
+    _title.clear();
+    _startDate.clear();
+    _endDate.clear();
+    _description.clear();
+    _position.clear();
+  }
+
+  //  a function to fetch working experience
+  Future<List<WorkingExperience>> fetchWorkingExperience() async {
+    final userData = Provider.of<UserProvider>(context, listen: false).user;
+    final userId = userData?.id;
+    // Define the URL with userData.id
+    final apiUrl = 'https://ippu.org/api/work-experience/$userId';
+
+    // Define the headers with the bearer token
+    final headers = {
+      'Authorization': 'Bearer ${userData?.token}',
+    };
+
+    try {
+      final response = await http.get(Uri.parse(apiUrl), headers: headers);
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> jsonData = jsonDecode(response.body);
+        final List<dynamic> availableExperience = jsonData['data'];
+        print(availableExperience);
+        List<WorkingExperience> Experience = availableExperience.map((item) {
+          return WorkingExperience(
+            id: item['id'].toString(),
+            title: item['title'],
+            start_date: item['start_date'],
+            end_date: item['end_date'],
+            description: item['description'],
+            position: item['position'],
+          );
+        }).toList();
+        return Experience;
+      } else {
+        throw Exception('Failed to load events data');
+      }
+    } catch (error) {
+      // Handle the error here, e.g., display an error message to the user
+      print("There is an error ");
+      print('Error: $error');
+      return []; // Return an empty list or handle the error in your UI
+    }
+  }
+
+  Widget _buildIndicator() {
+    return Container(
+      decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+        color: Colors.blue, // You can change indicator color here
+      ),
+    );
   }
 }
-// 
-
-void showBottomNotification(String message) {
-  Fluttertoast.showToast(
-    msg: message,
-    toastLength: Toast.LENGTH_SHORT,
-    gravity: ToastGravity.BOTTOM,
-    backgroundColor: Colors.black,
-    textColor: Colors.white,
-  );
-}
-  // 
-}
- 

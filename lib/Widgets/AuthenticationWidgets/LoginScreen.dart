@@ -1,8 +1,6 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-
 import 'package:flutter/material.dart';
 import 'package:ippu/Screens/DefaultScreen.dart';
+import 'package:ippu/Widgets/AuthenticationWidgets/ForgotPasswordScreen.dart';
 import 'package:ippu/Widgets/AuthenticationWidgets/RegisterScreen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ippu/controllers/auth_controller.dart';
@@ -252,15 +250,23 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ],
                       ),
-                      Center(
-                        child: Padding(
-                          padding: EdgeInsets.only(top: size.width * 0.08),
-                          child: Text(
-                            "forgot password ?",
-                            style: GoogleFonts.lato(
-                              fontSize: size.height * 0.020,
-                              color: Color.fromARGB(255, 42, 129, 201)
-                                  .withOpacity(0.6),
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return const ForgotPasswordScreen();
+                              }));
+                        },
+                        child: Center(
+                          child: Padding(
+                            padding: EdgeInsets.only(top: size.width * 0.08),
+                            child: Text(
+                              "forgot password ?",
+                              style: GoogleFonts.lato(
+                                fontSize: size.height * 0.020,
+                                color: Color.fromARGB(255, 42, 129, 201)
+                                    .withOpacity(0.6),
+                              ),
                             ),
                           ),
                         ),

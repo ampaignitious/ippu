@@ -275,7 +275,7 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection> with SingleTi
                                 },
                                 child: Center(
                                   child: Text(
-                                    "please complete subscription",
+                                    "please complete your subscription",
                                     style: GoogleFonts.lato(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,

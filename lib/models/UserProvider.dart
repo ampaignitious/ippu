@@ -42,7 +42,10 @@ class UserProvider extends ChangeNotifier {
   // communication
   int? totalCommunications =0;
   int? get communications => totalCommunications;
-  // 
+
+  int? unreadCommunications = 0;
+  int? get unreadCommunicationsCount => unreadCommunications;
+
     // cpds
   int? attendedCpds =0;
   int? get attendedCpd => attendedCpds;

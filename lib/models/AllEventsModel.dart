@@ -1,4 +1,3 @@
-
 class AllEventsModel {
   String id;
   String name;
@@ -25,5 +24,30 @@ class AllEventsModel {
     required this.banner_name,
     required this.details,
   });
-  
+
+  String getStatus() {
+    DateTime currentDate = DateTime.now();
+    DateTime startDate = DateTime.parse(this.start_date);
+    DateTime endDate = DateTime.parse(this.end_date);
+
+    if (currentDate.isBefore(startDate)) {
+      return "Pending";
+    } else if (currentDate.isAfter(endDate)) {
+      return "Happened";
+    } else {
+      return "Ongoing";
+    }
+  }
+
+    //check if an event happened and return true else false
+  bool isHappened() {
+    DateTime currentDate = DateTime.now();
+    DateTime endDate = DateTime.parse(this.end_date);
+
+    if (currentDate.isAfter(endDate)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

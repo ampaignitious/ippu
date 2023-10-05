@@ -31,7 +31,7 @@ class _MyEventsState extends State<MyEvents> {
   final userData = Provider.of<UserProvider>(context, listen: false).user;
 
   // Define the URL with userData.id
-  final apiUrl = 'http://app.ippu.or.ug/api/attended-events/${userData?.id}';
+  final apiUrl = 'https://ippu.org/api/api/attended-events/${userData?.id}';
 
   // Define the headers with the bearer token
   final headers = {

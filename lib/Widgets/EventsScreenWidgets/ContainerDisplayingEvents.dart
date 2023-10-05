@@ -329,6 +329,16 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents> w
                                         )
                                       ],
                                     ),
+                                                                        Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text("Status", style: TextStyle(color: Colors.white)),
+                                        Text(
+                                          item.getStatus(),
+                                          style: TextStyle(fontSize: size.height * 0.01, color: Colors.white),
+                                        )
+                                      ],
+                                    )
                                   ],
                                 ),
                               ],

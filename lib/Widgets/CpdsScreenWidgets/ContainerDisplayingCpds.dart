@@ -63,7 +63,7 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
 // function for fetching cpds 
   Future<List<CpdModel>> fetchAllCpds() async {
   final userData = Provider.of<UserProvider>(context, listen: false).user;
-
+  print('user id: ${userData?.id}');
   // Define the URL with userData.id
   final apiUrl = 'https://ippu.org/api/cpds/${userData?.id}';
 
@@ -78,6 +78,7 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
       final Map<String, dynamic> jsonData = jsonDecode(response.body);
       final List<dynamic> eventData = jsonData['data'];
       List<CpdModel> cpdData = eventData.map((item) {
+        print('attendence request: ${item['attendance_request']}');
         return CpdModel(
           // 
           id:item['id'].toString(),
@@ -100,7 +101,6 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
           // 
         );
       }).toList();
-      print(cpdData);
       return cpdData;
     } else {
       throw Exception('Failed to load events data');
@@ -229,7 +229,7 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                                 .contains(_searchQuery.toLowerCase())) {
                           return InkWell(
                             onTap: () {
-                              print('${item}');
+                              print('attendance status: ${item.attendance_request}');
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) {
@@ -343,7 +343,7 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                                         ),
                                         Text(
                                           "${extractDate(item.startDate)}",
-                                          style: TextStyle(fontSize: size.height * 0.008, color: Colors.white),
+                                          style: TextStyle(fontSize: size.height * 0.01, color: Colors.white),
                                         ),
                                       ],
                                     ),
@@ -353,10 +353,21 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                                         Text("Rate", style: TextStyle(color: Colors.white)),
                                         Text(
                                           "${item.type}",
-                                          style: TextStyle(fontSize: size.height * 0.008, color: Colors.white),
+                                          style: TextStyle(fontSize: size.height * 0.01, color: Colors.white),
                                         )
                                       ],
                                     ),
+
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text("Status", style: TextStyle(color: Colors.white)),
+                                        Text(
+                                          item.getStatus(),
+                                          style: TextStyle(fontSize: size.height * 0.01, color: Colors.white),
+                                        )
+                                      ],
+                                    )
                                   ],
                                 ),
                               ],

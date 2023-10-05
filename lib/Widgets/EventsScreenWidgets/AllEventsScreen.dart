@@ -18,16 +18,16 @@ class _AllEventsScreenState extends State<AllEventsScreen> {
         scrollDirection: Axis.vertical,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: [     
             SizedBox(height: size.height*0.002,),
             // this container has the container that returns the CPds
             Container(
             height: size.height*0.75,
             width: double.maxFinite,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               // color: Colors.blue,
             ),
-            child: ContainerDisplayingEvents()),
+            child: const ContainerDisplayingEvents()),
           ],
         ),
       );

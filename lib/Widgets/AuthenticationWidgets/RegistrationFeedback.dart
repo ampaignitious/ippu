@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ippu/Widgets/AuthenticationWidgets/LoginScreen.dart';
+import 'package:ippu/Widgets/AuthenticationWidgets/VerifyEmailWidget.dart';
 class RegistrationFeedback extends StatefulWidget {
-  const RegistrationFeedback({super.key});
+    final String email;
+  const RegistrationFeedback({super.key, required String this.email});
 
   @override
   State<RegistrationFeedback> createState() => _RegistrationFeedbackState();
 }
 
 class _RegistrationFeedbackState extends State<RegistrationFeedback> with TickerProviderStateMixin{
-    late AnimationController _controller;
+  late AnimationController _controller;
   late Animation<double> _animation;
 
   @override
@@ -103,7 +105,8 @@ class _RegistrationFeedbackState extends State<RegistrationFeedback> with Ticker
                 InkWell(
                   onTap: (){
                     Navigator.push(context, MaterialPageRoute(builder: (context){
-                      return LoginScreen();
+                    print('email: ${widget.email}');
+                      return VerificationCodeScreen(email: widget.email);
                     }));
                   },
                   child: Center(
@@ -116,7 +119,7 @@ class _RegistrationFeedbackState extends State<RegistrationFeedback> with Ticker
                       ),
                       child: Padding(
                         padding: EdgeInsets.symmetric(horizontal: size.width*0.12),
-                        child: Center(child: Text('Get_Started', style: GoogleFonts.lato(
+                        child: Center(child: Text('Verify Your Email', style: GoogleFonts.lato(
                           color: Colors.white
                         ),)),
                       ),

@@ -16,6 +16,10 @@ class _CommunicationScreenState extends State<CommunicationScreen> with TickerPr
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final userProvider = Provider.of<UserProvider>(context);
+final unreadCommunications = userProvider.unreadCommunications;
+final totalCommunications = userProvider.totalCommunications;
+
     final communication = Provider.of<UserProvider>(context).totalCommunications;
     return Scaffold(
             drawer:Drawer(
@@ -71,7 +75,7 @@ class _CommunicationScreenState extends State<CommunicationScreen> with TickerPr
                                     size: 24,  
                                   ),
                               Center(
-                                child: Text("${communication}", style: GoogleFonts.lato(
+                                child: Text("${totalCommunications}", style: GoogleFonts.lato(
                                   color: Colors.white,
                                                     
                                 ),),
@@ -110,7 +114,7 @@ class _CommunicationScreenState extends State<CommunicationScreen> with TickerPr
                                 size: 24, 
                               ),
                               Center(
-                                child: Text("${communication}", style: GoogleFonts.lato(
+                                child: Text("${unreadCommunications}", style: GoogleFonts.lato(
                                   color: Colors.white,
                                                     
                                 ),),

@@ -116,7 +116,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       // Registration successful, handle the response as needed.
       print('Registration successful');
     setState(() {
-      _email = '';
+      // _email = '';
       _username = '';
       _password = '';
       _confirmPassword = '';
@@ -124,7 +124,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       _selectedValue = 'Please select account type';
     });
       Navigator.push(context, MaterialPageRoute(builder: (context) {
-        return RegistrationFeedback();
+        return RegistrationFeedback(email: _email);
       }));
     } else {
       // Registration failed, handle errors.
