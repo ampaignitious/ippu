@@ -53,6 +53,7 @@ dependencies:
   lecle_downloads_path_provider: ^0.0.2+8
   clean_dialog: ^0.0.16
   timeline_tile: ^2.0.0
+  permission_handler: ^10.1.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ippu/models/UserProvider.dart';
 import 'package:lecle_downloads_path_provider/lecle_downloads_path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:clean_dialog/clean_dialog.dart';
 
 import 'package:provider/provider.dart';
@@ -28,7 +29,8 @@ class AttendedEventSIngleDisplayScreen extends StatefulWidget {
       required this.name,
       required this.details,
       required this.imageLink,
-      required this.points, required this.rate});
+      required this.points,
+      required this.rate});
 
   @override
   State<AttendedEventSIngleDisplayScreen> createState() =>
@@ -278,27 +280,32 @@ class _AttendedEventSIngleDisplayScreenState
     final userId = userData?.id;
     final url =
         Uri.parse('https://ippu.org/api/events/certificate/$userId/$eventId');
+    var status = await Permission.storage.request();
 
-    try {
-      final response = await http.get(url);
+    if (status.isGranted) {
+      try {
+        final response = await http.get(url);
 
-      if (response.statusCode == 200) {
-        //get the downloads directory
-        final downloadsPath =
-            (await DownloadsPath.downloadsDirectory())?.path ??
-                "downloads path not found";
-        final filePath = '$downloadsPath/certificate_$eventId.pdf';
-        // Save the PDF file to the device
-        File file = File(filePath);
-        await file.writeAsBytes(response.bodyBytes);
+        if (response.statusCode == 200) {
+          //get the downloads directory
+          final downloadsPath =
+              (await DownloadsPath.downloadsDirectory())?.path ??
+                  "downloads path not found";
+          final filePath = '$downloadsPath/certificate_$eventId.pdf';
+          // Save the PDF file to the device
+          File file = File(filePath);
+          await file.writeAsBytes(response.bodyBytes);
 
-        //show dialog
-        _showDialog();
-      } else {
-        print('Failed to download certificate: ${response.statusCode}');
+          //show dialog
+          _showDialog();
+        } else {
+          print('Failed to download certificate: ${response.statusCode}');
+        }
+      } catch (e) {
+        print('Error: $e');
       }
-    } catch (e) {
-      print('Error: $e');
+    } else {
+      print("permission denied");
     }
   }
 }
