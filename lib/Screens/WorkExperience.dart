@@ -59,6 +59,8 @@ class _WorkExperienceState extends State<WorkExperience> {
       },
     );
 
+    print('response: ${response.body}');
+
     if (response.statusCode == 200) {
       // WorkExperience background added successfully
       print(response.body);

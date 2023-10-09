@@ -154,7 +154,6 @@ class _EducationBackgroundScreenState extends State<EducationBackgroundScreen> {
                     itemBuilder: (context, index) {
                       final experience = eventData[index];
                       return SizedBox(
-                        height: size.height * 0.2,
                         child: TimelineTile(
                           alignment: TimelineAlign.manual,
                           lineXY: 0.1,
@@ -162,7 +161,7 @@ class _EducationBackgroundScreenState extends State<EducationBackgroundScreen> {
                             width: 20,
                             height: 20,
                             indicator:
-                            _buildIndicator(), // You can customize your indicator here
+                                _buildIndicator(), // You can customize your indicator here
                           ),
                           beforeLineStyle: const LineStyle(
                             color: Colors.grey,
@@ -173,9 +172,10 @@ class _EducationBackgroundScreenState extends State<EducationBackgroundScreen> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             color: Colors.blue,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
+                            child: IntrinsicHeight(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
@@ -187,14 +187,23 @@ class _EducationBackgroundScreenState extends State<EducationBackgroundScreen> {
                                       ),
                                     ),
                                     const SizedBox(height: 8),
-                                    Text('Period: ${experience.startDate} to ${experience.endDate}',
-                                        style: const TextStyle(fontSize: 16, color: Colors.white)),
+                                    Text(
+                                        'Period: ${experience.startDate} to ${experience.endDate}',
+                                        style: const TextStyle(
+                                            fontSize: 16, color: Colors.white)),
                                     Text('Course: ${experience.field}',
-                                        style: const TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold)),
+                                        style: const TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold)),
                                     Text('Points: ${experience.points}',
-                                        style: const TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold)),
+                                        style: const TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold)),
                                   ],
                                 ),
+                              ),
                             ),
                           ),
                         ),
