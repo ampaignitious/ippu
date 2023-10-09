@@ -92,8 +92,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: FractionallySizedBox(
-          heightFactor:
-              0.24, // Set the fraction of screen height (50% in this case)
           child: Container(
             decoration: BoxDecoration(
               border: Border.all(
