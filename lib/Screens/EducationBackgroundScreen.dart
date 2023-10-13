@@ -9,6 +9,11 @@ import 'package:provider/provider.dart';
 import 'package:ippu/models/EducationData.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
+enum FormMode {
+  Add,
+  Edit,
+}
+
 class EducationBackgroundScreen extends StatefulWidget {
   const EducationBackgroundScreen({super.key});
 
@@ -21,10 +26,19 @@ class _EducationBackgroundScreenState extends State<EducationBackgroundScreen> {
   //to control the visibility of the form
   bool _isFormVisible = false;
   late Future<List<EducationData>> eventDataFuture;
+  FormMode _formMode = FormMode.Add; // Default mode is adding
+
   @override
   void initState() {
     super.initState();
     eventDataFuture = fetchEducationData();
+  }
+
+  void _toggleFormVisibility(FormMode mode) {
+    setState(() {
+      _formMode = mode;
+      _isFormVisible = !_isFormVisible;
+    });
   }
 
   //form fields
@@ -35,8 +49,8 @@ class _EducationBackgroundScreenState extends State<EducationBackgroundScreen> {
   TextEditingController _points = TextEditingController();
   TextEditingController _field = TextEditingController();
   TextEditingController _userId = TextEditingController();
+  int education_background_id = 0;
 
-  @override
   Future<void> addEducationBackground({
     required String title,
     String type = "",
@@ -46,7 +60,7 @@ class _EducationBackgroundScreenState extends State<EducationBackgroundScreen> {
     required String field,
     required int id,
   }) async {
-    final String apiUrl = 'https://ippu.org/api/education-background';
+    const String apiUrl = 'https://ippu.org/api/education-background';
 
     final Map<String, dynamic> requestData = {
       "title": title,
@@ -57,7 +71,6 @@ class _EducationBackgroundScreenState extends State<EducationBackgroundScreen> {
       "field": field,
       "user_id": id,
     };
-    print(requestData);
     final response = await http.post(
       Uri.parse(apiUrl),
       body: json.encode(requestData),
@@ -68,9 +81,55 @@ class _EducationBackgroundScreenState extends State<EducationBackgroundScreen> {
 
     if (response.statusCode == 200) {
       // Education background added successfully
-      print(response.body);
-      print('Education background added successfully');
       showBottomNotification('education background added successfully');
+
+      setState(() {
+        eventDataFuture = fetchEducationData();
+      });
+    } else {
+      // Error handling for the failed request
+      print('Failed to add education background: ${response.statusCode}');
+    }
+  }
+
+  Future<void> updateEducationBackground({
+    required String title,
+    String type = "",
+    required String startDate,
+    required String endDate,
+    required String points,
+    required String field,
+    required int id,
+    required String education_background_id,
+  }) async {
+    print('education_background_id: $education_background_id');
+    const String apiUrl = 'https://ippu.org/api/edit-education-background';
+
+    final Map<String, dynamic> requestData = {
+      "title": title,
+      "type": type,
+      "start_date": startDate,
+      "end_date": endDate,
+      "points": points,
+      "field": field,
+      "user_id": id,
+      "education_background_id":
+          int.parse(education_background_id), // Parse to int here
+    };
+
+    final response = await http.put(
+      Uri.parse(apiUrl),
+      body: json.encode(requestData),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    );
+
+    print('response body: ${response.body}');
+
+    if (response.statusCode == 200) {
+      // Education background added successfully
+      showBottomNotification('education background updated successfully');
 
       setState(() {
         eventDataFuture = fetchEducationData();
@@ -93,7 +152,9 @@ class _EducationBackgroundScreenState extends State<EducationBackgroundScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color.fromARGB(255, 42, 129, 201),
-        onPressed: _toggleFormVisibility,
+        onPressed: () {
+          _toggleFormVisibility(FormMode.Add);
+        },
         tooltip: 'Add Education',
         child: Icon(Icons.add),
       ),
@@ -196,11 +257,27 @@ class _EducationBackgroundScreenState extends State<EducationBackgroundScreen> {
                                             fontSize: 16,
                                             color: Colors.white,
                                             fontWeight: FontWeight.bold)),
-                                    Text('Points: ${experience.points}',
-                                        style: const TextStyle(
-                                            fontSize: 16,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold)),
+                                    Row(children: [
+                                      Text('Points: ${experience.points}',
+                                          style: const TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold)),
+                                              //let the icon be at the end right
+                                      const Spacer(),
+                                      
+                                      GestureDetector(
+                                        onTap: () {
+                                          print(
+                                              'experience id: ${experience.id}');
+                                          _toggleFormVisibility(FormMode
+                                              .Edit); // Set the mode to Edit
+                                          _populateFormFields(
+                                              experience); // Pass the index here
+                                        },
+                                        child: Icon(Icons.edit), // Edit Icon
+                                      ),
+                                    ])
                                   ],
                                 ),
                               ),
@@ -245,12 +322,6 @@ class _EducationBackgroundScreenState extends State<EducationBackgroundScreen> {
       backgroundColor: Colors.black,
       textColor: Colors.white,
     );
-  }
-
-  void _toggleFormVisibility() {
-    setState(() {
-      _isFormVisible = !_isFormVisible;
-    });
   }
 
   Widget _buildEducationForm() {
@@ -331,25 +402,41 @@ class _EducationBackgroundScreenState extends State<EducationBackgroundScreen> {
                 onPressed: () {
                   // Clear form fields and hide the form
                   _clearForm();
-                  _toggleFormVisibility();
+                  _toggleFormVisibility(FormMode.Add);
                 },
                 child: Text('Cancel'),
               ),
               ElevatedButton(
                 onPressed: () {
-                  // Save education details and close the form
-                  addEducationBackground(
-                    title: _title.text,
-                    field: _field.text,
-                    startDate: _startDate.text,
-                    endDate: _endDate.text,
-                    points: _points.text,
-                    id: userData!.id,
-                  );
+                  if (_formMode == FormMode.Add) {
+                    addEducationBackground(
+                      title: _title.text,
+                      field: _field.text,
+                      startDate: _startDate.text,
+                      endDate: _endDate.text,
+                      points: _points.text,
+                      id: userData!.id,
+                    );
+                  } else {
+                    updateEducationBackground(
+                      title: _title.text,
+                      field: _field.text,
+                      startDate: _startDate.text,
+                      endDate: _endDate.text,
+                      points: _points.text,
+                      id: userData!.id,
+                      education_background_id:
+                          education_background_id.toString(),
+                    );
+                  }
+
+                  // Clear form fields and hide the form
                   _clearForm();
-                  _toggleFormVisibility();
+                  _toggleFormVisibility(FormMode.Add);
                 },
-                child: Text('Save'),
+                child: Text(_formMode == FormMode.Add
+                    ? 'Save'
+                    : 'Update'), // Conditional text based on _formMode
               ),
             ],
           ),
@@ -416,5 +503,16 @@ class _EducationBackgroundScreenState extends State<EducationBackgroundScreen> {
         color: Colors.blue, // You can change indicator color here
       ),
     );
+  }
+
+  void _populateFormFields(educationData) {
+    _title.text = educationData.title;
+    _field.text = educationData.field;
+    _points.text = educationData.points;
+    _startDate.text = educationData.startDate;
+    _endDate.text = educationData.endDate;
+    education_background_id = int.parse(educationData.id);
+
+    print('education_background_id: $education_background_id');
   }
 }

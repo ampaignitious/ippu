@@ -5,9 +5,9 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:http/http.dart' as http;
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ippu/models/UserProvider.dart';
-import 'package:lecle_downloads_path_provider/lecle_downloads_path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:clean_dialog/clean_dialog.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 
 import 'package:provider/provider.dart';
 
@@ -228,7 +228,7 @@ class _AttendedEventSIngleDisplayScreenState
                     padding: EdgeInsets.all(size.height * 0.024),
                   ),
                   onPressed: () {
-                    downloadAndSaveCertificateAsPDF(eventId);
+                    renderCertificateInBrowser(eventId);
                   },
                   child: Padding(
                     padding:
@@ -275,37 +275,14 @@ class _AttendedEventSIngleDisplayScreenState
 
   //
   // printing certificate
-  Future<void> downloadAndSaveCertificateAsPDF(String eventId) async {
+  Future<void> renderCertificateInBrowser(String eventId) async {
     final userData = Provider.of<UserProvider>(context, listen: false).user;
     final userId = userData?.id;
+
     final url =
         Uri.parse('https://ippu.org/api/events/certificate/$userId/$eventId');
-    var status = await Permission.storage.request();
-
-    if (status.isGranted) {
-      try {
-        final response = await http.get(url);
-
-        if (response.statusCode == 200) {
-          //get the downloads directory
-          final downloadsPath =
-              (await DownloadsPath.downloadsDirectory())?.path ??
-                  "downloads path not found";
-          final filePath = '$downloadsPath/certificate_$eventId.pdf';
-          // Save the PDF file to the device
-          File file = File(filePath);
-          await file.writeAsBytes(response.bodyBytes);
-
-          //show dialog
-          _showDialog();
-        } else {
-          print('Failed to download certificate: ${response.statusCode}');
-        }
-      } catch (e) {
-        print('Error: $e');
-      }
-    } else {
-      print("permission denied");
+    if (!await launchUrl(url)) {
+      throw Exception('Could not launch $url');
     }
   }
 }

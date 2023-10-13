@@ -9,6 +9,11 @@ import 'package:ippu/models/WorkingExperience.dart';
 import 'package:provider/provider.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
+enum FormMode {
+  Add,
+  Edit,
+}
+
 class WorkExperience extends StatefulWidget {
   const WorkExperience({super.key});
 
@@ -20,6 +25,8 @@ class _WorkExperienceState extends State<WorkExperience> {
   //to control the visibility of the form
   bool _isFormVisible = false;
   late Future<List<WorkingExperience>> WorkingExperienceFuture;
+  FormMode _formMode = FormMode.Add; // Default mode is adding
+
   @override
   void initState() {
     super.initState();
@@ -32,6 +39,7 @@ class _WorkExperienceState extends State<WorkExperience> {
   TextEditingController _userId = TextEditingController();
   TextEditingController _description = TextEditingController();
   TextEditingController _position = TextEditingController();
+  int experience_id = 0;
 
   Future<void> addWorkExperience(
       {required String title,
@@ -76,6 +84,57 @@ class _WorkExperienceState extends State<WorkExperience> {
     }
   }
 
+  Future<void> updateWorkExperience(
+      {required String title,
+      required String startDate,
+      required String endDate,
+      required String description,
+      required String position,
+      required int id,
+      required String experience_id}) async {
+    const String apiUrl = 'https://ippu.org/api/edit-work-experience';
+
+    final Map<String, dynamic> requestData = {
+      "title": title,
+      "start_date": startDate,
+      "end_date": endDate,
+      "description": description,
+      "position": position,
+      "user_id": id,
+      "experience_id": int.parse(experience_id),
+    };
+    final response = await http.put(
+      Uri.parse(apiUrl),
+      body: json.encode(requestData),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    );
+
+    print('response: ${response.body}');
+
+    if (response.statusCode == 200) {
+      // WorkExperience background added successfully
+      print(response.body);
+      print('Work Experience added successfully');
+      showBottomNotification('work experience added successfully');
+
+      setState(() {
+        WorkingExperienceFuture = fetchWorkingExperience();
+      });
+    } else {
+      // Error handling for the failed request
+      print('Failed to add work experience: ${response.statusCode}');
+    }
+  }
+
+  void _toggleFormVisibility(FormMode mode) {
+    setState(() {
+      _formMode = mode;
+      _isFormVisible = !_isFormVisible;
+    });
+  }
+
   //
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -88,7 +147,9 @@ class _WorkExperienceState extends State<WorkExperience> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color.fromARGB(255, 42, 129, 201),
-        onPressed: _toggleFormVisibility,
+        onPressed: () {
+          _toggleFormVisibility(FormMode.Add);
+        },
         tooltip: 'Add Work Experience',
         child: Icon(Icons.add),
       ),
@@ -170,13 +231,29 @@ class _WorkExperienceState extends State<WorkExperience> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    '${experience.title}'.toUpperCase(),
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16,
-                                      color: Colors.white,
-                                    ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        '${experience.title}'.toUpperCase(),
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      const Spacer(),
+                                      GestureDetector(
+                                        onTap: () {
+                                          print(
+                                              'experience id: ${experience.id}');
+                                          _toggleFormVisibility(FormMode
+                                              .Edit); // Set the mode to Edit
+                                          _populateFormFields(
+                                              experience); // Pass the index here
+                                        },
+                                        child: Icon(Icons.edit), // Edit Icon
+                                      ),
+                                    ],
                                   ),
                                   const SizedBox(height: 8),
                                   Center(
@@ -249,12 +326,6 @@ class _WorkExperienceState extends State<WorkExperience> {
       backgroundColor: Colors.black,
       textColor: Colors.white,
     );
-  }
-
-  void _toggleFormVisibility() {
-    setState(() {
-      _isFormVisible = !_isFormVisible;
-    });
   }
 
   Widget _buildWorkForm() {
@@ -337,25 +408,38 @@ class _WorkExperienceState extends State<WorkExperience> {
                 onPressed: () {
                   // Clear form fields and hide the form
                   _clearForm();
-                  _toggleFormVisibility();
+                  _toggleFormVisibility(FormMode.Add);
                 },
                 child: Text('Cancel'),
               ),
               ElevatedButton(
                 onPressed: () {
                   // Save WorkExperience details and close the form
-                  addWorkExperience(
-                    title: _title.text,
-                    startDate: _startDate.text,
-                    endDate: _endDate.text,
-                    description: _description.text,
-                    position: _position.text,
-                    id: userData!.id,
-                  );
+                  if (_formMode == FormMode.Add) {
+                    addWorkExperience(
+                      title: _title.text,
+                      startDate: _startDate.text,
+                      endDate: _endDate.text,
+                      description: _description.text,
+                      position: _position.text,
+                      id: userData!.id,
+                    );
+                  } else {
+                    updateWorkExperience(
+                      title: _title.text,
+                      startDate: _startDate.text,
+                      endDate: _endDate.text,
+                      description: _description.text,
+                      position: _position.text,
+                      id: userData!.id,
+                      experience_id: experience_id.toString(),
+                    );
+                  }
                   _clearForm();
-                  _toggleFormVisibility();
+                  _toggleFormVisibility(FormMode.Add);
                 },
-                child: Text('Save'),
+                //save or update
+                child: Text(_formMode == FormMode.Add ? 'Save' : 'Update'),
               ),
             ],
           ),
@@ -420,5 +504,14 @@ class _WorkExperienceState extends State<WorkExperience> {
         color: Colors.blue, // You can change indicator color here
       ),
     );
+  }
+
+  void _populateFormFields(experience) {
+    _title.text = experience.title;
+    _startDate.text = experience.start_date;
+    _endDate.text = experience.end_date;
+    _description.text = experience.description;
+    _position.text = experience.position;
+    experience_id = int.parse(experience.id);
   }
 }
