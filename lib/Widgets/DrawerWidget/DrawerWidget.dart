@@ -36,11 +36,42 @@ authController.signOut();
       return LoginScreen();
     }));
    
- 
 }
-// 
+
+  void _showDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Incomplete Profile'),
+          content: const Text('Please complete your profile to access this feature'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Ok'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+ 
   Widget build(BuildContext context) {
       final userData = Provider.of<UserProvider>(context).user;
+      // Check if user data is incomplete
+    bool isProfileIncomplete() {
+      if (userData!.gender == null ||
+          userData.dob == null ||
+          userData.phone_no == null ||
+          userData.nok_name == null ||
+          userData.nok_phone_no == null) {
+        return false;
+      } else {
+        return true;
+      }
+    }
     return SingleChildScrollView(
       child: Column(
             children: [
@@ -74,9 +105,17 @@ authController.signOut();
               ),
               InkWell(
                 onTap:(){
-                  Navigator.push(context, MaterialPageRoute(builder: (context){
-                    return EducationBackgroundScreen();
+                  //check if profile is incomplete
+                  if(isProfileIncomplete() == false){
+                          Navigator.pop(context);
+                          _showDialog();
+                  }
+                  else{
+                   Navigator.push(context, MaterialPageRoute(builder: (context){
+                    return const EducationBackgroundScreen();
                   }));
+                  }
+               
                 },
                 child: Card(
                   child: ListTile(
@@ -89,9 +128,17 @@ authController.signOut();
               ),
                InkWell(
                 onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context){
-                    return CommunicationScreen();
+                  //check if profile is incomplete
+                  if(isProfileIncomplete() == false){
+                          Navigator.pop(context);
+                          _showDialog();
+                  }
+                  else{
+                   Navigator.push(context, MaterialPageRoute(builder: (context){
+                    return const CommunicationScreen();
                   }));
+                  }
+                 
                 },
                  child: Card(
                   child: ListTile(
@@ -106,9 +153,16 @@ authController.signOut();
               // 
               InkWell(
                 onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context){
-                  return WorkExperience();
-                }));
+                //check if profile is incomplete
+                  if(isProfileIncomplete() == false){
+                          Navigator.pop(context);
+                          _showDialog();
+                  }
+                  else{
+                   Navigator.push(context, MaterialPageRoute(builder: (context){
+                    return const WorkExperience();
+                  }));
+                  }
                 },
                 child: Card(
                   child: ListTile(
@@ -123,9 +177,16 @@ authController.signOut();
               // 
               InkWell(
                 onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context){
+                //check if profile is incomplete
+                  if(isProfileIncomplete() == false){
+                          Navigator.pop(context);
+                          _showDialog();
+                  }
+                  else{
+                   Navigator.push(context, MaterialPageRoute(builder: (context){
                     return EventsScreen();
                   }));
+                  }
                 },
                 child: Card(
                   child: ListTile(
@@ -138,9 +199,16 @@ authController.signOut();
               ),
                 InkWell(
                   onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context){
+                  //check if profile is incomplete
+                  if(isProfileIncomplete() == false){
+                          Navigator.pop(context);
+                          _showDialog();
+                  }
+                  else{
+                   Navigator.push(context, MaterialPageRoute(builder: (context){
                     return CpdsScreen();
                   }));
+                  }
                 },
                   child: Card(
                   child: ListTile(
@@ -155,9 +223,16 @@ authController.signOut();
               // 
               InkWell(
                 onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context){
+                 //check if profile is incomplete
+                  if(isProfileIncomplete() == false){
+                          Navigator.pop(context);
+                          _showDialog();
+                  }
+                  else{
+                   Navigator.push(context, MaterialPageRoute(builder: (context){
                     return JobsScreen();
                   }));
+                  }
                 },
                 child: Card(
                   child: ListTile(

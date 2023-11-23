@@ -46,47 +46,45 @@ class AuthController {
     return prefs.getString(ACCESS_TOKEN);
   }
 
-  Future<Map<String, dynamic>> signUp(String email, String password) async {
+ Future<Map<String, dynamic>> signUp(Map<String, dynamic> user) async {
     final dio = Dio();
     final client = AuthRestClient(dio);
     try {
-      Map<String, String> user = {"email": email, "password": password};
       final response = await client.signUp(body: user);
-
-      if (response.containsKey('authorization') &&
-          response['authorization'].containsKey('token')) {
-        final accessToken = response['authorization']['token'];
-        // Save the access token for later use
-        await saveAccessToken(accessToken);
-        return response;
-      } else {
+      if (response.containsKey('user')) {
+        // HTTP 200 OK indicates success
         return {
-          "error": "Invalid credentials",
+          "message": "User created successfully",
+          "status": "success",
+        };
+      } else if (response.statusCode == 400) {
+        // HTTP 400 Bad Request indicates client error (e.g., validation error)
+        return {
+          "error": "Invalid request",
           "status": "error",
         };
-      } // Handle the case when the access token is not present in the response
+      } else if (response.statusCode == 401) {
+        // HTTP 401 Unauthorized indicates authentication failure
+        return {
+          "error": "Unauthorized",
+          "status": "error",
+        };
+      } else {
+        // Handle other status codes (5xx server errors, etc.)
+        return {
+          "error": "Unexpected error occurred",
+          "status": "error",
+        };
+      }
+// Handle the case when the access token is not present in the response
     } catch (e) {
+      print('error: $e');
       return {
         "error": "Invalid credentials",
         "status": "error",
       };
     }
   }
-
-  Future<Map<String, dynamic>> getAccountTypes() async {
-    final dio = Dio();
-    final client = AuthRestClient(dio);
-    try {
-      final response = await client.getAccountTypes();
-      return response;
-    } catch (e) {
-      return {
-        "error": "Failed to get account types",
-        "status": "error",
-      };
-    }
-  }
-
   Future<Map<String, dynamic>> getEducationBackground(
       String user_id, String points, String field) async {
     final dio = Dio();

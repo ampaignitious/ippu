@@ -29,8 +29,8 @@ class _JobsScreenState extends State<JobsScreen> {
   Future<List<JobData>> fetchJobData() async {
     final userData = Provider.of<UserProvider>(context, listen: false).user;
 
-    // Define the URL with userData.id
-    final apiUrl = 'https://ippu.org/api/jobs';
+    // Define the URL with  userData.id
+    const apiUrl = 'https://ippu.org/api/jobs';
 
     // Define the headers with the bearer token
     final headers = {
@@ -77,14 +77,6 @@ class _JobsScreenState extends State<JobsScreen> {
         elevation: 0,
         title: Text("Jobs", style: GoogleFonts.lato()),
         actions: [
-          // IconButton(
-          //   icon: Icon(Icons.settings),
-          //   onPressed: () {
-          //     Navigator.push(context, MaterialPageRoute(builder: (context){
-          //       return SettingsScreen();
-          //     }));
-          //   },
-          // ),
 
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Padding(
@@ -140,8 +132,7 @@ class _JobsScreenState extends State<JobsScreen> {
                               height: size.height * 0.012,
                             ),
                             Container(
-                              height: size.height * 0.26,
-                              width: size.width * 0.84,
+                            
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 border: Border.all(
@@ -158,13 +149,15 @@ class _JobsScreenState extends State<JobsScreen> {
                               ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
+                                
                                 children: [
                                   Divider(),
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Column(
+                                      Expanded(
+                                      child:Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
@@ -185,23 +178,22 @@ class _JobsScreenState extends State<JobsScreen> {
                                                 left: size.width * 0.06,
                                                 top: size.height * 0.0008),
                                             child: Text(
-                                              "${data.title}",
+                                              data.title,
                                               style:
-                                                  TextStyle(color: Colors.blue),
+                                                  const TextStyle(color: Colors.blue),
                                             ),
                                           ),
                                         ],
                                       ),
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            right: size.width * 0.07),
+                                      ),
+                                      Expanded(
                                         child: Column(
                                           children: [
                                             Padding(
                                               padding: EdgeInsets.only(
                                                   left: size.width * 0.06,
                                                   top: size.height * 0.016),
-                                              child: Text(
+                                              child: const Text(
                                                 "Deadline",
                                                 style: TextStyle(
                                                     fontWeight:
@@ -217,7 +209,7 @@ class _JobsScreenState extends State<JobsScreen> {
                                               child: Text(
                                                 "${data.deadline}",
                                                 textAlign: TextAlign.justify,
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     color: Colors.blue),
                                               ),
                                             ),
@@ -232,7 +224,7 @@ class _JobsScreenState extends State<JobsScreen> {
                                   Center(
                                     child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
-                                        primary: Color.fromARGB(255, 42, 129,
+                                        backgroundColor: const Color.fromARGB(255, 42, 129,
                                             201), // Change button color to green
                                         padding:
                                             EdgeInsets.all(size.height * 0.020),
@@ -268,7 +260,10 @@ class _JobsScreenState extends State<JobsScreen> {
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                  )
+                                  ),
+                                   SizedBox(
+                              height: size.height * 0.012,
+                            ),
                                 ],
                               ),
                             ),

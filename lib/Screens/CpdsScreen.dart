@@ -43,14 +43,6 @@ class _CpdsScreenState extends State<CpdsScreen> with TickerProviderStateMixin{
      
       flexibleSpace: Container(
           decoration: BoxDecoration(
-            // gradient: LinearGradient(
-            //   colors: [
-            //     Color.fromARGB(210, 63, 131, 187), // Blue color
-            //     Colors.lightGreen, // Light green color
-            //   ],
-            //   begin: Alignment.topLeft,
-            //   end: Alignment.bottomRight,
-            // ),
             color:Color.fromARGB(255, 42, 129, 201)
           ),
         ),

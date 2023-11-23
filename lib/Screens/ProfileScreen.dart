@@ -32,8 +32,6 @@ class _ProfileScreenState extends State<ProfileScreen>
     _profileController.dispose();
     super.dispose();
   }
-// 
-// 
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final status  =    Provider.of<UserProvider>(context, listen: false).getSubscriptionStatus;
@@ -53,30 +51,19 @@ class _ProfileScreenState extends State<ProfileScreen>
           Row(
                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Padding(
-                            padding: EdgeInsets.only(
-                              // top: size.height*0.008,
-                              left: size.width*0.034),
-                            child: Text("Subscription State: ",
-                            style: GoogleFonts.lato(
-                              color: Color.fromARGB(255, 15, 255, 23) ,
-                              fontSize: size.height*0.018,
-                              fontWeight: FontWeight.bold
-                            ),
-                            ),
-                          ),
+                        
                           Padding(
                             padding: EdgeInsets.only(right: size.width*0.016),
-                            child: status ==false?Text("$status",
+                            child: status ==false?Text("Subscribed",
                             style: GoogleFonts.lato(
                               fontSize: size.height*0.015,
-                              color: Colors.white,
+                              color: Color.fromARGB(255, 31, 202, 59),
                               // fontWeight: FontWeigh
                             ),
-                            ):Text("$status",
+                            ):Text("Not Subscribed",
                             style: GoogleFonts.lato(
                               fontSize: size.height*0.015,
-                              color: Colors.white,
+                              color: const Color.fromARGB(255, 153, 35, 35),
                               // fontWeight: FontWeigh
                             ),
                             

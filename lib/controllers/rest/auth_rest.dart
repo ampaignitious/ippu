@@ -16,7 +16,7 @@ abstract class AuthRestClient {
   Future<dynamic> signIn({@Body() required Map<String, String> body});
 
   @POST(AppEndpoints.regiserEndPoint)
-  Future<dynamic> signUp({@Body() required Map<String, String> body});
+  Future<dynamic> signUp({@Body() required Map<String, dynamic> body});
 
   @POST(AppEndpoints.logoutEndPoint)
   Future<dynamic> signOut();
