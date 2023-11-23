@@ -65,18 +65,21 @@ class _UpcomingEventsHorizontalHomeDisplayState
       final Map<String, dynamic> jsonData = jsonDecode(response.body);
       final List<dynamic> eventData = jsonData['data'];
       List<AllEventsModel> eventsData = eventData.map((item) {
+          if(item['points']==null){
+            item['points'] = '0';
+          }
         return AllEventsModel(
           id: item['id'].toString(),
-          name: item['name'],
-          start_date: item['start_date'],
-          end_date: item['end_date'],
-          rate: item['rate'],
-          attandence_request: item['attendance_request'] ,
-          member_rate: item['member_rate'],
+          name: item['name']??'',
+          start_date: item['start_date']??'',
+          end_date: item['end_date']??'',
+          rate: item['rate']??'',
+          attandence_request: item['attendance_request']??'' ,
+          member_rate: item['member_rate']??'',
           points: item['points'].toString(), // Convert points to string if needed
-          attachment_name: item['attachment_name'],
-          banner_name: item['banner_name'],
-          details: item['details'],
+          attachment_name: item['attachment_name']??'',
+          banner_name: item['banner_name']??'',
+          details: item['details']??'',
         );
       }).toList();
       print(eventsData);

@@ -3,12 +3,9 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ippu/Widgets/EventsScreenWidgets/AttendedEventSIngleDisplayScreen.dart';
-import 'package:ippu/controllers/auth_controller.dart';
 import 'package:ippu/models/MyAttendedEvents.dart';
 import 'package:ippu/models/UserProvider.dart';
 import 'package:provider/provider.dart';
-
-import 'package:flutter_html/flutter_html.dart';
 
 class MyEvents extends StatefulWidget {
   const MyEvents({Key? key}) : super(key: key);
@@ -180,7 +177,7 @@ class _MyEventsState extends State<MyEvents> {
                                               padding: EdgeInsets.only(
                                                   left: size.width * 0.06,
                                                   top: size.height * 0.016),
-                                              child: Text(
+                                              child: const Text(
                                                 "Points",
                                                 style: TextStyle(
                                                     fontWeight:

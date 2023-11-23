@@ -5,7 +5,6 @@ import 'package:ippu/Screens/CpdsScreen.dart';
 import 'package:ippu/Screens/EventsScreen.dart';
 import 'package:ippu/Screens/HomeScreen.dart';
 import 'dart:convert';
-import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:ippu/models/UserData.dart';
 import 'package:ippu/models/UserProvider.dart';
@@ -26,10 +25,10 @@ class _DefaultScreenState extends State<DefaultScreen> {
 }
   int _selectedIndex = 0;
   List Page = [
- HomeScreen(),
- CpdsScreen(),
- EventsScreen(),
- CommunicationScreen(),
+ const HomeScreen(),
+ const CpdsScreen(),
+ const EventsScreen(),
+ const CommunicationScreen(),
 
    ];
     void onItemTapped(int index) {
@@ -61,7 +60,6 @@ class _DefaultScreenState extends State<DefaultScreen> {
       throw Exception('Failed to load profile data');
     }
   } catch (error) {
-    print('Error fetching profile data: $error');
   }
 }
 

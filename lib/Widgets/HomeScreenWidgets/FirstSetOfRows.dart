@@ -143,7 +143,7 @@ class _FirstSetOfRowsState extends State<FirstSetOfRows> {
                   borderRadius: BorderRadius.circular(10)
                   // color: Colors.pink,
                 ),
-                child: UpcomingEventsHorizontalHomeDisplay(),
+                child: const UpcomingEventsHorizontalHomeDisplay(),
               ),
             ],
           ),

@@ -26,8 +26,7 @@ class DrawerWidget extends StatefulWidget {
 }
 
 class _DrawerWidgetState extends State<DrawerWidget> {
-  @override
-AuthController authController = AuthController();
+  AuthController authController = AuthController();
 // logout logic 
  void performLogout() async {
  
@@ -58,6 +57,7 @@ authController.signOut();
     );
   }
  
+  @override
   Widget build(BuildContext context) {
       final userData = Provider.of<UserProvider>(context).user;
       // Check if user data is incomplete
@@ -82,21 +82,21 @@ authController.signOut();
                 }));
               },
                 child: UserAccountsDrawerHeader(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: Color.fromARGB(255, 42, 129, 201),
                   ),
-                  currentAccountPicture: CircleAvatar(backgroundImage: AssetImage('assets/image9.png'),),
-                  accountName: Text("${userData!.name}"), accountEmail: Text("${userData.email}")),
+                  currentAccountPicture: const CircleAvatar(backgroundImage: AssetImage('assets/image9.png'),),
+                  accountName: Text(userData!.name), accountEmail: Text(userData.email)),
               ),
               InkWell(
                 onTap: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context){
-                    return DefaultScreen();
+                    return const DefaultScreen();
                   }));
                 },
                 child: Card(
                   child: ListTile(
-                    leading: Icon(Icons.home),
+                    leading: const Icon(Icons.home),
                     title: Text("Home", style: GoogleFonts.lato(
                       fontWeight: FontWeight.bold,
                     ),),
@@ -119,7 +119,7 @@ authController.signOut();
                 },
                 child: Card(
                   child: ListTile(
-                    leading: Icon(Icons.cast_for_education),
+                    leading: const Icon(Icons.cast_for_education),
                     title: Text("Education Background", style: GoogleFonts.lato(
                         fontWeight: FontWeight.bold,
                       ),),
@@ -142,7 +142,7 @@ authController.signOut();
                 },
                  child: Card(
                   child: ListTile(
-                    leading: Icon(Icons.info),
+                    leading: const Icon(Icons.info),
                     title: Text("Communications", style: GoogleFonts.lato(
                         fontWeight: FontWeight.bold,
                       ),),
@@ -166,7 +166,7 @@ authController.signOut();
                 },
                 child: Card(
                   child: ListTile(
-                    leading: Icon(Icons.work_history),
+                    leading: const Icon(Icons.work_history),
                     title: Text("Work Experience", style: GoogleFonts.lato(
                       fontWeight: FontWeight.bold,
                     ),),
@@ -184,13 +184,13 @@ authController.signOut();
                   }
                   else{
                    Navigator.push(context, MaterialPageRoute(builder: (context){
-                    return EventsScreen();
+                    return const EventsScreen();
                   }));
                   }
                 },
                 child: Card(
                   child: ListTile(
-                    leading: Icon(Icons.event),
+                    leading: const Icon(Icons.event),
                     title: Text("Events", style: GoogleFonts.lato(
                         fontWeight: FontWeight.bold,
                       ),),
@@ -206,13 +206,13 @@ authController.signOut();
                   }
                   else{
                    Navigator.push(context, MaterialPageRoute(builder: (context){
-                    return CpdsScreen();
+                    return const CpdsScreen();
                   }));
                   }
                 },
                   child: Card(
                   child: ListTile(
-                    leading: Icon(Icons.workspace_premium),
+                    leading: const Icon(Icons.workspace_premium),
                     title: Text("CPD", style: GoogleFonts.lato(
                         fontWeight: FontWeight.bold,
                       ),),
@@ -230,13 +230,13 @@ authController.signOut();
                   }
                   else{
                    Navigator.push(context, MaterialPageRoute(builder: (context){
-                    return JobsScreen();
+                    return const JobsScreen();
                   }));
                   }
                 },
                 child: Card(
                   child: ListTile(
-                    leading: Icon(Icons.link),
+                    leading: const Icon(Icons.link),
                     title: Text("Jobs", style: GoogleFonts.lato(
                         fontWeight: FontWeight.bold,
                       ),),
@@ -246,12 +246,12 @@ authController.signOut();
               InkWell(
                 onTap: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context){
-                    return WhoWeAre();
+                    return const WhoWeAre();
                   }));
                 },
                 child: Card(
                   child: ListTile(
-                    leading: Icon(Icons.album_outlined),
+                    leading: const Icon(Icons.album_outlined),
                     title: Text("Who We Are", style: GoogleFonts.lato(
                       fontWeight: FontWeight.bold,
                     ),),
@@ -262,10 +262,10 @@ authController.signOut();
                InkWell(
                 onTap: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context){
-                    return OurCoreValues();
+                    return const OurCoreValues();
                   }));
                 },
-                 child: Card(
+                 child: const Card(
                   child: ListTile(
                     leading: Icon(Icons.admin_panel_settings_rounded),
                     title: Text("Our Core Values"),
@@ -276,12 +276,12 @@ authController.signOut();
                InkWell(
                 onTap: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context){
-                    return SettingsScreen();
+                    return const SettingsScreen();
                   }));
                 },
                  child: Card(
                   child: ListTile(
-                    leading: Icon(Icons.settings,
+                    leading: const Icon(Icons.settings,
                     ),
                     title: Text("Account Settings", style: GoogleFonts.lato(
                       fontWeight: FontWeight.bold,
