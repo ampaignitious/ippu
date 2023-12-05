@@ -9,16 +9,16 @@ class AppEndpoints {
   static const String logoutEndPoint = "/logout";
 
 
-  static const String cpdsEndPoint = "/cpds";
-  static const String eventsEndPoint = "/events";
+  static const String cpdsEndPoint = "/cpds/{user_id}";
+  static const String eventsEndPoint = "/events/{user_id}";
   static const String educationBackgroundEndPoint = "/education-background";
   static const String upcomingCpdsEndPoint = "/upcoming-cpds";
   static const String upcomingEventsEndPoint = "/upcoming-events";
   static const String myEventsEndPoint ="/attended-events/";
   static const String accountTypesEndPoint = "/account-types";
-  static const String allCommunications ="/communications";
-
-
+  static const String communicationsEndPoint = "/communications/{user_id}}";
+  static const String fcmToken ="/fcm-device-token";
+  static const String uploadProfilePicture ="/update-profile-photo/{user}";
 
   static const int timeout =
       30; // Increase or decrease as per your requirement.

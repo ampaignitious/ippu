@@ -122,7 +122,7 @@ class _SingleJobDetailDisplayScreenState
               //
 
               // date and time section
-              Divider(),
+              const Divider(),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: size.width * 0.08),
                 child: Row(

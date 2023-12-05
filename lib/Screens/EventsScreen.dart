@@ -32,7 +32,7 @@ class _EventsScreenState extends State<EventsScreen>
 
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final event = Provider.of<UserProvider>(context).Events;
+    final event = Provider.of<UserProvider>(context).events;
 
     return Scaffold(
       drawer: Drawer(

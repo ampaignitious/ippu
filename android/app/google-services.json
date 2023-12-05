@@ -1,36 +1,26 @@
 {
   "project_info": {
-    "project_number": "702073512199",
-    "project_id": "ippu-db204",
-    "storage_bucket": "ippu-db204.appspot.com"
+    "project_number": "525189697695",
+    "project_id": "ippu-20dbc",
+    "storage_bucket": "ippu-20dbc.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:702073512199:android:42bdfc5b1ed2ef6a70e5a2",
+        "mobilesdk_app_id": "1:525189697695:android:31f7e3b752196ce07f12aa",
         "android_client_info": {
           "package_name": "com.impact.ippu"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "702073512199-0ap5825d4j2lbsf1lubtrtmhcpne7mlo.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCS0HHF0BQbyp4PbBCX9OLTjUtUg2sXXeY"
+          "current_key": "AIzaSyBm_Cu0SEjqNO3PA-1_bqdDycnGX2BKFuc"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "702073512199-0ap5825d4j2lbsf1lubtrtmhcpne7mlo.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

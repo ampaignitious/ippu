@@ -1,13 +1,12 @@
 
 import 'package:flutter/material.dart';
 
-import 'package:ippu/models/AllEventsModel.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:ippu/Providers/ProfilePicProvider.dart';
 import 'package:ippu/Screens/ProfileScreen.dart';
 import 'package:ippu/Screens/SettingsScreen.dart';
 import 'package:ippu/Widgets/DrawerWidget/DrawerWidget.dart';
 import 'package:ippu/Widgets/HomeScreenWidgets/FirstDisplaySection.dart';
-import 'package:ippu/models/UserData.dart';
 import 'package:ippu/models/UserProvider.dart';
 import 'package:provider/provider.dart';
 
@@ -25,6 +24,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
   Widget build(BuildContext context) {
+          var profilePhoto = NetworkImage(context.watch<ProfilePicProvider>().profilePic);
+
 
     final size = MediaQuery.of(context).size;
     return Scaffold(
@@ -51,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Padding(
                 padding: EdgeInsets.only(right: size.width*0.06),
                 child: CircleAvatar(
-                  backgroundImage: AssetImage('assets/image9.png'),
+                  backgroundImage: profilePhoto,
                   backgroundColor: Colors.white,
                 ),
               ),

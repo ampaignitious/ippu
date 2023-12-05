@@ -3,7 +3,7 @@ import 'package:ippu/Widgets/CpdsScreenWidgets/CpdsSingleEventDisplay.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
- import 'package:ippu/models/CpdModel.dart';
+import 'package:ippu/models/CpdModel.dart';
 import 'package:ippu/models/UserProvider.dart';
 import 'package:provider/provider.dart';
 
@@ -17,12 +17,8 @@ class ContainerDisplayingCpds extends StatefulWidget {
 
 class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
     with TickerProviderStateMixin {
- 
-
- 
   final ScrollController _scrollController = ScrollController();
 
-  
   void _scrollToTop() {
     _scrollController.animateTo(0,
         duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
@@ -31,13 +27,13 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
   bool _showBackToTopButton = false;
 
   @override
-    late Future<List<CpdModel>> cpdDataFuture;
-    late List<CpdModel> fetchedData = [];
+  late Future<List<CpdModel>> cpdDataFuture;
+  late List<CpdModel> fetchedData = [];
   void initState() {
     super.initState();
     _scrollController.addListener(_updateScrollVisibility);
-    cpdDataFuture =fetchAllCpds();
-      cpdDataFuture = fetchAllCpds().then((data) {
+    cpdDataFuture = fetchAllCpds();
+    cpdDataFuture = fetchAllCpds().then((data) {
       fetchedData = data;
       return data;
     });
@@ -59,64 +55,64 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
     _searchController.dispose();
     super.dispose();
   }
-  
-// function for fetching cpds 
+
+// function for fetching cpds
   Future<List<CpdModel>> fetchAllCpds() async {
-  final userData = Provider.of<UserProvider>(context, listen: false).user;
-  print('user id: ${userData?.id}');
-  // Define the URL with userData.id
-  final apiUrl = 'https://ippu.org/api/cpds/${userData?.id}';
+    final userData = Provider.of<UserProvider>(context, listen: false).user;
+    print('user id: ${userData?.id}');
+    // Define the URL with userData.id
+    final apiUrl = 'https://ippu.org/api/cpds/${userData?.id}';
 
-  // Define the headers with the bearer token
-  final headers = {
-    'Authorization': 'Bearer ${userData?.token}',
-  };
+    // Define the headers with the bearer token
+    final headers = {
+      'Authorization': 'Bearer ${userData?.token}',
+    };
 
-  try {
-    final response = await http.get(Uri.parse(apiUrl), headers: headers);
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> jsonData = jsonDecode(response.body);
-      final List<dynamic> eventData = jsonData['data'];
-      List<CpdModel> cpdData = eventData.map((item) {
-        print('attendence request: ${item['attendance_request']}');
-        return CpdModel(
-          // 
-          id:item['id'].toString(),
-          code:item['code'],
-          topic: item['topic'],
-          content: item['content'],
-          hours: item['hours'],
-          points: item['points'],
-          targetGroup:item['target_group'],
-          location:item['location'],
-          startDate:item['start_date'],
-          endDate:item['end_date'],
-          normalRate:item['normal_rate'],
-          membersRate:item['members_rate'],
-          resource:item['resource'],
-          status:item['status'],
-          type:item['type'],
-          banner:item['banner'],
-          attendance_request:item['attendance_request']
-          // 
-        );
-      }).toList();
-      return cpdData;
-    } else {
-      throw Exception('Failed to load events data');
+    try {
+      final response = await http.get(Uri.parse(apiUrl), headers: headers);
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> jsonData = jsonDecode(response.body);
+        final List<dynamic> eventData = jsonData['data'];
+        List<CpdModel> cpdData = eventData.map((item) {
+          print('attendence request: ${item['attendance_request']}');
+          return CpdModel(
+              //
+              id: item['id'].toString(),
+              code: item['code'],
+              topic: item['topic'],
+              content: item['content'],
+              hours: item['hours'],
+              points: item['points'],
+              targetGroup: item['target_group'],
+              location: item['location'],
+              startDate: item['start_date'],
+              endDate: item['end_date'],
+              normalRate: item['normal_rate'],
+              membersRate: item['members_rate'],
+              resource: item['resource'],
+              status: item['status'],
+              type: item['type'],
+              banner: item['banner'],
+              attendance_request: item['attendance_request']
+              //
+              );
+        }).toList();
+        return cpdData;
+      } else {
+        throw Exception('Failed to load events data');
+      }
+    } catch (error) {
+      // Handle the error here, e.g., display an error message to the user
+      print('Error: $error');
+      return []; // Return an empty list or handle the error in your UI
     }
-  } catch (error) {
-    // Handle the error here, e.g., display an error message to the user
-    print('Error: $error');
-    return []; // Return an empty list or handle the error in your UI
   }
-}
-// 
-// 
+
+//
+//
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-     
 
     return Scaffold(
       floatingActionButton: Visibility(
@@ -160,8 +156,9 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                       _searchQuery = _searchController.text;
                     });
                   },
-                  icon: Icon(Icons.search,
-                  color: Colors.lightBlue,
+                  icon: Icon(
+                    Icons.search,
+                    color: Colors.lightBlue,
                   ),
                 ),
               ),
@@ -188,7 +185,8 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                 } else if (snapshot.hasError) {
                   // return Text('Error: ${snapshot.error}');
                   return Center(
-                    child: Image(image: AssetImage('assets/check_data_connection.png')),
+                    child: Image(
+                        image: AssetImage('assets/check_data_connection.png')),
                   );
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                   // return const Text('No data available');
@@ -209,12 +207,12 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                       itemCount: data.length,
                       itemBuilder: (context, index) {
                         final item = data[index];
-                         // Ensure the properties accessed here match the structure of your API response
+                        // Ensure the properties accessed here match the structure of your API response
                         final imagelink = 'assets/cpds0.jpg';
                         final activityName = item.topic;
                         final points = item.points;
-                        final startDate =item.startDate;
-                        final endDate =item.endDate;
+                        final startDate = item.startDate;
+                        final endDate = item.endDate;
                         final content = item.content;
                         final attendance_request = item.attendance_request;
                         final rate = item.normalRate;
@@ -229,153 +227,173 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                                 .contains(_searchQuery.toLowerCase())) {
                           return InkWell(
                             onTap: () {
-                              print('attendance status: ${item.attendance_request}');
+                              print(
+                                  'attendance status: ${item.attendance_request}');
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) {
                                   return CpdsSingleEventDisplay(
-                                    attendance_request: attendance_request ,
+                                    attendance_request: attendance_request,
                                     content: content,
                                     target_group: target_group,
                                     startDate: startDate,
                                     endDate: endDate,
                                     rate: location.toString(),
                                     type: type,
-                                    cpdId:cpdId.toString(),
+                                    cpdId: cpdId.toString(),
                                     location: rate,
                                     attendees: points,
-                                    imagelink: 'https://ippu.org/storage/banners/${imageLink}',
+                                    imagelink:
+                                        'https://ippu.org/storage/banners/${imageLink}',
                                     cpdsname: activityName,
                                   );
                                 }),
                               );
                             },
-                        child: Column(
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(
-                                right: size.height * 0.009,
-                                left: size.height * 0.009,
-                              ),
-                              height: size.height * 0.35,
-                              width: size.width * 0.85,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                              boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                offset: Offset(0.8, 1.0),
-                                blurRadius: 4.0,
-                                spreadRadius: 0.2,
-                              ),
-                            ],
-                                borderRadius: BorderRadius.circular(5),
-                                border: Border.all(
-                                  color: Colors.grey.withOpacity(0.5)
-                                ),
-                                image: DecorationImage(
-                                  image: NetworkImage('https://ippu.org/storage/banners/${imageLink}'),
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: size.height * 0.012),
-
-                            Container(
-                          height: size.height * 0.089,
-                          width: size.width * 0.7,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Color.fromARGB(255, 42, 129, 201),
-                          ),
-                          child: Center(
                             child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                SizedBox(height: size.height * 0.008),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(left: size.width * 0.03),
-                                      child: Text(
-                                        "${item.topic.split(' ').take(4).join(' ')}",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: size.height * 0.014,
-                                        ),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                    right: size.height * 0.009,
+                                    left: size.height * 0.009,
+                                  ),
+                                  height: size.height * 0.35,
+                                  width: size.width * 0.85,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        offset: Offset(0.8, 1.0),
+                                        blurRadius: 4.0,
+                                        spreadRadius: 0.2,
                                       ),
+                                    ],
+                                    borderRadius: BorderRadius.circular(5),
+                                    border: Border.all(
+                                        color: Colors.grey.withOpacity(0.5)),
+                                    image: DecorationImage(
+                                      image: NetworkImage(
+                                          'https://ippu.org/storage/banners/${imageLink}'),
                                     ),
-                                    Padding(
-                                      padding: EdgeInsets.only(right: size.width * 0.01),
-                                      child: Icon(
-                                        Icons.read_more,
-                                        size: size.height * 0.02,
-                                        color: Colors.white,
-                                      ),
-                                    )
-                                  ],
+                                  ),
                                 ),
-                                Divider(
-                                  color: Colors.white,
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                SizedBox(height: size.height * 0.012),
+                                Container(
+                                  width: size.width * 0.7,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Color.fromARGB(255, 42, 129, 201),
+                                  ),
+                                  child: Center(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
+                                        SizedBox(height: size.height * 0.008),
                                         Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Icon(
-                                              Icons.calendar_month,
-                                              size: size.height * 0.02,
-                                              color: Colors.white,
-                                            ),
-                                            Text(
-                                              "Start Date",
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                  left: size.width * 0.03),
+                                              child: Text(
+                                                "${item.topic.split(' ').take(4).join(' ')}",
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: size.height * 0.014,
+                                                ),
                                               ),
                                             ),
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                  right: size.width * 0.01),
+                                              child: Icon(
+                                                Icons.read_more,
+                                                size: size.height * 0.02,
+                                                color: Colors.white,
+                                              ),
+                                            )
                                           ],
                                         ),
-                                        Text(
-                                          "${extractDate(item.startDate)}",
-                                          style: TextStyle(fontSize: size.height * 0.01, color: Colors.white),
+                                        Divider(
+                                          color: Colors.white,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.calendar_month,
+                                                      size: size.height * 0.02,
+                                                      color: Colors.white,
+                                                    ),
+                                                    const Text(
+                                                      "Start Date",
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Text(
+                                                  extractDate(item.startDate),
+                                                  style: TextStyle(
+                                                      fontSize:
+                                                          size.height * 0.01,
+                                                      color: Colors.white),
+                                                ),
+                                              ],
+                                            ),
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                const Text("Rate",
+                                                    style: TextStyle(
+                                                        color: Colors.white)),
+                                                Text(
+                                                  item.type,
+                                                  style: TextStyle(
+                                                      fontSize:
+                                                          size.height * 0.01,
+                                                      color: Colors.white),
+                                                )
+                                              ],
+                                            ),
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                const Text("Status",
+                                                    style: TextStyle(
+                                                        color: Colors.white)),
+                                                Text(
+                                                  item.getStatus(),
+                                                  style: TextStyle(
+                                                      fontSize:
+                                                          size.height * 0.01,
+                                                      color: Colors.white),
+                                                )
+                                              ],
+                                            )
+                                          ],
                                         ),
                                       ],
                                     ),
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text("Rate", style: TextStyle(color: Colors.white)),
-                                        Text(
-                                          "${item.type}",
-                                          style: TextStyle(fontSize: size.height * 0.01, color: Colors.white),
-                                        )
-                                      ],
-                                    ),
-
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text("Status", style: TextStyle(color: Colors.white)),
-                                        Text(
-                                          item.getStatus(),
-                                          style: TextStyle(fontSize: size.height * 0.01, color: Colors.white),
-                                        )
-                                      ],
-                                    )
-                                  ],
+                                  ),
                                 ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: size.height * 0.018),
-                      
+                                SizedBox(height: size.height * 0.022),
                               ],
                             ),
                           );
@@ -395,11 +413,12 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
       ),
     );
   }
-    String extractDate(String fullDate) {
-  // Split the full date at the 'T' to separate the date and time
-  List<String> parts = fullDate.split('T');
 
-  // Return the date part
-  return parts[0];
-}
+  String extractDate(String fullDate) {
+    // Split the full date at the 'T' to separate the date and time
+    List<String> parts = fullDate.split('T');
+
+    // Return the date part
+    return parts[0];
+  }
 }

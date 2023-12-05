@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.9+9
+version: 1.1.4+14
 
 environment:
   sdk: '>=2.19.2 <3.0.0'
@@ -29,31 +29,32 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   flutter_html: ^3.0.0-alpha.6
-  image_picker: ^0.8.4+4
-  google_fonts: ^4.0.4
-  http:
+  image_picker: ^1.0.4
+  google_fonts: 
+  http: 1.1.0
   # pdf:
   # path_provider:
   # open_file:
   flutter_cache_manager: 
   # flutter_pdfview:
-  fl_chart:
+  fl_chart: ^0.65.0
   fluttertoast:
   provider:
   intl:
   flutter:
     sdk: flutter
   url_launcher: ^6.1.14
-
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   retrofit: ^4.0.1
-  shared_preferences: ^2.2.1
+  shared_preferences: ^2.2.2
   clean_dialog: ^0.0.16
   timeline_tile: ^2.0.0
-  permission_handler: ^10.1.0
+  permission_handler: ^11.1.0
+  firebase_core: ^2.23.0
+  firebase_messaging: ^14.7.5
+  flutter_local_notifications: 
+  get: ^4.6.6
+  overlay_support: ^2.1.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -63,10 +64,18 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^2.0.0
+  flutter_lints: ^3.0.1
   build_runner:  
   retrofit_generator: '>=5.0.0 <6.0.0'
   json_serializable:  
+  flutter_launcher_icons: "^0.13.1"
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "icons/ppulogo.png"
+  min_sdk_android: 21
+
  
 
 # For information on the generic Dart part of this file, see the

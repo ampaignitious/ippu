@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:ippu/Widgets/EventsScreenWidgets/ContainerDisplayingEvents.dart';
-import 'package:ippu/Widgets/EventsScreenWidgets/ContainerDisplayingUpcomingEvents.dart';
 
 class AllEventsScreen extends StatefulWidget {
   const AllEventsScreen({super.key});

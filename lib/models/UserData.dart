@@ -1,6 +1,6 @@
 class UserData {
   final int id;
-  final String name;
+   String name;
   final String email;
   final String token;
   final String? gender;
@@ -14,6 +14,7 @@ class UserData {
   final String? nok_address;
   final String? nok_phone_no;
   final String? subscription_status;
+  String profile_pic;
  
   UserData({
     required this.id,
@@ -31,6 +32,6 @@ class UserData {
     this.nok_name,
     this.nok_address,
     this.nok_phone_no,
-
+    required this.profile_pic
   });
 }

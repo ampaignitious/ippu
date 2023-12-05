@@ -96,6 +96,7 @@ class _ContainerDisplayingCommunicationsState
                         return SingleCommunicationDisplayScreen(
                           communicationtitle: item.title,
                           communicationbody: item.message,
+                          communicationdate: extractDate(item.created_at),
                         );
                       }));
                     },
@@ -106,7 +107,6 @@ class _ContainerDisplayingCommunicationsState
                           margin: EdgeInsets.symmetric(
                             horizontal: size.height * 0.009,
                           ),
-                          height: size.height * 0.36,
                           width: size.width * 0.95,
                           decoration: BoxDecoration(
                             color: Colors.white,

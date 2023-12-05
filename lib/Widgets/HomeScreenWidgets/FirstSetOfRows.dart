@@ -16,7 +16,6 @@ class FirstSetOfRows extends StatefulWidget {
 }
 
 class _FirstSetOfRowsState extends State<FirstSetOfRows> {
-  @override
   // Controller for the Scrollable widget
   final ScrollController _scrollController = ScrollController();
 
@@ -48,6 +47,8 @@ class _FirstSetOfRowsState extends State<FirstSetOfRows> {
     _scrollController.dispose();
     super.dispose();
   }
+
+  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Column(

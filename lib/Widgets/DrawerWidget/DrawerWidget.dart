@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ippu/Providers/ProfilePicProvider.dart';
 import 'package:ippu/Screens/CommunicationScreen.dart';
 import 'package:ippu/Screens/DefaultScreen.dart';
 import 'package:ippu/Screens/EducationBackgroundScreen.dart';
@@ -60,18 +61,9 @@ authController.signOut();
   @override
   Widget build(BuildContext context) {
       final userData = Provider.of<UserProvider>(context).user;
-      // Check if user data is incomplete
-    bool isProfileIncomplete() {
-      if (userData!.gender == null ||
-          userData.dob == null ||
-          userData.phone_no == null ||
-          userData.nok_name == null ||
-          userData.nok_phone_no == null) {
-        return false;
-      } else {
-        return true;
-      }
-    }
+      var profilePhoto = NetworkImage(context.watch<ProfilePicProvider>().profilePic);
+          final profileStatus =
+        Provider.of<UserProvider>(context, listen: false).profileStatusCheck;
     return SingleChildScrollView(
       child: Column(
             children: [
@@ -85,7 +77,9 @@ authController.signOut();
                   decoration: const BoxDecoration(
                     color: Color.fromARGB(255, 42, 129, 201),
                   ),
-                  currentAccountPicture: const CircleAvatar(backgroundImage: AssetImage('assets/image9.png'),),
+                  currentAccountPicture: CircleAvatar(
+                    backgroundImage: profilePhoto,
+                    ),
                   accountName: Text(userData!.name), accountEmail: Text(userData.email)),
               ),
               InkWell(
@@ -106,7 +100,7 @@ authController.signOut();
               InkWell(
                 onTap:(){
                   //check if profile is incomplete
-                  if(isProfileIncomplete() == false){
+                  if(profileStatus==false){
                           Navigator.pop(context);
                           _showDialog();
                   }
@@ -129,7 +123,7 @@ authController.signOut();
                InkWell(
                 onTap: (){
                   //check if profile is incomplete
-                  if(isProfileIncomplete() == false){
+                  if(profileStatus==false){
                           Navigator.pop(context);
                           _showDialog();
                   }
@@ -154,7 +148,7 @@ authController.signOut();
               InkWell(
                 onTap: (){
                 //check if profile is incomplete
-                  if(isProfileIncomplete() == false){
+                  if(profileStatus==false){
                           Navigator.pop(context);
                           _showDialog();
                   }
@@ -178,7 +172,7 @@ authController.signOut();
               InkWell(
                 onTap: (){
                 //check if profile is incomplete
-                  if(isProfileIncomplete() == false){
+                  if(profileStatus==false){
                           Navigator.pop(context);
                           _showDialog();
                   }
@@ -200,7 +194,7 @@ authController.signOut();
                 InkWell(
                   onTap: (){
                   //check if profile is incomplete
-                  if(isProfileIncomplete() == false){
+                  if(profileStatus==false){
                           Navigator.pop(context);
                           _showDialog();
                   }
@@ -224,7 +218,7 @@ authController.signOut();
               InkWell(
                 onTap: (){
                  //check if profile is incomplete
-                  if(isProfileIncomplete() == false){
+                  if(profileStatus==false){
                           Navigator.pop(context);
                           _showDialog();
                   }

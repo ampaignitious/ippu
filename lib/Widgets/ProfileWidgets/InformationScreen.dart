@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
+import 'package:ippu/Providers/ProfilePicProvider.dart';
 import 'package:ippu/Screens/EducationBackgroundScreen.dart';
 import 'package:ippu/models/UserProvider.dart';
 import 'package:provider/provider.dart';
@@ -27,6 +29,9 @@ class InformationScreen extends StatefulWidget {
 class _InformationScreenState extends State<InformationScreen> {
   bool isProfileIncomplete = true;
   int numberOfCertificates = 0;
+  final ImagePicker _picker = ImagePicker();
+  late File _image;
+
 
   @override
   void initState() {
@@ -34,6 +39,7 @@ class _InformationScreenState extends State<InformationScreen> {
     fetchProfileData();
     _fetchAttendedEventsCount(); // Call the method to fetch attended events count
   }
+
 
    Future<void> _fetchAttendedEventsCount() async {
     try {
@@ -70,9 +76,9 @@ class _InformationScreenState extends State<InformationScreen> {
   @override
   Widget build(BuildContext context) {
     final userData = Provider.of<UserProvider>(context).user;
-    final cpds = Provider.of<UserProvider>(context).CPDS;
-    final event = Provider.of<UserProvider>(context).Events;
     final size = MediaQuery.of(context).size;
+    var profilePhoto = NetworkImage(context.watch<ProfilePicProvider>().profilePic);
+
     final status =
         Provider.of<UserProvider>(context, listen: false).getSubscriptionStatus;
     return FutureBuilder<ProfileData>(
@@ -95,8 +101,9 @@ class _InformationScreenState extends State<InformationScreen> {
                     SizedBox(height: size.height * 0.012),
                     CircleAvatar(
                       radius: 60,
-                      backgroundImage: AssetImage('assets/image9.png'),
+                      backgroundImage: profilePhoto,
                     ),
+                    
                     SizedBox(height: size.height * 0.014),
                     Text(
                       "${userData!.name}",

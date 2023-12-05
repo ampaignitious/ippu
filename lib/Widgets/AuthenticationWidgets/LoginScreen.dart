@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ippu/Providers/ProfilePicProvider.dart';
 import 'package:ippu/Screens/DefaultScreen.dart';
 import 'package:ippu/Widgets/AuthenticationWidgets/ForgotPasswordScreen.dart';
 import 'package:ippu/Widgets/AuthenticationWidgets/RegisterScreen.dart';
@@ -8,6 +9,7 @@ import 'package:ippu/controllers/auth_controller.dart';
 import 'package:ippu/models/UserData.dart';
 import 'package:ippu/models/UserProvider.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -49,11 +51,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 "Invalid credentials, check your email and password and try again!"),
           ));
         } else {
- 
           final String token = authResponse['authorization']['token'];
           final String name = authResponse['user']['name'];
           final String email = authResponse['user']['email'];
- 
+
           UserData userData = UserData(
             id: authResponse['user']['id'],
             name: name,
@@ -67,15 +68,26 @@ class _LoginScreenState extends State<LoginScreen> {
             nok_name: authResponse['user']['nok_name'],
             nok_address: authResponse['user']['nok_address'],
             nok_phone_no: authResponse['user']['nok_phone_no'],
-            points: authResponse['user']['points'] ,
+            points: authResponse['user']['points'],
+            profile_pic: authResponse['user']['profile_pic']??'https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes-thumbnail.png',
             token: token,
           );
-          
-          Provider.of<UserProvider>(context, listen: false).setUser(userData);
- 
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-                return DefaultScreen();
-          })); 
+          print("profile status: ${await checkProfileStatus(userData)}");
+          final fcmsaveResponse =
+              await authController.saveFcmToken(userData.id);
+               if (context.mounted) {         
+            Provider.of<UserProvider>(context, listen: false).setUser(userData);
+            //set the profile status
+            Provider.of<ProfilePicProvider>(context, listen: false)
+                .setProfilePic(userData.profile_pic);
+                Provider.of<UserProvider>(context, listen: false).setProfileStatus(await checkProfileStatus(userData));
+
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) {
+              //save the fcm token to the database
+              return const DefaultScreen();
+            }));
+          }
         }
       } catch (e) {
         // Handle unexpected errors
@@ -86,8 +98,19 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     }
   }
- 
-  // 
+
+  //check if the user's profile is complete
+  Future<bool> checkProfileStatus(UserData user) async {
+    if(user.gender==null && user.dob==null && user.membership_number==null && user.address==null && user.phone_no==null && user.nok_name==null && user.nok_phone_no==null){
+      print("gender: ${user.gender}");
+      return false;
+    }
+    else{
+      return true;
+    }
+  }
+
+  //
 
   @override
   Widget build(BuildContext context) {
@@ -251,11 +274,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         ],
                       ),
                       GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return const ForgotPasswordScreen();
-                              }));
+                              MaterialPageRoute(builder: (context) {
+                            return const ForgotPasswordScreen();
+                          }));
                         },
                         child: Center(
                           child: Padding(

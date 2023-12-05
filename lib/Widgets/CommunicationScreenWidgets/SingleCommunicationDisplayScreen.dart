@@ -5,17 +5,19 @@ import 'package:google_fonts/google_fonts.dart';
 class SingleCommunicationDisplayScreen extends StatefulWidget {
   String communicationtitle;
   String communicationbody;
- SingleCommunicationDisplayScreen({super.key, required this.communicationbody, required this.communicationtitle});
+  String communicationdate;
+ SingleCommunicationDisplayScreen({super.key, required this.communicationbody, required this.communicationtitle, required this.communicationdate});
 
   @override
-  State<SingleCommunicationDisplayScreen> createState() => _SingleCommunicationDisplayScreenState(this.communicationbody, this.communicationtitle);
+  State<SingleCommunicationDisplayScreen> createState() => _SingleCommunicationDisplayScreenState(this.communicationbody, this.communicationtitle, this.communicationdate);
 }
 
 class _SingleCommunicationDisplayScreenState extends State<SingleCommunicationDisplayScreen> {
   @override
     String communicationtitle;
   String communicationbody;
-  _SingleCommunicationDisplayScreenState(this.communicationbody, this.communicationtitle);
+  String communicationdate;
+  _SingleCommunicationDisplayScreenState(this.communicationbody, this.communicationtitle, this.communicationdate);
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
@@ -35,7 +37,6 @@ class _SingleCommunicationDisplayScreenState extends State<SingleCommunicationDi
         scrollDirection: Axis.vertical,
         child: Container(
                   margin: EdgeInsets.only(right:size.height*0.009, left:size.height*0.0098, top: size.height*0.02),
-                  height: size.height*0.9,
                   width: size.width*0.96,
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -93,7 +94,6 @@ class _SingleCommunicationDisplayScreenState extends State<SingleCommunicationDi
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                          // 
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -101,7 +101,7 @@ class _SingleCommunicationDisplayScreenState extends State<SingleCommunicationDi
                                   color:Colors.green,
                                   fontWeight: FontWeight.bold
                                 ),),
-                                Text("July 4, 2023, 12:00 am", style: GoogleFonts.roboto(
+                                Text(communicationdate, style: GoogleFonts.roboto(
                                   fontSize:size.height*0.016,
                                 ),)
                               ],
