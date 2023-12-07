@@ -129,6 +129,33 @@ Future<String> checkForFcmToken() async {
       };
     }
   }
+
+  Future<Map<String, dynamic>> getProfile() async {
+    final dio = Dio();
+    final client = AuthRestClient(dio);
+    dio.options.headers['Authorization'] = "Bearer ${await getAccessToken()}";
+    dio.options.headers['Accept'] = "application/json";
+    dio.options.headers['Content-Type'] = "application/json";
+    dio.options.validateStatus = (status) => status! < 500;
+    try {
+      final response = await client.getProfile();
+      if (response.containsKey('data') && response.containsKey('message')) {
+        return response;
+      } else {
+        return {
+          "error": "Unauthorized",
+          "status": "error",
+        };
+      }
+    } catch (e) {
+      print("catch error: $e");
+      return {
+        "error": "Failed to get profile",
+        "status": "error",
+      };
+    }
+  }
+
   Future<Map<String, dynamic>> getEducationBackground(
       String user_id, String points, String field) async {
     final dio = Dio();
@@ -246,10 +273,20 @@ Future<String> checkForFcmToken() async {
     final dio = Dio();
     final client = AuthRestClient(dio);
     dio.options.headers['Authorization'] = "Bearer ${await getAccessToken()}";
+    dio.options.headers['Accept'] = "application/json";
     try {
       final response = await client.signOut();
-      return response;
+      //check if response contains message
+      if (response.containsKey('message')) {
+        return response;
+      } else {
+        return {
+          "error": "Failed to sign out",
+          "status": "error",
+        };
+      }
     } catch (e) {
+      print("catch error: $e");
       return {
         "error": "Failed to sign out",
         "status": "error",
@@ -291,3 +328,6 @@ Future<String> checkForFcmToken() async {
     }
   }
 }
+
+
+

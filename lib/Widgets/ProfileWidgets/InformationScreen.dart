@@ -8,6 +8,8 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:ippu/Providers/ProfilePicProvider.dart';
 import 'package:ippu/Screens/EducationBackgroundScreen.dart';
+import 'package:ippu/controllers/auth_controller.dart';
+import 'package:ippu/models/UserData.dart';
 import 'package:ippu/models/UserProvider.dart';
 import 'package:provider/provider.dart';
 
@@ -31,12 +33,12 @@ class _InformationScreenState extends State<InformationScreen> {
   int numberOfCertificates = 0;
   final ImagePicker _picker = ImagePicker();
   late File _image;
-
+  late Future<UserData> profileData;
 
   @override
   void initState() {
     super.initState();
-    fetchProfileData();
+    profileData = loadProfile();
     _fetchAttendedEventsCount(); // Call the method to fetch attended events count
   }
 
@@ -52,26 +54,47 @@ class _InformationScreenState extends State<InformationScreen> {
     }
   }
 
-  Future<ProfileData> fetchProfileData() async {
-    final userData = Provider.of<UserProvider>(context, listen: false).user;
-    if (userData == null) {
-      throw Exception('User data is null');
-    }
-
-    final String apiUrl = 'https://ippu.org/api/profile/${userData.id}';
-    final response = await http.get(
-      Uri.parse(apiUrl),
-      headers: {
-        'Authorization': 'Bearer ${userData.token}',
-      },
-    );
-
-    if (response.statusCode == 200) {
-      return ProfileData.fromJson(json.decode(response.body));
+ Future<UserData> loadProfile() async {
+  AuthController authController = AuthController();
+  try {
+    final response = await authController.getProfile();
+    if (response.containsKey("error")) {
+      throw Exception("The return is an error");
     } else {
-      throw Exception('Failed to load profile data');
+      if (response['data'] != null) {
+        // Access the user object directly from the 'data' key
+        Map<String, dynamic> userData = response['data'];
+        
+        UserData profile = UserData(
+          id: userData['id'],
+          name: userData['name'] ?? "",
+          email: userData['email'] ?? "",
+          gender: userData['gender'].toString(),
+          dob: userData['dob'] ?? "",
+          membership_number: userData['membership_number'] ?? "",
+          address: userData['address'] ?? "",
+          phone_no: userData['phone_no'] ?? "",
+          alt_phone_no: userData['alt_phone_no'] ?? "",
+          nok_name: userData['nok_name'] ?? "",
+          nok_address: userData['nok_address'] ?? "",
+          nok_phone_no: userData['nok_phone_no'] ?? "",
+          points: userData['points'] ?? "",
+          subscription_status: userData['subscription_status'].toString(),
+          profile_pic: userData['profile_pic'] ??
+              "https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes-thumbnail.png",
+        );
+
+        return profile;
+      } else {
+        // Handle the case where the 'data' field in the API response is null
+        throw Exception("You currently have no data");
+      }
     }
+  } catch (error) {
+    print("catched error: $error");
+    throw Exception("An error occurred while loading the profile");
   }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -81,15 +104,12 @@ class _InformationScreenState extends State<InformationScreen> {
 
     final status =
         Provider.of<UserProvider>(context, listen: false).getSubscriptionStatus;
-    return FutureBuilder<ProfileData>(
-      future: fetchProfileData(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
-        } else {
-          return Padding(
+    return FutureBuilder(
+    future: profileData, 
+    builder: (context, snapshot){
+      if(snapshot.hasData){
+        final profileData = snapshot.data as UserData;
+         return Padding(
             padding: const EdgeInsets.all(16.0),
             child: ListView.builder(
               itemCount: 1,
@@ -120,58 +140,58 @@ class _InformationScreenState extends State<InformationScreen> {
                     Card(
                         child: ListTile(
                       title: Text("Name"),
-                      subtitle: Text("${snapshot.data!.data['name']}"),
+                      subtitle: Text("${profileData.name}"),
                     )),
                     Card(
                         child: ListTile(
                       title: Text("Email"),
-                      subtitle: Text("${snapshot.data!.data['email']}"),
+                      subtitle: Text("${profileData.email}"),
                     )),
                     Card(
                         child: ListTile(
                       title: Text("Gender"),
-                      subtitle: Text("${snapshot.data!.data['gender']}"),
+                      subtitle: Text("${profileData.gender}"),
                     )),
                     Card(
                         child: ListTile(
                       title: Text("Date of birth"),
-                      subtitle: Text("${snapshot.data!.data['dob']}"),
+                      subtitle: Text("${profileData.dob}"),
                     )),
                     Card(
                         child: ListTile(
                       title: Text("Membership number"),
                       subtitle:
-                          Text("${snapshot.data!.data['membership_number']}"),
+                          Text("${profileData.membership_number}"),
                     )),
                     Card(
                         child: ListTile(
                       title: Text("Address"),
-                      subtitle: Text("${snapshot.data!.data['address']}"),
+                      subtitle: Text("${profileData.address}"),
                     )),
                     Card(
                         child: ListTile(
                       title: Text("Phone number"),
-                      subtitle: Text("${snapshot.data!.data['phone_no']}"),
+                      subtitle: Text("${profileData.phone_no}"),
                     )),
                     Card(
                         child: ListTile(
                       title: Text("Alt Phone number"),
-                      subtitle: Text("${snapshot.data!.data['alt_phone_no']}"),
+                      subtitle: Text("${profileData.alt_phone_no}"),
                     )),
                     Card(
                         child: ListTile(
                       title: Text("Next of Kin name"),
-                      subtitle: Text("${snapshot.data!.data['nok_name']}"),
+                      subtitle: Text("${profileData.nok_name}"),
                     )),
                     Card(
                         child: ListTile(
                       title: Text("Next of Kin address"),
-                      subtitle: Text("${snapshot.data!.data['nok_address']}"),
+                      subtitle: Text("${profileData.nok_address}"),
                     )),
                     Card(
                         child: ListTile(
                       title: Text("Next of Kin phone number"),
-                      subtitle: Text("${snapshot.data!.data['nok_phone_no']}"),
+                      subtitle: Text("${profileData.nok_phone_no}"),
                     )),
 
                     //
@@ -265,8 +285,12 @@ class _InformationScreenState extends State<InformationScreen> {
               },
             ),
           );
-        }
-      },
+      } else if(snapshot.hasError){
+        return Center(child: Text("An error occured while loading your profile"));
+      } else {
+        return Center(child: CircularProgressIndicator());
+      }
+    }
     );
   }
 

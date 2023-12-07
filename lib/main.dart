@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:ippu/Providers/ProfilePicProvider.dart';
+import 'package:ippu/Providers/auth.dart';
+import 'package:ippu/Providers/network.dart';
 import 'package:ippu/Screens/DefaultScreen.dart';
 import 'package:ippu/Screens/EducationBackgroundScreen.dart';
 import 'package:ippu/Screens/EventsScreen.dart';
@@ -13,14 +15,15 @@ import 'package:ippu/services/FirebaseApi.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-await Firebase.initializeApp(
-  options: DefaultFirebaseOptions.currentPlatform,
-);  
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -41,7 +44,8 @@ class _MyAppState extends State<MyApp> {
     setValue().then((isFirstLaunch) {
       setState(() {
         this.isFirstLaunch = isFirstLaunch;
-        isLoading = false; // Set loading to false once the operation is complete
+        isLoading =
+            false; // Set loading to false once the operation is complete
       });
     });
   }
@@ -52,6 +56,8 @@ class _MyAppState extends State<MyApp> {
     prefs.setInt('counter', launchCount + 1);
     if (launchCount == 0) {
       FirebaseApi().initLocalNotifications();
+      bool isNotificationPermissionGranted =
+          await askForNotificationPermission();
       print("first launch");
       // If it's the first launch, return true.
       return true;
@@ -68,9 +74,10 @@ class _MyAppState extends State<MyApp> {
       providers: [
         ChangeNotifierProvider(
           create: (context) => UserProvider(),
-
         ),
-        ChangeNotifierProvider(create: (context)=>ProfilePicProvider())
+        ChangeNotifierProvider(create: (context) => ProfilePicProvider()),
+        ChangeNotifierProvider(create: (context) => AuthProvider()),
+        ChangeNotifierProvider(create: (context) => CheckNetworkConnectivity()),
       ],
       child: OverlaySupport(
         child: MaterialApp(
@@ -81,7 +88,8 @@ class _MyAppState extends State<MyApp> {
           ),
           home: isLoading
               ? const Scaffold(
-                  backgroundColor: Colors.white, // Set the background color to white
+                  backgroundColor:
+                      Colors.white, // Set the background color to white
                   body: Center(
                     child: CircularProgressIndicator(
                       valueColor: AlwaysStoppedAnimation<Color>(
@@ -92,7 +100,14 @@ class _MyAppState extends State<MyApp> {
                 )
               : isFirstLaunch
                   ? const FirstSplashScreen()
-                  : LoginScreen(),
+                  : Consumer<AuthProvider>(
+                      builder: (context, auth, child) {
+                        auth.isLoggedIn();
+                        return auth.isAuthenticated
+                            ? const DefaultScreen()
+                            : LoginScreen();
+                      },
+                    ),
           routes: {
             '/myevents': (context) => const EventsScreen(),
             '/educationbackground': (context) =>
@@ -103,5 +118,44 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
     );
+  }
+
+  Future<bool> askForNotificationPermission() async {
+    PermissionStatus status = await Permission.notification.request();
+    if (status.isGranted) {
+      //show an alert dialog with "you will receive notifications when new events are added"
+      AlertDialog(
+        title: const Text("Notification Permission Granted"),
+        content: const Text(
+            "You will receive notifications when new events are added"),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text("OK"),
+          )
+        ],
+      );
+
+      return true;
+    } else {
+      //show an alert dialog with "you will not receive notifications when new events are added"
+      AlertDialog(
+        title: const Text("Notification Permission Denied"),
+        content: const Text(
+            "You will not receive notifications when new events are added"),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text("OK"),
+          )
+        ],
+      );
+
+      return false;
+    }
   }
 }

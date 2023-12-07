@@ -1,14 +1,18 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:ippu/Providers/ProfilePicProvider.dart';
+import 'package:ippu/Providers/network.dart';
 import 'package:ippu/Screens/CommunicationScreen.dart';
 import 'package:ippu/Screens/CpdsScreen.dart';
 import 'package:ippu/Screens/EventsScreen.dart';
 import 'package:ippu/Screens/HomeScreen.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:ippu/controllers/auth_controller.dart';
 import 'package:ippu/models/UserData.dart';
 import 'package:ippu/models/UserProvider.dart';
 import 'package:provider/provider.dart';
+
+import '../Widgets/AuthenticationWidgets/LoginScreen.dart';
 
 class DefaultScreen extends StatefulWidget {
   const DefaultScreen({super.key});
@@ -18,12 +22,98 @@ class DefaultScreen extends StatefulWidget {
 }
 
 class _DefaultScreenState extends State<DefaultScreen> {
-  late List<ProfileData> profileDataList = [];
+  late Future<dynamic> profileData;
   @override
   void initState() {
     super.initState();
-    fetchProfileData(); // Call the function to fetch profile data
+    profileData = loadProfile();
+        initConnectivityListener();
+
   }
+
+   void initConnectivityListener() {
+    Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+      setState(() {
+        // Update the network status in your provider
+        Provider.of<CheckNetworkConnectivity>(context, listen: false)
+            .setConnectionStatus(result != ConnectivityResult.none);
+      });
+
+      // If connectivity is restored, reload the profile
+      if (result != ConnectivityResult.none) {
+        reloadProfile();
+      }
+    });
+  }
+
+  Future<void> reloadProfile() async {
+    setState(() {
+      profileData = loadProfile();
+    });
+  }
+
+  Future<dynamic> loadProfile() async {
+  AuthController authController = AuthController();
+  try {
+    final response = await authController.getProfile();
+    if (response.containsKey("error")) {
+      //check if it the error key is unauthorized and redirect to login
+      if (response['error'] == "Unauthorized") {
+        
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) {
+          return LoginScreen();
+        }));
+        
+        return;
+      } else {
+        // Handle the case where the API did not return a user profile
+        throw Exception(response['error']);
+      }
+    } else {
+      if (response['data'] != null) {
+        // Access the user object directly from the 'data' key
+        Map<String, dynamic> userData = response['data'];
+        
+        UserData profile = UserData(
+          id: userData['id'],
+          name: userData['name'] ?? "",
+          email: userData['email'] ?? "",
+          gender: userData['gender'].toString(),
+          dob: userData['dob'] ?? "",
+          membership_number: userData['membership_number'] ?? "",
+          address: userData['address'] ?? "",
+          phone_no: userData['phone_no'] ?? "",
+          alt_phone_no: userData['alt_phone_no'] ?? "",
+          nok_name: userData['nok_name'] ?? "",
+          nok_address: userData['nok_address'] ?? "",
+          nok_phone_no: userData['nok_phone_no'] ?? "",
+          points: userData['points'] ?? "",
+          subscription_status: userData['subscription_status'].toString(),
+          profile_pic: userData['profile_pic'] ??
+              "https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes-thumbnail.png",
+        );
+
+        if (mounted) {
+          Provider.of<UserProvider>(context, listen: false).setUser(profile);
+          Provider.of<ProfilePicProvider>(context, listen: false)
+              .setProfilePic(profile.profile_pic);
+          Provider.of<UserProvider>(context, listen: false)
+              .setSubscriptionStatus(profile.subscription_status.toString());
+                    Provider.of<UserProvider>(context, listen: false)
+          .setProfileStatus(await checkProfileStatus(profile));
+        }
+
+        return profile;
+      } else {
+        // Handle the case where the 'data' field in the API response is null
+        throw Exception("You currently have no data");
+      }
+    }
+  } catch (error) {
+    print("catched error: $error");
+return null;  }
+}
 
   int _selectedIndex = 0;
   List Page = [
@@ -38,99 +128,98 @@ class _DefaultScreenState extends State<DefaultScreen> {
     });
   }
 
-  Future<void> fetchProfileData() async {
-    try {
-      final userData = Provider.of<UserProvider>(context, listen: false).user;
-      if (userData == null) {
-        throw Exception('User data is null');
-      }
+ 
 
-      final String apiUrl = 'https://ippu.org/api/profile/${userData.id}';
-      final response = await http.get(
-        Uri.parse(apiUrl),
-        headers: {
-          'Authorization': 'Bearer ${userData.token}',
-        },
-      );
-
-      if (response.statusCode == 200) {
-        ProfileData profileData =
-            ProfileData.fromJson(json.decode(response.body));
-        setState(() {
-          profileDataList.add(profileData);
-        });
-      } else {
-        throw Exception('Failed to load profile data');
-      }
-    } catch (error) {}
+  //check if the user's profile is complete
+  Future<bool> checkProfileStatus(UserData user) async {
+    if (user.gender == null &&
+        user.dob == null &&
+        user.membership_number == null &&
+        user.address == null &&
+        user.phone_no == null &&
+        user.nok_name == null &&
+        user.nok_phone_no == null) {
+      print("gender: ${user.gender}");
+      return false;
+    } else {
+      return true;
+    }
   }
 
+  @override
   Widget build(BuildContext context) {
-    for (var profileData in profileDataList) {
-      final userInfo = Provider.of<UserProvider>(context, listen: false).user;
-
-      UserData userData = UserData(
-        id: profileData.data['id'],
-        name: profileData.data['name'] ?? "",
-        email: profileData.data['email'] ?? "",
-        gender: profileData.data['gender'].toString(),
-        dob: profileData.data['dob'] ?? "",
-        membership_number: profileData.data['membership_number'] ?? "",
-        address: profileData.data['address'] ?? "",
-        phone_no: profileData.data['phone_no'] ?? "",
-        alt_phone_no: profileData.data['alt_phone_no'] ?? "",
-        nok_name: profileData.data['nok_name'] ?? "",
-        nok_address: profileData.data['nok_address'] ?? "",
-        nok_phone_no: profileData.data['nok_phone_no'] ?? "",
-        points: profileData.data['points'] ?? "",
-        subscription_status: profileData.data['subscription_status'].toString(),
-        profile_pic: profileData.data['profile_pic'] ??
-            "https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes-thumbnail.png",
-        // subscription_status2: profileData.data['subscription_status'],
-        token: userInfo!.token,
-      );
-      Provider.of<UserProvider>(context, listen: false).setUser(userData);
-      Provider.of<UserProvider>(context, listen: false).setSubscriptionStatus(
-          profileData.data['subscription_status'].toString());
-      // Provider.of<UserProvider>(context, listen: false).setProfileStatus(profileData.data['gender'].toString());
-    }
-    //
-    final userdata = Provider.of<UserProvider>(context).user;
-    // Provider.of<UserProvider>(context).setProfileStatus('${userdata!.gender}');
-    //
-    return Scaffold(
-      body: Page[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Color.fromARGB(255, 42, 129, 201).withOpacity(0.9),
-        currentIndex: _selectedIndex,
-        onTap: (value) {
-          if (value != 0) {
-            final profileStatus =
-                Provider.of<UserProvider>(context, listen: false)
-                    .profileStatusCheck;
-            if (profileStatus == false) {
-              _showDialog();
-              return;
+    final connectivity = Provider.of<CheckNetworkConnectivity>(context);
+    return FutureBuilder(
+      future: profileData,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+      return Scaffold(
+        body: Page[_selectedIndex],
+        bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: Color.fromARGB(255, 42, 129, 201).withOpacity(0.9),
+          currentIndex: _selectedIndex,
+          onTap: (value) {
+            if (value != 0) {
+              final profileStatus =
+                  Provider.of<UserProvider>(context, listen: false)
+                      .profileStatusCheck;
+              if (profileStatus == false) {
+                _showDialog();
+                return;
+              }
             }
-          }
-          setState(() {
-            _selectedIndex = value;
-          });
-        },
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: Colors.white,
-        unselectedItemColor:
-            Color.fromARGB(255, 169, 230, 216).withOpacity(0.5),
-        showUnselectedLabels: true,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.workspace_premium), label: 'CPD'),
-          BottomNavigationBarItem(icon: Icon(Icons.event), label: 'Events'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.info), label: 'Communication'),
-        ],
-      ),
+            setState(() {
+              _selectedIndex = value;
+            });
+          },
+          type: BottomNavigationBarType.fixed,
+          selectedItemColor: Colors.white,
+          unselectedItemColor:
+              Color.fromARGB(255, 169, 230, 216).withOpacity(0.5),
+          showUnselectedLabels: true,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.workspace_premium), label: 'CPD'),
+            BottomNavigationBarItem(icon: Icon(Icons.event), label: 'Events'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.info), label: 'Communication'),
+          ],
+        ),
+     );
+        } else if (snapshot.hasError) {
+          return Center(
+            child: Text("${snapshot.error}"),
+          );
+        } else if(snapshot.connectionState == ConnectionState.waiting){
+          return const Scaffold(
+            backgroundColor: Colors.white,
+            body: Center(
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  Colors.blue, // Set the color of the spinner
+                ),
+              ),
+            ),
+          );
+        } else {
+                 // Check if there is no internet connection
+        if (!connectivity.isConnected) {
+          showBottomNotification("No internet connection");
+        }
+          return const Scaffold(
+            backgroundColor: Colors.white,
+            body: Center(
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  Colors.blue, // Set the color of the spinner
+                ),
+              ),
+            ),
+          );
+        }
+        //return a circular progress indicator while the data is being fetched with a white backgroun
+      },
     );
   }
 
@@ -166,12 +255,4 @@ class _DefaultScreenState extends State<DefaultScreen> {
   }
 }
 
-class ProfileData {
-  final Map<String, dynamic> data;
 
-  ProfileData({required this.data});
-
-  factory ProfileData.fromJson(Map<String, dynamic> json) {
-    return ProfileData(data: json['data']);
-  }
-}

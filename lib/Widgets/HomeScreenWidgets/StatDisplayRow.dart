@@ -53,12 +53,12 @@ class _StatDisplayRowState extends State<StatDisplayRow> {
                       style: GoogleFonts.lato(
                         fontWeight: FontWeight.bold,
                         fontSize: size.height * 0.012,
-                        color: Color.fromARGB(255, 42, 129, 201),
+                        color: const Color.fromARGB(255, 42, 129, 201),
                       ))
                 ],
               ),
               // end of the row section
-              Divider(
+              const Divider(
                 thickness: 2,
                 color: Color.fromARGB(210, 63, 131, 187),
               ),

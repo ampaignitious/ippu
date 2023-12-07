@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ippu/Providers/ProfilePicProvider.dart';
+import 'package:ippu/Providers/auth.dart';
 import 'package:ippu/Screens/CommunicationScreen.dart';
 import 'package:ippu/Screens/DefaultScreen.dart';
 import 'package:ippu/Screens/EducationBackgroundScreen.dart';
@@ -17,6 +18,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:ippu/controllers/auth_controller.dart';
 import 'package:ippu/models/UserProvider.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class DrawerWidget extends StatefulWidget {
@@ -28,16 +30,6 @@ class DrawerWidget extends StatefulWidget {
 
 class _DrawerWidgetState extends State<DrawerWidget> {
   AuthController authController = AuthController();
-// logout logic 
- void performLogout() async {
- 
-authController.signOut();
- Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-      return LoginScreen();
-    }));
-   
-}
-
   void _showDialog() {
     showDialog(
       context: context,
@@ -288,15 +280,32 @@ authController.signOut();
               //
               InkWell(
                 onTap: () async {
-                  // Clear the cache
-                  await DefaultCacheManager().emptyCache();
+                  int user_id = userData.id;
+                  final response = await authController.signOut();
+                  //check if response does not contain error
+                  if (!response.containsKey('error')) {
+                    //clear shared preferences
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    prefs.clear();
+                    await DefaultCacheManager().emptyCache();
 
-                  // Navigate to the login screen and remove all routes from the stack
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (context) => LoginScreen()),
-                    (Route<dynamic> route) => false,
-                  );
+                    context.read<AuthProvider>().isLoggedIn();
+
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginScreen()),
+                      (Route<dynamic> route) => false,
+                    );
+                  } else {
+                    //show error message
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("Logout Failed"),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
+                  }
                 },
                 child: Card(
                   child: ListTile(

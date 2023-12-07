@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:clean_dialog/clean_dialog.dart';
 import 'package:ippu/Widgets/AuthenticationWidgets/LoginScreen.dart';
 import 'package:ippu/models/UserProvider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -14,6 +15,7 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  late bool isNotificationEnabled;
   //delete account function
   Future<void> _deleteAccount(int userId) async {
     //send  DELETE requet to the server for the account id
@@ -82,6 +84,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+
+    //get the notification permission status
+    getPermissionStatus().then((value) {
+      setState(() {
+        isNotificationEnabled = value;
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -89,18 +103,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
         backgroundColor: const Color.fromARGB(255, 42, 129, 201),
         title: Text("Account Settings", style: GoogleFonts.lato()),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: FractionallySizedBox(
-          heightFactor:
-              0.30, // Set the fraction of screen height (50% in this case)
-          child: Container(
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: Colors.red,
-                width: 1,
-              ),
+      body: Flexible(
+        child: Container(
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Colors.red,
+              width: 1,
             ),
+          ),
+          child: Flexible(
             child: Column(
               children: [
                 const Padding(
@@ -120,8 +131,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   children: [
                     const Padding(
                       padding: EdgeInsets.all(8.0),
-                      child: Text("DANGER ZONE",
-                          style: TextStyle(color: Colors.red, fontSize: 20)),
+                      child: Flexible(
+                        child: Text("DANGER ZONE",
+                            style: TextStyle(color: Colors.red, fontSize: 20)),
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -142,7 +155,41 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               "Are you sure you want to delete your account?",
                               true);
                         },
-                        child: const Text('DELETE ACCOUNT'),
+                        child: const Flexible(
+                            child: Text(
+                          'DELETE ACCOUNT',
+                          style: TextStyle(color: Colors.white),
+                        )),
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Flexible(
+                        child: Text("NOTIFICATIONS",
+                            style: TextStyle(color: Colors.blue, fontSize: 20)),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          const SizedBox(width: 10),
+                          Switch(
+                            value:
+                                isNotificationEnabled, // Set this variable based on the user's preference
+                            onChanged: (value) async {
+                              bool status = await turnNotificationsOnOrOff();
+                              setState(() {
+                                isNotificationEnabled = status;
+                              });
+                            },
+                          ),
+                        ],
                       ),
                     ),
                   ],
@@ -153,5 +200,34 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
       ),
     );
+  }
+
+  Future<bool> getPermissionStatus() async {
+    var status = await Permission.notification.status;
+
+    if (status.isGranted) {
+      print("Permission granted");
+      return true;
+    } else {
+      print("Permission denied");
+      return false;
+    }
+  }
+
+  //turn notifications on or off
+  Future<bool> turnNotificationsOnOrOff() async {
+      //turn notifications on
+      await Permission.notification.request();
+        var status = await Permission.notification.status;
+
+    if (status.isGranted) {
+      print("Permission granted");
+      return true;
+    } else {
+      print("Permission denied");
+      openAppSettings();
+      return false;
+    }
+
   }
 }

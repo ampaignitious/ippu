@@ -23,6 +23,9 @@ abstract class AuthRestClient {
   @POST(AppEndpoints.logoutEndPoint)
   Future<dynamic> signOut();
 
+  @GET(AppEndpoints.userProfile)
+  Future<dynamic> getProfile();
+
   @POST(AppEndpoints.uploadProfilePicture)
   @FormUrlEncoded()
   Future<dynamic> store(

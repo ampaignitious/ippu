@@ -2,7 +2,7 @@ class UserData {
   final int id;
    String name;
   final String email;
-  final String token;
+  final String? token;
   final String? gender;
   late final String? dob;
   final String? membership_number;
@@ -21,7 +21,7 @@ class UserData {
     this.points,
     required this.name,
     required this.email,
-    required this.token,
+    this.token,
     this.gender,
     this.dob,
     this.subscription_status,

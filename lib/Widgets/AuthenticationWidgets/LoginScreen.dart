@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:ippu/Providers/ProfilePicProvider.dart';
 import 'package:ippu/Screens/DefaultScreen.dart';
 import 'package:ippu/Widgets/AuthenticationWidgets/ForgotPasswordScreen.dart';
 import 'package:ippu/Widgets/AuthenticationWidgets/RegisterScreen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ippu/controllers/auth_controller.dart';
 
-import 'package:ippu/models/UserData.dart';
-import 'package:ippu/models/UserProvider.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -50,44 +45,13 @@ class _LoginScreenState extends State<LoginScreen> {
             content: Text(
                 "Invalid credentials, check your email and password and try again!"),
           ));
-        } else {
-          final String token = authResponse['authorization']['token'];
-          final String name = authResponse['user']['name'];
-          final String email = authResponse['user']['email'];
-
-          UserData userData = UserData(
-            id: authResponse['user']['id'],
-            name: name,
-            email: email,
-            gender: authResponse['user']['gender'],
-            dob: authResponse['user']['dob'],
-            membership_number: authResponse['user']['membership_number'],
-            address: authResponse['user']['address'],
-            phone_no: authResponse['user']['phone_no'],
-            alt_phone_no: authResponse['user']['alt_phone_no'],
-            nok_name: authResponse['user']['nok_name'],
-            nok_address: authResponse['user']['nok_address'],
-            nok_phone_no: authResponse['user']['nok_phone_no'],
-            points: authResponse['user']['points'],
-            profile_pic: authResponse['user']['profile_pic']??'https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes-thumbnail.png',
-            token: token,
-          );
-          print("profile status: ${await checkProfileStatus(userData)}");
-          final fcmsaveResponse =
-              await authController.saveFcmToken(userData.id);
-               if (context.mounted) {         
-            Provider.of<UserProvider>(context, listen: false).setUser(userData);
-            //set the profile status
-            Provider.of<ProfilePicProvider>(context, listen: false)
-                .setProfilePic(userData.profile_pic);
-                Provider.of<UserProvider>(context, listen: false).setProfileStatus(await checkProfileStatus(userData));
-
+        } else {  
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (context) {
               //save the fcm token to the database
               return const DefaultScreen();
             }));
-          }
+          
         }
       } catch (e) {
         // Handle unexpected errors
@@ -99,18 +63,10 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  //check if the user's profile is complete
-  Future<bool> checkProfileStatus(UserData user) async {
-    if(user.gender==null && user.dob==null && user.membership_number==null && user.address==null && user.phone_no==null && user.nok_name==null && user.nok_phone_no==null){
-      print("gender: ${user.gender}");
-      return false;
-    }
-    else{
-      return true;
-    }
+  @override
+  void initState() {
+    super.initState();
   }
-
-  //
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Container(
                   height: size.height * 0.20,
                   width: double.maxFinite,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: Color.fromARGB(255, 42, 129, 201),
                     image: DecorationImage(
                       fit: BoxFit.fitWidth,
@@ -140,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     margin: EdgeInsets.only(top: size.height * 0.18),
                     height: size.height * 0.06,
                     width: double.maxFinite,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(15),
                         topRight: Radius.circular(15),
@@ -172,7 +128,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             SingleChildScrollView(
               child: Container(
-                padding: EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(16.0),
                 child: Form(
                   key: _loginFormKey,
                   child: Column(
@@ -231,12 +187,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(height: size.height * 0.034),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: Color.fromARGB(255, 42, 129,
+                          backgroundColor: const Color.fromARGB(255, 42, 129,
                               201), // Change button color to green
                           padding: EdgeInsets.all(size.height * 0.028),
                         ),
                         onPressed: _loginForm,
-                        child: Text('Sign In'),
+                        child: const Text('Sign In'),
                       ),
                       SizedBox(height: size.height * 0.026),
                       Row(
@@ -266,7 +222,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 "SignUp",
                                 style: GoogleFonts.montserrat(
                                     fontSize: size.height * 0.022,
-                                    color: Color.fromARGB(255, 42, 129, 201),
+                                    color:
+                                        const Color.fromARGB(255, 42, 129, 201),
                                     fontWeight: FontWeight.bold),
                               ),
                             ),
@@ -287,7 +244,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               "forgot password ?",
                               style: GoogleFonts.lato(
                                 fontSize: size.height * 0.020,
-                                color: Color.fromARGB(255, 42, 129, 201)
+                                color: const Color.fromARGB(255, 42, 129, 201)
                                     .withOpacity(0.6),
                               ),
                             ),
