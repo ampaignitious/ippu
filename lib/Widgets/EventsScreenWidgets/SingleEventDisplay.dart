@@ -42,11 +42,7 @@ class SingleEventDisplay extends StatefulWidget {
 }
 
 class _SingleEventDisplayState extends State<SingleEventDisplay> {
-  //
-//   http://app.ippu.or.ug/api/cpds/attend(POST)
-// parameters
-// -user_id
-// -cpd_id
+
 
   //
   @override

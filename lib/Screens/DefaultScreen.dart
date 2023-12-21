@@ -2,6 +2,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ippu/Providers/ProfilePicProvider.dart';
+import 'package:ippu/Providers/SubscriptionStatus.dart';
 import 'package:ippu/Providers/network.dart';
 import 'package:ippu/Screens/CommunicationScreen.dart';
 import 'package:ippu/Screens/CpdsScreen.dart';
@@ -77,18 +78,18 @@ class _DefaultScreenState extends State<DefaultScreen> {
         
         UserData profile = UserData(
           id: userData['id'],
-          name: userData['name'] ?? "",
-          email: userData['email'] ?? "",
+          name: userData['name'].toString(),
+          email: userData['email'].toString(),
           gender: userData['gender'].toString(),
-          dob: userData['dob'] ?? "",
-          membership_number: userData['membership_number'] ?? "",
-          address: userData['address'] ?? "",
-          phone_no: userData['phone_no'] ?? "",
-          alt_phone_no: userData['alt_phone_no'] ?? "",
-          nok_name: userData['nok_name'] ?? "",
-          nok_address: userData['nok_address'] ?? "",
-          nok_phone_no: userData['nok_phone_no'] ?? "",
-          points: userData['points'] ?? "",
+          dob: userData['dob'].toString(),
+          membership_number: userData['membership_number'].toString(),
+          address: userData['address'].toString(),
+          phone_no: userData['phone_no'].toString(),
+          alt_phone_no: userData['alt_phone_no'].toString(),
+          nok_name: userData['nok_name'].toString(),
+          nok_address: userData['nok_address'].toString(),
+          nok_phone_no: userData['nok_phone_no'].toString(),
+          points: userData['points'].toString(),
           subscription_status: userData['subscription_status'].toString(),
           profile_pic: userData['profile_pic'] ??
               "https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes-thumbnail.png",
@@ -98,10 +99,10 @@ class _DefaultScreenState extends State<DefaultScreen> {
           Provider.of<UserProvider>(context, listen: false).setUser(profile);
           Provider.of<ProfilePicProvider>(context, listen: false)
               .setProfilePic(profile.profile_pic);
-          Provider.of<UserProvider>(context, listen: false)
-              .setSubscriptionStatus(profile.subscription_status.toString());
+          Provider.of<SubscriptionStatusProvider>(context, listen: false)
+              .setSubscriptionStatus(profile.subscription_status!);
                     Provider.of<UserProvider>(context, listen: false)
-          .setProfileStatus(await checkProfileStatus(profile));
+          .setProfileStatus(profile.checkifAnyIsNull());
         }
 
         return profile;
@@ -128,23 +129,6 @@ return null;  }
     });
   }
 
- 
-
-  //check if the user's profile is complete
-  Future<bool> checkProfileStatus(UserData user) async {
-    if (user.gender == null &&
-        user.dob == null &&
-        user.membership_number == null &&
-        user.address == null &&
-        user.phone_no == null &&
-        user.nok_name == null &&
-        user.nok_phone_no == null) {
-      print("gender: ${user.gender}");
-      return false;
-    } else {
-      return true;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -163,7 +147,7 @@ return null;  }
               final profileStatus =
                   Provider.of<UserProvider>(context, listen: false)
                       .profileStatusCheck;
-              if (profileStatus == false) {
+              if (profileStatus == true) {
                 _showDialog();
                 return;
               }

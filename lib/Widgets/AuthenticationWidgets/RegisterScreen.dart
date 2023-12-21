@@ -141,7 +141,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final size = MediaQuery.of(context).size;
     var _selectedValueIndex;
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -342,7 +342,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         padding: EdgeInsets.all(size.height * 0.028),
                       ),
                       onPressed: _submitForm,
-                      child: Text('Register'),
+                      child: Text('Register', style: GoogleFonts.lato(
+                        color: Colors.white,
+                        fontSize: size.height * 0.022,
+                      )),
                     ),
                     SizedBox(height: size.height * 0.026),
                     Row(

@@ -72,7 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(
@@ -113,14 +113,14 @@ class _LoginScreenState extends State<LoginScreen> {
             Text("Login Page",
                 style: GoogleFonts.montserrat(
                     fontSize: size.height * 0.047,
-                    color: Color.fromARGB(255, 42, 129, 201),
+                    color: const Color.fromARGB(255, 42, 129, 201),
                     fontWeight: FontWeight.bold,
                     letterSpacing: 1)),
             SizedBox(height: size.height * 0.029),
             Text(
               "Sign in to continue to IPPU Membership App",
               style: GoogleFonts.lato(
-                color: Color.fromARGB(255, 42, 129, 201).withOpacity(0.4),
+                color: const Color.fromARGB(255, 42, 129, 201).withOpacity(0.4),
               ),
             ),
             SizedBox(
@@ -192,7 +192,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           padding: EdgeInsets.all(size.height * 0.028),
                         ),
                         onPressed: _loginForm,
-                        child: const Text('Sign In'),
+                        child: const Text('Sign In', style: TextStyle(color: Colors.white, fontSize: 25)),
                       ),
                       SizedBox(height: size.height * 0.026),
                       Row(

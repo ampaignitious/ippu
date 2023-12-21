@@ -157,7 +157,7 @@ class _AuthRestClient implements AuthRestClient {
     )
         .compose(
           _dio.options,
-          '/update-profile-photo/${userId}',
+          '/update-profile-photo',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -335,6 +335,28 @@ class _AuthRestClient implements AuthRestClient {
         .compose(
           _dio.options,
           '/upcoming-events',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = _result.data;
+    return value;
+  }
+
+  @override
+  Future<dynamic> subscribe() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch(_setStreamType<dynamic>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/subscribe',
           queryParameters: queryParameters,
           data: _data,
         )

@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:ippu/Providers/SubscriptionStatus.dart';
 import 'package:ippu/Screens/ProfileScreen.dart';
 import 'package:ippu/Widgets/HomeScreenWidgets/FirstSetOfRows.dart';
 import 'package:ippu/Widgets/HomeScreenWidgets/StatDisplayRow.dart';
@@ -162,10 +163,10 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection>
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final status =
-        Provider.of<UserProvider>(context, listen: false).getSubscriptionStatus;
+       String? status= context.watch<SubscriptionStatusProvider>().status;
+
+        print("Sub Status: $status");
     final profileStatus = context.watch<UserProvider>().profileStatusCheck;
-        print("profile status $profileStatus");
 
     return Stack(
       children: [
@@ -303,8 +304,8 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection>
         //
         //
         // container displaying the notifcation
-        !profileStatus! ? Center(
-                child: isProfileIncomplete
+        profileStatus! ? Center(
+                child: profileStatus
                     ? Container(
                         height: size.height * 0.08,
                         width: size.width * 0.95,

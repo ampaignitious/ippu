@@ -23,6 +23,9 @@ class EditProfile extends StatefulWidget {
 class _EditProfileState extends State<EditProfile> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController _dateController = TextEditingController();
+  late Future<UserData> userDataFuture;
+  late Future<dynamic> profileData;
+  late UserData userDataProfile;
 
   String name = '';
   String gender = '';
@@ -34,8 +37,10 @@ class _EditProfileState extends State<EditProfile> {
   String nokName = '';
   String nokAddress = '';
   String nokPhoneNo = '';
-//
-//
+
+  bool isMale = false;
+  bool isFemale = false;
+
   late ImageProvider _avatarImage;
 
   FocusNode _dateFocusNode = FocusNode();
@@ -45,8 +50,22 @@ class _EditProfileState extends State<EditProfile> {
     _avatarImage = NetworkImage(
         Provider.of<ProfilePicProvider>(context, listen: false).profilePic);
     //set date controller from user data
-    final userData = Provider.of<UserProvider>(context, listen: false).user;
-    _dateController.text = userData!.dob!;
+
+    profileData = loadProfile();
+
+    //set the date controller to the date field from profileData
+    profileData.then((value) {
+      _dateController.text = value.dob ?? '';
+
+      //set gender
+      if (value.gender != null) {
+        setState(() {
+          gender = value.gender!;
+          isMale = gender == 'male';
+          isFemale = gender == 'female';
+        });
+      }
+    });
   }
 
   Future<void> _pickImage() async {
@@ -118,305 +137,374 @@ class _EditProfileState extends State<EditProfile> {
     super.dispose();
   }
 
+  Future<UserData> loadProfile() async {
+    AuthController authController = AuthController();
+    try {
+      final response = await authController.getProfile();
+      if (response.containsKey("error")) {
+        throw Exception("The return is an error");
+      } else {
+        if (response['data'] != null) {
+          // Access the user object directly from the 'data' key
+          Map<String, dynamic> userData = response['data'];
+
+          UserData profile = UserData(
+            id: userData['id'],
+            name: userData['name'] ?? "",
+            email: userData['email'] ?? "",
+            gender: userData['gender'],
+            dob: userData['dob'] ?? "",
+            membership_number: userData['membership_number'] ?? "",
+            address: userData['address'] ?? "",
+            phone_no: userData['phone_no'] ?? "",
+            alt_phone_no: userData['alt_phone_no'] ?? "",
+            nok_name: userData['nok_name'] ?? "",
+            nok_address: userData['nok_address'] ?? "",
+            nok_phone_no: userData['nok_phone_no'] ?? "",
+            points: userData['points'] ?? "",
+            subscription_status: userData['subscription_status'].toString(),
+            profile_pic: userData['profile_pic'] ??
+                "https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes-thumbnail.png",
+          );
+
+          return profile;
+        } else {
+          // Handle the case where the 'data' field in the API response is null
+          throw Exception("You currently have no data");
+        }
+      }
+    } catch (error) {
+      print("catched error: $error");
+      throw Exception("An error occurred while loading the profile");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final userData = Provider.of<UserProvider>(context).user;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        const SizedBox(height: 20),
-        Stack(
-          alignment: Alignment.center,
-          children: [
-            CircleAvatar(
-              radius: 60,
-              backgroundImage: _avatarImage,
+    return FutureBuilder(
+      future: profileData,
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return const Scaffold(
+            body: Center(
+              child: Text('An error occurred'),
             ),
-            Positioned(
-              bottom: 0,
-              right: 0,
-              child: InkWell(
-                onTap: _pickImage,
-                child: const CircleAvatar(
-                  radius: 20,
-                  backgroundColor: Colors.blue,
-                  child: Icon(Icons.camera_alt, color: Colors.white),
+          );
+        }
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Scaffold(
+            backgroundColor: Colors.white,
+            body: Center(
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  Colors.blue, // Set the color of the spinner
                 ),
               ),
             ),
-          ],
-        ),
-        SizedBox(height: size.height * 0.014),
-        Text(
-          userData!.name,
-          style: GoogleFonts.lato(
-              fontSize: size.height * 0.03, fontWeight: FontWeight.bold),
-        ),
-        Text(
-          userData.email,
-          style: GoogleFonts.lato(color: Colors.grey),
-        ),
-        SizedBox(height: size.height * 0.02),
-        const Divider(height: 1),
-        SizedBox(height: size.height * 0.02),
-        const Text(
-          'Complete Profile',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Color.fromARGB(255, 42, 129, 201),
-          ),
-        ),
-        SizedBox(height: size.height * 0.02),
-        // a form for editing user profile to be added here
-        // UserProfileForm(),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: size.width * 0.016),
-          child: Column(
+          );
+        }
+        if (snapshot.hasData) {
+          //get user data
+          userDataProfile = snapshot.data as UserData;
+
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Form(
-                  key: _formKey,
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        TextFormField(
-                          decoration: InputDecoration(
-                            labelText: 'Name',
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20)),
-                          ),
-                          onSaved: (value) {
-                            name = value ?? userData.name;
-                          },
-                          initialValue: userData.name,
-                        ),
-                        SizedBox(height: size.height * 0.018),
-                        TextFormField(
-                          decoration: InputDecoration(
-                            labelText: 'Gender',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ),
-                          initialValue: userData.gender,
-                          onSaved: (value) {
-                            // Convert the entered value to lowercase before assigning it to 'gender'
-                            gender =
-                                (value ?? userData.gender)?.toLowerCase() ?? '';
-                          },
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'This field is required';
-                            }
-
-                            // Convert the entered value to lowercase for case-insensitive comparison
-                            String lowerCaseValue = value.toLowerCase();
-
-                            // Check if the value is either "male" or "female"
-                            if (lowerCaseValue != 'male' &&
-                                lowerCaseValue != 'female') {
-                              return 'Please enter either "male" or "female"';
-                            }
-
-                            return null;
-                          },
-                        ),
-
-                        //
-                        SizedBox(height: size.height * 0.018),
-                        TextFormField(
-                          controller: _dateController,
-                          decoration: InputDecoration(
-                            labelText: 'Date of Birth',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ),
-                          onTap: () => _selectDate(context, _dateController),
-                          onSaved: (value) {
-                            dob = (_dateController.text);
-                          },
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'this field is required';
-                            }
-
-                            //check if the person is 18 years and above
-                            final date = DateFormat('yyyy-MM-dd').parse(value);
-                            if (!isEighteenYearsAndAbove(date)) {
-                              return 'You must be 18 years and above';
-                            }
-                            return null;
-                          },
-                        ),
-                        SizedBox(height: size.height * 0.018),
-                        TextFormField(
-                          decoration: InputDecoration(
-                            labelText: 'Membership Number',
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20)),
-                          ),
-                          onSaved: (value) {
-                            membershipNumber =
-                                (value ?? userData.membership_number)!;
-                          },
-                          initialValue: userData.membership_number,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'this field is required';
-                            }
-                            return null;
-                          },
-                        ),
-                        SizedBox(height: size.height * 0.018),
-                        TextFormField(
-                          decoration: InputDecoration(
-                            labelText: 'Address',
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20)),
-                          ),
-                          onSaved: (value) {
-                            address = (value ?? userData.address)!;
-                          },
-                          initialValue: userData.address,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'this field is required';
-                            }
-                            return null;
-                          },
-                        ),
-                        SizedBox(height: size.height * 0.018),
-                        TextFormField(
-                          decoration: InputDecoration(
-                            labelText: 'Phone Number',
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20)),
-                          ),
-                          onSaved: (value) {
-                            phoneNo = (value ?? userData.phone_no)!;
-                          },
-                          initialValue: userData.phone_no,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'this field is required';
-                            }
-                            return null;
-                          },
-                        ),
-                        SizedBox(height: size.height * 0.018),
-                        TextFormField(
-                          decoration: InputDecoration(
-                            labelText: 'Alternate Phone Number',
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20)),
-                          ),
-                          onSaved: (value) {
-                            altPhoneNo = (value ?? userData.alt_phone_no)!;
-                          },
-                          initialValue: userData.alt_phone_no,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'this field is required';
-                            }
-                            return null;
-                          },
-                        ),
-                        SizedBox(height: size.height * 0.018),
-                        TextFormField(
-                          decoration: InputDecoration(
-                            labelText: 'Next of Kin Name',
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20)),
-                          ),
-                          onSaved: (value) {
-                            nokName = (value ?? userData.nok_name)!;
-                          },
-                          initialValue: userData.nok_name,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'this field is required';
-                            }
-                            return null;
-                          },
-                        ),
-                        SizedBox(height: size.height * 0.018),
-                        TextFormField(
-                          decoration: InputDecoration(
-                            labelText: 'Next of Kin Address',
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20)),
-                          ),
-                          onSaved: (value) {
-                            nokAddress = (value ?? userData.nok_address)!;
-                          },
-                          initialValue: userData.nok_address,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'this field is required';
-                            }
-                            return null;
-                          },
-                        ),
-                        SizedBox(height: size.height * 0.018),
-                        TextFormField(
-                          decoration: InputDecoration(
-                            labelText: 'Next of Kin Phone Number',
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20)),
-                          ),
-                          onSaved: (value) {
-                            nokPhoneNo = (value ?? userData.nok_phone_no)!;
-                          },
-                          initialValue: userData.nok_phone_no,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'this field is required';
-                            }
-                            return null;
-                          },
-                        ),
-                        SizedBox(height: size.height * 0.018),
-                      ]))
-            ],
-          ),
-        ),
-        // form ends here
-        SizedBox(height: size.height * 0.01),
-        Center(
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color.fromARGB(
-                  255, 42, 129, 201), // Change button color to green
-              padding: EdgeInsets.all(size.height * 0.024),
-            ),
-            onPressed: _submitForm,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: size.width * 0.12),
-              child: Text(
-                'update profile',
-                style: GoogleFonts.lato(),
+              const SizedBox(height: 20),
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  CircleAvatar(
+                    radius: 60,
+                    backgroundImage: _avatarImage,
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    right: 0,
+                    child: InkWell(
+                      onTap: _pickImage,
+                      child: const CircleAvatar(
+                        radius: 20,
+                        backgroundColor: Colors.blue,
+                        child: Icon(Icons.camera_alt, color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ),
+              SizedBox(height: size.height * 0.014),
+              Text(
+                userDataProfile.name,
+                style: GoogleFonts.lato(
+                    fontSize: size.height * 0.03, fontWeight: FontWeight.bold),
+              ),
+              Text(
+                userDataProfile.email,
+                style: GoogleFonts.lato(color: Colors.grey),
+              ),
+              SizedBox(height: size.height * 0.02),
+              const Divider(height: 1),
+              SizedBox(height: size.height * 0.02),
+              const Text(
+                'Complete Profile',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(255, 42, 129, 201),
+                ),
+              ),
+              SizedBox(height: size.height * 0.02),
+              // a form for editing user profile to be added here
+              // UserProfileForm(),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: size.width * 0.016),
+                child: Column(
+                  children: [
+                    Form(
+                        key: _formKey,
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              TextFormField(
+                                decoration: InputDecoration(
+                                  labelText: 'Name',
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20)),
+                                ),
+                                onSaved: (value) {
+                                  name = value ?? userDataProfile.name;
+                                },
+                                initialValue: userDataProfile.name,
+                              ),
+                              SizedBox(height: size.height * 0.018),
+                              Text("Gender:", style: GoogleFonts.lato(
+                                color: Colors.grey,
+                                fontSize: size.height * 0.018,
+                              )),
+                              Row(
+                                children: [
+                                  Radio(
+                                    value: 'male',
+                                    groupValue: gender,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        gender = value.toString();
+                                        isMale = true;
+                                        isFemale = false;
+                                      });
+                                    },
+                                  ),
+                                  Text('Male'),
+                                  Radio(
+                                    value: 'female',
+                                    groupValue: gender,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        gender = value.toString();
+                                        isMale = false;
+                                        isFemale = true;
+                                      });
+                                    },
+                                  ),
+                                  Text('Female'),
+                                ],
+                              ),
+                              SizedBox(height: size.height * 0.018),
+                              TextFormField(
+                                controller: _dateController,
+                                decoration: InputDecoration(
+                                  labelText: 'Date of Birth',
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                ),
+                                onTap: () =>
+                                    _selectDate(context, _dateController),
+                                onSaved: (value) {
+                                  dob = (_dateController.text);
+                                },
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'this field is required';
+                                  }
+
+                                  //check if the person is 18 years and above
+                                  final date =
+                                      DateFormat('yyyy-MM-dd').parse(value);
+                                  if (!isEighteenYearsAndAbove(date)) {
+                                    return 'You must be 18 years and above';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              SizedBox(height: size.height * 0.018),
+                              TextFormField(
+                                decoration: InputDecoration(
+                                  labelText: 'Membership Number',
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                ),
+                                onSaved: (value) {
+                                  membershipNumber = value ??
+                                      userDataProfile.membership_number ??
+                                      '';
+                                },
+                                initialValue:
+                                    userDataProfile.membership_number ?? '',
+                                enabled: false,
+                              ),
+                              SizedBox(height: size.height * 0.018),
+                              TextFormField(
+                                decoration: InputDecoration(
+                                  labelText: 'Place of Residence',
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20)),
+                                ),
+                                onSaved: (value) {
+                                  address = (value ?? userDataProfile.address)!;
+                                },
+                                initialValue: userDataProfile.address,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'this field is required';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              SizedBox(height: size.height * 0.018),
+                              TextFormField(
+                                decoration: InputDecoration(
+                                  labelText: 'Phone Number',
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20)),
+                                ),
+                                onSaved: (value) {
+                                  phoneNo =
+                                      (value ?? userDataProfile.phone_no)!;
+                                },
+                                initialValue: userDataProfile.phone_no,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'this field is required';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              SizedBox(height: size.height * 0.018),
+                              TextFormField(
+                                decoration: InputDecoration(
+                                  labelText: 'Alternate Phone Number',
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20)),
+                                ),
+                                onSaved: (value) {
+                                  altPhoneNo =
+                                      (value ?? userDataProfile.alt_phone_no)!;
+                                },
+                                initialValue: userDataProfile.alt_phone_no,
+                              ),
+                              SizedBox(height: size.height * 0.018),
+                              TextFormField(
+                                decoration: InputDecoration(
+                                  labelText: 'Next of Kin Name',
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20)),
+                                ),
+                                onSaved: (value) {
+                                  nokName =
+                                      (value ?? userDataProfile.nok_name)!;
+                                },
+                                initialValue: userDataProfile.nok_name,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'this field is required';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              SizedBox(height: size.height * 0.018),
+                              TextFormField(
+                                decoration: InputDecoration(
+                                  labelText: 'Next of Kin Address',
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20)),
+                                ),
+                                onSaved: (value) {
+                                  nokAddress =
+                                      (value ?? userDataProfile.nok_address)!;
+                                },
+                                initialValue: userDataProfile.nok_address,
+                              ),
+                              SizedBox(height: size.height * 0.018),
+                              TextFormField(
+                                decoration: InputDecoration(
+                                  labelText: 'Next of Kin Phone Number',
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20)),
+                                ),
+                                onSaved: (value) {
+                                  nokPhoneNo =
+                                      (value ?? userDataProfile.nok_phone_no)!;
+                                },
+                                initialValue: userDataProfile.nok_phone_no,
+                              ),
+                              SizedBox(height: size.height * 0.018),
+                            ]))
+                  ],
+                ),
+              ),
+              // form ends here
+              SizedBox(height: size.height * 0.01),
+              Center(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(
+                        255, 42, 129, 201), // Change button color to green
+                    padding: EdgeInsets.all(size.height * 0.024),
+                  ),
+                  onPressed: _submitForm,
+                  child: Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: size.width * 0.12),
+                    child: Text(
+                      'update profile',
+                      style: GoogleFonts.lato(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: size.height * 0.018),
+            ],
+          );
+        }
+        return const Scaffold(
+          body: Center(
+            child: Text('An error occurred'),
           ),
-        ),
-        SizedBox(height: size.height * 0.018),
-      ],
+        );
+      },
     );
   }
 
-  // ...
-  // date picker function
-  //
   Future<void> _selectDate(
       BuildContext context, TextEditingController controller) async {
+    DateTime currentDate = DateTime.now();
+    DateTime eighteenYearsAgo = currentDate.subtract(Duration(days: 18 * 365));
+
     final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(1920),
-      lastDate: DateTime(2101),
-    );
+        context: context,
+        //initial date starts from date.now minus 18 years
+        initialDate: DateTime(eighteenYearsAgo.year, eighteenYearsAgo.month,
+            eighteenYearsAgo.day),
+        firstDate: DateTime(1920),
+        lastDate: DateTime(2101),
+        //selectable date starts from date.now minus 18 years
+        selectableDayPredicate: (DateTime date) =>
+            date.isBefore(currentDate.subtract(Duration(days: 18 * 365 - 1))));
     if (picked != null) {
       // Update the selected date in the text field
       final formattedDate = DateFormat('yyyy-MM-dd').format(picked);
@@ -425,8 +513,6 @@ class _EditProfileState extends State<EditProfile> {
       });
     }
   }
-  //
-  //
 
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
@@ -462,12 +548,13 @@ class _EditProfileState extends State<EditProfile> {
         body: jsonEncode(userDataMap),
         headers: {
           'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer ${userData?.token}'
         },
       );
+      print("response-code: ${response.statusCode}");
       CircleAvatar();
       if (response.statusCode == 200) {
-        Provider.of<UserProvider>(context, listen: false)
-            .setProfileStatus(true);
         // Handle a successful API response
         print('Data sent successfully');
         CircleAvatar();
@@ -476,7 +563,7 @@ class _EditProfileState extends State<EditProfile> {
             MaterialPageRoute(builder: ((context) => ProfileScreen())));
       } else {
         // Handle errors or unsuccessful response
-        showBottomNotification('Update faild, check your internet');
+        showBottomNotification('Update failed, please try again');
         print('Failed to send data to API');
       }
     } catch (error) {

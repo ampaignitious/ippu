@@ -5,7 +5,7 @@ class UserData {
   final String? token;
   final String? gender;
   late final String? dob;
-  final String? membership_number;
+  String? membership_number;
   final String? address;
   final String? phone_no;
   final String? points;
@@ -34,4 +34,12 @@ class UserData {
     this.nok_phone_no,
     required this.profile_pic
   });
+
+  bool checkifAnyIsNull(){
+    print("gender: $gender");
+    print("dob: $dob");
+    print("address: $address");
+    print("phone_no: $phone_no");
+    return [gender, dob, address, phone_no].contains('null');
+  }
 }

@@ -54,8 +54,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
   Widget build(BuildContext context) {
       final userData = Provider.of<UserProvider>(context).user;
       var profilePhoto = NetworkImage(context.watch<ProfilePicProvider>().profilePic);
-          final profileStatus =
-        Provider.of<UserProvider>(context, listen: false).profileStatusCheck;
+      final profileStatus = context.watch<UserProvider>().profileStatusCheck;
+      print("profile status-drawer: $profileStatus");
     return SingleChildScrollView(
       child: Column(
             children: [
@@ -92,7 +92,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               InkWell(
                 onTap:(){
                   //check if profile is incomplete
-                  if(profileStatus==false){
+                  if(profileStatus==true){
                           Navigator.pop(context);
                           _showDialog();
                   }
@@ -115,7 +115,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                InkWell(
                 onTap: (){
                   //check if profile is incomplete
-                  if(profileStatus==false){
+                  if(profileStatus==true){
                           Navigator.pop(context);
                           _showDialog();
                   }
@@ -140,7 +140,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               InkWell(
                 onTap: (){
                 //check if profile is incomplete
-                  if(profileStatus==false){
+                  if(profileStatus==true){
                           Navigator.pop(context);
                           _showDialog();
                   }
@@ -164,7 +164,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               InkWell(
                 onTap: (){
                 //check if profile is incomplete
-                  if(profileStatus==false){
+                  if(profileStatus==true){
                           Navigator.pop(context);
                           _showDialog();
                   }
@@ -186,7 +186,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 InkWell(
                   onTap: (){
                   //check if profile is incomplete
-                  if(profileStatus==false){
+                  if(profileStatus==true){
                           Navigator.pop(context);
                           _showDialog();
                   }
@@ -210,7 +210,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               InkWell(
                 onTap: (){
                  //check if profile is incomplete
-                  if(profileStatus==false){
+                  if(profileStatus==true){
                           Navigator.pop(context);
                           _showDialog();
                   }

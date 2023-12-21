@@ -18,13 +18,16 @@ class AppEndpoints {
   static const String accountTypesEndPoint = "/account-types";
   static const String communicationsEndPoint = "/communications/{user_id}}";
   static const String fcmToken ="/fcm-device-token";
-  static const String uploadProfilePicture ="/update-profile-photo/{user}";
+  static const String uploadProfilePicture ="/update-profile-photo";
   static const String userProfile = "/profile";
 
   static const int timeout =
       30; // Increase or decrease as per your requirement.
   static String refreshToken = 'refresh_token';
   static String keyForJWTToken = 'accessToken';
+
+  //subscribe
+  static const String subscribe = "/subscribe";
 }
 
 

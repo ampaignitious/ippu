@@ -58,4 +58,7 @@ abstract class AuthRestClient {
 
   @GET(AppEndpoints.upcomingEventsEndPoint)
   Future<dynamic> getUpcomingEvents();
+  
+  @POST(AppEndpoints.subscribe)
+  Future<dynamic> subscribe();
 }

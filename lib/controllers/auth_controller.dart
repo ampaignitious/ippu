@@ -298,31 +298,50 @@ Future<String> checkForFcmToken() async {
     final dio = Dio();
     final client = AuthRestClient(dio);
     dio.options.headers['Authorization'] = "Bearer ${await getAccessToken()}";
-    //add accept header
     dio.options.headers['Accept'] = "application/json";
 
     try {
       final response = await client.store(user_id, attach!);
       //check if response contains message
       if (response.containsKey('message')) {
-        print("success: $response");
-        print("profile_photo_path: ${response['profile_photo_path']}");
         return {
           "message": "Profile picture uploaded successfully",
           "profile_photo_path": response['profile_photo_path'],
         };
         
       } else {
-        print("not contains message: $response");
         return {
           "error": "Failed to upload profile picture",
           "status": "error",
         };
       }
     } catch (e) {
-      print("catch error: $e");
       return {
         "error": "Failed to upload profile picture",
+        "status": "error",
+      };
+    }
+  }
+
+  //subscribe
+  Future<Map<String, dynamic>> subscribe() async {
+    final dio = Dio();
+    final client = AuthRestClient(dio);
+    dio.options.headers['Authorization'] = "Bearer ${await getAccessToken()}";
+    try {
+      final response = await client.subscribe();
+      //check if response contains message
+      if (response.containsKey('message')) {
+        return response;
+      } else {
+        return {
+          "error": "Failed to subscribe",
+          "status": "error",
+        };
+      }
+    } catch (e) {
+      return {
+        "error": "Failed to subscribe",
         "status": "error",
       };
     }

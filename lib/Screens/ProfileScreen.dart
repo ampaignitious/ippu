@@ -2,12 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ippu/Screens/DefaultScreen.dart';
+import 'package:ippu/Providers/SubscriptionStatus.dart';
 import 'package:ippu/Widgets/DrawerWidget/DrawerWidget.dart';
 import 'package:ippu/Widgets/ProfileWidgets/EditProfile.dart';
 import 'package:ippu/Widgets/ProfileWidgets/InformationScreen.dart';
-import 'package:ippu/models/UserProvider.dart';
-import 'package:http/http.dart' as http;
+import 'package:ippu/controllers/auth_controller.dart';
 import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -36,41 +35,29 @@ class _ProfileScreenState extends State<ProfileScreen>
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final status =
-        Provider.of<UserProvider>(context, listen: false).getSubscriptionStatus;
-    // final status2 = Provider.of<UserProvider>(context, listen: false).getSubscriptionStatus2;
-
-    //
+    String? status= context.watch<SubscriptionStatusProvider>().status;
     return Scaffold(
       drawer: Drawer(
         width: size.width * 0.8,
-        child: DrawerWidget(),
+        child: const DrawerWidget(),
       ),
       appBar: AppBar(
-        title: Text('Profile'),
-        backgroundColor: Color.fromARGB(255, 42, 129, 201),
+        title: const Text('Profile'),
+        backgroundColor: const Color.fromARGB(255, 42, 129, 201),
         elevation: 0,
         actions: [
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Padding(
                 padding: EdgeInsets.only(right: size.width * 0.016),
-                child: status == false
-                    ? Text(
-                        "Subscribed",
+                child:Text(
+                        (status=="false")?"No Subscription":"Subscription:$status",
                         style: GoogleFonts.lato(
-                          fontSize: size.height * 0.015,
-                          color: Color.fromARGB(255, 31, 202, 59),
-                          // fontWeight: FontWeigh
+                          fontSize: size.height * 0.020,
+                          color: (status=="Pending")?Colors.yellowAccent:(status=="Approved")?Colors.green:(status=="Denied")?Colors.red:Colors.white,
+                        fontWeight: FontWeight.bold
                         ),
                       )
-                    : Text(
-                        "Not Subscribed",
-                        style: GoogleFonts.lato(
-                          fontSize: size.height * 0.015,
-                          color: const Color.fromARGB(255, 153, 35, 35),
-                          // fontWeight: FontWeigh
-                        ),
-                      )),
+                    ),
           ])
         ],
         bottom: TabBar(
@@ -139,9 +126,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                         ),
                       )
                     : Text(''),
-                //
-                //
-                Container(
+                SizedBox(
                     height: size.height * 0.9,
                     width: double.maxFinite,
                     child: InformationScreen()),
@@ -150,7 +135,7 @@ class _ProfileScreenState extends State<ProfileScreen>
           ),
 
           // Edit Profile Tab Content
-          SingleChildScrollView(
+          const SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -166,35 +151,26 @@ class _ProfileScreenState extends State<ProfileScreen>
   }
 
   Future<void> sendRequest() async {
-    final userData = Provider.of<UserProvider>(context, listen: false).user;
-    final url = 'https://ippu.org/api/subscribe';
+    AuthController authController = AuthController();
 
-    // Create the request body
-    final body = {
-      'user_id': userData!.id.toString(),
-      'auth_token': userData.token,
-    };
-
+    //try catch
     try {
-      final response = await http.post(
-        Uri.parse(url),
-        body: body,
-      );
-      CircularProgressIndicator();
-      if (response.statusCode == 200) {
-        // Successful response, return the response body as a message
-        showBottomNotification(
-            'Subscription application submitted successfully, check your email address');
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return DefaultScreen();
-        }));
+      final response = await authController.subscribe();
+      //check if response contains message key
+      if (response.containsKey("message")) {
+        //notify the SubscriptionStatusProvider
+        if(mounted){
+        context.read<SubscriptionStatusProvider>().setSubscriptionStatus("Pending");
+        }
+        //show bottom notification
+        showBottomNotification("your request has been sent! You will be approved");
       } else {
-        // If the request was not successful, throw an exception
-        throw Exception('Failed to send request: ${response.statusCode}');
+        //show bottom notification
+        showBottomNotification("Something went wrong");
       }
-    } catch (error) {
-      // Handle any errors that occurred during the request
-      throw Exception('Failed to send request: $error');
+    } catch (e) {
+      print(e);
+      showBottomNotification("Something went wrong");
     }
   }
 

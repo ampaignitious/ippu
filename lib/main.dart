@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:ippu/Providers/ProfilePicProvider.dart';
+import 'package:ippu/Providers/SubscriptionStatus.dart';
 import 'package:ippu/Providers/auth.dart';
 import 'package:ippu/Providers/network.dart';
 import 'package:ippu/Screens/DefaultScreen.dart';
@@ -77,6 +79,8 @@ class _MyAppState extends State<MyApp> {
         ),
         ChangeNotifierProvider(create: (context) => ProfilePicProvider()),
         ChangeNotifierProvider(create: (context) => AuthProvider()),
+        ChangeNotifierProvider(
+            create: (context) => SubscriptionStatusProvider()),
         ChangeNotifierProvider(create: (context) => CheckNetworkConnectivity()),
       ],
       child: OverlaySupport(
@@ -85,6 +89,25 @@ class _MyAppState extends State<MyApp> {
           title: 'IPPU Membership APP',
           theme: ThemeData(
             primarySwatch: Colors.blue,
+            textTheme: GoogleFonts.latoTextTheme(
+              Theme.of(context).textTheme,
+            ).copyWith(
+              bodyLarge: const TextStyle(
+                color: Colors.blue, // Set your desired text color here
+              ),
+              bodyMedium: const TextStyle(
+                color: Colors.blue, // Set your desired text color here
+              ),
+              bodySmall: const TextStyle(
+                color: Colors.blue, // Set your desired text color here
+              ),
+              displayLarge: const TextStyle(
+                color: Colors.blue, // Set your desired text color here
+              ),
+              displayMedium: const TextStyle(
+                color: Colors.blue, // Set your desired text color here
+              ),
+            ),
           ),
           home: isLoading
               ? const Scaffold(
