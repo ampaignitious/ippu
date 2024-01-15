@@ -21,8 +21,13 @@ class AppEndpoints {
   static const String uploadProfilePicture ="/update-profile-photo";
   static const String userProfile = "/profile";
 
+  static const String myCpdsEndPoint ="/attended-cpds/";
+
+  static const String downloadEventCertificate = "/events/certificate/{event}";
+  static const String downloadCpdCertificate = "/cpds/certificate/{cpd}";
+
   static const int timeout =
-      30; // Increase or decrease as per your requirement.
+      30; 
   static String refreshToken = 'refresh_token';
   static String keyForJWTToken = 'accessToken';
 

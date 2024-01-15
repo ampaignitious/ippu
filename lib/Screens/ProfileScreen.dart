@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -35,37 +34,52 @@ class _ProfileScreenState extends State<ProfileScreen>
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    String? status= context.watch<SubscriptionStatusProvider>().status;
+    String? status = context.watch<SubscriptionStatusProvider>().status;
     return Scaffold(
       drawer: Drawer(
         width: size.width * 0.8,
         child: const DrawerWidget(),
       ),
       appBar: AppBar(
-        title: const Text('Profile'),
+        title: const Text(
+          'Profile',
+          style: TextStyle(color: Colors.white),
+        ),
         backgroundColor: const Color.fromARGB(255, 42, 129, 201),
         elevation: 0,
         actions: [
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Padding(
                 padding: EdgeInsets.only(right: size.width * 0.016),
-                child:Text(
-                        (status=="false")?"No Subscription":"Subscription:$status",
-                        style: GoogleFonts.lato(
-                          fontSize: size.height * 0.020,
-                          color: (status=="Pending")?Colors.yellowAccent:(status=="Approved")?Colors.green:(status=="Denied")?Colors.red:Colors.white,
-                        fontWeight: FontWeight.bold
-                        ),
-                      )
-                    ),
+                child: Text(
+                  (status == "false")
+                      ? "No Subscription"
+                      : "Subscription:$status",
+                  style: GoogleFonts.lato(
+                      fontSize: size.height * 0.020,
+                      color: (status == "Pending")
+                          ? Colors.yellowAccent
+                          : (status == "Approved")
+                              ? Colors.green
+                              : (status == "Denied")
+                                  ? Colors.red
+                                  : Colors.white,
+                      fontWeight: FontWeight.bold),
+                )),
           ])
         ],
         bottom: TabBar(
           controller: _profileController,
           tabs: const [
-            Tab(text: 'Bio data'),
-            Tab(text: 'Edit Profile'),
+            Tab(
+              text: 'Bio data',
+            ),
+            Tab(
+              text: 'Edit Profile',
+            ),
           ],
+          indicatorColor: Colors.white, // Set the underline color to white
+          labelColor: Colors.white, // Set the selected tab text color to white
         ),
       ),
       body: TabBarView(
@@ -159,11 +173,14 @@ class _ProfileScreenState extends State<ProfileScreen>
       //check if response contains message key
       if (response.containsKey("message")) {
         //notify the SubscriptionStatusProvider
-        if(mounted){
-        context.read<SubscriptionStatusProvider>().setSubscriptionStatus("Pending");
+        if (mounted) {
+          context
+              .read<SubscriptionStatusProvider>()
+              .setSubscriptionStatus("Pending");
         }
         //show bottom notification
-        showBottomNotification("your request has been sent! You will be approved");
+        showBottomNotification(
+            "your request has been sent! You will be approved");
       } else {
         //show bottom notification
         showBottomNotification("Something went wrong");

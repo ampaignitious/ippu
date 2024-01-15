@@ -61,6 +61,9 @@ Future<String> checkForFcmToken() async {
         final accessToken = response['authorization']['token'];
         // Save the access token for later use
         await saveAccessToken(accessToken);
+
+        //save fcm token
+        await saveFcmToken(response['user']['id']);
         print("response: $response");
         return response;
       } else {
@@ -344,6 +347,80 @@ Future<String> checkForFcmToken() async {
         "error": "Failed to subscribe",
         "status": "error",
       };
+    }
+  }
+
+  Future<Map<String, dynamic>> downloadEventCertificate(int event) async {
+    final dio = Dio();
+    final client = AuthRestClient(dio);
+    dio.options.headers['Authorization'] = "Bearer ${await getAccessToken()}";
+    dio.options.headers['Accept'] = "application/json";
+    try {
+      final response = await client.downloadEventCertificate(event: event);
+      //check if response contains message
+      if (response.containsKey('message')) {
+        var certificate = response['data']['certificate'];
+        print("certificate: $certificate");
+        return {
+          "certificate": response['data']['certificate'],
+          "status": "success",  
+        };
+      } else {
+        return {
+          "error": "Failed to download certificate",
+          "status": "error",
+        };
+      }
+    } catch (e) {
+      print("catch error: $e");
+      return {
+        "error": "Failed to download certificate",
+        "status": "error",
+      };
+    }
+  }
+
+  Future<Map<String, dynamic>> downloadCpdCertificate(int cpd) async {
+    final dio = Dio();
+    final client = AuthRestClient(dio);
+    dio.options.headers['Authorization'] = "Bearer ${await getAccessToken()}";
+    dio.options.headers['Accept'] = "application/json";
+    try {
+      final response = await client.downloadCpdCertificate(cpd: cpd);
+      //check if response contains message
+      if (response.containsKey('message')) {
+        var certificate = response['data']['certificate'];
+        print("certificate: $certificate");
+        return {
+          "certificate": response['data']['certificate'],
+          "status": "success",  
+        };
+      } else {
+        return {
+          "error": "Failed to download certificate",
+          "status": "error",
+        };
+      }
+    } catch (e) {
+      print("catch error: $e");
+      return {
+        "error": "Failed to download certificate",
+        "status": "error",
+      };
+    }
+  }
+
+  //get my cpds
+  Future<List<dynamic>> getMyCpds() async {
+    final dio = Dio();
+    final client = AuthRestClient(dio);
+    dio.options.headers['Authorization'] = "Bearer ${await getAccessToken()}";
+    dio.options.headers['Accept'] = "application/json";
+    try {
+      final response = await client.getMyCpds();
+      return response['data'];
+    } catch (e) {
+      return [];
     }
   }
 }

@@ -148,7 +148,7 @@ class _EducationBackgroundScreenState extends State<EducationBackgroundScreen> {
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 42, 129, 201),
         elevation: 0,
-        title: Text("Education Background", style: GoogleFonts.lato()),
+        title: Text("Education Background", style: GoogleFonts.lato(color: Colors.white,)),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color.fromARGB(255, 42, 129, 201),
@@ -156,7 +156,7 @@ class _EducationBackgroundScreenState extends State<EducationBackgroundScreen> {
           _toggleFormVisibility(FormMode.Add);
         },
         tooltip: 'Add Education',
-        child: Icon(Icons.add),
+        child: Icon(Icons.add, color: Colors.white,),
       ),
       body: Column(
         children: [
@@ -275,7 +275,7 @@ class _EducationBackgroundScreenState extends State<EducationBackgroundScreen> {
                                           _populateFormFields(
                                               experience); // Pass the index here
                                         },
-                                        child: Icon(Icons.edit), // Edit Icon
+                                        child: Icon(Icons.edit, color: Colors.white), // Edit Icon
                                       ),
                                     ])
                                   ],

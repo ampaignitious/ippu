@@ -55,7 +55,6 @@ class _DrawerWidgetState extends State<DrawerWidget> {
       final userData = Provider.of<UserProvider>(context).user;
       var profilePhoto = NetworkImage(context.watch<ProfilePicProvider>().profilePic);
       final profileStatus = context.watch<UserProvider>().profileStatusCheck;
-      print("profile status-drawer: $profileStatus");
     return SingleChildScrollView(
       child: Column(
             children: [

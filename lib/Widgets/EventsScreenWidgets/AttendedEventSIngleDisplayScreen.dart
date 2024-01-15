@@ -1,15 +1,10 @@
-import 'dart:io';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:http/http.dart' as http;
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ippu/models/UserProvider.dart';
+import 'package:ippu/controllers/auth_controller.dart';
 import 'package:clean_dialog/clean_dialog.dart';
-import 'package:url_launcher/url_launcher.dart';
-
-
-import 'package:provider/provider.dart';
+import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 
 class AttendedEventSIngleDisplayScreen extends StatefulWidget {
   String name;
@@ -48,7 +43,7 @@ class AttendedEventSIngleDisplayScreen extends StatefulWidget {
 
 class _AttendedEventSIngleDisplayScreenState
     extends State<AttendedEventSIngleDisplayScreen> {
-  @override
+
   String name;
   String details;
   String points;
@@ -67,6 +62,10 @@ class _AttendedEventSIngleDisplayScreenState
     this.points,
     this.rate,
   );
+
+  double _progress = 0.0;
+  
+  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
@@ -276,13 +275,37 @@ class _AttendedEventSIngleDisplayScreenState
   //
   // printing certificate
   Future<void> renderCertificateInBrowser(String eventId) async {
-    final userData = Provider.of<UserProvider>(context, listen: false).user;
-    final userId = userData?.id;
-
-    final url =
-        Uri.parse('https://ippu.org/api/events/certificate/$userId/$eventId');
-    if (!await launchUrl(url)) {
-      throw Exception('Could not launch $url');
+    AuthController authController = AuthController();
+    try {
+      final response =
+          await authController.downloadEventCertificate(int.parse(eventId));
+      //check if response does not contain any error key
+      if (response.containsKey('error')) {
+        //show error message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Certificate download failed"),
+            backgroundColor: Colors.red,
+          ),
+        );
+      } else {
+        //certificate key from response
+        FileDownloader.downloadFile(
+          url: response['certificate'],
+          name: 'certificate.pdf',
+          downloadDestination: DownloadDestinations.appFiles,
+        );
+        //show dialog
+        _showDialog();
+      }
+    } catch (e) {
+      //show error message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Certificate download failed"),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
   }
 }

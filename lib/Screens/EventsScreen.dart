@@ -44,7 +44,7 @@ class _EventsScreenState extends State<EventsScreen>
         backgroundColor: Color.fromARGB(255, 42, 129, 201),
         title: Text(
           "Events page",
-          style: GoogleFonts.lato(fontSize: size.height * 0.02),
+          style: GoogleFonts.lato(fontSize: size.height * 0.02, color: Colors.white),
         ),
         elevation: 0,
         actions: [
@@ -53,17 +53,18 @@ class _EventsScreenState extends State<EventsScreen>
               Center(
                 child: Padding(
                   padding: EdgeInsets.only(right: size.width * 0.01),
-                  child: Icon(Icons.notifications_on),
+                  child: Icon(Icons.notifications_on, color: Colors.white,),
                 ),
               ),
               //
               Padding(
-                padding: EdgeInsets.only(right: size.width * 0.01),
+                padding: EdgeInsets.only(right: size.width * 0.01,),
                 child: Text(
                   "All events: ${event}",
                   style: GoogleFonts.lato(
                     fontSize: size.height * 0.014,
                     letterSpacing: 1,
+                    color: Colors.white,
                   ),
                 ),
               )
@@ -78,12 +79,12 @@ class _EventsScreenState extends State<EventsScreen>
             Tab(
               child: Row(
                 children: [
-                  Icon(Icons.event_sharp, size: size.height * 0.014),
+                  Icon(Icons.event_sharp, size: size.height * 0.014, color: Colors.white),
                   Padding(
                     padding: EdgeInsets.only(left: size.width * 0.008),
                     child: Text(
                       "All Events",
-                      style: GoogleFonts.lato(fontSize: size.height * 0.014),
+                      style: GoogleFonts.lato(fontSize: size.height * 0.014, color: Colors.white),
                     ),
                   ),
                 ],
@@ -92,12 +93,12 @@ class _EventsScreenState extends State<EventsScreen>
             Tab(
               child: Row(
                 children: [
-                  Icon(Icons.timeline, size: size.height * 0.014),
+                  Icon(Icons.timeline, size: size.height * 0.014, color: Colors.white),
                   Padding(
                     padding: EdgeInsets.only(left: size.width * 0.004),
                     child: Text(
                       "Upcoming Events",
-                      style: GoogleFonts.lato(fontSize: size.height * 0.013),
+                      style: GoogleFonts.lato(fontSize: size.height * 0.013,color: Colors.white),
                     ),
                   ),
                 ],
@@ -106,12 +107,12 @@ class _EventsScreenState extends State<EventsScreen>
             Tab(
               child: Row(
                 children: [
-                  Icon(Icons.event_seat, size: size.height * 0.014),
+                  Icon(Icons.event_seat, size: size.height * 0.014, color: Colors.white),
                   Padding(
                     padding: EdgeInsets.only(left: size.width * 0.008),
                     child: Text(
                       "My Events",
-                      style: GoogleFonts.lato(fontSize: size.height * 0.014),
+                      style: GoogleFonts.lato(fontSize: size.height * 0.014, color: Colors.white),
                     ),
                   ),
                 ],

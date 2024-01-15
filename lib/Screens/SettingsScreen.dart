@@ -15,7 +15,8 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  late bool isNotificationEnabled;
+  late Future<bool> isNotificationEnabled;
+  late bool isNotificationOn;
   //delete account function
   Future<void> _deleteAccount(int userId) async {
     //send  DELETE requet to the server for the account id
@@ -86,119 +87,125 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   void initState() {
     super.initState();
-
-    //get the notification permission status
-    getPermissionStatus().then((value) {
-      setState(() {
-        isNotificationEnabled = value;
-      });
-    });
+    isNotificationEnabled = getPermissionStatus();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: const Color.fromARGB(255, 42, 129, 201),
-        title: Text("Account Settings", style: GoogleFonts.lato()),
-      ),
-      body: Flexible(
-        child: Container(
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: Colors.red,
-              width: 1,
+    return FutureBuilder(
+      future: isNotificationEnabled,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          isNotificationOn = snapshot.data as bool;
+          return Scaffold(
+            appBar: AppBar(
+              elevation: 0,
+              backgroundColor: const Color.fromARGB(255, 42, 129, 201),
+              title: Text("Account Settings", style: GoogleFonts.lato(color: Colors.white)),
             ),
-          ),
-          child: Flexible(
-            child: Column(
-              children: [
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text("ACCOUNT SETTINGS",
-                      style: TextStyle(color: Colors.red, fontSize: 20)),
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    "Note: Deleting your Account will lead to loss of your data from our system, thus you will lose access to the application",
-                    style: TextStyle(color: Colors.blue, fontSize: 16),
+            body: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.red,
+                    width: 1,
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Flexible(
-                        child: Text("DANGER ZONE",
+                child: Column(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text("ACCOUNT SETTINGS",
                             style: TextStyle(color: Colors.red, fontSize: 20)),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.red),
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          "Note: Deleting your Account will lead to loss of your data from our system, thus you will lose access to the application",
+                          style: TextStyle(color: Colors.blue, fontSize: 16),
                         ),
-                        onPressed: () {
-                          final userData =
-                              Provider.of<UserProvider>(context, listen: false)
-                                  .user;
-                          final userId = userData
-                              ?.id; // Call the function to delete the account
-                          _showDialog(
-                              userId!,
-                              "Delete Account",
-                              "Are you sure you want to delete your account?",
-                              true);
-                        },
-                        child: const Flexible(
-                            child: Text(
-                          'DELETE ACCOUNT',
-                          style: TextStyle(color: Colors.white),
-                        )),
                       ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Flexible(
-                        child: Text("NOTIFICATIONS",
-                            style: TextStyle(color: Colors.blue, fontSize: 20)),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const SizedBox(width: 10),
-                          Switch(
-                            value:
-                                isNotificationEnabled, // Set this variable based on the user's preference
-                            onChanged: (value) async {
-                              bool status = await turnNotificationsOnOrOff();
-                              setState(() {
-                                isNotificationEnabled = status;
-                              });
-                            },
+                          const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child:Text("DANGER ZONE",
+                                  style: TextStyle(
+                                      color: Colors.red, fontSize: 20)),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ElevatedButton(
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all(Colors.red),
+                              ),
+                              onPressed: () {
+                                final userData = Provider.of<UserProvider>(
+                                        context,
+                                        listen: false)
+                                    .user;
+                                final userId = userData
+                                    ?.id; // Call the function to delete the account
+                                _showDialog(
+                                    userId!,
+                                    "Delete Account",
+                                    "Are you sure you want to delete your account?",
+                                    true);
+                              },
+                              child:Text(
+                                'DELETE ACCOUNT',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
                           ),
                         ],
                       ),
-                    ),
-                  ],
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child:Text("NOTIFICATIONS",
+                                  style: TextStyle(
+                                      color: Colors.blue, fontSize: 20)),
+                            ),
+                          
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                const SizedBox(width: 10),
+                                Switch(
+                                  value:
+                                      isNotificationOn, // Set this variable based on the user's preference
+                                  onChanged: (value) async {
+                                    bool status =
+                                        await turnNotificationsOnOrOff();
+                                    setState(() {
+                                      isNotificationOn = status;
+                                    });
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ],
-            ),
-          ),
-        ),
-      ),
+          );
+        } else if (snapshot.hasError) {
+          return const Center(
+            child: Text("Error"),
+          );
+        } else {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
     );
   }
 
@@ -216,9 +223,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   //turn notifications on or off
   Future<bool> turnNotificationsOnOrOff() async {
-      //turn notifications on
-      await Permission.notification.request();
-        var status = await Permission.notification.status;
+    //turn notifications on
+    await Permission.notification.request();
+    var status = await Permission.notification.status;
 
     if (status.isGranted) {
       print("Permission granted");
@@ -228,6 +235,5 @@ class _SettingsScreenState extends State<SettingsScreen> {
       openAppSettings();
       return false;
     }
-
   }
 }

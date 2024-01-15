@@ -57,9 +57,9 @@ class _MyAppState extends State<MyApp> {
     int launchCount = prefs.getInt('counter') ?? 0;
     prefs.setInt('counter', launchCount + 1);
     if (launchCount == 0) {
-      FirebaseApi().initLocalNotifications();
-      bool isNotificationPermissionGranted =
-          await askForNotificationPermission();
+      await FirebaseApi().initNotifications();
+
+      await askForNotificationPermission();
       print("first launch");
       // If it's the first launch, return true.
       return true;

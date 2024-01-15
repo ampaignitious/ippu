@@ -143,7 +143,7 @@ class _WorkExperienceState extends State<WorkExperience> {
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 42, 129, 201),
         elevation: 0,
-        title: Text("Work Experience", style: GoogleFonts.lato()),
+        title: Text("Work Experience", style: GoogleFonts.lato(color: Colors.white)),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color.fromARGB(255, 42, 129, 201),
@@ -151,7 +151,7 @@ class _WorkExperienceState extends State<WorkExperience> {
           _toggleFormVisibility(FormMode.Add);
         },
         tooltip: 'Add Work Experience',
-        child: Icon(Icons.add),
+        child: Icon(Icons.add, color: Colors.white),
       ),
       body: Column(
         children: [
@@ -251,7 +251,7 @@ class _WorkExperienceState extends State<WorkExperience> {
                                           _populateFormFields(
                                               experience); // Pass the index here
                                         },
-                                        child: Icon(Icons.edit), // Edit Icon
+                                        child: Icon(Icons.edit, color: Colors.white,), // Edit Icon
                                       ),
                                     ],
                                   ),

@@ -75,7 +75,7 @@ class _JobsScreenState extends State<JobsScreen> {
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 42, 129, 201),
         elevation: 0,
-        title: Text("Jobs", style: GoogleFonts.lato()),
+        title: Text("Jobs", style: GoogleFonts.lato(color: Colors.white)),
         actions: [
 
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [

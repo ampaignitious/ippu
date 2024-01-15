@@ -234,7 +234,7 @@ class _MyEventsState extends State<MyEvents> {
                                       },
                                       child: Text(
                                         'Click to view more information',
-                                        style: GoogleFonts.lato(),
+                                        style: GoogleFonts.lato(color: Colors.white),
                                       ),
                                     ),
                                     

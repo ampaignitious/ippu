@@ -62,7 +62,7 @@ class _CommunicationScreenState extends State<CommunicationScreen>
           ],
           title: Text(
             "Communication Page",
-            style: TextStyle(fontSize: size.height * 0.02),
+            style: TextStyle(fontSize: size.height * 0.02, color: Colors.white),
           ),
           elevation: 0,
         ),
