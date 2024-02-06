@@ -78,22 +78,22 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
           return CpdModel(
               //
               id: item['id'].toString(),
-              code: item['code'],
-              topic: item['topic'],
-              content: item['content'],
-              hours: item['hours'],
-              points: item['points'],
-              targetGroup: item['target_group'],
-              location: item['location'],
-              startDate: item['start_date'],
-              endDate: item['end_date'],
-              normalRate: item['normal_rate'],
-              membersRate: item['members_rate'],
-              resource: item['resource'],
-              status: item['status'],
-              type: item['type'],
-              banner: item['banner'],
-              attendance_request: item['attendance_request']
+              code: item['code']??"",
+              topic: item['topic']??"",
+              content: item['content']??"",
+              hours: item['hours']??"",
+              points: item['points']??"",
+              targetGroup: item['target_group']??"",
+              location: item['location']??"",
+              startDate: item['start_date']??"",
+              endDate: item['end_date']??"",
+              normalRate: item['normal_rate']??"",
+              membersRate: item['members_rate']??"",
+              resource: item['resource']??"",
+              status: item['status']??"",
+              type: item['type']??"",
+              banner: item['banner']??"",
+              attendance_request: item['attendance_request']??""
               //
               );
         }).toList();

@@ -48,7 +48,6 @@ class CpdsSingleEventDisplay extends StatefulWidget {
 }
 
 class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
-  @override
   String imagelink;
   String cpdsname;
   String startDate;
@@ -61,6 +60,8 @@ class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
   String content;
   bool attendance_request;
   String target_group;
+
+
   _CpdsSingleEventDisplayState(
       this.attendance_request,
       this.cpdId,
@@ -77,6 +78,7 @@ class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
 
   String attendance_status = "";
 
+  @override
   Widget build(BuildContext context) {
     int status = showRegisterButton();
 

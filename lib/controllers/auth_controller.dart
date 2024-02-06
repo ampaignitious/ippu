@@ -9,45 +9,47 @@ import 'rest/auth_rest.dart';
 class AuthController {
   static String ACCESS_TOKEN = "access_token";
 
- Future<Map<String, dynamic>> saveFcmToken(int user_id) async {
-  final dio = Dio();
-  final client = AuthRestClient(dio);
-  String fcmToken = await checkForFcmToken();
-  Map<String, String> details = {"fcm_device_token": fcmToken, "user_id": "$user_id"};
-  try {
-    final response = await client.saveFcmToken(body: details);
+  Future<Map<String, dynamic>> saveFcmToken(int user_id) async {
+    final dio = Dio();
+    final client = AuthRestClient(dio);
+    String fcmToken = await checkForFcmToken();
+    Map<String, String> details = {
+      "fcm_device_token": fcmToken,
+      "user_id": "$user_id"
+    };
+    try {
+      final response = await client.saveFcmToken(body: details);
 
-    if (response.containsKey('message')) {
-      return response;
-    } else {
+      if (response.containsKey('message')) {
+        return response;
+      } else {
+        return {
+          "error": "Failed to save fcm token",
+          "status": "error",
+        };
+      }
+    } catch (e) {
       return {
         "error": "Failed to save fcm token",
         "status": "error",
       };
     }
-  } catch (e) {
-    return {
-      "error": "Failed to save fcm token",
-      "status": "error",
-    };
-  }
-}
-
-Future<String> checkForFcmToken() async {
-   //get fcm token
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  //check if token is available and if not create one
-  String? fcmToken = prefs.getString('fcm_token')??"";
-  if(fcmToken==""){
-    //create token
-    fcmToken = await FirebaseMessaging.instance.getToken();
-    //save token
-    prefs.setString('fcm_token', fcmToken!);
   }
 
-  return fcmToken;
-}
+  Future<String> checkForFcmToken() async {
+    //get fcm token
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    //check if token is available and if not create one
+    String? fcmToken = prefs.getString('fcm_token') ?? "";
+    if (fcmToken == "") {
+      //create token
+      fcmToken = await FirebaseMessaging.instance.getToken();
+      //save token
+      prefs.setString('fcm_token', fcmToken!);
+    }
 
+    return fcmToken;
+  }
 
   Future<Map<String, dynamic>> signIn(String email, String password) async {
     final dio = Dio();
@@ -93,39 +95,26 @@ Future<String> checkForFcmToken() async {
     return prefs.getString(ACCESS_TOKEN);
   }
 
- Future<Map<String, dynamic>> signUp(Map<String, dynamic> user) async {
+  Future<Map<String, dynamic>> signUp(Map<String, dynamic> user) async {
     final dio = Dio();
     final client = AuthRestClient(dio);
+    dio.options.headers['Accept'] = "application/json";
+    dio.options.validateStatus = (status) => status! < 500;
+    dio.options.followRedirects = false;
     try {
       final response = await client.signUp(body: user);
       if (response.containsKey('user')) {
-        // HTTP 200 OK indicates success
         return {
-          "message": "User created successfully",
+          "message": response['message'],
           "status": "success",
         };
-      } else if (response.statusCode == 400) {
-        // HTTP 400 Bad Request indicates client error (e.g., validation error)
-        return {
-          "error": "Invalid request",
-          "status": "error",
-        };
-      } else if (response.statusCode == 401) {
-        // HTTP 401 Unauthorized indicates authentication failure
-        return {
-          "error": "Unauthorized",
-          "status": "error",
-        };
       } else {
-        // Handle other status codes (5xx server errors, etc.)
         return {
-          "error": "Unexpected error occurred",
+          "error": response['message'],
           "status": "error",
         };
       }
-// Handle the case when the access token is not present in the response
     } catch (e) {
-      print('error: $e');
       return {
         "error": "Invalid credentials",
         "status": "error",
@@ -197,13 +186,11 @@ Future<String> checkForFcmToken() async {
     }
   }
 
-    Future<List<dynamic>> getAllCommunications(int user_id) async {
+  Future<List<dynamic>> getAllCommunications(int user_id) async {
     final dio = Dio();
     final client = AuthRestClient(dio);
     dio.options.headers['Authorization'] = "Bearer ${await getAccessToken()}";
     dio.options.headers['X-Requested-With'] = "XMLHttpRequest";
-
-
 
     try {
       final response = await client.getAllCommunications(user_id: user_id);
@@ -212,7 +199,8 @@ Future<String> checkForFcmToken() async {
       return [];
     }
   }
-    Future<List<dynamic>> getEducationDetails() async {
+
+  Future<List<dynamic>> getEducationDetails() async {
     final dio = Dio();
     final client = AuthRestClient(dio);
     dio.options.headers['Authorization'] = "Bearer ${await getAccessToken()}";
@@ -256,7 +244,6 @@ Future<String> checkForFcmToken() async {
       return [];
     }
   }
-
 
   Future<List<dynamic>> getUpcomingEvents() async {
     final dio = Dio();
@@ -311,7 +298,6 @@ Future<String> checkForFcmToken() async {
           "message": "Profile picture uploaded successfully",
           "profile_photo_path": response['profile_photo_path'],
         };
-        
       } else {
         return {
           "error": "Failed to upload profile picture",
@@ -363,7 +349,7 @@ Future<String> checkForFcmToken() async {
         print("certificate: $certificate");
         return {
           "certificate": response['data']['certificate'],
-          "status": "success",  
+          "status": "success",
         };
       } else {
         return {
@@ -393,7 +379,7 @@ Future<String> checkForFcmToken() async {
         print("certificate: $certificate");
         return {
           "certificate": response['data']['certificate'],
-          "status": "success",  
+          "status": "success",
         };
       } else {
         return {
@@ -424,6 +410,3 @@ Future<String> checkForFcmToken() async {
     }
   }
 }
-
-
-

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:ippu/Widgets/CpdsScreenWidgets/ContainerDisplayingCpds.dart';
-import 'package:ippu/Widgets/EventsScreenWidgets/ContainerDisplayingEvents.dart';
-import 'package:ippu/Widgets/EventsScreenWidgets/ContainerDisplayingUpcomingEvents.dart';
+
 
 class AllCpdsScreen extends StatefulWidget {
   const AllCpdsScreen({super.key});
@@ -26,10 +24,10 @@ class _AllCpdsScreenState extends State<AllCpdsScreen> {
             Container(
             height: size.height*0.75,
             width: double.maxFinite,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               // color: Colors.blue,
             ),
-            child: ContainerDisplayingCpds()),
+            child: const ContainerDisplayingCpds()),
           ],
         ),
       );

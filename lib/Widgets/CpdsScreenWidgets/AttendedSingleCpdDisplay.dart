@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:ippu/controllers/auth_controller.dart';
 
 class AttendedSingleCpdDisplay extends StatefulWidget {
+
   String? imagelink;
   String? cpdsname;
   String? startDate;
@@ -63,8 +64,8 @@ class _AttendedSingleCpdDisplayState extends State<AttendedSingleCpdDisplay> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Color.fromARGB(255, 42, 129, 201),
-        title: Text("${cpdsname}", style: TextStyle(color: Colors.white),)
+        backgroundColor: const Color.fromARGB(255, 42, 129, 201),
+        title: Text("$cpdsname", style: const TextStyle(color: Colors.white),)
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
@@ -107,7 +108,7 @@ class _AttendedSingleCpdDisplayState extends State<AttendedSingleCpdDisplay> {
               Padding(
                 padding: EdgeInsets.only(
                     left: size.width * 0.06, top: size.height * 0.016),
-                child: Text(
+                child: const Text(
                   "Description",
                   style: TextStyle(fontWeight: FontWeight.bold),
                   textAlign: TextAlign.justify,
@@ -142,7 +143,7 @@ class _AttendedSingleCpdDisplayState extends State<AttendedSingleCpdDisplay> {
               Padding(
                 padding: EdgeInsets.only(
                     left: size.width * 0.06, top: size.height * 0.016),
-                child: Text(
+                child: const Text(
                   "Target Group",
                   style: TextStyle(fontWeight: FontWeight.bold),
                   textAlign: TextAlign.justify,
@@ -154,7 +155,7 @@ class _AttendedSingleCpdDisplayState extends State<AttendedSingleCpdDisplay> {
                     right: size.width * 0.06,
                     top: size.height * 0.0016),
                 child: Text(
-                  "${target_group}",
+                  "$target_group",
                   textAlign: TextAlign.justify,
                 ),
               ),
@@ -166,7 +167,7 @@ class _AttendedSingleCpdDisplayState extends State<AttendedSingleCpdDisplay> {
                 margin: EdgeInsets.only(left: size.width * 0.03),
                 height: size.height * 0.08,
                 width: size.width * 0.96,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.white,
                   boxShadow: [
                     BoxShadow(
@@ -185,12 +186,12 @@ class _AttendedSingleCpdDisplayState extends State<AttendedSingleCpdDisplay> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             "Start Date",
                             style: TextStyle(color: Colors.green),
                           ),
                           Text(
-                            "${startDate}",
+                            "$startDate",
                             style: TextStyle(fontSize: size.height * 0.008),
                           )
                         ],
@@ -198,12 +199,12 @@ class _AttendedSingleCpdDisplayState extends State<AttendedSingleCpdDisplay> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             "End Date",
                             style: TextStyle(color: Colors.green),
                           ),
                           Text(
-                            "${endDate}",
+                            "$endDate",
                             style: TextStyle(fontSize: size.height * 0.008),
                           )
                         ],
@@ -211,7 +212,7 @@ class _AttendedSingleCpdDisplayState extends State<AttendedSingleCpdDisplay> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             "Type",
                             style: TextStyle(color: Colors.red),
                           ),
@@ -224,12 +225,12 @@ class _AttendedSingleCpdDisplayState extends State<AttendedSingleCpdDisplay> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             "Location",
                             style: TextStyle(color: Colors.red),
                           ),
                           Text(
-                            "${location}",
+                            "$location",
                             style: TextStyle(fontSize: size.height * 0.008),
                           )
                         ],

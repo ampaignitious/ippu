@@ -1,5 +1,3 @@
- 
-
 import 'package:flutter/material.dart';
  import 'package:ippu/Widgets/CpdsScreenWidgets/attendedCpdListBuilder.dart';
  
@@ -16,7 +14,6 @@ class _AttendedCpdsScreenState extends State<AttendedCpdsScreen> {
   
 
 @override
-
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(

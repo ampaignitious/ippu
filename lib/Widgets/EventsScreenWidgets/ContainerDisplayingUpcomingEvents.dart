@@ -93,9 +93,6 @@ class _ContainerDisplayingUpcomingEventsState
       return []; // Return an empty list or handle the error in your UI
     }
   }
-//
-  //
-
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;

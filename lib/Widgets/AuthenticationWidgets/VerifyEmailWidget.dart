@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:ippu/Widgets/AuthenticationWidgets/LoginScreen.dart';
-import 'package:ippu/models/UserProvider.dart';
-import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 
 class VerificationCodeScreen extends StatefulWidget {
@@ -16,7 +14,8 @@ class VerificationCodeScreen extends StatefulWidget {
 }
 
 class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
-  final TextEditingController _verificationCodeController = TextEditingController();
+  final TextEditingController _verificationCodeController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +39,8 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
               keyboardType: TextInputType.number,
               maxLength: 6,
               textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+              style:
+                  const TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
               decoration: const InputDecoration(
                 hintText: '• • • • • •',
                 counterText: '',
@@ -95,7 +95,33 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                 }
               },
               child: Text('Didn\'t get the code?Resend verification code'),
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all(Colors.white),
+                backgroundColor: MaterialStateProperty.all(Colors.blue),
+              ),
             ),
+
+            //go to login screen
+            TextButton(
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return LoginScreen();
+                }));
+              },
+              child: Row(
+                mainAxisSize: MainAxisSize
+                    .min, // Set to only take the minimum required width
+                children: [
+                  Icon(Icons.arrow_back_ios_rounded),
+                  SizedBox(width: 8), // Adjust the space between icon and text
+                  Text('Go to Login'),
+                ],
+              ),
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all(Colors.white),
+                backgroundColor: MaterialStateProperty.all(Colors.blue),
+              ),
+            )
           ],
         ),
       ),

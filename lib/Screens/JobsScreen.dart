@@ -16,7 +16,7 @@ class JobsScreen extends StatefulWidget {
 }
 
 class _JobsScreenState extends State<JobsScreen> {
-  @override
+  
   late Future<List<JobData>> jobDataFuture;
 
   @override
@@ -59,8 +59,6 @@ class _JobsScreenState extends State<JobsScreen> {
       }
     } catch (error) {
       // Handle the error here, e.g., display an error message to the user
-      print("There is an error ");
-      print('Error: $error');
       return []; // Return an empty list or handle the error in your UI
     }
   }
@@ -114,9 +112,9 @@ class _JobsScreenState extends State<JobsScreen> {
                 future: jobDataFuture,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   } else if (snapshot.hasError) {
-                    return Center(
+                    return const Center(
                       child: Text(
                           "Check your internet connection to load the data"),
                     );
@@ -136,12 +134,12 @@ class _JobsScreenState extends State<JobsScreen> {
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 border: Border.all(
-                                  color: Color.fromARGB(255, 210, 211, 211),
+                                  color: const Color.fromARGB(255, 210, 211, 211),
                                 ),
                                 boxShadow: [
                                   BoxShadow(
                                     color: Colors.grey.withOpacity(0.5),
-                                    offset: Offset(0.8, 1.0),
+                                    offset: const Offset(0.8, 1.0),
                                     blurRadius: 4.0,
                                     spreadRadius: 0.2,
                                   ),
@@ -151,7 +149,7 @@ class _JobsScreenState extends State<JobsScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 
                                 children: [
-                                  Divider(),
+                                  const Divider(),
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -273,7 +271,7 @@ class _JobsScreenState extends State<JobsScreen> {
                       },
                     );
                   } else {
-                    return Center(child: Text('No data available'));
+                    return const Center(child: Text('No data available'));
                   }
                 },
               ),

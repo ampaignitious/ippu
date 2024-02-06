@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:flutter/material.dart';
@@ -7,7 +6,6 @@ import 'package:ippu/controllers/auth_controller.dart';
 import 'package:ippu/models/AttendedCpdModel.dart';
 import 'package:ippu/models/UserProvider.dart';
 import 'package:provider/provider.dart';
-import 'package:http/http.dart' as http;
 
 class attendedCpdListBuilder extends StatefulWidget {
   const attendedCpdListBuilder({super.key});
@@ -18,6 +16,8 @@ class attendedCpdListBuilder extends StatefulWidget {
 
 class _attendedCpdListBuilderState extends State<attendedCpdListBuilder> {
   late Future<List<AttendedCpdModel>> CpdDataFuture;
+
+  @override
   void initState() {
     super.initState();
     CpdDataFuture = fetchCpdData();
@@ -31,21 +31,21 @@ class _attendedCpdListBuilderState extends State<attendedCpdListBuilder> {
       List<AttendedCpdModel> eventsData = response.map((item) {
         return AttendedCpdModel(
           id: item['id'].toString(),
-          code: item['code'],
-          topic: item['topic'],
-          content: item['content'],
-          hours: item['hours'],
-          points: item['points'],
-          targetGroup: item['target_group'], // Use correct key name
-          location: item['location'],
-          startDate: item['start_date'], // Use correct key name
-          endDate: item['end_date'], // Use correct key name
-          normalRate: item['normal_rate'], // Use correct key name
-          membersRate: item['members_rate'], // Use correct key name
-          resource: item['resource'],
-          status: item['status'],
-          type: item['type'],
-          banner: item['banner'],
+          code: item['code']??"",
+          topic: item['topic']??"",
+          content: item['content']??"",
+          hours: item['hours']??"",
+          points: item['points']??"",
+          targetGroup: item['target_group']??"", // Use correct key name
+          location: item['location']??"",
+          startDate: item['start_date']??"", // Use correct key name
+          endDate: item['end_date']??"", // Use correct key name
+          normalRate: item['normal_rate']??"", // Use correct key name
+          membersRate: item['members_rate']??"", // Use correct key name
+          resource: item['resource']??"",
+          status: item['status']??"",
+          type: item['type']??"",
+          banner: item['banner']??"",
         );
       }).toList();
       return eventsData;
@@ -80,7 +80,6 @@ class _attendedCpdListBuilderState extends State<attendedCpdListBuilder> {
           return ListView.builder(
             itemCount: CpdData.length,
             itemBuilder: (context, index) {
-              // totalNumberOfAttendedCpds(int attended)
               final userData = Provider.of<UserProvider>(context, listen: false)
                   .totalNumberOfAttendedCpds(CpdData.length);
               AttendedCpdModel data = CpdData[index];
@@ -228,7 +227,7 @@ class _attendedCpdListBuilderState extends State<attendedCpdListBuilder> {
             },
           );
         } else {
-          return Center(child: Text('No data available'));
+          return const Center(child: Text('No data available'));
         }
       },
     );
