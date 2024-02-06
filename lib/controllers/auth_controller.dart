@@ -75,6 +75,7 @@ class AuthController {
         };
       } // Handle the case when the access token is not present in the response
     } catch (e) {
+      print("catch error: $e");
       return {
         "error": "Invalid credentials",
         "status": "error",

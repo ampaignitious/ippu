@@ -36,6 +36,8 @@ class _LoginScreenState extends State<LoginScreen> {
         final authResponse =
             await authController.signIn(_userEmail, _userPassword);
 
+            print("authResponse: $authResponse");
+
         // Close the loading indicator dialog
         Navigator.pop(context);
 
