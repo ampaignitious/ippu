@@ -17,11 +17,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   void initState() {
     super.initState();
   }
-
 
   Future<bool> checkProfileStatus(UserData user) async {
     if (user.gender == null &&
@@ -38,53 +36,49 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-            drawer: Drawer(
-              width: size.width * 0.8,
-              child: const DrawerWidget(),
+      drawer: Drawer(
+        width: size.width * 0.8,
+        child: const DrawerWidget(),
+      ),
+      appBar: AppBar(
+        // leading: Icon(Icons.menu),
+        backgroundColor: Color.fromARGB(255, 42, 129, 201),
+        actions: [
+          InkWell(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return SettingsScreen();
+              }));
+            },
+            child: InkWell(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return ProfileScreen();
+                }));
+              },
+              child: Padding(
+                padding: EdgeInsets.only(right: size.width * 0.06),
+                child: CircleAvatar(
+                  backgroundImage: NetworkImage(
+                      context.watch<ProfilePicProvider>().profilePic),
+                  backgroundColor: Colors.white,
+                ),
+              ),
             ),
-            appBar: AppBar(
-              // leading: Icon(Icons.menu),
-              backgroundColor: Color.fromARGB(255, 42, 129, 201),
-              actions: [
-                InkWell(
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return SettingsScreen();
-                    }));
-                  },
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return ProfileScreen();
-                      }));
-                    },
-                    child: Padding(
-                      padding: EdgeInsets.only(right: size.width * 0.06),
-                      child: CircleAvatar(
-                        backgroundImage: NetworkImage(
-                            context.watch<ProfilePicProvider>().profilePic),
-                        backgroundColor: Colors.white,
-                      ),
-                    ),
-                  ),
-                )
-              ],
-              elevation: 0,
-            ),
-            body: Column(
-              children: [
-                FirstDisplaySection(),
-              ],
-            ),
-          );
-        
+          )
+        ],
+        elevation: 0,
+      ),
+      body: Column(
+        children: [
+          FirstDisplaySection(),
+        ],
+      ),
+    );
   }
 
   void showBottomNotification(String message) {
@@ -108,4 +102,3 @@ class ProfileData {
     return ProfileData(data: json['data']);
   }
 }
-

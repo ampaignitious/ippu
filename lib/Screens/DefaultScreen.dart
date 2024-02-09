@@ -28,11 +28,10 @@ class _DefaultScreenState extends State<DefaultScreen> {
   void initState() {
     super.initState();
     profileData = loadProfile();
-        initConnectivityListener();
-
+    initConnectivityListener();
   }
 
-   void initConnectivityListener() {
+  void initConnectivityListener() {
     Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
       setState(() {
         // Update the network status in your provider
@@ -54,67 +53,66 @@ class _DefaultScreenState extends State<DefaultScreen> {
   }
 
   Future<dynamic> loadProfile() async {
-  AuthController authController = AuthController();
-  try {
-    final response = await authController.getProfile();
-    if (response.containsKey("error")) {
-      //check if it the error key is unauthorized and redirect to login
-      if (response['error'] == "Unauthorized") {
-        
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) {
-          return LoginScreen();
-        }));
-        
-        return;
-      } else {
-        // Handle the case where the API did not return a user profile
-        throw Exception(response['error']);
-      }
-    } else {
-      if (response['data'] != null) {
-        // Access the user object directly from the 'data' key
-        Map<String, dynamic> userData = response['data'];
-        
-        UserData profile = UserData(
-          id: userData['id'],
-          name: userData['name'].toString(),
-          email: userData['email'].toString(),
-          gender: userData['gender'].toString(),
-          dob: userData['dob'].toString(),
-          membership_number: userData['membership_number'].toString(),
-          address: userData['address'].toString(),
-          phone_no: userData['phone_no'].toString(),
-          alt_phone_no: userData['alt_phone_no'].toString(),
-          nok_name: userData['nok_name'].toString(),
-          nok_address: userData['nok_address'].toString(),
-          nok_phone_no: userData['nok_phone_no'].toString(),
-          points: userData['points'].toString(),
-          subscription_status: userData['subscription_status'].toString(),
-          profile_pic: userData['profile_pic'] ??
-              "https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes-thumbnail.png",
-        );
+    AuthController authController = AuthController();
+    try {
+      final response = await authController.getProfile();
+      if (response.containsKey("error")) {
+        //check if it the error key is unauthorized and redirect to login
+        if (response['error'] == "Unauthorized") {
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) {
+            return LoginScreen();
+          }));
 
-        if (mounted) {
-          Provider.of<UserProvider>(context, listen: false).setUser(profile);
-          Provider.of<ProfilePicProvider>(context, listen: false)
-              .setProfilePic(profile.profile_pic);
-          Provider.of<SubscriptionStatusProvider>(context, listen: false)
-              .setSubscriptionStatus(profile.subscription_status!);
-                    Provider.of<UserProvider>(context, listen: false)
-          .setProfileStatus(profile.checkifAnyIsNull());
+          return;
+        } else {
+          // Handle the case where the API did not return a user profile
+          throw Exception(response['error']);
         }
-
-        return profile;
       } else {
-        // Handle the case where the 'data' field in the API response is null
-        throw Exception("You currently have no data");
+        if (response['data'] != null) {
+          // Access the user object directly from the 'data' key
+          Map<String, dynamic> userData = response['data'];
+
+          UserData profile = UserData(
+            id: userData['id'],
+            name: userData['name'].toString(),
+            email: userData['email'].toString(),
+            gender: userData['gender'].toString(),
+            dob: userData['dob'].toString(),
+            membership_number: userData['membership_number'].toString(),
+            address: userData['address'].toString(),
+            phone_no: userData['phone_no'].toString(),
+            alt_phone_no: userData['alt_phone_no'].toString(),
+            nok_name: userData['nok_name'].toString(),
+            nok_address: userData['nok_address'].toString(),
+            nok_phone_no: userData['nok_phone_no'].toString(),
+            points: userData['points'].toString(),
+            subscription_status: userData['subscription_status'].toString(),
+            profile_pic: userData['profile_pic'] ??
+                "https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes-thumbnail.png",
+          );
+
+          if (mounted) {
+            Provider.of<UserProvider>(context, listen: false).setUser(profile);
+            Provider.of<ProfilePicProvider>(context, listen: false)
+                .setProfilePic(profile.profile_pic);
+            Provider.of<SubscriptionStatusProvider>(context, listen: false)
+                .setSubscriptionStatus(profile.subscription_status!);
+            Provider.of<UserProvider>(context, listen: false)
+                .setProfileStatus(profile.checkifAnyIsNull());
+          }
+
+          return profile;
+        } else {
+          // Handle the case where the 'data' field in the API response is null
+          throw Exception("You currently have no data");
+        }
       }
+    } catch (error) {
+      return null;
     }
-  } catch (error) {
-    print("catched error: $error");
-return null;  }
-}
+  }
 
   int _selectedIndex = 0;
   List Page = [
@@ -129,7 +127,6 @@ return null;  }
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     final connectivity = Provider.of<CheckNetworkConnectivity>(context);
@@ -137,45 +134,47 @@ return null;  }
       future: profileData,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-      return Scaffold(
-        body: Page[_selectedIndex],
-        bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Color.fromARGB(255, 42, 129, 201).withOpacity(0.9),
-          currentIndex: _selectedIndex,
-          onTap: (value) {
-            if (value != 0) {
-              final profileStatus =
-                  Provider.of<UserProvider>(context, listen: false)
-                      .profileStatusCheck;
-              if (profileStatus == true) {
-                _showDialog();
-                return;
-              }
-            }
-            setState(() {
-              _selectedIndex = value;
-            });
-          },
-          type: BottomNavigationBarType.fixed,
-          selectedItemColor: Colors.white,
-          unselectedItemColor:
-              Color.fromARGB(255, 169, 230, 216).withOpacity(0.5),
-          showUnselectedLabels: true,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.workspace_premium), label: 'CPD'),
-            BottomNavigationBarItem(icon: Icon(Icons.event), label: 'Events'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.info), label: 'Communication'),
-          ],
-        ),
-     );
+          return Scaffold(
+            body: Page[_selectedIndex],
+            bottomNavigationBar: BottomNavigationBar(
+              backgroundColor:
+                  Color.fromARGB(255, 42, 129, 201).withOpacity(0.9),
+              currentIndex: _selectedIndex,
+              onTap: (value) {
+                if (value != 0) {
+                  final profileStatus =
+                      Provider.of<UserProvider>(context, listen: false)
+                          .profileStatusCheck;
+                  if (profileStatus == true) {
+                    _showDialog();
+                    return;
+                  }
+                }
+                setState(() {
+                  _selectedIndex = value;
+                });
+              },
+              type: BottomNavigationBarType.fixed,
+              selectedItemColor: Colors.white,
+              unselectedItemColor:
+                  Color.fromARGB(255, 169, 230, 216).withOpacity(0.5),
+              showUnselectedLabels: true,
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.workspace_premium), label: 'CPD'),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.event), label: 'Events'),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.info), label: 'Communication'),
+              ],
+            ),
+          );
         } else if (snapshot.hasError) {
           return Center(
             child: Text("${snapshot.error}"),
           );
-        } else if(snapshot.connectionState == ConnectionState.waiting){
+        } else if (snapshot.connectionState == ConnectionState.waiting) {
           return const Scaffold(
             backgroundColor: Colors.white,
             body: Center(
@@ -187,10 +186,10 @@ return null;  }
             ),
           );
         } else {
-                 // Check if there is no internet connection
-        if (!connectivity.isConnected) {
-          showBottomNotification("No internet connection");
-        }
+          // Check if there is no internet connection
+          if (!connectivity.isConnected) {
+            showBottomNotification("No internet connection");
+          }
           return const Scaffold(
             backgroundColor: Colors.white,
             body: Center(
@@ -238,5 +237,3 @@ return null;  }
     );
   }
 }
-
-

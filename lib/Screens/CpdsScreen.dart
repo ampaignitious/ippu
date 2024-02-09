@@ -50,7 +50,7 @@ class _CpdsScreenState extends State<CpdsScreen> with TickerProviderStateMixin{
           Center(
             child: Padding(
               padding: EdgeInsets.only(right: size.width*0.06),
-              child: Text("All Cpds: ${cpds}", style: TextStyle(color: Colors.white),),
+              child: Text("All Cpds: $cpds", style: TextStyle(color: Colors.white),),
             ),
           )
         ],
@@ -74,7 +74,7 @@ class _CpdsScreenState extends State<CpdsScreen> with TickerProviderStateMixin{
                   padding: EdgeInsets.only(
                     left: size.width*0.008
                   ),
-                  child: Text("All CPDS", style: GoogleFonts.lato(
+                  child: Text("All CPDS($cpds)", style: GoogleFonts.lato(
                     fontSize: size.height*0.014,
                     color: Colors.white
                   ),),

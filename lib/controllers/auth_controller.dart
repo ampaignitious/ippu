@@ -141,7 +141,6 @@ class AuthController {
         };
       }
     } catch (e) {
-      print("catch error: $e");
       return {
         "error": "Failed to get profile",
         "status": "error",
