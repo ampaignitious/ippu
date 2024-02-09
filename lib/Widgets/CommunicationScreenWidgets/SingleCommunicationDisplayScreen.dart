@@ -39,7 +39,7 @@ class _SingleCommunicationDisplayScreenState
               right: size.width * 0.016,
             ),
             child: Text(
-              "${communicationtitle}",
+              communicationtitle,
               style: GoogleFonts.roboto(
                 fontSize: size.height * 0.02,
                 fontWeight: FontWeight.bold,
@@ -79,7 +79,7 @@ class _SingleCommunicationDisplayScreenState
                     right: size.width * 0.016,
                   ),
                   child: Text(
-                    "${communicationtitle}",
+                    communicationtitle,
                     style: GoogleFonts.roboto(
                       fontSize: size.height * 0.02,
                       fontWeight: FontWeight.bold,

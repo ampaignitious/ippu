@@ -6,29 +6,42 @@ class CommunicationService {
 
   CommunicationService(this.apiService);
 
-  Future<Map<String, int>> getCountOfReadAndUnreadCommunications(int userId) async {
+  Future<Map<String, int>> getCountOfReadAndUnreadCommunications(
+      int userId) async {
     try {
       final response = await apiService.fetchData('communications/$userId');
       final Map<String, dynamic> jsonResponse = json.decode(response);
-      final List<dynamic> communications = jsonResponse['data'];
-      
-      print('data: $communications');
 
-      final counts = {'readCount': 0, 'unreadCount': 0, 'totalCommunications': 0};
+      if (jsonResponse.containsKey('data') &&
+          jsonResponse['data'] is Map<String, dynamic>) {
+        final Map<String, dynamic> communicationsMap = jsonResponse['data'];
 
-      for (final communication in communications) {
-        if (communication['status']==true) {
-          counts['readCount'] = counts['readCount']! + 1;
-        } else {
-          counts['unreadCount']= counts['unreadCount']! + 1;
+        final List<dynamic> communications = communicationsMap.values.toList();
+
+        final counts = {
+          'readCount': 0,
+          'unreadCount': 0,
+          'totalCommunications': 0
+        };
+
+        for (final communication in communications) {
+          // Assuming 'status' field exists in each communication object
+          if (communication['status'] == true) {
+            counts['readCount'] = counts['readCount']! + 1;
+          } else {
+            counts['unreadCount'] = counts['unreadCount']! + 1;
+          }
         }
+
+        counts['totalCommunications'] = communications.length;
+
+        print('counts: $counts');
+
+        return counts;
+      } else {
+        print('Error: Communications data is not in the expected format');
+        return {'readCount': 0, 'unreadCount': 0, 'totalCommunications': 0};
       }
-
-      counts['totalCommunications'] = communications.length;
-
-      print('counts: $counts');
-
-      return counts;
     } catch (error) {
       // Handle the error (e.g., log it or throw a custom exception)
       print('Error fetching communications: $error');

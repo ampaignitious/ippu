@@ -194,8 +194,9 @@ class AuthController {
 
     try {
       final response = await client.getAllCommunications(user_id: user_id);
-      return response['data'];
+      return response['data'].values.toList();
     } catch (e) {
+      print("catch error fddffd: $e");
       return [];
     }
   }

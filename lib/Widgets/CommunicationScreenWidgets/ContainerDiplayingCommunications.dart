@@ -74,7 +74,7 @@ class _ContainerDisplayingCommunicationsState
 
             unreadCount = data.where((item) => !item.status).length;
             readCount = data.where((item) => item.status).length;
-            
+
             return ListView.builder(
               // controller: _scrollController,
               scrollDirection: Axis.vertical,
@@ -265,7 +265,7 @@ class _ContainerDisplayingCommunicationsState
       final response = await http.get(Uri.parse(apiUrl), headers: headers);
       if (response.statusCode == 200) {
         final Map<String, dynamic> jsonData = jsonDecode(response.body);
-        final List<dynamic> eventData = jsonData['data'];
+        final List<dynamic> eventData = jsonData['data'].values.toList();
         List<CommunicationModel> eventsData = eventData.map((item) {
           return CommunicationModel(
             id: item['id'].toString(),
