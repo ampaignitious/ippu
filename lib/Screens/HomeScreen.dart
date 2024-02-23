@@ -5,6 +5,7 @@ import 'package:ippu/Providers/ProfilePicProvider.dart';
 import 'package:ippu/Screens/ProfileScreen.dart';
 import 'package:ippu/Screens/SettingsScreen.dart';
 import 'package:ippu/Widgets/DrawerWidget/DrawerWidget.dart';
+import 'package:ippu/Widgets/HomeScreenWidgets/CalendarScreen.dart';
 import 'package:ippu/Widgets/HomeScreenWidgets/FirstDisplaySection.dart';
 import 'package:ippu/models/UserData.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +18,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  @override
   void initState() {
     super.initState();
   }
@@ -48,6 +50,28 @@ class _HomeScreenState extends State<HomeScreen> {
         // leading: Icon(Icons.menu),
         backgroundColor: Color.fromARGB(255, 42, 129, 201),
         actions: [
+          InkWell(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return CalendarScreen();
+              }));
+            },
+            child: InkWell(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return CalendarScreen();
+                }));
+              },
+              child: Padding(
+                padding: EdgeInsets.only(right: size.width * 0.06),
+                child: Icon(
+                  Icons.calendar_today,
+                  color: Colors.white,
+                  size: 30
+                )
+              ),
+            ),
+          ),
           InkWell(
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {

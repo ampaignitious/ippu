@@ -85,6 +85,7 @@ class _MyAppState extends State<MyApp> {
       ],
       child: OverlaySupport(
         child: MaterialApp(
+          navigatorKey: navigatorKey,
           debugShowCheckedModeBanner: false,
           title: 'IPPU Membership APP',
           theme: ThemeData(

@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 
 class AnimatedLoadingText extends StatelessWidget {
-  const AnimatedLoadingText({Key? key}) : super(key: key);
+  final List<String> loadingTexts;
+
+  const AnimatedLoadingText({
+    Key? key,
+    required this.loadingTexts,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,15 +20,11 @@ class AnimatedLoadingText extends StatelessWidget {
             isRepeatingAnimation: true,
             speed: Duration(milliseconds: 200),
             onTap: () {
-              print("Typewriter Animated Text Kit onTap");
             },
-            text: [
-              "Fetching account types...",
-              "Please wait...",
-            ],
+            text: loadingTexts,
             textStyle: TextStyle(
-              fontSize: 16.0,
-              color: Colors.black,
+              fontSize: 25.0,
+              color: Colors.blue,
             ),
             textAlign: TextAlign.center,
           ),

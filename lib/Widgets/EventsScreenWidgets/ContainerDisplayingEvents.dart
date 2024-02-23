@@ -1,10 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:ippu/Widgets/CpdsScreenWidgets/CpdsSingleEventDisplay.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ippu/Widgets/EventsScreenWidgets/SingleEventDisplay.dart';
-import 'package:ippu/controllers/auth_controller.dart';
 import 'package:ippu/models/AllEventsModel.dart';
 import 'package:ippu/models/UserProvider.dart';
 import 'package:provider/provider.dart';

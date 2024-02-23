@@ -87,10 +87,8 @@ class _allCpdDisplayState extends State<allCpdDisplay> {
     }
   }
 
-//
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    Provider.of<UserProvider>(context).totalNumberOfCPDS(fetchedData.length);
     Provider.of<UserProvider>(context)
         .totalNumberOfPointsFromCpd(totalCpdPoints);
     return InkWell(

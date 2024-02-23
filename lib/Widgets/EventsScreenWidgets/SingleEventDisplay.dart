@@ -15,6 +15,7 @@ class SingleEventDisplay extends StatefulWidget {
   String points;
   String id;
   bool attendance_request;
+
   String description;
   SingleEventDisplay(
       {super.key,
@@ -42,10 +43,7 @@ class SingleEventDisplay extends StatefulWidget {
 }
 
 class _SingleEventDisplayState extends State<SingleEventDisplay> {
-
-
   //
-  @override
   String imagelink;
   String eventName;
   String points;
@@ -69,14 +67,18 @@ class _SingleEventDisplayState extends State<SingleEventDisplay> {
   int attended = 0;
   String attendance_status = "";
 
+  @override
   Widget build(BuildContext context) {
     int status = showRegisterButton();
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "${eventName}",
-          style: GoogleFonts.lato(),
+          eventName,
+          style: GoogleFonts.lato(
+            textStyle:
+                TextStyle(color: Colors.white), // Set text color to white
+          ),
         ),
         backgroundColor: Color.fromARGB(255, 42, 129, 201),
         elevation: 0,
@@ -124,8 +126,11 @@ class _SingleEventDisplayState extends State<SingleEventDisplay> {
                     left: size.width * 0.06, top: size.height * 0.0022),
                 // child: Text("this will be about learning sessions"),
                 child: Text(
-                  "${eventName}",
-                  style: GoogleFonts.lato(),
+                  eventName,
+                  style: GoogleFonts.lato(
+                    textStyle: TextStyle(
+                        color: Colors.white), // Set text color to white
+                  ),
                 ),
               ),
               Padding(
@@ -173,7 +178,7 @@ class _SingleEventDisplayState extends State<SingleEventDisplay> {
                 margin: EdgeInsets.only(left: size.width * 0.03),
                 height: size.height * 0.08,
                 width: size.width * 0.96,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.white,
                   boxShadow: [
                     BoxShadow(
@@ -192,12 +197,12 @@ class _SingleEventDisplayState extends State<SingleEventDisplay> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             "Start Date",
                             style: TextStyle(color: Colors.green),
                           ),
                           Text(
-                            "${extractDate(startDate)}",
+                            extractDate(startDate),
                             style: TextStyle(fontSize: size.height * 0.008),
                           )
                         ],
@@ -205,12 +210,12 @@ class _SingleEventDisplayState extends State<SingleEventDisplay> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             "End Date",
                             style: TextStyle(color: Colors.green),
                           ),
                           Text(
-                            "${extractDate(endDate)}",
+                            extractDate(endDate),
                             style: TextStyle(fontSize: size.height * 0.008),
                           )
                         ],
@@ -218,12 +223,12 @@ class _SingleEventDisplayState extends State<SingleEventDisplay> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             "Rate",
                             style: TextStyle(color: Colors.red),
                           ),
                           Text(
-                            "${points}",
+                            points,
                             style: TextStyle(fontSize: size.height * 0.008),
                           )
                         ],
@@ -231,12 +236,12 @@ class _SingleEventDisplayState extends State<SingleEventDisplay> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             "Points",
                             style: TextStyle(color: Colors.red),
                           ),
                           Text(
-                            "${rate}",
+                            rate,
                             style: TextStyle(fontSize: size.height * 0.008),
                           )
                         ],
@@ -264,7 +269,7 @@ class _SingleEventDisplayState extends State<SingleEventDisplay> {
                     case 2:
                       return ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: Color.fromARGB(255, 42, 129,
+                          backgroundColor: const Color.fromARGB(255, 42, 129,
                               201), // Change button color to green
                           padding: EdgeInsets.all(size.height * 0.024),
                         ),
@@ -285,7 +290,11 @@ class _SingleEventDisplayState extends State<SingleEventDisplay> {
                               horizontal: size.width * 0.12),
                           child: Text(
                             'Register to Attend',
-                            style: GoogleFonts.lato(),
+                            style: GoogleFonts.lato(
+                              textStyle: TextStyle(
+                                  color:
+                                      Colors.white), // Set text color to white
+                            ),
                           ),
                         ),
                       );
@@ -404,18 +413,21 @@ class _SingleEventDisplayState extends State<SingleEventDisplay> {
       }
 
       if (currentDate.isAfter(startDate) && currentDate.isBefore(endDate)) {
-        attendance_status = "This event is happening but you did not register for it";
+        attendance_status =
+            "This event is happening but you did not register for it";
         statusCode = 3;
       }
 
       //check if the date is at the same momement
       if (currentDate.isAtSameMomentAs(startDate)) {
-        attendance_status = "This event is happening but you did not register for it";
+        attendance_status =
+            "This event is happening but you did not register for it";
         statusCode = 4;
       }
 
       if (currentDate.isAtSameMomentAs(endDate)) {
-        attendance_status = "This event is happening but you did not register for it";
+        attendance_status =
+            "This event is happening but you did not register for it";
         statusCode = 5;
       }
     } else {

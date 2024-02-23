@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:ippu/controllers/auth_controller.dart';
 import 'package:clean_dialog/clean_dialog.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class AttendedEventSIngleDisplayScreen extends StatefulWidget {
   String name;
@@ -43,7 +44,6 @@ class AttendedEventSIngleDisplayScreen extends StatefulWidget {
 
 class _AttendedEventSIngleDisplayScreenState
     extends State<AttendedEventSIngleDisplayScreen> {
-
   String name;
   String details;
   String points;
@@ -64,7 +64,7 @@ class _AttendedEventSIngleDisplayScreenState
   );
 
   double _progress = 0.0;
-  
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -234,7 +234,10 @@ class _AttendedEventSIngleDisplayScreenState
                         EdgeInsets.symmetric(horizontal: size.width * 0.12),
                     child: Text(
                       'Download certificate',
-                      style: GoogleFonts.lato(),
+                      style: GoogleFonts.lato(
+                        textStyle: TextStyle(
+                            color: Colors.white), // Set text color to white
+                      ),
                     ),
                   ),
                 ),
@@ -289,14 +292,25 @@ class _AttendedEventSIngleDisplayScreenState
           ),
         );
       } else {
-        //certificate key from response
-        FileDownloader.downloadFile(
-          url: response['certificate'],
-          name: 'certificate.pdf',
-          downloadDestination: DownloadDestinations.appFiles,
-        );
-        //show dialog
-        _showDialog();
+        //ask for storage write permission
+        final status = await Permission.storage.request();
+        if (status.isGranted) {
+          //certificate key from response
+          FileDownloader.downloadFile(
+            url: response['certificate'],
+            name: 'certificate.png',
+          );
+          //show dialog
+          _showDialog();
+        } else {
+          //show error message
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("Storage permission denied"),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
       }
     } catch (e) {
       //show error message

@@ -35,8 +35,6 @@ class CommunicationService {
 
         counts['totalCommunications'] = communications.length;
 
-        print('counts: $counts');
-
         return counts;
       } else {
         print('Error: Communications data is not in the expected format');

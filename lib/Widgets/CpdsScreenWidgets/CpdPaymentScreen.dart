@@ -115,7 +115,9 @@ _CpdPaymentScreenState( this.eventAmount, this.eventName, this.eventId);
                           },
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: size.width*0.12),
-                            child: Text('Confirm Attendence', style: GoogleFonts.lato(),),
+                            child: Text('Confirm Attendence',   style: GoogleFonts.lato(
+    textStyle: TextStyle(color: Colors.white), // Set text color to white
+  ),),
                           ),
                 ), ),
 

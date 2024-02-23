@@ -2,16 +2,22 @@ import 'dart:convert';
 import 'dart:async';
 import 'dart:io';
 
+import 'package:clean_dialog/clean_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:ippu/Providers/ProfilePicProvider.dart';
+import 'package:ippu/Providers/SubscriptionStatus.dart';
 import 'package:ippu/Screens/EducationBackgroundScreen.dart';
 import 'package:ippu/controllers/auth_controller.dart';
+import 'package:ippu/main.dart';
 import 'package:ippu/models/UserData.dart';
 import 'package:ippu/models/UserProvider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+
 
 class ProfileData {
   final Map<String, dynamic> data;
@@ -102,8 +108,8 @@ class _InformationScreenState extends State<InformationScreen> {
     final size = MediaQuery.of(context).size;
     var profilePhoto = NetworkImage(context.watch<ProfilePicProvider>().profilePic);
 
-    final status =
-        Provider.of<UserProvider>(context, listen: false).getSubscriptionStatus;
+      String? status= context.watch<SubscriptionStatusProvider>().status;
+
     return FutureBuilder(
     future: profileData, 
     builder: (context, snapshot){
@@ -126,17 +132,26 @@ class _InformationScreenState extends State<InformationScreen> {
                     
                     SizedBox(height: size.height * 0.014),
                     Text(
-                      "${userData!.name}",
+                      userData!.name,
                       style: GoogleFonts.lato(
                           fontSize: size.height * 0.03,
                           fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      '${userData.email}',
+                      userData.email,
                       style: GoogleFonts.lato(color: Colors.grey),
                     ),
                     SizedBox(height: size.height * 0.02),
-                    Divider(height: 1),
+                    // add download membership certificate button
+                    if(status == 'Approved')
+                    ElevatedButton(
+                            onPressed: () {
+                              //download membership certificate
+                              renderCertificateInBrowser();
+                            },
+                            child: const Text("Download Membership Certificate"),
+                          ),
+                                   const Divider(height: 1),
                     Card(
                         child: ListTile(
                       title: Text("Name"),
@@ -316,5 +331,70 @@ class _InformationScreenState extends State<InformationScreen> {
       print('Error: $error');
       return 0; // Return 0 or handle the error count in your UI
     }
+  }
+
+Future<void> renderCertificateInBrowser() async {
+  AuthController authController = AuthController();
+  try {
+    final response = await authController.downloadMembershipCertificate();
+
+    if (response.containsKey('error')) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Certificate download failed"),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } else {
+        //ask for storage write permission
+        final status = await Permission.storage.request();
+        if (status.isGranted) {
+          //certificate key from response
+          FileDownloader.downloadFile(
+            url: response['certificate'],
+            name: 'certificate.png',
+          );
+          //show dialog
+          _showDialog();
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("Permission to save certificate to storage denied"),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      
+    }
+  } catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text("Certificate download failed"),
+        backgroundColor: Colors.red,
+      ),
+    );
+  }
+}
+
+
+
+    void _showDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => CleanDialog(
+        title: 'Certificate Downloaded',
+        content: 'Certificate saved in downloads folder',
+        backgroundColor: Colors.blue,
+        titleTextStyle: const TextStyle(
+            fontSize: 25, fontWeight: FontWeight.bold, color: Colors.white),
+        contentTextStyle: const TextStyle(fontSize: 16, color: Colors.white),
+        actions: [
+          CleanDialogActionButtons(
+            actionTitle: 'OK',
+            onPressed: () => Navigator.pop(context),
+          )
+        ],
+      ),
+    );
   }
 }

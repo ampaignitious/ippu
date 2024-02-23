@@ -42,7 +42,6 @@ class _JobsScreenState extends State<JobsScreen> {
       if (response.statusCode == 200) {
         final Map<String, dynamic> jsonData = jsonDecode(response.body);
         final List<dynamic> availableJobs = jsonData['data'];
-        print(availableJobs);
         List<JobData> jobs = availableJobs.map((item) {
           return JobData(
             id: item['id'],
@@ -58,7 +57,8 @@ class _JobsScreenState extends State<JobsScreen> {
         throw Exception('Failed to load events data');
       }
     } catch (error) {
-      // Handle the error here, e.g., display an error message to the user
+      //catch the exception
+      print("error: $error ");
       return []; // Return an empty list or handle the error in your UI
     }
   }
@@ -240,7 +240,9 @@ class _JobsScreenState extends State<JobsScreen> {
                                       },
                                       child: Text(
                                         'View Job Details',
-                                        style: GoogleFonts.lato(),
+                                          style: GoogleFonts.lato(
+    textStyle: TextStyle(color: Colors.white), // Set text color to white
+  ),
                                       ),
                                     ),
                                   ),

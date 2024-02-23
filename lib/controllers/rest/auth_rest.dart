@@ -63,6 +63,9 @@ abstract class AuthRestClient {
   @GET(AppEndpoints.downloadCpdCertificate)
   Future<dynamic> downloadCpdCertificate({@Path() required int cpd});
 
+  @GET(AppEndpoints.downloadMembershipCertificate)
+  Future<dynamic> downloadMembershipCertificate();
+
   @GET(AppEndpoints.upcomingCpdsEndPoint)
   Future<dynamic> getUpcomingCpds();
 

@@ -87,7 +87,9 @@ class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
       appBar: AppBar(
         title: Text(
           "${cpdsname}",
-          style: GoogleFonts.lato(),
+            style: GoogleFonts.lato(
+    textStyle: TextStyle(color: Colors.white), // Set text color to white
+  ),
         ),
         backgroundColor: Color.fromARGB(255, 42, 129, 201),
         elevation: 0,
@@ -280,7 +282,9 @@ class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
                               horizontal: size.width * 0.12),
                           child: Text(
                             'Register to Attend',
-                            style: GoogleFonts.lato(),
+                              style: GoogleFonts.lato(
+    textStyle: TextStyle(color: Colors.white), // Set text color to white
+  ),
                           ),
                         ),
                       );

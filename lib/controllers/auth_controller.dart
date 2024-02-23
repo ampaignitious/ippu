@@ -397,6 +397,36 @@ class AuthController {
     }
   }
 
+  Future<Map<String, dynamic>> downloadMembershipCertificate() async {
+    final dio = Dio();
+    final client = AuthRestClient(dio);
+    dio.options.headers['Authorization'] = "Bearer ${await getAccessToken()}";
+    dio.options.headers['Accept'] = "application/json";
+    try {
+      final response = await client.downloadMembershipCertificate();
+      //check if response contains message
+      if (response.containsKey('message')) {
+        var certificate = response['data']['certificate'];
+        print("certificate: $certificate");
+        return {
+          "certificate": response['data']['certificate'],
+          "status": "success",
+        };
+      } else {
+        return {
+          "error": "Failed to download certificate",
+          "status": "error",
+        };
+      }
+    } catch (e) {
+      print("catch error: $e");
+      return {
+        "error": "Failed to download certificate",
+        "status": "error",
+      };
+    }
+  }
+
   //get my cpds
   Future<List<dynamic>> getMyCpds() async {
     final dio = Dio();

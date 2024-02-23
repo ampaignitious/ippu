@@ -246,8 +246,8 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection>
                       border: Border.all(
                         color: Colors.white,
                       ),
-                      color: Color.fromARGB(255, 255, 118, 118),
-                      boxShadow: [
+                      color: const Color.fromARGB(255, 255, 118, 118),
+                      boxShadow: const [
                         BoxShadow(
                           color: Color.fromARGB(255, 247, 245,
                               245), // Adjust shadow color and opacity
@@ -281,27 +281,13 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection>
                               ),
                             ),
                           ),
-                          // InkWell(
-                          //   onTap: () {
-                          //     setState(() {
-                          //       isProfileIncomplete = false;
-                          //     });
-                          //   },
-                          //   child: Icon(
-                          //     Icons.close,
-                          //     color: Colors.white,
-                          //     ),
-                          // ),
                         ],
                       ),
                     ),
                   ),
                 ),
               )
-            : Text(""),
-
-        //
-        //
+            : const Text(""),
         // container displaying the notifcation
         profileStatus! ? Center(
                 child: profileStatus
@@ -314,8 +300,8 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection>
                           border: Border.all(
                             color: Colors.white,
                           ),
-                          color: Color.fromARGB(255, 255, 118, 118),
-                          boxShadow: [
+                          color: const Color.fromARGB(255, 255, 118, 118),
+                          boxShadow: const [
                             BoxShadow(
                               color: Color.fromARGB(255, 247, 245,
                                   245), // Adjust shadow color and opacity
@@ -349,9 +335,9 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection>
                           ),
                         ),
                       )
-                    : SizedBox.shrink(),
+                    : const SizedBox.shrink(),
               )
-            : Text(""),
+            : const Text(""),
 
         //
       ],

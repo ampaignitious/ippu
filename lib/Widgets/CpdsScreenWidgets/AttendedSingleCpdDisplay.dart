@@ -4,9 +4,9 @@ import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ippu/controllers/auth_controller.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class AttendedSingleCpdDisplay extends StatefulWidget {
-
   String? imagelink;
   String? cpdsname;
   String? startDate;
@@ -40,11 +40,11 @@ class AttendedSingleCpdDisplay extends StatefulWidget {
           this.imagelink,
           this.startDate,
           this.endDate,
-          this.type, this.eventId);
+          this.type,
+          this.eventId);
 }
 
 class _AttendedSingleCpdDisplayState extends State<AttendedSingleCpdDisplay> {
- 
   String? imagelink;
   String? cpdsname;
   String? startDate;
@@ -55,18 +55,28 @@ class _AttendedSingleCpdDisplayState extends State<AttendedSingleCpdDisplay> {
 
   String? content;
   String? target_group;
-  _AttendedSingleCpdDisplayState(this.content, this.location, this.target_group,
-      this.cpdsname, this.imagelink, this.startDate, this.endDate, this.type, this.eventId);
+  _AttendedSingleCpdDisplayState(
+      this.content,
+      this.location,
+      this.target_group,
+      this.cpdsname,
+      this.imagelink,
+      this.startDate,
+      this.endDate,
+      this.type,
+      this.eventId);
 
-    @override
+  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        elevation: 0,
-        backgroundColor: const Color.fromARGB(255, 42, 129, 201),
-        title: Text("$cpdsname", style: const TextStyle(color: Colors.white),)
-      ),
+          elevation: 0,
+          backgroundColor: const Color.fromARGB(255, 42, 129, 201),
+          title: Text(
+            "$cpdsname",
+            style: const TextStyle(color: Colors.white),
+          )),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: SingleChildScrollView(
@@ -245,7 +255,7 @@ class _AttendedSingleCpdDisplayState extends State<AttendedSingleCpdDisplay> {
               ),
               //
 
-                Center(
+              Center(
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color.fromARGB(
@@ -281,7 +291,7 @@ class _AttendedSingleCpdDisplayState extends State<AttendedSingleCpdDisplay> {
     );
   }
 
-    Future<void> renderCertificateInBrowser(String eventId) async {
+  Future<void> renderCertificateInBrowser(String eventId) async {
     AuthController authController = AuthController();
     try {
       final response =
@@ -296,14 +306,26 @@ class _AttendedSingleCpdDisplayState extends State<AttendedSingleCpdDisplay> {
           ),
         );
       } else {
-        //certificate key from response
-        FileDownloader.downloadFile(
-          url: response['certificate'],
-          name: 'certificate.pdf',
-          downloadDestination: DownloadDestinations.appFiles,
-        );
-        //show dialog
-        _showDialog();
+        //ask for storage write permission
+        final status = await Permission.storage.request();
+        if (status.isGranted) {
+          //certificate key from response
+          FileDownloader.downloadFile(
+            url: response['certificate'],
+            name: 'certificate.png',
+          );
+          //show dialog
+          _showDialog();
+        } else {
+          //show error message
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("Storage permission denied"),
+              backgroundColor: Colors.red,
+            ),
+          );
+        
+        }
       }
     } catch (e) {
       //show error message
@@ -316,7 +338,7 @@ class _AttendedSingleCpdDisplayState extends State<AttendedSingleCpdDisplay> {
     }
   }
 
-    void _showDialog() {
+  void _showDialog() {
     showDialog(
       context: context,
       builder: (context) => CleanDialog(

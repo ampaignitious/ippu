@@ -8,6 +8,7 @@ import 'package:ippu/Screens/CommunicationScreen.dart';
 import 'package:ippu/Screens/CpdsScreen.dart';
 import 'package:ippu/Screens/EventsScreen.dart';
 import 'package:ippu/Screens/HomeScreen.dart';
+import 'package:ippu/Screens/animated_text.dart';
 import 'package:ippu/controllers/auth_controller.dart';
 import 'package:ippu/models/UserData.dart';
 import 'package:ippu/models/UserProvider.dart';
@@ -175,16 +176,17 @@ class _DefaultScreenState extends State<DefaultScreen> {
             child: Text("${snapshot.error}"),
           );
         } else if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Scaffold(
-            backgroundColor: Colors.white,
-            body: Center(
-              child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(
-                  Colors.blue, // Set the color of the spinner
+            return const Scaffold(
+                backgroundColor: Colors.white,
+                body: Center(
+                  child: AnimatedLoadingText(
+                    loadingTexts: [
+                      "Loading",
+                      "Please wait...",
+                    ],
+                  ),
                 ),
-              ),
-            ),
-          );
+              );
         } else {
           // Check if there is no internet connection
           if (!connectivity.isConnected) {

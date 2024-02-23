@@ -116,7 +116,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   padding: EdgeInsets.symmetric(horizontal: size.width * 0.12),
                   child: Text(
                     'Confirm Attendence',
-                    style: GoogleFonts.lato(),
+                      style: GoogleFonts.lato(
+    textStyle: TextStyle(color: Colors.white), // Set text color to white
+  ),
                   ),
                 ),
               ),

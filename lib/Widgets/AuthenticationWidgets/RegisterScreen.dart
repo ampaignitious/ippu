@@ -133,7 +133,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
             return Scaffold(
               backgroundColor: Colors.white,
               body: Center(
-                child: AnimatedLoadingText(),
+                child: AnimatedLoadingText(
+                  loadingTexts: [
+                    "Fetching account types...",
+                    "Please wait...",
+                  ],
+                ),
               ),
             );
           } else if (snapshot.hasError) {

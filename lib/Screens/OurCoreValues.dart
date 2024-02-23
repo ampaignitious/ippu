@@ -18,7 +18,9 @@ class _OurCoreValuesState extends State<OurCoreValues> {
         elevation: 0,
         title: Text(
           "Our Core Values",
-          style: GoogleFonts.lato(),
+            style: GoogleFonts.lato(
+    textStyle: TextStyle(color: Colors.white), // Set text color to white
+  ),
         ),
       ),
       body: SingleChildScrollView(

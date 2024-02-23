@@ -1,10 +1,8 @@
 class AppEndpoints {
-  // static const String baseUrl = 'https://ippu.org/api';
   static const String baseUrl = 'https://ippu.org/api';
   static const String loginEndPoint = "/login";
   static const String regiserEndPoint = "/register";
   static const String logoutEndPoint = "/logout";
-
   static const String cpdsEndPoint = "/cpds/{user_id}";
   static const String eventsEndPoint = "/events/{user_id}";
   static const String educationBackgroundEndPoint = "/education-background";
@@ -22,7 +20,7 @@ class AppEndpoints {
   static const String downloadEventCertificate = "/events/certificate/{event}";
   static const String downloadCpdCertificate = "/cpds/certificate/{cpd}";
 
+  static const String downloadMembershipCertificate = "/membership-certificate";
+
   static const String subscribe = "/subscribe";
 }
-
-
