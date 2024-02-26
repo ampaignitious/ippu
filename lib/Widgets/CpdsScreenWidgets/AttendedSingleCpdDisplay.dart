@@ -13,10 +13,10 @@ class AttendedSingleCpdDisplay extends StatefulWidget {
   String? endDate;
   String? type;
   String? location;
-
   String? content;
   String? target_group;
   String eventId;
+  String? status;
 
   AttendedSingleCpdDisplay(
       {super.key,
@@ -28,7 +28,9 @@ class AttendedSingleCpdDisplay extends StatefulWidget {
       this.target_group,
       this.cpdsname,
       this.imagelink,
-      required this.eventId});
+      required this.eventId,
+      this.status
+      });
 
   @override
   State<AttendedSingleCpdDisplay> createState() =>
@@ -41,7 +43,9 @@ class AttendedSingleCpdDisplay extends StatefulWidget {
           this.startDate,
           this.endDate,
           this.type,
-          this.eventId);
+          this.eventId,
+          this.status
+          );
 }
 
 class _AttendedSingleCpdDisplayState extends State<AttendedSingleCpdDisplay> {
@@ -55,6 +59,7 @@ class _AttendedSingleCpdDisplayState extends State<AttendedSingleCpdDisplay> {
 
   String? content;
   String? target_group;
+  String? status;
   _AttendedSingleCpdDisplayState(
       this.content,
       this.location,
@@ -64,7 +69,8 @@ class _AttendedSingleCpdDisplayState extends State<AttendedSingleCpdDisplay> {
       this.startDate,
       this.endDate,
       this.type,
-      this.eventId);
+      this.eventId,
+      this.status);
 
   @override
   Widget build(BuildContext context) {
@@ -255,7 +261,7 @@ class _AttendedSingleCpdDisplayState extends State<AttendedSingleCpdDisplay> {
               ),
               //
 
-              Center(
+              status=="Attended"?Center(
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color.fromARGB(
@@ -277,7 +283,7 @@ class _AttendedSingleCpdDisplayState extends State<AttendedSingleCpdDisplay> {
                     ),
                   ),
                 ),
-              ),
+              ):Text(""),
               //
               //
               SizedBox(

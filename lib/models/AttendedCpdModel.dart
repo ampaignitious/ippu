@@ -15,6 +15,8 @@ class AttendedCpdModel {
   final String status;
   final String type;
   final String banner;
+  final String attendance_status;
+
 
 
   AttendedCpdModel({
@@ -34,5 +36,6 @@ class AttendedCpdModel {
     required this.status,
     required this.type,
     required this.banner,
+    required this.attendance_status
   });
 }

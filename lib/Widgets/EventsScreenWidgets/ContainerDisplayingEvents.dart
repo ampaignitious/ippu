@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -65,6 +66,8 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents>
       if (response.statusCode == 200) {
         final Map<String, dynamic> jsonData = jsonDecode(response.body);
         final List<dynamic> eventData = jsonData['data'];
+
+        log("events data: $eventData");
         List<AllEventsModel> eventsData = eventData.map((item) {
           if(item['points']==null){
             item['points'] = '0';
@@ -82,6 +85,7 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents>
             attachment_name: item['attachment_name'] ?? '',
             banner_name: item['banner_name'] ?? '',
             details: item['details'] ?? '',
+            status: item['status'] ?? '',
           );
         }).toList();
         print(eventsData);

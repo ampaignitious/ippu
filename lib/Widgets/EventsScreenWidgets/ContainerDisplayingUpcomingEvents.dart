@@ -80,6 +80,7 @@ class _ContainerDisplayingUpcomingEventsState
             attachment_name: item['attachment_name'] ?? '',
             banner_name: item['banner_name'] ?? '',
             details: item['details'] ?? '',
+            status: item['status'] ?? '',
           );
         }).toList();
         print(eventsData);

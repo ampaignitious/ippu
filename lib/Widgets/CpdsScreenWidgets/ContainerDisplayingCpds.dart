@@ -93,8 +93,8 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
               status: item['status']??"",
               type: item['type']??"",
               banner: item['banner']??"",
-              attendance_request: item['attendance_request']??""
-              //
+              attendance_request: item['attendance_request']??"",
+              attendance_status: item['attendance_status']??"",
               );
         }).toList();
         return cpdData;

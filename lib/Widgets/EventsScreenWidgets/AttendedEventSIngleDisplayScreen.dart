@@ -16,6 +16,7 @@ class AttendedEventSIngleDisplayScreen extends StatefulWidget {
   String rate;
   String start_date;
   String end_date;
+  String status;
 
   AttendedEventSIngleDisplayScreen(
       {super.key,
@@ -26,7 +27,9 @@ class AttendedEventSIngleDisplayScreen extends StatefulWidget {
       required this.details,
       required this.imageLink,
       required this.points,
-      required this.rate});
+      required this.rate,
+      required this.status
+      });
 
   @override
   State<AttendedEventSIngleDisplayScreen> createState() =>
@@ -39,6 +42,7 @@ class AttendedEventSIngleDisplayScreen extends StatefulWidget {
         this.name,
         this.points,
         this.rate,
+        this.status
       );
 }
 
@@ -52,6 +56,7 @@ class _AttendedEventSIngleDisplayScreenState
   String start_date;
   String end_date;
   String eventId;
+  String status;
   _AttendedEventSIngleDisplayScreenState(
     this.eventId,
     this.start_date,
@@ -61,6 +66,7 @@ class _AttendedEventSIngleDisplayScreenState
     this.name,
     this.points,
     this.rate,
+    this.status
   );
 
   double _progress = 0.0;
@@ -70,7 +76,7 @@ class _AttendedEventSIngleDisplayScreenState
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text("${name}"),
+        title: Text("${name}", style: TextStyle(color: Colors.white),),
         backgroundColor: Color.fromARGB(255, 42, 129, 201),
         elevation: 0,
       ),
@@ -220,7 +226,7 @@ class _AttendedEventSIngleDisplayScreenState
               ),
               //
               Center(
-                child: ElevatedButton(
+                child: status=="Attended"?ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     primary: Color.fromARGB(
                         255, 42, 129, 201), // Change button color to green
@@ -240,7 +246,7 @@ class _AttendedEventSIngleDisplayScreenState
                       ),
                     ),
                   ),
-                ),
+                ): Text(""),
               ),
               //
               //

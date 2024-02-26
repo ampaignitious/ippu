@@ -10,6 +10,7 @@ class MyAttendedEvents {
   String attachment_name;
   String banner_name;
   String details;
+  String status;
 
   MyAttendedEvents({
     required this.id,
@@ -22,6 +23,7 @@ class MyAttendedEvents {
     required this.attachment_name,
     required this.banner_name,
     required this.details,
+    required this.status,
   });
   
 }

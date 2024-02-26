@@ -55,6 +55,7 @@ class _MyEventsState extends State<MyEvents> {
             attachment_name: item['attachment_name'] ?? '',
             banner_name: item['banner_name'] ?? '',
             details: item['details'] ?? '',
+            status: item['status'] ?? '',
           );
         }).toList();
         return eventsData;
@@ -229,6 +230,7 @@ class _MyEventsState extends State<MyEvents> {
                                             rate: data.rate,
                                             name: data.name,
                                             imageLink: data.banner_name,
+                                            status: data.status,
                                           );
                                         }));
                                       },

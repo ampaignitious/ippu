@@ -46,6 +46,7 @@ class _attendedCpdListBuilderState extends State<attendedCpdListBuilder> {
           status: item['status']??"",
           type: item['type']??"",
           banner: item['banner']??"",
+          attendance_status: item['attendance_status']??"",
         );
       }).toList();
       return eventsData;
@@ -204,6 +205,7 @@ class _attendedCpdListBuilderState extends State<attendedCpdListBuilder> {
                                   imagelink:
                                       'https://ippu.org/storage/banners/${data.banner}',
                                   cpdsname: data.topic,
+                                  status: data.attendance_status,
                                 );
                               }));
                             },

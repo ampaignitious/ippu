@@ -10,6 +10,7 @@ class AllEventsModel {
   String banner_name;
   String details;
   bool attandence_request;
+  String status;
 
   AllEventsModel({
     required this.id,
@@ -23,6 +24,7 @@ class AllEventsModel {
     required this.attachment_name,
     required this.banner_name,
     required this.details,
+    required this.status
   });
 
   String getStatus() {
@@ -45,6 +47,15 @@ class AllEventsModel {
     DateTime endDate = DateTime.parse(this.end_date);
 
     if (currentDate.isAfter(endDate)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  //attended
+  bool isAttended() {
+    if (this.status == "Attended") {
       return true;
     } else {
       return false;
