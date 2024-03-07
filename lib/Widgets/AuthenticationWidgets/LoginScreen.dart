@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:ippu/Screens/DefaultScreen.dart';
 import 'package:ippu/Widgets/AuthenticationWidgets/ForgotPasswordScreen.dart';
 import 'package:ippu/Widgets/AuthenticationWidgets/RegisterScreen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ippu/controllers/auth_controller.dart';
 
+import '../../Util/PhoneAuthFirebase.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -36,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
         final authResponse =
             await authController.signIn(_userEmail, _userPassword);
 
-            print("authResponse: $authResponse");
+        print("authResponse: $authResponse");
 
         // Close the loading indicator dialog
         Navigator.pop(context);
@@ -47,13 +49,12 @@ class _LoginScreenState extends State<LoginScreen> {
             content: Text(
                 "Invalid credentials, check your email and password and try again!"),
           ));
-        } else {  
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) {
-              //save the fcm token to the database
-              return const DefaultScreen();
-            }));
-          
+        } else {
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) {
+            //save the fcm token to the database
+            return const DefaultScreen();
+          }));
         }
       } catch (e) {
         // Handle unexpected errors
@@ -194,7 +195,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           padding: EdgeInsets.all(size.height * 0.028),
                         ),
                         onPressed: _loginForm,
-                        child: const Text('Sign In', style: TextStyle(color: Colors.white, fontSize: 25)),
+                        child: const Text('Sign In',
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 25)),
                       ),
                       SizedBox(height: size.height * 0.026),
                       Row(
@@ -244,6 +247,24 @@ class _LoginScreenState extends State<LoginScreen> {
                             padding: EdgeInsets.only(top: size.width * 0.08),
                             child: Text(
                               "forgot password ?",
+                              style: GoogleFonts.lato(
+                                fontSize: size.height * 0.020,
+                                color: const Color.fromARGB(255, 42, 129, 201)
+                                    .withOpacity(0.6),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Get.put(AuthenticationRepository()); 
+                        },
+                        child: Center(
+                          child: Padding(
+                            padding: EdgeInsets.only(top: size.width * 0.08),
+                            child: Text(
+                              "Login using Phone Number",
                               style: GoogleFonts.lato(
                                 fontSize: size.height * 0.020,
                                 color: const Color.fromARGB(255, 42, 129, 201)

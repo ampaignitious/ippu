@@ -26,7 +26,6 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
 
   bool _showBackToTopButton = false;
 
-  @override
   late Future<List<CpdModel>> cpdDataFuture;
   late List<CpdModel> fetchedData = [];
   void initState() {
@@ -56,7 +55,6 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
     super.dispose();
   }
 
-// function for fetching cpds
   Future<List<CpdModel>> fetchAllCpds() async {
     final userData = Provider.of<UserProvider>(context, listen: false).user;
     print('user id: ${userData?.id}');
@@ -108,8 +106,6 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
     }
   }
 
-//
-//
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;

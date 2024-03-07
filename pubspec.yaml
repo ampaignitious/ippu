@@ -30,7 +30,7 @@ environment:
 dependencies:
   flutter_html: ^3.0.0-alpha.6
   image_picker: ^1.0.4
-  google_fonts: 
+  google_fonts: ^6.1.0
   http: 1.1.0
   flutter_cache_manager: 
   fl_chart: ^0.65.0
@@ -47,12 +47,13 @@ dependencies:
   permission_handler: ^11.1.0
   firebase_core: ^2.23.0
   firebase_messaging: ^14.7.5
+  firebase_auth: ^4.17.7
   flutter_local_notifications: 
   overlay_support: ^2.1.0
   connectivity_plus: ^5.0.2
   flutter_file_downloader: ^1.2.1
   animated_text_kit:
-
+  get: ^4.6.6
   
 dev_dependencies:
   flutter_test:
