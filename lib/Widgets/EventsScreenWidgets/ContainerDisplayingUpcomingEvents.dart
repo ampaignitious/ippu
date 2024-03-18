@@ -22,12 +22,12 @@ class _ContainerDisplayingUpcomingEventsState
   AuthController authController = AuthController();
 
   final ScrollController _scrollController = ScrollController();
-  TextEditingController _searchController = TextEditingController();
-  String _searchQuery = '';
+  final TextEditingController _searchController = TextEditingController();
+  final String _searchQuery = '';
 
   void _scrollToTop() {
     _scrollController.animateTo(0,
-        duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+        duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
   }
 
   bool _showBackToTopButton = false;
@@ -111,17 +111,17 @@ class _ContainerDisplayingUpcomingEventsState
               ),
             ),
           ),
-          Divider(),
+          const Divider(),
           Expanded(
             child: FutureBuilder<List<AllEventsModel>>(
               future: eventDataFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return Center(
+                  return const Center(
                     child: Column(
                       children: [
                         Image(image: AssetImage('assets/no_data.png')),
@@ -144,7 +144,7 @@ class _ContainerDisplayingUpcomingEventsState
                         final endData = item.end_date;
                         final description = item.details;
                         final displaypoints = item.points;
-                        final attendance_request = item.attandence_request;
+                        final attendanceRequest = item.attandence_request;
                         final rate = item.rate;
                         final eventId = item.id.toString();
                         final imageLink = item.banner_name;
@@ -161,14 +161,14 @@ class _ContainerDisplayingUpcomingEventsState
                                 MaterialPageRoute(builder: (context) {
                                   return SingleEventDisplay(
                                     id: eventId.toString(),
-                                    attendance_request: attendance_request,
+                                    attendance_request: attendanceRequest,
                                     points: points.toString(),
                                     rate: rate,
                                     description: description,
                                     startDate: extractDate(startDate),
                                     endDate: extractDate(endData),
                                     imagelink:
-                                        'https://ippu.org/storage/banners/${imageLink}',
+                                        'https://ippu.org/storage/banners/$imageLink',
                                     eventName: eventName,
                                   );
                                 }),
@@ -188,7 +188,7 @@ class _ContainerDisplayingUpcomingEventsState
                                     boxShadow: [
                                       BoxShadow(
                                         color: Colors.grey.withOpacity(0.5),
-                                        offset: Offset(0.8, 1.0),
+                                        offset: const Offset(0.8, 1.0),
                                         blurRadius: 4.0,
                                         spreadRadius: 0.2,
                                       ),
@@ -198,7 +198,7 @@ class _ContainerDisplayingUpcomingEventsState
                                         color: Colors.grey.withOpacity(0.5)),
                                     image: DecorationImage(
                                       image: NetworkImage(
-                                          'https://ippu.org/storage/banners/${imageLink}'),
+                                          'https://ippu.org/storage/banners/$imageLink'),
                                     ),
                                   ),
                                 ),
@@ -207,11 +207,11 @@ class _ContainerDisplayingUpcomingEventsState
                                   width: size.width * 0.7,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color: Color.fromARGB(255, 42, 129, 201),
+                                    color: const Color.fromARGB(255, 42, 129, 201),
                                     boxShadow: [
                                       BoxShadow(
                                         color: Colors.grey.withOpacity(0.5),
-                                        offset: Offset(0.8, 1.0),
+                                        offset: const Offset(0.8, 1.0),
                                         blurRadius: 4.0,
                                         spreadRadius: 0.2,
                                       ),
@@ -270,7 +270,7 @@ class _ContainerDisplayingUpcomingEventsState
                                                       size: size.height * 0.02,
                                                       color: Colors.white,
                                                     ),
-                                                    Text(
+                                                    const Text(
                                                       "Start Date",
                                                       style: TextStyle(
                                                         color: Colors.white,
@@ -281,7 +281,7 @@ class _ContainerDisplayingUpcomingEventsState
                                                   ],
                                                 ),
                                                 Text(
-                                                  "${extractDate(item.start_date)}",
+                                                  extractDate(item.start_date),
                                                   style: TextStyle(
                                                       fontSize:
                                                           size.height * 0.008,
@@ -293,11 +293,11 @@ class _ContainerDisplayingUpcomingEventsState
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                Text("Points",
+                                                const Text("Points",
                                                     style: TextStyle(
                                                         color: Colors.white)),
                                                 Text(
-                                                  "${item.points}",
+                                                  item.points,
                                                   style: TextStyle(
                                                       fontSize:
                                                           size.height * 0.008,
@@ -321,7 +321,7 @@ class _ContainerDisplayingUpcomingEventsState
                       },
                     );
                   } else {
-                    return CircularProgressIndicator();
+                    return const CircularProgressIndicator();
                   }
                 }
               },

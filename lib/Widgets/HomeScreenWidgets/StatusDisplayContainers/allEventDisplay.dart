@@ -17,6 +17,7 @@ class _allEventDisplayState extends State<allEventDisplay> {
     super.initState();
   } 
 
+  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 

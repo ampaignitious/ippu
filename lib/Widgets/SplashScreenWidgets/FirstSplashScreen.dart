@@ -24,7 +24,7 @@ class _FirstSplashScreenState extends State<FirstSplashScreen>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 2),
+      duration: const Duration(seconds: 2),
     );
 
     _animation = CurvedAnimation(
@@ -57,12 +57,12 @@ class _FirstSplashScreenState extends State<FirstSplashScreen>
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(''),
+                const Text(''),
                 InkWell(
                   onTap: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return LoginScreen();
+                      return const LoginScreen();
                     }));
                   },
                   child: Padding(
@@ -71,7 +71,7 @@ class _FirstSplashScreenState extends State<FirstSplashScreen>
                       "skip",
                       style: GoogleFonts.lato(
                           fontSize: size.height * 0.025,
-                          color: Color.fromARGB(255, 42, 129, 201),
+                          color: const Color.fromARGB(255, 42, 129, 201),
                           fontWeight: FontWeight.bold),
                     ),
                   ),
@@ -81,7 +81,7 @@ class _FirstSplashScreenState extends State<FirstSplashScreen>
             SizedBox(
               height: size.height * 0.088,
             ),
-            Container(
+            SizedBox(
               height: size.height * 0.35,
               width: double.maxFinite,
               child: AnimatedBuilder(
@@ -93,7 +93,7 @@ class _FirstSplashScreenState extends State<FirstSplashScreen>
                   );
                 },
                 child: Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage("assets/image4.png"),
                     ),
@@ -110,7 +110,7 @@ class _FirstSplashScreenState extends State<FirstSplashScreen>
                   letterSpacing: 1,
                   fontSize: size.width * 0.082,
                   fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(255, 42, 129, 201)),
+                  color: const Color.fromARGB(255, 42, 129, 201)),
             ),
             SizedBox(
               height: size.height * 0.015,
@@ -119,7 +119,7 @@ class _FirstSplashScreenState extends State<FirstSplashScreen>
               padding: EdgeInsets.only(
                   right: size.width * 0.05, left: size.width * 0.06),
               child: Text(
-                "${discoverAboutIPPU}",
+                discoverAboutIPPU,
                 style: GoogleFonts.lato(fontSize: size.height * 0.016),
               ),
             ),
@@ -136,7 +136,7 @@ class _FirstSplashScreenState extends State<FirstSplashScreen>
                       margin: EdgeInsets.only(left: size.width * 0.084),
                       height: size.height * 0.052,
                       width: size.width * 0.062,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         shape: BoxShape.circle,
                         color: Color.fromARGB(255, 42, 129, 201)
                       ),
@@ -145,7 +145,7 @@ class _FirstSplashScreenState extends State<FirstSplashScreen>
                       margin: EdgeInsets.only(left: size.width * 0.04),
                       height: size.height * 0.052,
                       width: size.width * 0.062,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         shape: BoxShape.circle,
                         color: Colors.grey,
                       ),
@@ -154,7 +154,7 @@ class _FirstSplashScreenState extends State<FirstSplashScreen>
                       margin: EdgeInsets.only(left: size.width * 0.04),
                       height: size.height * 0.052,
                       width: size.width * 0.062,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         shape: BoxShape.circle,
                         color: Colors.grey,
                       ),
@@ -165,14 +165,14 @@ class _FirstSplashScreenState extends State<FirstSplashScreen>
                   onTap: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return SecondSplashScreen();
+                      return const SecondSplashScreen();
                     }));
                   },
                   child: Container(
                     margin: EdgeInsets.only(right: size.width * 0.04),
                     height: size.height * 0.08,
                     width: size.width * 0.16,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: Color.fromARGB(255, 42, 129, 201),
                     ),

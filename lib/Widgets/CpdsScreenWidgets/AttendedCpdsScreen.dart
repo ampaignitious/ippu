@@ -21,12 +21,12 @@ class _AttendedCpdsScreenState extends State<AttendedCpdsScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
  
-          Divider(),
-          Container(
+          const Divider(),
+          SizedBox(
             height: size.height*0.70,
             width: double.maxFinite,
  
-            child: attendedCpdListBuilder(),
+            child: const attendedCpdListBuilder(),
             ),
         ],
       ),

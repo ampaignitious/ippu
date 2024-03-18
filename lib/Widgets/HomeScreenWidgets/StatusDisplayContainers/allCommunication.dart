@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:ippu/Screens/CommunicationScreen.dart';
-import 'package:ippu/controllers/auth_controller.dart';
 import 'package:ippu/models/UserProvider.dart';
 import 'package:provider/provider.dart';
 
@@ -21,7 +20,7 @@ class _allCommunicationState extends State<allCommunication> {
     return InkWell(
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return CommunicationScreen();
+          return const CommunicationScreen();
         }));
       },
       child: Container(
@@ -29,7 +28,7 @@ class _allCommunicationState extends State<allCommunication> {
         width: size.width,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          gradient: LinearGradient(
+          gradient: const LinearGradient(
             colors: [
               Color.fromARGB(255, 42, 129, 201),
               Color.fromARGB(255, 42, 129, 201),
@@ -37,7 +36,7 @@ class _allCommunicationState extends State<allCommunication> {
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,
           ),
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
                 color: Colors.white,
                 offset: Offset(0.8, 0.3),
@@ -77,8 +76,8 @@ class _allCommunicationState extends State<allCommunication> {
                     border: Border.all(color: Colors.white),
                     borderRadius: BorderRadius.circular(8)),
                 child: Center(
-                    child: Text("${totalCommunication}",
-                        style: TextStyle(color: Colors.white))),
+                    child: Text("$totalCommunication",
+                        style: const TextStyle(color: Colors.white))),
               ),
             ),
           ],

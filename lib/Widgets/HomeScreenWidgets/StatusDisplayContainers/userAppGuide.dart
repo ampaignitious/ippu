@@ -15,7 +15,7 @@ class _userAppGuideState extends State<userAppGuide> {
     return InkWell(
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return UserAppGuide();
+          return const UserAppGuide();
         }));
       },
       child: Container(
@@ -23,7 +23,7 @@ class _userAppGuideState extends State<userAppGuide> {
         width: size.width * 0.9,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          gradient: LinearGradient(
+          gradient: const LinearGradient(
             colors: [
               Color.fromARGB(255, 42, 129, 201),
               Color.fromARGB(255, 42, 129, 201),
@@ -31,7 +31,7 @@ class _userAppGuideState extends State<userAppGuide> {
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,
           ),
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
                 color: Colors.white,
                 offset: Offset(0.8, 0.3),

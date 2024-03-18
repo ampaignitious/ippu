@@ -88,6 +88,7 @@ class _allCpdDisplayState extends State<allCpdDisplay> {
     }
   }
 
+  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     Provider.of<UserProvider>(context)
@@ -95,7 +96,7 @@ class _allCpdDisplayState extends State<allCpdDisplay> {
     return InkWell(
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return CpdsScreen();
+          return const CpdsScreen();
         }));
       },
       child: Container(
@@ -153,7 +154,7 @@ class _allCpdDisplayState extends State<allCpdDisplay> {
                     borderRadius: BorderRadius.circular(8)),
                 child: Center(
                     child: Text("${fetchedData.length}",
-                        style: TextStyle(color: Colors.white))),
+                        style: const TextStyle(color: Colors.white))),
               ),
             ),
           ],

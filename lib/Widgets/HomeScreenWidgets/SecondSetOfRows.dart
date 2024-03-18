@@ -25,13 +25,13 @@ class _SecondSetOfRowsState extends State<SecondSetOfRows> {
             boxShadow: [
               BoxShadow(
                 color: Colors.grey.withOpacity(0.4),
-                offset: Offset(0.8, 1.0),
+                offset: const Offset(0.8, 1.0),
                 blurRadius: 4.0,
                 spreadRadius: 0.2,
               ),
             ],
           ),
-          child: Text(""),
+          child: const Text(""),
         )
       ],
     );

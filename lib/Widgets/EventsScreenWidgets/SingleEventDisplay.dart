@@ -1,10 +1,7 @@
-import 'dart:convert';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ippu/Widgets/EventsScreenWidgets/PaymentScreen.dart';
-import 'package:ippu/models/AllEventsModel.dart';
 
 class SingleEventDisplay extends StatefulWidget {
   String imagelink;
@@ -31,15 +28,15 @@ class SingleEventDisplay extends StatefulWidget {
 
   @override
   State<SingleEventDisplay> createState() => _SingleEventDisplayState(
-      this.attendance_request,
-      this.id,
-      this.points,
-      this.description,
-      this.rate,
-      this.eventName,
-      this.imagelink,
-      this.startDate,
-      this.endDate);
+      attendance_request,
+      id,
+      points,
+      description,
+      rate,
+      eventName,
+      imagelink,
+      startDate,
+      endDate);
 }
 
 class _SingleEventDisplayState extends State<SingleEventDisplay> {
@@ -77,10 +74,10 @@ class _SingleEventDisplayState extends State<SingleEventDisplay> {
           eventName,
           style: GoogleFonts.lato(
             textStyle:
-                TextStyle(color: Colors.white), // Set text color to white
+                const TextStyle(color: Colors.white), // Set text color to white
           ),
         ),
-        backgroundColor: Color.fromARGB(255, 42, 129, 201),
+        backgroundColor: const Color.fromARGB(255, 42, 129, 201),
         elevation: 0,
       ),
       body: SingleChildScrollView(
@@ -101,13 +98,13 @@ class _SingleEventDisplayState extends State<SingleEventDisplay> {
                         BoxShadow(
                           color: Colors.grey.withOpacity(
                               0.5), // Adjust shadow color and opacity
-                          offset: Offset(0.8, 1.0), // Adjust the shadow offset
+                          offset: const Offset(0.8, 1.0), // Adjust the shadow offset
                           blurRadius: 4.0, // Adjust the blur radius
                           spreadRadius: 0.2, // Adjust the spread radius
                         )
                       ],
                       image:
-                          DecorationImage(image: NetworkImage("${imagelink}"))),
+                          DecorationImage(image: NetworkImage(imagelink))),
                 ),
               ),
               Padding(
@@ -128,7 +125,7 @@ class _SingleEventDisplayState extends State<SingleEventDisplay> {
                 child: Text(
                   eventName,
                   style: GoogleFonts.lato(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                         color: Colors.white), // Set text color to white
                   ),
                 ),
@@ -291,7 +288,7 @@ class _SingleEventDisplayState extends State<SingleEventDisplay> {
                           child: Text(
                             'Register to Attend',
                             style: GoogleFonts.lato(
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                   color:
                                       Colors.white), // Set text color to white
                             ),

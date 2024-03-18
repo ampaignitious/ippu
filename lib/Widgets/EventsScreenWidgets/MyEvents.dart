@@ -8,7 +8,7 @@ import 'package:ippu/models/UserProvider.dart';
 import 'package:provider/provider.dart';
 
 class MyEvents extends StatefulWidget {
-  const MyEvents({Key? key}) : super(key: key);
+  const MyEvents({super.key});
 
   @override
   State<MyEvents> createState() => _MyEventsState();
@@ -81,16 +81,16 @@ class _MyEventsState extends State<MyEvents> {
             height: size.height * 0.006,
           ),
           Center(
-            child: Container(
+            child: SizedBox(
               height: size.height * 0.70,
               width: size.width * 0.9,
               child: FutureBuilder<List<MyAttendedEvents>>(
                 future: eventDataFuture,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   } else if (snapshot.hasError) {
-                    return Center(
+                    return const Center(
                       child: Text(
                           "Check your internet connection to load the data"),
                     );
@@ -109,7 +109,7 @@ class _MyEventsState extends State<MyEvents> {
                                 boxShadow: [
                                   BoxShadow(
                                     color: Colors.grey.withOpacity(0.5),
-                                    offset: Offset(0.8, 1.0),
+                                    offset: const Offset(0.8, 1.0),
                                     blurRadius: 4.0,
                                     spreadRadius: 0.2,
                                   ),
@@ -134,7 +134,7 @@ class _MyEventsState extends State<MyEvents> {
                                                   "https://ippu.org/storage/banners/${data.banner_name}"))),
                                     ),
                                   ),
-                                  Divider(),
+                                  const Divider(),
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -161,9 +161,9 @@ class _MyEventsState extends State<MyEvents> {
                                                 left: size.width * 0.06,
                                                 top: size.height * 0.0008),
                                             child: Text(
-                                              "${data.name.split(' ').take(3).join(' ')}",
+                                              data.name.split(' ').take(3).join(' '),
                                               style:
-                                                  TextStyle(color: Colors.blue),
+                                                  const TextStyle(color: Colors.blue),
                                             ),
                                           ),
                                         ],
@@ -192,9 +192,9 @@ class _MyEventsState extends State<MyEvents> {
                                                   right: size.width * 0.06,
                                                   top: size.height * 0.0016),
                                               child: Text(
-                                                "${data.points}",
+                                                data.points,
                                                 textAlign: TextAlign.justify,
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     color: Colors.blue),
                                               ),
                                             ),
@@ -209,8 +209,7 @@ class _MyEventsState extends State<MyEvents> {
                                   Center(
                                     child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
-                                        primary: Color.fromARGB(255, 42, 129,
-                                            201), // Change button color to green
+                                       // Change button color to green
                                         padding:
                                             EdgeInsets.all(size.height * 0.020),
                                       ),
@@ -253,7 +252,7 @@ class _MyEventsState extends State<MyEvents> {
                       },
                     );
                   } else {
-                    return Center(child: Text('No data available'));
+                    return const Center(child: Text('No data available'));
                   }
                 },
               ),

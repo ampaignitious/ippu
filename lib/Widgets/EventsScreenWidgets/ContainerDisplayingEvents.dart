@@ -22,7 +22,7 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents>
 
   void _scrollToTop() {
     _scrollController.animateTo(0,
-        duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+        duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
   }
 
   bool _showBackToTopButton = false;
@@ -41,7 +41,7 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents>
     });
   }
 
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
 
   @override
@@ -109,13 +109,13 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents>
       floatingActionButton: Visibility(
         visible: _showBackToTopButton,
         child: FloatingActionButton(
-          backgroundColor: Color.fromARGB(255, 42, 129, 201),
+          backgroundColor: const Color.fromARGB(255, 42, 129, 201),
           onPressed: _scrollToTop,
-          child: Icon(
+          shape: const CircleBorder(),
+          child: const Icon(
             Icons.arrow_upward,
             color: Colors.white,
           ),
-          shape: CircleBorder(),
         ),
       ),
       body: Column(
@@ -139,7 +139,7 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents>
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.0),
-                  borderSide: BorderSide(color: Colors.blue),
+                  borderSide: const BorderSide(color: Colors.blue),
                 ),
                 suffixIcon: IconButton(
                   onPressed: () {
@@ -147,7 +147,7 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents>
                       _searchQuery = _searchController.text;
                     });
                   },
-                  icon: Icon(Icons.search),
+                  icon: const Icon(Icons.search),
                 ),
               ),
             ),
@@ -163,17 +163,17 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents>
               ),
             ),
           ),
-          Divider(),
+          const Divider(),
           Expanded(
             child: FutureBuilder<List<AllEventsModel>>(
               future: eventDataFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return Center(
+                  return const Center(
                     child: Column(
                       children: [
                         Image(image: AssetImage('assets/no_data.png')),
@@ -196,7 +196,7 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents>
                         final endData = item.end_date;
                         final description = item.details;
                         final displaypoints = item.points;
-                        final attendance_request = item.attandence_request;
+                        final attendanceRequest = item.attandence_request;
                         final rate = item.rate;
                         final eventId = item.id.toString();
                         final imageLink = item.banner_name;
@@ -213,14 +213,14 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents>
                                 MaterialPageRoute(builder: (context) {
                                   return SingleEventDisplay(
                                     id: eventId.toString(),
-                                    attendance_request: attendance_request,
+                                    attendance_request: attendanceRequest,
                                     points: points.toString(),
                                     rate: rate,
                                     description: description,
                                     startDate: startDate,
                                     endDate: endData,
                                     imagelink:
-                                        'https://ippu.org/storage/banners/${imageLink}',
+                                        'https://ippu.org/storage/banners/$imageLink',
                                     eventName: eventName,
                                   );
                                 }),
@@ -240,7 +240,7 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents>
                                     boxShadow: [
                                       BoxShadow(
                                         color: Colors.grey.withOpacity(0.5),
-                                        offset: Offset(0.8, 1.0),
+                                        offset: const Offset(0.8, 1.0),
                                         blurRadius: 4.0,
                                         spreadRadius: 0.2,
                                       ),
@@ -250,7 +250,7 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents>
                                         color: Colors.grey.withOpacity(0.5)),
                                     image: DecorationImage(
                                       image: NetworkImage(
-                                          'https://ippu.org/storage/banners/${imageLink}'),
+                                          'https://ippu.org/storage/banners/$imageLink'),
                                     ),
                                   ),
                                 ),
@@ -346,11 +346,11 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents>
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                Text("Points",
+                                                const Text("Points",
                                                     style: TextStyle(
                                                         color: Colors.white)),
                                                 Text(
-                                                  "${item.points}",
+                                                  item.points,
                                                   style: TextStyle(
                                                       fontSize:
                                                           size.height * 0.008,
@@ -362,7 +362,7 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents>
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                Text("Status",
+                                                const Text("Status",
                                                     style: TextStyle(
                                                         color: Colors.white)),
                                                 Text(
@@ -390,7 +390,7 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents>
                       },
                     );
                   } else {
-                    return CircularProgressIndicator();
+                    return const CircularProgressIndicator();
                   }
                 }
               },

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:ippu/Screens/DefaultScreen.dart';
 import 'package:ippu/Widgets/AuthenticationWidgets/ForgotPasswordScreen.dart';
+import 'package:ippu/Widgets/AuthenticationWidgets/PhoneAuthlogin.dart';
 import 'package:ippu/Widgets/AuthenticationWidgets/RegisterScreen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ippu/controllers/auth_controller.dart';
 
-import '../../Util/PhoneAuthFirebase.dart';
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -28,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
           context: context,
           barrierDismissible: false,
           builder: (BuildContext context) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           },
@@ -45,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
         if (authResponse.containsKey('error')) {
           // Handle authentication error
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text(
                 "Invalid credentials, check your email and password and try again!"),
           ));
@@ -59,7 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
       } catch (e) {
         // Handle unexpected errors
         print('Login failed: $e');
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text("Something went wrong. Please try again later."),
         ));
       }
@@ -217,7 +218,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             onTap: () {
                               Navigator.push(context,
                                   MaterialPageRoute(builder: (context) {
-                                return RegisterScreen();
+                                return const RegisterScreen();
                               }));
                             },
                             child: Padding(
@@ -258,7 +259,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          Get.put(AuthenticationRepository()); 
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return const PhoneAuthLogin();
+                          }));
+
                         },
                         child: Center(
                           child: Padding(

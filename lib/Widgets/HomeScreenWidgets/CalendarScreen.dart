@@ -12,6 +12,8 @@ import 'package:ippu/models/UserProvider.dart';
 import 'package:provider/provider.dart';
 
 class CalendarScreen extends StatefulWidget {
+  const CalendarScreen({super.key});
+
   @override
   _CalendarScreenState createState() => _CalendarScreenState();
 }
@@ -222,10 +224,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
       final events = await _getEventsForRange(start, end);
       _selectedEvents.value = events;
     } else if (start != null) {
-      final events = await _getEventsForDay(start);
+      final events = _getEventsForDay(start);
       _selectedEvents.value = events;
     } else if (end != null) {
-      final events = await _getEventsForDay(end);
+      final events = _getEventsForDay(end);
       _selectedEvents.value = events;
     }
   }
@@ -273,7 +275,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                         height: size.height * 0.3,
                       ),
                       const SizedBox(height: 20),
-                      Text(
+                      const Text(
                         "An error occurred while fetching events",
                         style: TextStyle(
                           color: Colors.black,
@@ -298,7 +300,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   Container(
                       width: double.infinity,
                       height: double.infinity,
-                      color: Color.fromARGB(255, 22, 91, 148)),
+                      color: const Color.fromARGB(255, 22, 91, 148)),
                   ClipPath(
                     clipper: MyClipper(),
                     child: Container(
@@ -356,7 +358,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                           },
                           calendarBuilders: CalendarBuilders(
                             markerBuilder: (context, date, events) {
-                              if (events.isEmpty) return SizedBox();
+                              if (events.isEmpty) return const SizedBox();
 
                               // Use Row for horizontal distribution
                               return Row(
@@ -404,8 +406,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                         'assets/empty_events.jpg', // Replace with your image path
                                         height: size.height * 0.35,
                                       ),
-                                      SizedBox(height: 20),
-                                      Text(
+                                      const SizedBox(height: 20),
+                                      const Text(
                                         "No events or CPDs found for the selected date",
                                         style: TextStyle(color: Colors.white),
                                       ),
@@ -433,17 +435,17 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                         ),
                                         title: Text(
                                           event.title,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             color: Colors.white,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                         trailing: event.attendanceRequest
-                                            ? Icon(
+                                            ? const Icon(
                                                 Icons.check,
                                                 color: Colors.green,
                                               )
-                                            : Icon(
+                                            : const Icon(
                                                 Icons.calendar_today_sharp,
                                                 color: Colors.yellow,
                                               ),

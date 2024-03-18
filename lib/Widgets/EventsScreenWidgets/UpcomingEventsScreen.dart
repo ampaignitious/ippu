@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:ippu/Widgets/EventsScreenWidgets/ContainerDisplayingUpcomingEvents.dart';
 
 class UpcomingEventsScreen extends StatefulWidget {
@@ -26,10 +25,10 @@ class _UpcomingEventsScreenState extends State<UpcomingEventsScreen> {
             Container(
             height: size.height*0.65,
             width: double.maxFinite,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               // color: Colors.blue,
             ),
-            child: ContainerDisplayingUpcomingEvents()),
+            child: const ContainerDisplayingUpcomingEvents()),
           ],
         ),
       );

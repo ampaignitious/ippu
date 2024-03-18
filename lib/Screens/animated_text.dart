@@ -5,9 +5,9 @@ class AnimatedLoadingText extends StatelessWidget {
   final List<String> loadingTexts;
 
   const AnimatedLoadingText({
-    Key? key,
+    super.key,
     required this.loadingTexts,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,19 +18,19 @@ class AnimatedLoadingText extends StatelessWidget {
           width: 250.0,
           child: TypewriterAnimatedTextKit(
             isRepeatingAnimation: true,
-            speed: Duration(milliseconds: 200),
+            speed: const Duration(milliseconds: 200),
             onTap: () {
             },
             text: loadingTexts,
-            textStyle: TextStyle(
+            textStyle: const TextStyle(
               fontSize: 25.0,
               color: Colors.blue,
             ),
             textAlign: TextAlign.center,
           ),
         ),
-        SizedBox(height: 20.0),
-        CircularProgressIndicator(
+        const SizedBox(height: 20.0),
+        const CircularProgressIndicator(
           backgroundColor: Colors.white,
         ),
       ],

@@ -29,8 +29,8 @@ class AllEventsModel {
 
   String getStatus() {
     DateTime currentDate = DateTime.now();
-    DateTime startDate = DateTime.parse(this.start_date);
-    DateTime endDate = DateTime.parse(this.end_date);
+    DateTime startDate = DateTime.parse(start_date);
+    DateTime endDate = DateTime.parse(end_date);
 
     if (currentDate.isBefore(startDate)) {
       return "Pending";
@@ -44,7 +44,7 @@ class AllEventsModel {
     //check if an event happened and return true else false
   bool isHappened() {
     DateTime currentDate = DateTime.now();
-    DateTime endDate = DateTime.parse(this.end_date);
+    DateTime endDate = DateTime.parse(end_date);
 
     if (currentDate.isAfter(endDate)) {
       return true;
@@ -55,7 +55,7 @@ class AllEventsModel {
 
   //attended
   bool isAttended() {
-    if (this.status == "Attended") {
+    if (status == "Attended") {
       return true;
     } else {
       return false;

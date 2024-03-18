@@ -12,8 +12,8 @@ class _IppuTermsOfUseState extends State<IppuTermsOfUse> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("IPPU Terms of use",),
-        backgroundColor:Color.fromARGB(255, 42, 129, 201),
+        title: const Text("IPPU Terms of use",),
+        backgroundColor:const Color.fromARGB(255, 42, 129, 201),
         elevation: 0,
       ),
     );

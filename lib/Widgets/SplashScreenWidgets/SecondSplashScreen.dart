@@ -19,7 +19,7 @@ class _SecondSplashScreenState extends State<SecondSplashScreen>  with SingleTic
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 160), // Adjust the duration as needed
+      duration: const Duration(seconds: 160), // Adjust the duration as needed
     )..repeat();
   }
 
@@ -28,6 +28,7 @@ class _SecondSplashScreenState extends State<SecondSplashScreen>  with SingleTic
     _controller.dispose();
     super.dispose();
   }
+  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
@@ -41,16 +42,16 @@ class _SecondSplashScreenState extends State<SecondSplashScreen>  with SingleTic
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(''),
+                const Text(''),
                 InkWell(
                   onTap: (){
                     Navigator.push(context, MaterialPageRoute(builder: (context){
-                      return LoginScreen();
+                      return const LoginScreen();
                     }));
                   },
                   child: Padding(
                     padding: EdgeInsets.only(right: size.width*0.05),
-                    child: Text("skip", style: TextStyle(fontSize: size.height*0.025, color: Color.fromARGB(255, 42, 129, 201), fontWeight: FontWeight.bold),),
+                    child: Text("skip", style: TextStyle(fontSize: size.height*0.025, color: const Color.fromARGB(255, 42, 129, 201), fontWeight: FontWeight.bold),),
                   ),
                 )
               ],
@@ -58,12 +59,12 @@ class _SecondSplashScreenState extends State<SecondSplashScreen>  with SingleTic
             SizedBox(
               height: size.height*0.088,
             ),
-            Container(
+            SizedBox(
   height: size.height * 0.35,
   width: double.maxFinite,
   child: RotationTransition(
     turns: _controller,
-    child: DecoratedBox(
+    child: const DecoratedBox(
       decoration: BoxDecoration(
         image: DecorationImage(image: AssetImage("assets/image6.png")),
       ),
@@ -76,7 +77,7 @@ class _SecondSplashScreenState extends State<SecondSplashScreen>  with SingleTic
             Text("EVENTS & CPD Trainings", style: GoogleFonts.lato(
               fontSize: size.width * 0.082,
                fontWeight: FontWeight.bold,
-               color: Color.fromARGB(255, 42, 129, 201)
+               color: const Color.fromARGB(255, 42, 129, 201)
             ),),
             
             SizedBox(
@@ -84,7 +85,7 @@ class _SecondSplashScreenState extends State<SecondSplashScreen>  with SingleTic
             ),
             Padding(
               padding: EdgeInsets.only(right: size.width*0.05, left: size.width*0.06),
-              child: Text("${eventsAndTraining}", style: TextStyle(fontSize: size.height
+              child: Text(eventsAndTraining, style: TextStyle(fontSize: size.height
               *0.016),),
             ),
             SizedBox(
@@ -115,7 +116,7 @@ class _SecondSplashScreenState extends State<SecondSplashScreen>  with SingleTic
                       margin: EdgeInsets.only(left: size.width*0.048),
                       height: size.height*0.052,
                       width: size.width*0.062,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         shape: BoxShape.circle,
                         color: Colors.grey,
                       ),
@@ -124,7 +125,7 @@ class _SecondSplashScreenState extends State<SecondSplashScreen>  with SingleTic
                       margin: EdgeInsets.only(left: size.width*0.04),
                       height: size.height*0.052,
                       width: size.width*0.062,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         shape: BoxShape.circle,
                         color: Color.fromARGB(255, 42, 129, 201),
                       ),
@@ -133,7 +134,7 @@ class _SecondSplashScreenState extends State<SecondSplashScreen>  with SingleTic
                       margin: EdgeInsets.only(left: size.width*0.04),
                       height: size.height*0.052,
                       width: size.width*0.062,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         shape: BoxShape.circle,
                        color: Colors.grey,
                       ),
@@ -143,13 +144,13 @@ class _SecondSplashScreenState extends State<SecondSplashScreen>  with SingleTic
                 InkWell(
                   onTap: (){
                     Navigator.push(context, MaterialPageRoute(builder: (context){
-                  return ThirdSplashScreen();
+                  return const ThirdSplashScreen();
                 }));},
                   child: Container(
                     margin: EdgeInsets.only(right: size.width*0.04),
                     height: size.height*0.08,
                     width: size.width*0.16,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: Color.fromARGB(255, 42, 129, 201),
                     ),

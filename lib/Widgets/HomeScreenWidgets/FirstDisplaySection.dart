@@ -42,7 +42,7 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection>
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 10), () {
+    Timer(const Duration(seconds: 10), () {
       setState(() {
         isSubscription = false;
       });
@@ -57,7 +57,7 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection>
     cpdDataFuture = fetchAllCpds();
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 2),
+      duration: const Duration(seconds: 2),
     );
 
     _animation = CurvedAnimation(
@@ -127,18 +127,18 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection>
 //
   Future<void> fetchData() async {
     final userData = Provider.of<UserProvider>(context, listen: false).user;
-    int user_id = userData!.id;
+    int userId = userData!.id;
     try {
       AuthController authController = AuthController();
-      final cpds = await authController.getCpds(user_id);
-      final events = await authController.getEvents(user_id);
-      final communications = await authController.getAllCommunications(user_id);
-      TextEditingController _searchController = TextEditingController();
-      String _searchQuery = '';
+      final cpds = await authController.getCpds(userId);
+      final events = await authController.getEvents(userId);
+      final communications = await authController.getAllCommunications(userId);
+      TextEditingController searchController = TextEditingController();
+      String searchQuery = '';
 
       @override
       void dispose() {
-        _searchController.dispose();
+        searchController.dispose();
         super.dispose();
       }
 
@@ -173,7 +173,7 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection>
         Container(
           height: size.height * 0.35,
           width: size.width * 1,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Color.fromARGB(255, 42, 129, 201),
           ),
           child: Column(
@@ -184,7 +184,7 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection>
                     color: Colors.white, fontSize: size.height * 0.016),
               ),
               SizedBox(height: size.height * 0.026),
-              StatDisplayRow(),
+              const StatDisplayRow(),
             ],
           ),
         ),
@@ -268,7 +268,7 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection>
                             onTap: () {
                               Navigator.push(context,
                                   MaterialPageRoute(builder: (context) {
-                                return ProfileScreen();
+                                return const ProfileScreen();
                               }));
                             },
                             child: Center(
@@ -320,7 +320,7 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection>
                             onTap: () {
                               Navigator.push(context,
                                   MaterialPageRoute(builder: (context) {
-                                return ProfileScreen();
+                                return const ProfileScreen();
                               }));
                             },
                             child: Center(

@@ -20,6 +20,12 @@ abstract class AuthRestClient {
   @POST(AppEndpoints.regiserEndPoint)
   Future<dynamic> signUp({@Body() required Map<String, dynamic> body});
 
+  @POST(AppEndpoints.checkPhoneNumberEndPoint)
+  Future<dynamic> checkPhoneNumber({@Body() required Map<String, String> body});
+
+  @POST(AppEndpoints.phoneLoginEndPoint)
+  Future<dynamic> phoneLogin({@Body() required Map<String, String> body});
+
   @POST(AppEndpoints.logoutEndPoint)
   Future<dynamic> signOut();
 

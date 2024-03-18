@@ -42,13 +42,13 @@ class _EducationBackgroundScreenState extends State<EducationBackgroundScreen> {
   }
 
   //form fields
-  TextEditingController _title = TextEditingController();
-  TextEditingController _type = TextEditingController();
-  TextEditingController _startDate = TextEditingController();
-  TextEditingController _endDate = TextEditingController();
-  TextEditingController _points = TextEditingController();
-  TextEditingController _field = TextEditingController();
-  TextEditingController _userId = TextEditingController();
+  final TextEditingController _title = TextEditingController();
+  final TextEditingController _type = TextEditingController();
+  final TextEditingController _startDate = TextEditingController();
+  final TextEditingController _endDate = TextEditingController();
+  final TextEditingController _points = TextEditingController();
+  final TextEditingController _field = TextEditingController();
+  final TextEditingController _userId = TextEditingController();
   int education_background_id = 0;
 
   Future<void> addEducationBackground({
@@ -141,22 +141,23 @@ class _EducationBackgroundScreenState extends State<EducationBackgroundScreen> {
   }
 
   //
+  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 42, 129, 201),
+        backgroundColor: const Color.fromARGB(255, 42, 129, 201),
         elevation: 0,
         title: Text("Education Background", style: GoogleFonts.lato(color: Colors.white,)),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Color.fromARGB(255, 42, 129, 201),
+        backgroundColor: const Color.fromARGB(255, 42, 129, 201),
         onPressed: () {
           _toggleFormVisibility(FormMode.Add);
         },
         tooltip: 'Add Education',
-        child: Icon(Icons.add, color: Colors.white,),
+        child: const Icon(Icons.add, color: Colors.white,),
       ),
       body: Column(
         children: [
@@ -180,18 +181,18 @@ class _EducationBackgroundScreenState extends State<EducationBackgroundScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Divider(),
+        const Divider(),
         Center(
-          child: Container(
+          child: SizedBox(
             height: size.height * 0.78,
             width: size.width * 0.85,
             child: FutureBuilder<List<EducationData>>(
               future: eventDataFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
-                  return Center(
+                  return const Center(
                     child:
                         Text("Check your internet connection to load the data"),
                   );
@@ -203,8 +204,8 @@ class _EducationBackgroundScreenState extends State<EducationBackgroundScreen> {
                         SizedBox(
                           height: size.height * 0.14,
                         ),
-                        Image(image: AssetImage('assets/no_data.png')),
-                        Text("No education data available")
+                        const Image(image: AssetImage('assets/no_data.png')),
+                        const Text("No education data available")
                       ],
                     ),
                   );
@@ -275,7 +276,7 @@ class _EducationBackgroundScreenState extends State<EducationBackgroundScreen> {
                                           _populateFormFields(
                                               experience); // Pass the index here
                                         },
-                                        child: Icon(Icons.edit, color: Colors.white), // Edit Icon
+                                        child: const Icon(Icons.edit, color: Colors.white), // Edit Icon
                                       ),
                                     ])
                                   ],
@@ -288,7 +289,7 @@ class _EducationBackgroundScreenState extends State<EducationBackgroundScreen> {
                     },
                   );
                 } else {
-                  return Center(child: Text('No data available'));
+                  return const Center(child: Text('No data available'));
                 }
               },
             ),
@@ -331,7 +332,7 @@ class _EducationBackgroundScreenState extends State<EducationBackgroundScreen> {
     // Define border radius and border width for the input fields
     final OutlineInputBorder outlineInputBorder = OutlineInputBorder(
       borderRadius: BorderRadius.circular(10.0),
-      borderSide: BorderSide(
+      borderSide: const BorderSide(
         color: Colors.grey, // Border color
         width: 1.0, // Border width
       ),
@@ -404,7 +405,7 @@ class _EducationBackgroundScreenState extends State<EducationBackgroundScreen> {
                   _clearForm();
                   _toggleFormVisibility(FormMode.Add);
                 },
-                child: Text('Cancel'),
+                child: const Text('Cancel'),
               ),
               ElevatedButton(
                 onPressed: () {

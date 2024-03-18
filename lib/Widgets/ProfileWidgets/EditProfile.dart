@@ -14,7 +14,7 @@ import 'package:ippu/models/UserProvider.dart';
 import 'package:provider/provider.dart';
 
 class EditProfile extends StatefulWidget {
-  const EditProfile({Key? key}) : super(key: key);
+  const EditProfile({super.key});
 
   @override
   State<EditProfile> createState() => _EditProfileState();
@@ -22,7 +22,7 @@ class EditProfile extends StatefulWidget {
 
 class _EditProfileState extends State<EditProfile> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  TextEditingController _dateController = TextEditingController();
+  final TextEditingController _dateController = TextEditingController();
   late Future<UserData> userDataFuture;
   late Future<dynamic> profileData;
   late UserData userDataProfile;
@@ -43,7 +43,7 @@ class _EditProfileState extends State<EditProfile> {
 
   late ImageProvider _avatarImage;
 
-  FocusNode _dateFocusNode = FocusNode();
+  final FocusNode _dateFocusNode = FocusNode();
   @override
   void initState() {
     super.initState();
@@ -295,7 +295,7 @@ class _EditProfileState extends State<EditProfile> {
                                       });
                                     },
                                   ),
-                                  Text('Male'),
+                                  const Text('Male'),
                                   Radio(
                                     value: 'female',
                                     groupValue: gender,
@@ -307,7 +307,7 @@ class _EditProfileState extends State<EditProfile> {
                                       });
                                     },
                                   ),
-                                  Text('Female'),
+                                  const Text('Female'),
                                 ],
                               ),
                               SizedBox(height: size.height * 0.018),
@@ -493,7 +493,7 @@ class _EditProfileState extends State<EditProfile> {
   Future<void> _selectDate(
       BuildContext context, TextEditingController controller) async {
     DateTime currentDate = DateTime.now();
-    DateTime eighteenYearsAgo = currentDate.subtract(Duration(days: 18 * 365));
+    DateTime eighteenYearsAgo = currentDate.subtract(const Duration(days: 18 * 365));
 
     final DateTime? picked = await showDatePicker(
         context: context,
@@ -504,7 +504,7 @@ class _EditProfileState extends State<EditProfile> {
         lastDate: DateTime(2101),
         //selectable date starts from date.now minus 18 years
         selectableDayPredicate: (DateTime date) =>
-            date.isBefore(currentDate.subtract(Duration(days: 18 * 365 - 1))));
+            date.isBefore(currentDate.subtract(const Duration(days: 18 * 365 - 1))));
     if (picked != null) {
       // Update the selected date in the text field
       final formattedDate = DateFormat('yyyy-MM-dd').format(picked);
@@ -553,14 +553,14 @@ class _EditProfileState extends State<EditProfile> {
         },
       );
       print("response-code: ${response.statusCode}");
-      CircleAvatar();
+      const CircleAvatar();
       if (response.statusCode == 200) {
         // Handle a successful API response
         print('Data sent successfully');
-        CircleAvatar();
+        const CircleAvatar();
         showBottomNotification('Profile information updated successfully');
         Navigator.push(context,
-            MaterialPageRoute(builder: ((context) => ProfileScreen())));
+            MaterialPageRoute(builder: ((context) => const ProfileScreen())));
       } else {
         // Handle errors or unsuccessful response
         showBottomNotification('Update failed, please try again');
@@ -585,7 +585,7 @@ class _EditProfileState extends State<EditProfile> {
   bool isEighteenYearsAndAbove(DateTime date) {
     final now = DateTime.now();
     final difference = now.difference(date).inDays;
-    final daysPerYear = 365.25;
+    const daysPerYear = 365.25;
     final years = (difference / daysPerYear).floor();
     return years >= 18;
   }

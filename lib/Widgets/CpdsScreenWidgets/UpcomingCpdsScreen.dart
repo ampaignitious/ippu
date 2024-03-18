@@ -27,7 +27,7 @@ class _UpcommingCpdsScreenState extends State<UpcommingCpdsScreen> {
               ),),
             ),
             SizedBox(height: size.height*0.0045,),
-            Divider(
+            const Divider(
               thickness: 1,
             ),
             SizedBox(height: size.height*0.002,),
@@ -35,10 +35,10 @@ class _UpcommingCpdsScreenState extends State<UpcommingCpdsScreen> {
             Container(
             height: size.height*0.65,
             width: double.maxFinite,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               // color: Colors.blue,
             ),
-            child: ContainerDisplayingUpcomingCpds()),
+            child: const ContainerDisplayingUpcomingCpds()),
           ],
         ),
       );

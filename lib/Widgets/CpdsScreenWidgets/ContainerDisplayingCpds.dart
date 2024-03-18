@@ -21,13 +21,14 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
 
   void _scrollToTop() {
     _scrollController.animateTo(0,
-        duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+        duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
   }
 
   bool _showBackToTopButton = false;
 
   late Future<List<CpdModel>> cpdDataFuture;
   late List<CpdModel> fetchedData = [];
+  @override
   void initState() {
     super.initState();
     _scrollController.addListener(_updateScrollVisibility);
@@ -46,7 +47,7 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
     });
   }
 
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
 
   @override
@@ -114,13 +115,13 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
       floatingActionButton: Visibility(
         visible: _showBackToTopButton,
         child: FloatingActionButton(
-          backgroundColor: Color.fromARGB(255, 42, 129, 201),
+          backgroundColor: const Color.fromARGB(255, 42, 129, 201),
           onPressed: _scrollToTop,
-          child: Icon(
+          shape: const CircleBorder(),
+          child: const Icon(
             Icons.arrow_upward,
             color: Colors.white,
           ),
-          shape: CircleBorder(),
         ),
       ),
       body: Column(
@@ -144,7 +145,7 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.0),
-                  borderSide: BorderSide(color: Colors.blue),
+                  borderSide: const BorderSide(color: Colors.blue),
                 ),
                 suffixIcon: IconButton(
                   onPressed: () {
@@ -152,7 +153,7 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                       _searchQuery = _searchController.text;
                     });
                   },
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.search,
                     color: Colors.lightBlue,
                   ),
@@ -171,22 +172,22 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
               ),
             ),
           ),
-          Divider(),
+          const Divider(),
           Expanded(
             child: FutureBuilder<List<CpdModel>>(
               future: cpdDataFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
                   // return Text('Error: ${snapshot.error}');
-                  return Center(
+                  return const Center(
                     child: Image(
                         image: AssetImage('assets/check_data_connection.png')),
                   );
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                   // return const Text('No data available');
-                  return Center(
+                  return const Center(
                     child: Column(
                       children: [
                         Image(image: AssetImage('assets/no_data.png')),
@@ -204,18 +205,18 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                       itemBuilder: (context, index) {
                         final item = data[index];
                         // Ensure the properties accessed here match the structure of your API response
-                        final imagelink = 'assets/cpds0.jpg';
+                        const imagelink = 'assets/cpds0.jpg';
                         final activityName = item.topic;
                         final points = item.points;
                         final startDate = item.startDate;
                         final endDate = item.endDate;
                         final content = item.content;
-                        final attendance_request = item.attendance_request;
+                        final attendanceRequest = item.attendance_request;
                         final rate = item.normalRate;
                         final location = item.location;
                         final type = item.type;
                         final imageLink = item.banner;
-                        final target_group = item.targetGroup;
+                        final targetGroup = item.targetGroup;
                         final cpdId = item.id.toString();
                         if (_searchQuery.isEmpty ||
                             activityName
@@ -229,9 +230,9 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                                 context,
                                 MaterialPageRoute(builder: (context) {
                                   return CpdsSingleEventDisplay(
-                                    attendance_request: attendance_request,
+                                    attendance_request: attendanceRequest,
                                     content: content,
-                                    target_group: target_group,
+                                    target_group: targetGroup,
                                     startDate: startDate,
                                     endDate: endDate,
                                     rate: location.toString(),
@@ -240,7 +241,7 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                                     location: rate,
                                     attendees: points,
                                     imagelink:
-                                        'https://ippu.org/storage/banners/${imageLink}',
+                                        'https://ippu.org/storage/banners/$imageLink',
                                     cpdsname: activityName,
                                   );
                                 }),
@@ -260,7 +261,7 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                                     boxShadow: [
                                       BoxShadow(
                                         color: Colors.grey.withOpacity(0.5),
-                                        offset: Offset(0.8, 1.0),
+                                        offset: const Offset(0.8, 1.0),
                                         blurRadius: 4.0,
                                         spreadRadius: 0.2,
                                       ),
@@ -270,7 +271,7 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                                         color: Colors.grey.withOpacity(0.5)),
                                     image: DecorationImage(
                                       image: NetworkImage(
-                                          'https://ippu.org/storage/banners/${imageLink}'),
+                                          'https://ippu.org/storage/banners/$imageLink'),
                                     ),
                                   ),
                                 ),
@@ -279,7 +280,7 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                                   width: size.width * 0.7,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color: Color.fromARGB(255, 42, 129, 201),
+                                    color: const Color.fromARGB(255, 42, 129, 201),
                                   ),
                                   child: Center(
                                     child: Column(
@@ -295,7 +296,7 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                                               padding: EdgeInsets.only(
                                                   left: size.width * 0.03),
                                               child: Text(
-                                                "${item.topic.split(' ').take(4).join(' ')}",
+                                                item.topic.split(' ').take(4).join(' '),
                                                 style: TextStyle(
                                                   color: Colors.white,
                                                   fontWeight: FontWeight.bold,
@@ -314,7 +315,7 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                                             )
                                           ],
                                         ),
-                                        Divider(
+                                        const Divider(
                                           color: Colors.white,
                                         ),
                                         Row(
@@ -399,7 +400,7 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                       },
                     );
                   } else {
-                    return CircularProgressIndicator();
+                    return const CircularProgressIndicator();
                   }
                 }
               },

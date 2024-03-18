@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ippu/Providers/ProfilePicProvider.dart';
 import 'package:ippu/Providers/SubscriptionStatus.dart';
@@ -30,7 +31,7 @@ void main() async {
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   _MyAppState createState() => _MyAppState();
@@ -84,7 +85,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (context) => CheckNetworkConnectivity()),
       ],
       child: OverlaySupport(
-        child: MaterialApp(
+        child: GetMaterialApp(
           navigatorKey: navigatorKey,
           debugShowCheckedModeBanner: false,
           title: 'IPPU Membership APP',
@@ -129,7 +130,7 @@ class _MyAppState extends State<MyApp> {
                         auth.isLoggedIn();
                         return auth.isAuthenticated
                             ? const DefaultScreen()
-                            : LoginScreen();
+                            : const LoginScreen();
                       },
                     ),
           routes: {

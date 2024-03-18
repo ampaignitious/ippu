@@ -30,6 +30,7 @@ class _EventsScreenState extends State<EventsScreen>
     super.dispose();
   }
 
+  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final event = Provider.of<UserProvider>(context).events;
@@ -37,11 +38,11 @@ class _EventsScreenState extends State<EventsScreen>
     return Scaffold(
       drawer: Drawer(
         width: size.width * 0.8,
-        child: DrawerWidget(),
+        child: const DrawerWidget(),
       ),
       appBar: AppBar(
         // leading: Icon(Icons.menu),
-        backgroundColor: Color.fromARGB(255, 42, 129, 201),
+        backgroundColor: const Color.fromARGB(255, 42, 129, 201),
         title: Text(
           "Events page",
           style: GoogleFonts.lato(fontSize: size.height * 0.02, color: Colors.white),
@@ -53,14 +54,14 @@ class _EventsScreenState extends State<EventsScreen>
               Center(
                 child: Padding(
                   padding: EdgeInsets.only(right: size.width * 0.01),
-                  child: Icon(Icons.notifications_on, color: Colors.white,),
+                  child: const Icon(Icons.notifications_on, color: Colors.white,),
                 ),
               ),
               //
               Padding(
                 padding: EdgeInsets.only(right: size.width * 0.01,),
                 child: Text(
-                  "All events: ${event}",
+                  "All events: $event",
                   style: GoogleFonts.lato(
                     fontSize: size.height * 0.014,
                     letterSpacing: 1,
@@ -123,7 +124,7 @@ class _EventsScreenState extends State<EventsScreen>
       ),
       body: TabBarView(
         controller: _tabController,
-        children: [
+        children: const [
           AllEventsScreen(),
           UpcomingEventsScreen(),
           MyEvents(),

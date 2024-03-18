@@ -33,18 +33,18 @@ class CpdsSingleEventDisplay extends StatefulWidget {
 
   @override
   State<CpdsSingleEventDisplay> createState() => _CpdsSingleEventDisplayState(
-      this.attendance_request,
-      this.cpdId,
-      this.rate,
-      this.location,
-      this.content,
-      this.target_group,
-      this.attendees,
-      this.cpdsname,
-      this.imagelink,
-      this.startDate,
-      this.endDate,
-      this.type);
+      attendance_request,
+      cpdId,
+      rate,
+      location,
+      content,
+      target_group,
+      attendees,
+      cpdsname,
+      imagelink,
+      startDate,
+      endDate,
+      type);
 }
 
 class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
@@ -86,12 +86,12 @@ class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "${cpdsname}",
+          cpdsname,
             style: GoogleFonts.lato(
-    textStyle: TextStyle(color: Colors.white), // Set text color to white
+    textStyle: const TextStyle(color: Colors.white), // Set text color to white
   ),
         ),
-        backgroundColor: Color.fromARGB(255, 42, 129, 201),
+        backgroundColor: const Color.fromARGB(255, 42, 129, 201),
         elevation: 0,
       ),
       body: SingleChildScrollView(
@@ -111,7 +111,7 @@ class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
                       //   // color: Colors.white,
                       // ),
                       image:
-                          DecorationImage(image: NetworkImage("${imagelink}"))),
+                          DecorationImage(image: NetworkImage(imagelink))),
                 ),
               ),
               Padding(
@@ -150,7 +150,7 @@ class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
               Padding(
                 padding: EdgeInsets.only(
                     left: size.width * 0.06, top: size.height * 0.016),
-                child: Text(
+                child: const Text(
                   "Target Group",
                   style: TextStyle(fontWeight: FontWeight.bold),
                   textAlign: TextAlign.justify,
@@ -162,7 +162,7 @@ class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
                     right: size.width * 0.06,
                     top: size.height * 0.0016),
                 child: Text(
-                  "${target_group}",
+                  target_group,
                   textAlign: TextAlign.justify,
                 ),
               ),
@@ -174,7 +174,7 @@ class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
                 margin: EdgeInsets.only(left: size.width * 0.03),
                 height: size.height * 0.08,
                 width: size.width * 0.96,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.white,
                   boxShadow: [
                     BoxShadow(
@@ -193,12 +193,12 @@ class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             "Start Date",
                             style: TextStyle(color: Colors.green),
                           ),
                           Text(
-                            "${extractDate(startDate)}",
+                            extractDate(startDate),
                             style: TextStyle(fontSize: size.height * 0.008),
                           )
                         ],
@@ -206,12 +206,12 @@ class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             "End Date",
                             style: TextStyle(color: Colors.green),
                           ),
                           Text(
-                            "${extractDate(endDate)}",
+                            extractDate(endDate),
                             style: TextStyle(fontSize: size.height * 0.008),
                           )
                         ],
@@ -219,12 +219,12 @@ class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             "Type",
                             style: TextStyle(color: Colors.red),
                           ),
                           Text(
-                            "${type}",
+                            type,
                             style: TextStyle(fontSize: size.height * 0.008),
                           )
                         ],
@@ -232,12 +232,12 @@ class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             "Location",
                             style: TextStyle(color: Colors.red),
                           ),
                           Text(
-                            "${content}",
+                            content,
                             style: TextStyle(fontSize: size.height * 0.008),
                           )
                         ],
@@ -264,7 +264,6 @@ class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
                     case 2:
                       return ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: Color.fromARGB(255, 42, 129, 201),
                           padding: EdgeInsets.all(size.height * 0.024),
                         ),
                         onPressed: () {
@@ -283,7 +282,7 @@ class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
                           child: Text(
                             'Register to Attend',
                               style: GoogleFonts.lato(
-    textStyle: TextStyle(color: Colors.white), // Set text color to white
+    textStyle: const TextStyle(color: Colors.white), // Set text color to white
   ),
                           ),
                         ),

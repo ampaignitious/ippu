@@ -35,16 +35,16 @@ class AttendedSingleCpdDisplay extends StatefulWidget {
   @override
   State<AttendedSingleCpdDisplay> createState() =>
       _AttendedSingleCpdDisplayState(
-          this.content,
-          this.location,
-          this.target_group,
-          this.cpdsname,
-          this.imagelink,
-          this.startDate,
-          this.endDate,
-          this.type,
-          this.eventId,
-          this.status
+          content,
+          location,
+          target_group,
+          cpdsname,
+          imagelink,
+          startDate,
+          endDate,
+          type,
+          eventId,
+          status
           );
 }
 
@@ -120,7 +120,7 @@ class _AttendedSingleCpdDisplayState extends State<AttendedSingleCpdDisplay> {
               Padding(
                   padding: EdgeInsets.only(
                       left: size.width * 0.06, top: size.height * 0.0008),
-                  child: Text("${cpdsname}")),
+                  child: Text("$cpdsname")),
               Padding(
                 padding: EdgeInsets.only(
                     left: size.width * 0.06, top: size.height * 0.016),
@@ -233,7 +233,7 @@ class _AttendedSingleCpdDisplayState extends State<AttendedSingleCpdDisplay> {
                             style: TextStyle(color: Colors.red),
                           ),
                           Text(
-                            "${type}",
+                            "$type",
                             style: TextStyle(fontSize: size.height * 0.008),
                           )
                         ],
@@ -264,7 +264,7 @@ class _AttendedSingleCpdDisplayState extends State<AttendedSingleCpdDisplay> {
               status=="Attended"?Center(
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromARGB(
+                    backgroundColor: const Color.fromARGB(
                         255, 42, 129, 201), // Change button color to green
                     padding: EdgeInsets.all(size.height * 0.024),
                   ),
@@ -283,7 +283,7 @@ class _AttendedSingleCpdDisplayState extends State<AttendedSingleCpdDisplay> {
                     ),
                   ),
                 ),
-              ):Text(""),
+              ):const Text(""),
               //
               //
               SizedBox(
@@ -306,7 +306,7 @@ class _AttendedSingleCpdDisplayState extends State<AttendedSingleCpdDisplay> {
       if (response.containsKey('error')) {
         //show error message
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text("Certificate download failed"),
             backgroundColor: Colors.red,
           ),
@@ -325,7 +325,7 @@ class _AttendedSingleCpdDisplayState extends State<AttendedSingleCpdDisplay> {
         } else {
           //show error message
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
+            const SnackBar(
               content: Text("Storage permission denied"),
               backgroundColor: Colors.red,
             ),
@@ -336,7 +336,7 @@ class _AttendedSingleCpdDisplayState extends State<AttendedSingleCpdDisplay> {
     } catch (e) {
       //show error message
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text("Certificate download failed"),
           backgroundColor: Colors.red,
         ),

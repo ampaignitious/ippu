@@ -6,7 +6,7 @@ import 'package:ippu/Widgets/AuthenticationWidgets/VerifyEmailWidget.dart';
 
 class RegistrationFeedback extends StatefulWidget {
   final String email;
-  const RegistrationFeedback({super.key, required String this.email});
+  const RegistrationFeedback({super.key, required this.email});
 
   @override
   State<RegistrationFeedback> createState() => _RegistrationFeedbackState();
@@ -22,7 +22,7 @@ class _RegistrationFeedbackState extends State<RegistrationFeedback>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 2),
+      duration: const Duration(seconds: 2),
     );
 
     _animation = CurvedAnimation(
@@ -56,7 +56,7 @@ class _RegistrationFeedbackState extends State<RegistrationFeedback>
             SizedBox(
               height: size.height * 0.088,
             ),
-            Container(
+            SizedBox(
               height: size.height * 0.35,
               width: double.maxFinite,
               child: AnimatedBuilder(
@@ -68,7 +68,7 @@ class _RegistrationFeedbackState extends State<RegistrationFeedback>
                   );
                 },
                 child: Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage("assets/successRegistration.png"),
                     ),
@@ -85,7 +85,7 @@ class _RegistrationFeedbackState extends State<RegistrationFeedback>
                   letterSpacing: 1,
                   fontSize: size.height * 0.044,
                   fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(255, 42, 129, 201)),
+                  color: const Color.fromARGB(255, 42, 129, 201)),
             ),
             SizedBox(
               height: size.height * 0.015,
@@ -126,7 +126,7 @@ class _RegistrationFeedbackState extends State<RegistrationFeedback>
                   width: size.width * 0.8,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: Color.fromARGB(255, 42, 129, 201)),
+                      color: const Color.fromARGB(255, 42, 129, 201)),
                   child: Padding(
                     padding:
                         EdgeInsets.symmetric(horizontal: size.width * 0.12),
@@ -138,8 +138,8 @@ class _RegistrationFeedbackState extends State<RegistrationFeedback>
                           style: GoogleFonts.lato(
                               color: Colors.white, fontSize: 20),
                         ),
-                        SizedBox(width: 8),
-                        Icon(
+                        const SizedBox(width: 8),
+                        const Icon(
                           Icons.arrow_forward_ios_rounded,
                           color: Colors.white,
                         ),
@@ -155,7 +155,7 @@ class _RegistrationFeedbackState extends State<RegistrationFeedback>
             InkWell(
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return LoginScreen();
+                  return const LoginScreen();
                 }));
               },
               child: Center(
@@ -164,7 +164,7 @@ class _RegistrationFeedbackState extends State<RegistrationFeedback>
                   width: size.width * 0.8,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    color: Color.fromARGB(255, 42, 129, 201),
+                    color: const Color.fromARGB(255, 42, 129, 201),
                   ),
                   child: Padding(
                     padding:
@@ -172,11 +172,11 @@ class _RegistrationFeedbackState extends State<RegistrationFeedback>
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.arrow_back_ios_rounded,
                           color: Colors.white,
                         ),
-                        SizedBox(
+                        const SizedBox(
                             width: 8), // Adjust the space between icon and text
                         Text(
                           'Go To Login',

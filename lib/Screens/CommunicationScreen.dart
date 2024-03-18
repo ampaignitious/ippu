@@ -47,16 +47,16 @@ class _CommunicationScreenState extends State<CommunicationScreen>
     return Scaffold(
         drawer: Drawer(
           width: size.width * 0.8,
-          child: DrawerWidget(),
+          child: const DrawerWidget(),
         ),
         appBar: AppBar(
           // leading: Icon(Icons.menu),
-          backgroundColor: Color.fromARGB(255, 42, 129, 201),
+          backgroundColor: const Color.fromARGB(255, 42, 129, 201),
           actions: [
             Center(
               child: Padding(
                 padding: EdgeInsets.only(right: size.width * 0.06),
-                child: Icon(Icons.notifications_active),
+                child: const Icon(Icons.notifications_active),
               ),
             )
           ],
@@ -87,7 +87,7 @@ class _CommunicationScreenState extends State<CommunicationScreen>
                         height: size.height * 0.08,
                         width: size.width * 0.4,
                         decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 42, 129, 201),
+                          color: const Color.fromARGB(255, 42, 129, 201),
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Column(
@@ -96,14 +96,14 @@ class _CommunicationScreenState extends State<CommunicationScreen>
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                Icon(
+                                const Icon(
                                   Icons.notifications,
                                   color: Colors.white,
                                   size: 24,
                                 ),
                                 Center(
                                   child: Text(
-                                    "${totalCommunications}",
+                                    "$totalCommunications",
                                     style: GoogleFonts.lato(
                                       color: Colors.white,
                                     ),
@@ -132,7 +132,7 @@ class _CommunicationScreenState extends State<CommunicationScreen>
                         height: size.height * 0.08,
                         width: size.width * 0.4,
                         decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 50, 155, 132),
+                          color: const Color.fromARGB(255, 50, 155, 132),
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Column(
@@ -141,14 +141,14 @@ class _CommunicationScreenState extends State<CommunicationScreen>
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                Icon(
+                                const Icon(
                                   Icons.new_releases,
                                   color: Colors.white,
                                   size: 24,
                                 ),
                                 Center(
                                   child: Text(
-                                    "${unreadCommunications}",
+                                    "$unreadCommunications",
                                     style: GoogleFonts.lato(
                                       color: Colors.white,
                                     ),
@@ -189,10 +189,10 @@ class _CommunicationScreenState extends State<CommunicationScreen>
               SizedBox(
                 height: size.height * 0.008,
               ),
-              Container(
+              SizedBox(
                 height: size.height * 0.6,
                 width: double.maxFinite,
-                child: ContainerDisplayingCommunications(),
+                child: const ContainerDisplayingCommunications(),
               ),
             ],
           ),

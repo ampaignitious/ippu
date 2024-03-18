@@ -3,11 +3,13 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class DropDownWidget extends StatefulWidget {
+  const DropDownWidget({super.key});
+
   @override
   _DropDownWidgetState createState() => _DropDownWidgetState();
 }
 class _DropDownWidgetState extends State<DropDownWidget> {
-  Map<String, String> _accountTypeMap = {'Please select account type': '0'};
+  final Map<String, String> _accountTypeMap = {'Please select account type': '0'};
   String _selectedValue = 'Please select account type';
 
   @override

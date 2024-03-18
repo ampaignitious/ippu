@@ -33,12 +33,12 @@ class _WorkExperienceState extends State<WorkExperience> {
     WorkingExperienceFuture = fetchWorkingExperience();
   }
 
-  TextEditingController _title = TextEditingController();
-  TextEditingController _startDate = TextEditingController();
-  TextEditingController _endDate = TextEditingController();
-  TextEditingController _userId = TextEditingController();
-  TextEditingController _description = TextEditingController();
-  TextEditingController _position = TextEditingController();
+  final TextEditingController _title = TextEditingController();
+  final TextEditingController _startDate = TextEditingController();
+  final TextEditingController _endDate = TextEditingController();
+  final TextEditingController _userId = TextEditingController();
+  final TextEditingController _description = TextEditingController();
+  final TextEditingController _position = TextEditingController();
   int experience_id = 0;
 
   Future<void> addWorkExperience(
@@ -136,22 +136,23 @@ class _WorkExperienceState extends State<WorkExperience> {
   }
 
   //
+  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 42, 129, 201),
+        backgroundColor: const Color.fromARGB(255, 42, 129, 201),
         elevation: 0,
         title: Text("Work Experience", style: GoogleFonts.lato(color: Colors.white)),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Color.fromARGB(255, 42, 129, 201),
+        backgroundColor: const Color.fromARGB(255, 42, 129, 201),
         onPressed: () {
           _toggleFormVisibility(FormMode.Add);
         },
         tooltip: 'Add Work Experience',
-        child: Icon(Icons.add, color: Colors.white),
+        child: const Icon(Icons.add, color: Colors.white),
       ),
       body: Column(
         children: [
@@ -198,8 +199,8 @@ class _WorkExperienceState extends State<WorkExperience> {
                         SizedBox(
                           height: size.height * 0.14,
                         ),
-                        Image(image: AssetImage('assets/no_data.png')),
-                        Text("No Work Experience Available")
+                        const Image(image: AssetImage('assets/no_data.png')),
+                        const Text("No Work Experience Available")
                       ],
                     ),
                   );
@@ -251,7 +252,7 @@ class _WorkExperienceState extends State<WorkExperience> {
                                           _populateFormFields(
                                               experience); // Pass the index here
                                         },
-                                        child: Icon(Icons.edit, color: Colors.white,), // Edit Icon
+                                        child: const Icon(Icons.edit, color: Colors.white,), // Edit Icon
                                       ),
                                     ],
                                   ),
@@ -335,7 +336,7 @@ class _WorkExperienceState extends State<WorkExperience> {
     // Define border radius and border width for the input fields
     final OutlineInputBorder outlineInputBorder = OutlineInputBorder(
       borderRadius: BorderRadius.circular(10.0),
-      borderSide: BorderSide(
+      borderSide: const BorderSide(
         color: Colors.grey, // Border color
         width: 1.0, // Border width
       ),
@@ -410,7 +411,7 @@ class _WorkExperienceState extends State<WorkExperience> {
                   _clearForm();
                   _toggleFormVisibility(FormMode.Add);
                 },
-                child: Text('Cancel'),
+                child: const Text('Cancel'),
               ),
               ElevatedButton(
                 onPressed: () {

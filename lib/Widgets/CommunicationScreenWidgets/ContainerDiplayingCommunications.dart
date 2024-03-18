@@ -53,22 +53,22 @@ class _ContainerDisplayingCommunicationsState
         child: FloatingActionButton(
           backgroundColor: const Color.fromARGB(255, 42, 129, 201),
           onPressed: _scrollToTop,
-          child: Icon(
+          shape: const CircleBorder(),
+          child: const Icon(
             Icons.arrow_upward,
             color: Colors.white,
           ),
-          shape: CircleBorder(),
         ),
       ),
       body: FutureBuilder<List<dynamic>>(
         future: eventDataFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text('No data available'));
+            return const Center(child: Text('No data available'));
           } else {
             final data = snapshot.data!;
 
@@ -113,7 +113,7 @@ class _ContainerDisplayingCommunicationsState
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.grey.withOpacity(0.5),
-                                offset: Offset(0.8, 1.0),
+                                offset: const Offset(0.8, 1.0),
                                 blurRadius: 4.0,
                                 spreadRadius: 0.2,
                               ),
@@ -133,11 +133,11 @@ class _ContainerDisplayingCommunicationsState
                                     fontSize: size.height * 0.02,
                                     fontWeight: FontWeight.bold,
                                     fontStyle: FontStyle.normal,
-                                    color: Color.fromARGB(255, 7, 63, 109),
+                                    color: const Color.fromARGB(255, 7, 63, 109),
                                   ),
                                 ),
                               ),
-                              Divider(),
+                              const Divider(),
                               Padding(
                                 padding: EdgeInsets.only(
                                   left: size.width * 0.066,
@@ -168,7 +168,7 @@ class _ContainerDisplayingCommunicationsState
                                 //   shortenText(item['message'], maxWords),
                                 // ),
                               ),
-                              Divider(),
+                              const Divider(),
                               Padding(
                                 padding: EdgeInsets.symmetric(
                                     horizontal: size.width * 0.08),
@@ -196,7 +196,7 @@ class _ContainerDisplayingCommunicationsState
                                     ),
                                     Column(
                                       children: [
-                                        Icon(Icons.read_more),
+                                        const Icon(Icons.read_more),
                                         Text(
                                           item.status ? "Read" : "Unread",
                                           style: GoogleFonts.lato(
@@ -233,13 +233,13 @@ class _ContainerDisplayingCommunicationsState
     if (words.length <= maxLength) {
       return text;
     } else {
-      return words.sublist(0, maxLength).join(' ') + '...';
+      return '${words.sublist(0, maxLength).join(' ')}...';
     }
   }
 
   void _scrollToTop() {
     _scrollController.animateTo(0,
-        duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+        duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
   }
 
   String extractDate(String fullDate) {
@@ -288,7 +288,7 @@ class _ContainerDisplayingCommunicationsState
 
   Future<void> markAsRead(String messageId) async {
     final userData = Provider.of<UserProvider>(context, listen: false).user;
-    final apiUrl = 'https://ippu.org/api/mark-as-read';
+    const apiUrl = 'https://ippu.org/api/mark-as-read';
     print('apiUrl: $apiUrl');
 
     // Define the headers with the bearer token

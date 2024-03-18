@@ -64,7 +64,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         onPressed: () {
           Navigator.pushReplacement(context,
               MaterialPageRoute(builder: (context) {
-            return LoginScreen();
+            return const LoginScreen();
           }));
         },
       ));
@@ -153,7 +153,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                     "Are you sure you want to delete your account?",
                                     true);
                               },
-                              child:Text(
+                              child:const Text(
                                 'DELETE ACCOUNT',
                                 style: TextStyle(color: Colors.white),
                               ),

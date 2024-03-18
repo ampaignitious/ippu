@@ -172,7 +172,7 @@ class ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           if (await resetPassword()) {
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (context) {
-                              return LoginScreen();
+                              return const LoginScreen();
                             }));
                           }
                         }

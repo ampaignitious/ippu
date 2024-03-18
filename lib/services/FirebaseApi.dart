@@ -16,7 +16,7 @@ import 'package:flutter/material.dart';
 
   final firebaseMessaging = FirebaseMessaging.instance;
 
-  final _androidChannel = const AndroidNotificationChannel(
+  const _androidChannel = AndroidNotificationChannel(
     'high_importance_channel',
     'High Importance Notifications',
     description: 'This channel is used for important notifications',

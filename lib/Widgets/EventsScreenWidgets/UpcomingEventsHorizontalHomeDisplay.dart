@@ -23,12 +23,12 @@ class _UpcomingEventsHorizontalHomeDisplayState
   AuthController authController = AuthController();
 
   final ScrollController _scrollController = ScrollController();
-  TextEditingController _searchController = TextEditingController();
-  String _searchQuery = '';
+  final TextEditingController _searchController = TextEditingController();
+  final String _searchQuery = '';
 
   void _scrollToTop() {
     _scrollController.animateTo(0,
-        duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+        duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
   }
 
   bool _showBackToTopButton = false;
@@ -104,12 +104,12 @@ class _UpcomingEventsHorizontalHomeDisplayState
               future: eventDataFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
                    return InkWell(
                     onTap: (){
                       Navigator.push(context, MaterialPageRoute(builder: (context){
-                        return EventsScreen();
+                        return const EventsScreen();
                       }));
                     },
                     child: Container(
@@ -141,7 +141,7 @@ class _UpcomingEventsHorizontalHomeDisplayState
                         // border: Border.all(
                         // color: Colors.grey.withOpacity(0.4)
                         // ),
-                         image: DecorationImage(image: AssetImage("assets/attendEvents.png")),
+                         image: const DecorationImage(image: AssetImage("assets/attendEvents.png")),
                         color: Colors.lightBlue[50]
                       )
                       )
@@ -154,7 +154,7 @@ class _UpcomingEventsHorizontalHomeDisplayState
                   return InkWell(
                     onTap: (){
                       Navigator.push(context, MaterialPageRoute(builder: (context){
-                       return EventsScreen();
+                       return const EventsScreen();
                       }));
                     },
                     child: Container(
@@ -186,7 +186,7 @@ class _UpcomingEventsHorizontalHomeDisplayState
                         // border: Border.all(
                         // color: Colors.grey.withOpacity(0.4)
                         // ),
-                         image: DecorationImage(image: AssetImage("assets/attendEvents.png")),
+                         image: const DecorationImage(image: AssetImage("assets/attendEvents.png")),
                         color: Colors.lightBlue[50]
                       )
                       )
@@ -198,7 +198,7 @@ class _UpcomingEventsHorizontalHomeDisplayState
                   return InkWell(
                     onTap: (){
                       Navigator.push(context, MaterialPageRoute(builder: (context){
-                        return EventsScreen();
+                        return const EventsScreen();
                       }));
                     },
                     child: Container(
@@ -230,7 +230,7 @@ class _UpcomingEventsHorizontalHomeDisplayState
                         // border: Border.all(
                         // color: Colors.grey.withOpacity(0.4)
                         // ),
-                         image: DecorationImage(image: AssetImage("assets/attendEvents.png")),
+                         image: const DecorationImage(image: AssetImage("assets/attendEvents.png")),
                         color: Colors.lightBlue[50]
                       )
                       )
@@ -243,7 +243,7 @@ class _UpcomingEventsHorizontalHomeDisplayState
                   return InkWell(
                     onTap: (){
                       Navigator.push(context, MaterialPageRoute(builder: (context){
-                       return EventsScreen();
+                       return const EventsScreen();
                       }));
                     },
                     child: Container(
@@ -275,7 +275,7 @@ class _UpcomingEventsHorizontalHomeDisplayState
                         // border: Border.all(
                         // color: Colors.grey.withOpacity(0.4)
                         // ),
-                         image: DecorationImage(image: AssetImage("assets/checkcommunication.png")),
+                         image: const DecorationImage(image: AssetImage("assets/checkcommunication.png")),
                         color: Colors.lightBlue[50]
                       )
                       )
@@ -297,7 +297,7 @@ class _UpcomingEventsHorizontalHomeDisplayState
                         final endData =item.end_date;
                         final description = item.details;
                         final displaypoints = item.points;
-                        final attendance_request = item.attandence_request;
+                        final attendanceRequest = item.attandence_request;
                         final rate = item.rate;
                         final eventId = item.id.toString();
                         final imageLink = item.banner_name;
@@ -314,13 +314,13 @@ class _UpcomingEventsHorizontalHomeDisplayState
                         MaterialPageRoute(builder: (context) {
                           return SingleEventDisplay(
                             id: eventId.toString(),
-                            attendance_request: attendance_request,
+                            attendance_request: attendanceRequest,
                             points: points.toString(),
                             rate: rate,
                             description: description,
                             startDate: extractDate(startDate) ,
                             endDate: extractDate(endData) ,
-                            imagelink: 'https://ippu.org/storage/banners/${imageLink}',
+                            imagelink: 'https://ippu.org/storage/banners/$imageLink',
                             eventName: eventName ,
                           );
                         }),
@@ -339,7 +339,7 @@ class _UpcomingEventsHorizontalHomeDisplayState
                               Text("Upcoming Events",
                               style: GoogleFonts.lato(
                                 fontWeight: FontWeight.bold,
-                                color: Color.fromARGB(255, 42, 129, 201),
+                                color: const Color.fromARGB(255, 42, 129, 201),
                               ),
                               ),
                               SizedBox(height: size.height*0.010,),
@@ -355,7 +355,7 @@ class _UpcomingEventsHorizontalHomeDisplayState
                                 boxShadow: [
                                 BoxShadow(
                                   color: Colors.grey.withOpacity(0.5),
-                                  offset: Offset(0.8, 1.0),
+                                  offset: const Offset(0.8, 1.0),
                                   blurRadius: 4.0,
                                   spreadRadius: 0.2,
                                 ),
@@ -365,7 +365,7 @@ class _UpcomingEventsHorizontalHomeDisplayState
                                     color: Colors.grey.withOpacity(0.5)
                                   ),
                                   image: DecorationImage(
-                                    image: NetworkImage('https://ippu.org/storage/banners/${imageLink}'),
+                                    image: NetworkImage('https://ippu.org/storage/banners/$imageLink'),
                                   ),
                                 ),
                               ),
@@ -373,7 +373,7 @@ class _UpcomingEventsHorizontalHomeDisplayState
                               style: GoogleFonts.lato(
                                 fontWeight: FontWeight.bold,
                                 fontSize: size.height*0.015,
-                                color: Color.fromARGB(255, 42, 129, 201),
+                                color: const Color.fromARGB(255, 42, 129, 201),
                               )),
                             ],
                           ),
@@ -386,7 +386,7 @@ class _UpcomingEventsHorizontalHomeDisplayState
                       },
                     );
                   } else {
-                    return CircularProgressIndicator();
+                    return const CircularProgressIndicator();
                   }
                 }
               },

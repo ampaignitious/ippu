@@ -14,7 +14,7 @@ class CpdPaymentScreen extends StatefulWidget {
 
   @override
   State<CpdPaymentScreen> createState() =>
-      _CpdPaymentScreenState(this.eventAmount, this.eventName, this.eventId);
+      _CpdPaymentScreenState(eventAmount, eventName, eventId);
 }
 
 class _CpdPaymentScreenState extends State<CpdPaymentScreen> {
@@ -23,6 +23,7 @@ class _CpdPaymentScreenState extends State<CpdPaymentScreen> {
   String? eventAmount;
   String? eventId;
   _CpdPaymentScreenState(this.eventAmount, this.eventName, this.eventId);
+  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
@@ -38,7 +39,7 @@ class _CpdPaymentScreenState extends State<CpdPaymentScreen> {
           BoxShadow(
             color:
                 Colors.grey.withOpacity(0.5), // Adjust shadow color and opacity
-            offset: Offset(0.8, 1.0), // Adjust the shadow offset
+            offset: const Offset(0.8, 1.0), // Adjust the shadow offset
             blurRadius: 4.0, // Adjust the blur radius
             spreadRadius: 0.2, // Adjust the spread radius
           )
@@ -50,7 +51,7 @@ class _CpdPaymentScreenState extends State<CpdPaymentScreen> {
             Container(
               height: size.height * 0.08,
               width: size.width * 0.96,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Color.fromARGB(255, 177, 221, 241),
               ),
               child: Padding(
@@ -67,7 +68,7 @@ class _CpdPaymentScreenState extends State<CpdPaymentScreen> {
                         onTap: () {
                           Navigator.pop(context);
                         },
-                        child: Icon(Icons.cancel))
+                        child: const Icon(Icons.cancel))
                   ],
                 ),
               ),
@@ -78,7 +79,7 @@ class _CpdPaymentScreenState extends State<CpdPaymentScreen> {
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: size.width * 0.018),
-              child: Text("This event will cost you ${eventAmount}",
+              child: Text("This event will cost you $eventAmount",
                   style: GoogleFonts.lato()),
             ),
             //
@@ -91,7 +92,7 @@ class _CpdPaymentScreenState extends State<CpdPaymentScreen> {
               child: Container(
                 height: size.height * 0.35,
                 width: size.width * 0.90,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     // color: Color.fromARGB(255, 177, 221, 241),
                     image: DecorationImage(
                         image: AssetImage("assets/payment.png"))),
@@ -105,8 +106,7 @@ class _CpdPaymentScreenState extends State<CpdPaymentScreen> {
             Center(
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: Color.fromARGB(
-                      255, 42, 129, 201), // Change button color to green
+             // Change button color to green
                   padding: EdgeInsets.all(size.height * 0.024),
                 ),
                 onPressed: () {
@@ -117,7 +117,7 @@ class _CpdPaymentScreenState extends State<CpdPaymentScreen> {
                   child: Text(
                     'Confirm Attendence',
                     style: GoogleFonts.lato(
-                      textStyle: TextStyle(
+                      textStyle: const TextStyle(
                           color: Colors.white), // Set text color to white
                     ),
                   ),
@@ -156,7 +156,7 @@ class _CpdPaymentScreenState extends State<CpdPaymentScreen> {
 
       if (response.statusCode == 200) {
         // Handle a successful API response
-        CircularProgressIndicator();
+        const CircularProgressIndicator();
         print("Attendence registered successfully");
         showBottomNotification('Attendance for event sent successfully');
         Navigator.pop(context);

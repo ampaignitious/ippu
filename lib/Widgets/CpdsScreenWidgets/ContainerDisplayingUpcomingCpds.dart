@@ -21,7 +21,7 @@ class _ContainerDisplayingUpcomingCpdsState extends State<ContainerDisplayingUpc
   final ScrollController _scrollController = ScrollController();
 
   void _scrollToTop() {
-    _scrollController.animateTo(0, duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+    _scrollController.animateTo(0, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
   }
 
   bool _showBackToTopButton = false;
@@ -41,8 +41,8 @@ class _ContainerDisplayingUpcomingCpdsState extends State<ContainerDisplayingUpc
     });
   }
 
-  TextEditingController _searchController = TextEditingController();
-  String _searchQuery = '';
+  final TextEditingController _searchController = TextEditingController();
+  final String _searchQuery = '';
 
   @override
   void dispose() {
@@ -101,19 +101,20 @@ class _ContainerDisplayingUpcomingCpdsState extends State<ContainerDisplayingUpc
 }
 //
 
+  @override
   Widget build(BuildContext context) {
 final size = MediaQuery.of(context).size;
    return Scaffold(
     floatingActionButton: Visibility(
         visible: _showBackToTopButton,
         child: FloatingActionButton(
-          backgroundColor: Color.fromARGB(255, 42, 129, 201),
+          backgroundColor: const Color.fromARGB(255, 42, 129, 201),
           onPressed: _scrollToTop,
-          child: Icon(
+          shape: const CircleBorder(),
+          child: const Icon(
             Icons.arrow_upward,
             color: Colors.white,
           ),
-          shape: CircleBorder(),
         ),
       ),
       body: Column(
@@ -129,17 +130,17 @@ final size = MediaQuery.of(context).size;
               ),
             ),
           ),
-          Divider(),
+          const Divider(),
           Expanded(
             child: FutureBuilder<List<CpdModel>>(
               future: cpdDataFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return Center(
+                  return const Center(
                     child: Column(
                       children: [
                         Image(image: AssetImage('assets/no_data.png')),
@@ -157,18 +158,18 @@ final size = MediaQuery.of(context).size;
                       itemBuilder: (context, index) {
                         final item = data[index];
                          // Ensure the properties accessed here match the structure of your API response
-                        final imagelink = 'assets/cpds0.jpg';
+                        const imagelink = 'assets/cpds0.jpg';
                         final activityName = item.topic;
                         final points = item.points;
                         final startDate =extractDate(item.startDate);
                         final endDate =extractDate(item.endDate);
                         final content = item.content;
-                        final attendance_request = item.attendance_request;
+                        final attendanceRequest = item.attendance_request;
                         final rate = item.normalRate;
                         final location = item.location;
                         final type = item.type;
                         final imageLink = item.banner;
-                        final target_group = item.targetGroup;
+                        final targetGroup = item.targetGroup;
                         final cpdId = item.id.toString();
 
                         if (_searchQuery.isEmpty ||
@@ -177,14 +178,14 @@ final size = MediaQuery.of(context).size;
                                 .contains(_searchQuery.toLowerCase())) {
                           return InkWell(
                             onTap: () {
-                              print('${item}');
+                              print('$item');
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) {
                                   return CpdsSingleEventDisplay(
-                                    attendance_request: attendance_request ,
+                                    attendance_request: attendanceRequest ,
                                     content: content,
-                                    target_group: target_group,
+                                    target_group: targetGroup,
                                     startDate: startDate,
                                     endDate: endDate,
                                     rate: location.toString(),
@@ -192,7 +193,7 @@ final size = MediaQuery.of(context).size;
                                     cpdId:cpdId.toString(),
                                     location: rate,
                                     attendees: points,
-                                    imagelink: 'https://ippu.org/storage/banners/${imageLink}',
+                                    imagelink: 'https://ippu.org/storage/banners/$imageLink',
                                     cpdsname: activityName,
                                   );
                                 }),
@@ -212,7 +213,7 @@ final size = MediaQuery.of(context).size;
                               boxShadow: [
                               BoxShadow(
                                 color: Colors.grey.withOpacity(0.5),
-                                offset: Offset(0.8, 1.0),
+                                offset: const Offset(0.8, 1.0),
                                 blurRadius: 4.0,
                                 spreadRadius: 0.2,
                               ),
@@ -222,7 +223,7 @@ final size = MediaQuery.of(context).size;
                                   color: Colors.grey.withOpacity(0.5)
                                 ),
                                 image: DecorationImage(
-                                  image: NetworkImage('https://ippu.org/storage/banners/${imageLink}'),
+                                  image: NetworkImage('https://ippu.org/storage/banners/$imageLink'),
                                 ),
                               ),
                             ),
@@ -233,7 +234,7 @@ final size = MediaQuery.of(context).size;
                           width: size.width * 0.7,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            color: Color.fromARGB(255, 42, 129, 201),
+                            color: const Color.fromARGB(255, 42, 129, 201),
                           ),
                           child: Center(
                             child: Column(
@@ -246,7 +247,7 @@ final size = MediaQuery.of(context).size;
                                     Padding(
                                       padding: EdgeInsets.only(left: size.width * 0.03),
                                       child: Text(
-                                        "${item.topic.split(' ').take(4).join(' ')}",
+                                        item.topic.split(' ').take(4).join(' '),
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold,
@@ -264,7 +265,7 @@ final size = MediaQuery.of(context).size;
                                     )
                                   ],
                                 ),
-                                Divider(
+                                const Divider(
                                   color: Colors.white,
                                 ),
                                 Row(
@@ -280,7 +281,7 @@ final size = MediaQuery.of(context).size;
                                               size: size.height * 0.02,
                                               color: Colors.white,
                                             ),
-                                            Text(
+                                            const Text(
                                               "Start Date",
                                               style: TextStyle(
                                                 color: Colors.white,
@@ -290,7 +291,7 @@ final size = MediaQuery.of(context).size;
                                           ],
                                         ),
                                         Text(
-                                          "${extractDate(item.startDate)}",
+                                          extractDate(item.startDate),
                                           style: TextStyle(fontSize: size.height * 0.008, color: Colors.white),
                                         ),
                                       ],
@@ -298,9 +299,9 @@ final size = MediaQuery.of(context).size;
                                     Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text("Rate", style: TextStyle(color: Colors.white)),
+                                        const Text("Rate", style: TextStyle(color: Colors.white)),
                                         Text(
-                                          "${item.type}",
+                                          item.type,
                                           style: TextStyle(fontSize: size.height * 0.008, color: Colors.white),
                                         )
                                       ],
@@ -322,7 +323,7 @@ final size = MediaQuery.of(context).size;
                       },
                     );
                   } else {
-                    return CircularProgressIndicator();
+                    return const CircularProgressIndicator();
                   }
                 }
               },

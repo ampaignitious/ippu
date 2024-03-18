@@ -19,7 +19,7 @@ class _OurCoreValuesState extends State<OurCoreValues> {
         title: Text(
           "Our Core Values",
             style: GoogleFonts.lato(
-    textStyle: TextStyle(color: Colors.white), // Set text color to white
+    textStyle: const TextStyle(color: Colors.white), // Set text color to white
   ),
         ),
       ),
@@ -34,10 +34,10 @@ class _OurCoreValuesState extends State<OurCoreValues> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: size.width * 0.022),
               child: Text(
-                "${coreValueOpeningSentence}",
+                coreValueOpeningSentence,
                 style: GoogleFonts.lato(
                     fontSize: size.height * 0.018,
-                    color: Color.fromARGB(210, 14, 55, 88),
+                    color: const Color.fromARGB(210, 14, 55, 88),
                     fontWeight: FontWeight.bold),
                 textAlign: TextAlign.justify,
               ),
@@ -51,10 +51,10 @@ class _OurCoreValuesState extends State<OurCoreValues> {
               padding: EdgeInsets.symmetric(horizontal: size.width * 0.022),
               child: Center(
                 child: Text(
-                  "${coreValueSubtitle}",
+                  coreValueSubtitle,
                   style: GoogleFonts.lato(
                       fontSize: size.height * 0.018,
-                      color: Color.fromARGB(210, 63, 131, 187).withOpacity(0.5),
+                      color: const Color.fromARGB(210, 63, 131, 187).withOpacity(0.5),
                       fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,
                 ),
@@ -77,7 +77,7 @@ class _OurCoreValuesState extends State<OurCoreValues> {
                   BoxShadow(
                     color: Colors.grey
                         .withOpacity(0.5), // Adjust shadow color and opacity
-                    offset: Offset(0.8, 1.0), // Adjust the shadow offset
+                    offset: const Offset(0.8, 1.0), // Adjust the shadow offset
                     blurRadius: 4.0, // Adjust the blur radius
                     spreadRadius: 0.2, // Adjust the spread radius
                   ),
@@ -95,7 +95,7 @@ class _OurCoreValuesState extends State<OurCoreValues> {
                     child: Text(
                       "Transparency",
                       style: GoogleFonts.lato(
-                        color: Color.fromARGB(210, 14, 55, 88),
+                        color: const Color.fromARGB(210, 14, 55, 88),
                         fontSize: size.height * 0.022,
                       ),
                     ),
@@ -109,7 +109,7 @@ class _OurCoreValuesState extends State<OurCoreValues> {
                     padding:
                         EdgeInsets.symmetric(horizontal: size.width * 0.022),
                     child: Text(
-                      "${transparency}",
+                      transparency,
                       style: GoogleFonts.lato(
                         color: Colors.black,
                         fontSize: size.height * 0.020,
@@ -137,7 +137,7 @@ class _OurCoreValuesState extends State<OurCoreValues> {
                   BoxShadow(
                     color: Colors.grey
                         .withOpacity(0.5), // Adjust shadow color and opacity
-                    offset: Offset(0.8, 1.0), // Adjust the shadow offset
+                    offset: const Offset(0.8, 1.0), // Adjust the shadow offset
                     blurRadius: 4.0, // Adjust the blur radius
                     spreadRadius: 0.2, // Adjust the spread radius
                   ),
@@ -155,7 +155,7 @@ class _OurCoreValuesState extends State<OurCoreValues> {
                     child: Text(
                       "Honesty",
                       style: GoogleFonts.lato(
-                        color: Color.fromARGB(210, 14, 55, 88),
+                        color: const Color.fromARGB(210, 14, 55, 88),
                         fontSize: size.height * 0.022,
                       ),
                     ),
@@ -169,7 +169,7 @@ class _OurCoreValuesState extends State<OurCoreValues> {
                     padding:
                         EdgeInsets.symmetric(horizontal: size.width * 0.022),
                     child: Text(
-                      "${honesty}",
+                      honesty,
                       style: GoogleFonts.lato(
                         color: Colors.black,
                         fontSize: size.height * 0.020,
@@ -197,7 +197,7 @@ class _OurCoreValuesState extends State<OurCoreValues> {
                   BoxShadow(
                     color: Colors.grey
                         .withOpacity(0.5), // Adjust shadow color and opacity
-                    offset: Offset(0.8, 1.0), // Adjust the shadow offset
+                    offset: const Offset(0.8, 1.0), // Adjust the shadow offset
                     blurRadius: 4.0, // Adjust the blur radius
                     spreadRadius: 0.2, // Adjust the spread radius
                   ),
@@ -215,7 +215,7 @@ class _OurCoreValuesState extends State<OurCoreValues> {
                     child: Text(
                       "Integrity",
                       style: GoogleFonts.lato(
-                        color: Color.fromARGB(210, 14, 55, 88),
+                        color: const Color.fromARGB(210, 14, 55, 88),
                         fontSize: size.height * 0.022,
                       ),
                     ),
@@ -229,7 +229,7 @@ class _OurCoreValuesState extends State<OurCoreValues> {
                     padding:
                         EdgeInsets.symmetric(horizontal: size.width * 0.022),
                     child: Text(
-                      "${integrity}",
+                      integrity,
                       style: GoogleFonts.lato(
                         color: Colors.black,
                         fontSize: size.height * 0.020,
@@ -259,7 +259,7 @@ class _OurCoreValuesState extends State<OurCoreValues> {
                   BoxShadow(
                     color: Colors.grey
                         .withOpacity(0.5), // Adjust shadow color and opacity
-                    offset: Offset(0.8, 1.0), // Adjust the shadow offset
+                    offset: const Offset(0.8, 1.0), // Adjust the shadow offset
                     blurRadius: 4.0, // Adjust the blur radius
                     spreadRadius: 0.2, // Adjust the spread radius
                   ),
@@ -277,7 +277,7 @@ class _OurCoreValuesState extends State<OurCoreValues> {
                     child: Text(
                       "Fairness",
                       style: GoogleFonts.lato(
-                        color: Color.fromARGB(210, 14, 55, 88),
+                        color: const Color.fromARGB(210, 14, 55, 88),
                         fontSize: size.height * 0.022,
                       ),
                     ),
@@ -291,7 +291,7 @@ class _OurCoreValuesState extends State<OurCoreValues> {
                     padding:
                         EdgeInsets.symmetric(horizontal: size.width * 0.022),
                     child: Text(
-                      "${fairness}",
+                      fairness,
                       style: GoogleFonts.lato(
                         color: Colors.black,
                         fontSize: size.height * 0.020,
@@ -321,7 +321,7 @@ class _OurCoreValuesState extends State<OurCoreValues> {
                   BoxShadow(
                     color: Colors.grey
                         .withOpacity(0.5), // Adjust shadow color and opacity
-                    offset: Offset(0.8, 1.0), // Adjust the shadow offset
+                    offset: const Offset(0.8, 1.0), // Adjust the shadow offset
                     blurRadius: 4.0, // Adjust the blur radius
                     spreadRadius: 0.2, // Adjust the spread radius
                   ),
@@ -339,7 +339,7 @@ class _OurCoreValuesState extends State<OurCoreValues> {
                     child: Text(
                       "Ethics",
                       style: GoogleFonts.lato(
-                        color: Color.fromARGB(210, 14, 55, 88),
+                        color: const Color.fromARGB(210, 14, 55, 88),
                         fontSize: size.height * 0.022,
                       ),
                     ),
@@ -353,7 +353,7 @@ class _OurCoreValuesState extends State<OurCoreValues> {
                     padding:
                         EdgeInsets.symmetric(horizontal: size.width * 0.022),
                     child: Text(
-                      "${ethics}",
+                      ethics,
                       style: GoogleFonts.lato(
                         color: Colors.black,
                         fontSize: size.height * 0.020,
@@ -383,7 +383,7 @@ class _OurCoreValuesState extends State<OurCoreValues> {
                   BoxShadow(
                     color: Colors.grey
                         .withOpacity(0.5), // Adjust shadow color and opacity
-                    offset: Offset(0.8, 1.0), // Adjust the shadow offset
+                    offset: const Offset(0.8, 1.0), // Adjust the shadow offset
                     blurRadius: 4.0, // Adjust the blur radius
                     spreadRadius: 0.2, // Adjust the spread radius
                   ),
@@ -401,7 +401,7 @@ class _OurCoreValuesState extends State<OurCoreValues> {
                     child: Text(
                       "Professionalism",
                       style: GoogleFonts.lato(
-                        color: Color.fromARGB(210, 14, 55, 88),
+                        color: const Color.fromARGB(210, 14, 55, 88),
                         fontSize: size.height * 0.022,
                       ),
                     ),
@@ -415,7 +415,7 @@ class _OurCoreValuesState extends State<OurCoreValues> {
                     padding:
                         EdgeInsets.symmetric(horizontal: size.width * 0.022),
                     child: Text(
-                      "${professionalism}",
+                      professionalism,
                       style: GoogleFonts.lato(
                         color: Colors.black,
                         fontSize: size.height * 0.020,
@@ -445,7 +445,7 @@ class _OurCoreValuesState extends State<OurCoreValues> {
                   BoxShadow(
                     color: Colors.grey
                         .withOpacity(0.5), // Adjust shadow color and opacity
-                    offset: Offset(0.8, 1.0), // Adjust the shadow offset
+                    offset: const Offset(0.8, 1.0), // Adjust the shadow offset
                     blurRadius: 4.0, // Adjust the blur radius
                     spreadRadius: 0.2, // Adjust the spread radius
                   ),
@@ -463,7 +463,7 @@ class _OurCoreValuesState extends State<OurCoreValues> {
                     child: Text(
                       "Team Work",
                       style: GoogleFonts.lato(
-                        color: Color.fromARGB(210, 14, 55, 88),
+                        color: const Color.fromARGB(210, 14, 55, 88),
                         fontSize: size.height * 0.022,
                       ),
                     ),
@@ -477,7 +477,7 @@ class _OurCoreValuesState extends State<OurCoreValues> {
                     padding:
                         EdgeInsets.symmetric(horizontal: size.width * 0.022),
                     child: Text(
-                      "${teamwork}",
+                      teamwork,
                       style: GoogleFonts.lato(
                         color: Colors.black,
                         fontSize: size.height * 0.020,
@@ -503,7 +503,7 @@ class _OurCoreValuesState extends State<OurCoreValues> {
                   BoxShadow(
                     color: Colors.grey
                         .withOpacity(0.5), // Adjust shadow color and opacity
-                    offset: Offset(0.8, 1.0), // Adjust the shadow offset
+                    offset: const Offset(0.8, 1.0), // Adjust the shadow offset
                     blurRadius: 4.0, // Adjust the blur radius
                     spreadRadius: 0.2, // Adjust the spread radius
                   ),
@@ -521,7 +521,7 @@ class _OurCoreValuesState extends State<OurCoreValues> {
                     child: Text(
                       "Innovation",
                       style: GoogleFonts.lato(
-                        color: Color.fromARGB(210, 14, 55, 88),
+                        color: const Color.fromARGB(210, 14, 55, 88),
                         fontSize: size.height * 0.022,
                       ),
                     ),
@@ -535,7 +535,7 @@ class _OurCoreValuesState extends State<OurCoreValues> {
                     padding:
                         EdgeInsets.symmetric(horizontal: size.width * 0.022),
                     child: Text(
-                      "${innovation}",
+                      innovation,
                       style: GoogleFonts.lato(
                         color: Colors.black,
                         fontSize: size.height * 0.020,
@@ -561,7 +561,7 @@ class _OurCoreValuesState extends State<OurCoreValues> {
                   BoxShadow(
                     color: Colors.grey
                         .withOpacity(0.5), // Adjust shadow color and opacity
-                    offset: Offset(0.8, 1.0), // Adjust the shadow offset
+                    offset: const Offset(0.8, 1.0), // Adjust the shadow offset
                     blurRadius: 4.0, // Adjust the blur radius
                     spreadRadius: 0.2, // Adjust the spread radius
                   ),
@@ -579,7 +579,7 @@ class _OurCoreValuesState extends State<OurCoreValues> {
                     child: Text(
                       "Commitment",
                       style: GoogleFonts.lato(
-                        color: Color.fromARGB(210, 14, 55, 88),
+                        color: const Color.fromARGB(210, 14, 55, 88),
                         fontSize: size.height * 0.022,
                       ),
                     ),
@@ -593,7 +593,7 @@ class _OurCoreValuesState extends State<OurCoreValues> {
                     padding:
                         EdgeInsets.symmetric(horizontal: size.width * 0.022),
                     child: Text(
-                      "${commitment}",
+                      commitment,
                       style: GoogleFonts.lato(
                         color: Colors.black,
                         fontSize: size.height * 0.020,
@@ -619,7 +619,7 @@ class _OurCoreValuesState extends State<OurCoreValues> {
                   BoxShadow(
                     color: Colors.grey
                         .withOpacity(0.5), // Adjust shadow color and opacity
-                    offset: Offset(0.8, 1.0), // Adjust the shadow offset
+                    offset: const Offset(0.8, 1.0), // Adjust the shadow offset
                     blurRadius: 4.0, // Adjust the blur radius
                     spreadRadius: 0.2, // Adjust the spread radius
                   ),
@@ -637,7 +637,7 @@ class _OurCoreValuesState extends State<OurCoreValues> {
                     child: Text(
                       "Freedom Of Expression",
                       style: GoogleFonts.lato(
-                        color: Color.fromARGB(210, 14, 55, 88),
+                        color: const Color.fromARGB(210, 14, 55, 88),
                         fontSize: size.height * 0.022,
                       ),
                     ),
@@ -651,7 +651,7 @@ class _OurCoreValuesState extends State<OurCoreValues> {
                     padding:
                         EdgeInsets.symmetric(horizontal: size.width * 0.022),
                     child: Text(
-                      "${freedomOfExpression}",
+                      freedomOfExpression,
                       style: GoogleFonts.lato(
                         color: Colors.black,
                         fontSize: size.height * 0.020,
@@ -677,7 +677,7 @@ class _OurCoreValuesState extends State<OurCoreValues> {
                   BoxShadow(
                     color: Colors.grey
                         .withOpacity(0.5), // Adjust shadow color and opacity
-                    offset: Offset(0.8, 1.0), // Adjust the shadow offset
+                    offset: const Offset(0.8, 1.0), // Adjust the shadow offset
                     blurRadius: 4.0, // Adjust the blur radius
                     spreadRadius: 0.2, // Adjust the spread radius
                   ),
@@ -695,7 +695,7 @@ class _OurCoreValuesState extends State<OurCoreValues> {
                     child: Text(
                       "Knowledge and Information Sharing",
                       style: GoogleFonts.lato(
-                        color: Color.fromARGB(210, 14, 55, 88),
+                        color: const Color.fromARGB(210, 14, 55, 88),
                         fontSize: size.height * 0.022,
                       ),
                     ),
@@ -709,7 +709,7 @@ class _OurCoreValuesState extends State<OurCoreValues> {
                     padding:
                         EdgeInsets.symmetric(horizontal: size.width * 0.022),
                     child: Text(
-                      "${knowledgeandInformationSharing}",
+                      knowledgeandInformationSharing,
                       style: GoogleFonts.lato(
                         color: Colors.black,
                         fontSize: size.height * 0.020,

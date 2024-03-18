@@ -14,10 +14,10 @@ class SingleWorkingExperienceDisplayScreen extends StatefulWidget {
   final String? points;
   final String? position;
   final String? type;
-   SingleWorkingExperienceDisplayScreen({super.key , this.field ,this.title, this.attachment,this.id, this.user_id, this.start_date, this.end_date, this.points, this.description, this.position, this.type});
+   const SingleWorkingExperienceDisplayScreen({super.key , this.field ,this.title, this.attachment,this.id, this.user_id, this.start_date, this.end_date, this.points, this.description, this.position, this.type});
 
   @override
-  State<SingleWorkingExperienceDisplayScreen> createState() => _SingleWorkingExperienceDisplayScreenState( this.field ,this.title, this.attachment,this.id, this.user_id, this.start_date, this.end_date, this.points, this.description, this.position, this.type);
+  State<SingleWorkingExperienceDisplayScreen> createState() => _SingleWorkingExperienceDisplayScreenState( field ,title, attachment,id, user_id, start_date, end_date, points, description, position, type);
 }
 
 class _SingleWorkingExperienceDisplayScreenState extends State<SingleWorkingExperienceDisplayScreen> {
@@ -35,14 +35,15 @@ class _SingleWorkingExperienceDisplayScreenState extends State<SingleWorkingExpe
   final String? type;
   final String fieldType ="Not Specified";
   _SingleWorkingExperienceDisplayScreenState( this.field ,this.title, this.attachment,this.id, this.user_id, this.start_date, this.end_date, this.points, this.description, this.position, this.type);
+  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 42, 129, 201),
+        backgroundColor: const Color.fromARGB(255, 42, 129, 201),
         title: Padding(
                       padding: EdgeInsets.only(left: size.width*0.02,  right: size.width*0.016,),
-                      child: Text(" Job Title:${title}", style: GoogleFonts.roboto(
+                      child: Text(" Job Title:$title", style: GoogleFonts.roboto(
                   fontSize: size.height*0.02,
                   fontWeight: FontWeight.bold,
                   fontStyle: FontStyle.normal,
@@ -61,7 +62,7 @@ class _SingleWorkingExperienceDisplayScreenState extends State<SingleWorkingExpe
                   boxShadow: [
                 BoxShadow(
             color: Colors.grey.withOpacity(0.5), // Adjust shadow color and opacity
-            offset: Offset(0.8, 1.0), // Adjust the shadow offset
+            offset: const Offset(0.8, 1.0), // Adjust the shadow offset
             blurRadius: 4.0, // Adjust the blur radius
             spreadRadius: 0.2, // Adjust the spread radius
                 )]),
@@ -72,20 +73,20 @@ class _SingleWorkingExperienceDisplayScreenState extends State<SingleWorkingExpe
                     // communication title section
                     Padding(
                         padding: EdgeInsets.only(left: size.width*0.02, top: size.height*0.02, right: size.width*0.016,),
-                        child: Text("Job Title: ${title}", style: GoogleFonts.roboto(
+                        child: Text("Job Title: $title", style: GoogleFonts.roboto(
                     fontSize: size.height*0.02,
                     fontWeight: FontWeight.bold,
                     fontStyle: FontStyle.normal,
-                    color: Color.fromARGB(255, 7, 63, 109),
+                    color: const Color.fromARGB(255, 7, 63, 109),
                   ), )),
                     // 
       
                     // communication body section
-                    Divider(),
+                    const Divider(),
                     // 
                     Padding(
                         padding: EdgeInsets.only(left: size.width*0.066, top: size.height*0.008, right: size.width*0.04, bottom: size.height*0.008,),
-                        child: Text("Position", 
+                        child: const Text("Position", 
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                         ),
@@ -117,7 +118,7 @@ class _SingleWorkingExperienceDisplayScreenState extends State<SingleWorkingExpe
                     // 
                       Padding(
                         padding: EdgeInsets.only(left: size.width*0.066, top: size.height*0.008, right: size.width*0.04, bottom: size.height*0.008,),
-                        child: Text("Job description", 
+                        child: const Text("Job description", 
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                         ),
@@ -151,7 +152,7 @@ class _SingleWorkingExperienceDisplayScreenState extends State<SingleWorkingExpe
                     // 
                     Padding(
                         padding: EdgeInsets.only(left: size.width*0.066, top: size.height*0.008, right: size.width*0.04, bottom: size.height*0.008,),
-                        child: Text("Field of work", 
+                        child: const Text("Field of work", 
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                         ),
@@ -183,7 +184,7 @@ class _SingleWorkingExperienceDisplayScreenState extends State<SingleWorkingExpe
                     // 
                     Padding(
                         padding: EdgeInsets.only(left: size.width*0.066, top: size.height*0.008, right: size.width*0.04, bottom: size.height*0.008,),
-                        child: Text("Attachment", 
+                        child: const Text("Attachment", 
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                         ),
@@ -215,7 +216,7 @@ class _SingleWorkingExperienceDisplayScreenState extends State<SingleWorkingExpe
                     // 
                     Padding(
                         padding: EdgeInsets.only(left: size.width*0.066, top: size.height*0.008, right: size.width*0.04, bottom: size.height*0.008,),
-                        child: Text("Type", 
+                        child: const Text("Type", 
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                         ),
@@ -247,7 +248,7 @@ class _SingleWorkingExperienceDisplayScreenState extends State<SingleWorkingExpe
                     // 
                                         Padding(
                         padding: EdgeInsets.only(left: size.width*0.066, top: size.height*0.008, right: size.width*0.04, bottom: size.height*0.008,),
-                        child: Text("Points", 
+                        child: const Text("Points", 
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                         ),
@@ -278,7 +279,7 @@ class _SingleWorkingExperienceDisplayScreenState extends State<SingleWorkingExpe
 
                     // 
                     // date and time section
-                    Divider(),
+                    const Divider(),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: size.width*0.08),
                         child: Row(
@@ -292,7 +293,7 @@ class _SingleWorkingExperienceDisplayScreenState extends State<SingleWorkingExpe
                                   color:Colors.green,
                                   fontWeight: FontWeight.bold
                                 ),),
-                                Text("${start_date}", style: GoogleFonts.roboto(
+                                Text("$start_date", style: GoogleFonts.roboto(
                                   fontSize:size.height*0.016,
                                 ),)
                               ],
@@ -306,7 +307,7 @@ class _SingleWorkingExperienceDisplayScreenState extends State<SingleWorkingExpe
                                   color:Colors.green,
                                   fontWeight: FontWeight.bold
                                 ),),
-                                Text("${end_date}", style: GoogleFonts.roboto(
+                                Text("$end_date", style: GoogleFonts.roboto(
                                   fontSize:size.height*0.016,
                                 ),)
                               ],

@@ -15,8 +15,8 @@ class SingleCommunicationDisplayScreen extends StatefulWidget {
 
   @override
   State<SingleCommunicationDisplayScreen> createState() =>
-      _SingleCommunicationDisplayScreenState(this.communicationbody,
-          this.communicationtitle, this.communicationdate);
+      _SingleCommunicationDisplayScreenState(communicationbody,
+          communicationtitle, communicationdate);
 }
 
 class _SingleCommunicationDisplayScreenState
@@ -32,7 +32,7 @@ class _SingleCommunicationDisplayScreenState
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 42, 129, 201),
+        backgroundColor: const Color.fromARGB(255, 42, 129, 201),
         title: Padding(
             padding: EdgeInsets.only(
               left: size.width * 0.02,
@@ -61,7 +61,7 @@ class _SingleCommunicationDisplayScreenState
             BoxShadow(
               color: Colors.grey
                   .withOpacity(0.5), // Adjust shadow color and opacity
-              offset: Offset(0.8, 1.0), // Adjust the shadow offset
+              offset: const Offset(0.8, 1.0), // Adjust the shadow offset
               blurRadius: 4.0, // Adjust the blur radius
               spreadRadius: 0.2, // Adjust the spread radius
             )
@@ -84,13 +84,13 @@ class _SingleCommunicationDisplayScreenState
                       fontSize: size.height * 0.02,
                       fontWeight: FontWeight.bold,
                       fontStyle: FontStyle.normal,
-                      color: Color.fromARGB(255, 7, 63, 109),
+                      color: const Color.fromARGB(255, 7, 63, 109),
                     ),
                   )),
               //
 
               // communication body section
-              Divider(),
+              const Divider(),
               Padding(
                 padding: EdgeInsets.only(
                   left: size.width * 0.066,
@@ -123,7 +123,7 @@ class _SingleCommunicationDisplayScreenState
               //
 
               // date and time section
-              Divider(),
+              const Divider(),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: size.width * 0.08),
                 child: Row(

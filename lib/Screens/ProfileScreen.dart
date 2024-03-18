@@ -9,6 +9,8 @@ import 'package:ippu/controllers/auth_controller.dart';
 import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({super.key});
+
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
@@ -139,11 +141,11 @@ class _ProfileScreenState extends State<ProfileScreen>
                           ),
                         ),
                       )
-                    : Text(''),
+                    : const Text(''),
                 SizedBox(
                     height: size.height * 0.9,
                     width: double.maxFinite,
-                    child: InformationScreen()),
+                    child: const InformationScreen()),
               ],
             ),
           ),

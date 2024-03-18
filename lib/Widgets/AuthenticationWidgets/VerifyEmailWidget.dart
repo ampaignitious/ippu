@@ -6,8 +6,7 @@ class VerificationCodeScreen extends StatefulWidget {
   final String email;
 
   //add key parameter
-  const VerificationCodeScreen({Key? key, required this.email})
-      : super(key: key);
+  const VerificationCodeScreen({super.key, required this.email});
 
   @override
   _VerificationCodeScreenState createState() => _VerificationCodeScreenState();
@@ -57,18 +56,18 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                 // Implement logic to validate the verification code (compare with the stored code)
                 if (await verificationCodeIsValid(verificationCode)) {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return LoginScreen();
+                    return const LoginScreen();
                   }));
                 } else {
                   // Code is invalid, show an error message
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
+                    const SnackBar(
                         content: Text(
                             'Invalid verification code. Please try again.')),
                   );
                 }
               },
-              child: Text('Verify'),
+              child: const Text('Verify'),
             ),
 
             // Add a button to resend the verification code
@@ -82,33 +81,37 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                     body: {'email': email});
                 if (response.statusCode == 200) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
+                    const SnackBar(
                         content: Text(
                             'Verification code sent to your email. Please check your inbox.')),
                   );
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
+                    const SnackBar(
                         content: Text(
                             'Failed to send verification code. Please try again.')),
                   );
                 }
               },
-              child: Text('Didn\'t get the code?Resend verification code'),
               style: ButtonStyle(
                 foregroundColor: MaterialStateProperty.all(Colors.white),
                 backgroundColor: MaterialStateProperty.all(Colors.blue),
               ),
+              child: const Text('Didn\'t get the code?Resend verification code'),
             ),
 
             //go to login screen
             TextButton(
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return LoginScreen();
+                  return const LoginScreen();
                 }));
               },
-              child: Row(
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all(Colors.white),
+                backgroundColor: MaterialStateProperty.all(Colors.blue),
+              ),
+              child: const Row(
                 mainAxisSize: MainAxisSize
                     .min, // Set to only take the minimum required width
                 children: [
@@ -116,10 +119,6 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                   SizedBox(width: 8), // Adjust the space between icon and text
                   Text('Go to Login'),
                 ],
-              ),
-              style: ButtonStyle(
-                foregroundColor: MaterialStateProperty.all(Colors.white),
-                backgroundColor: MaterialStateProperty.all(Colors.blue),
               ),
             )
           ],

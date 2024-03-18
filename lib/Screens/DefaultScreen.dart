@@ -62,7 +62,7 @@ class _DefaultScreenState extends State<DefaultScreen> {
         if (response['error'] == "Unauthorized") {
           Navigator.pushReplacement(context,
               MaterialPageRoute(builder: (context) {
-            return LoginScreen();
+            return const LoginScreen();
           }));
 
           return;
@@ -139,7 +139,7 @@ class _DefaultScreenState extends State<DefaultScreen> {
             body: Page[_selectedIndex],
             bottomNavigationBar: BottomNavigationBar(
               backgroundColor:
-                  Color.fromARGB(255, 42, 129, 201).withOpacity(0.9),
+                  const Color.fromARGB(255, 42, 129, 201).withOpacity(0.9),
               currentIndex: _selectedIndex,
               onTap: (value) {
                 if (value != 0) {
@@ -158,7 +158,7 @@ class _DefaultScreenState extends State<DefaultScreen> {
               type: BottomNavigationBarType.fixed,
               selectedItemColor: Colors.white,
               unselectedItemColor:
-                  Color.fromARGB(255, 169, 230, 216).withOpacity(0.5),
+                  const Color.fromARGB(255, 169, 230, 216).withOpacity(0.5),
               showUnselectedLabels: true,
               items: const <BottomNavigationBarItem>[
                 BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),

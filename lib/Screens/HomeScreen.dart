@@ -48,23 +48,23 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       appBar: AppBar(
         // leading: Icon(Icons.menu),
-        backgroundColor: Color.fromARGB(255, 42, 129, 201),
+        backgroundColor: const Color.fromARGB(255, 42, 129, 201),
         actions: [
           InkWell(
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return CalendarScreen();
+                return const CalendarScreen();
               }));
             },
             child: InkWell(
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return CalendarScreen();
+                  return const CalendarScreen();
                 }));
               },
               child: Padding(
                 padding: EdgeInsets.only(right: size.width * 0.06),
-                child: Icon(
+                child: const Icon(
                   Icons.calendar_today,
                   color: Colors.white,
                   size: 30
@@ -75,13 +75,13 @@ class _HomeScreenState extends State<HomeScreen> {
           InkWell(
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return SettingsScreen();
+                return const SettingsScreen();
               }));
             },
             child: InkWell(
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return ProfileScreen();
+                  return const ProfileScreen();
                 }));
               },
               child: Padding(
@@ -97,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
         elevation: 0,
       ),
-      body: Column(
+      body: const Column(
         children: [
           FirstDisplaySection(),
         ],

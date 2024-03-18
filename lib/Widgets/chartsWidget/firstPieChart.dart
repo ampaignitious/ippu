@@ -19,6 +19,7 @@ class PieChart2State extends State {
     // fetchData();
   }
 
+  @override
   Widget build(BuildContext context) {
     final size =MediaQuery.of(context).size;
     final userData = Provider.of<UserProvider>(context).user;
@@ -75,14 +76,14 @@ class PieChart2State extends State {
       final isTouched = i == touchedIndex;
       final fontSize = isTouched ? 25.0 : 16.0;
       final radius = isTouched ? 60.0 : 50.0;
-      final int defaultpoints = 10;
+      const int defaultpoints = 10;
       const shadows = [Shadow(color: Colors.black, blurRadius: 2)];
       switch (i) {
         case 0:
           return PieChartSectionData(
             color: AppColors.contentColorBlue,
             value: ((eventsPoints.toDouble())==0)? defaultpoints.toDouble():eventsPoints.toDouble(),
-            title: '${eventsPoints} ',
+            title: '$eventsPoints ',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,

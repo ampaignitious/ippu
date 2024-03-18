@@ -1,8 +1,14 @@
 class AppEndpoints {
   static const String baseUrl = 'https://ippu.org/api';
+
   static const String loginEndPoint = "/login";
   static const String regiserEndPoint = "/register";
+  //check for the entered phone number
+  static const String checkPhoneNumberEndPoint = "/check-phone-number";
+  //phone number login
+  static const String phoneLoginEndPoint = "/phone-number-login";
   static const String logoutEndPoint = "/logout";
+
   static const String cpdsEndPoint = "/cpds/{user_id}";
   static const String eventsEndPoint = "/events/{user_id}";
   static const String educationBackgroundEndPoint = "/education-background";

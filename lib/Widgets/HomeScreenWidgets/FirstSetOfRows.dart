@@ -26,7 +26,7 @@ class _FirstSetOfRowsState extends State<FirstSetOfRows> {
   void initState() {
     super.initState();
     // Initialize the timer to scroll every 3 seconds
-    _scrollTimer = Timer.periodic(Duration(seconds: 5), _scrollAutomatically);
+    _scrollTimer = Timer.periodic(const Duration(seconds: 5), _scrollAutomatically);
   }
 
   void _scrollAutomatically(Timer timer) {
@@ -34,7 +34,7 @@ class _FirstSetOfRowsState extends State<FirstSetOfRows> {
       // Scroll by a small amount every time the timer fires
       _scrollController.animateTo(
         _scrollController.position.pixels + 50,
-        duration: Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 500),
         curve: Curves.easeOut,
       );
     }
@@ -72,10 +72,10 @@ class _FirstSetOfRowsState extends State<FirstSetOfRows> {
         Row(
                 // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Container(
+                  SizedBox(
                     height: size.height*0.26,
                     width: size.width*0.95,
-                    child: Row(
+                    child: const Row(
                       children: [
                         PieChartSample2(),
                       Column(
@@ -120,7 +120,7 @@ class _FirstSetOfRowsState extends State<FirstSetOfRows> {
         ),
 
         // container displaying the upcoming cpds in a horizontal 
-        Divider(),
+        const Divider(),
         SingleChildScrollView(
         controller: _scrollController,
           scrollDirection: Axis.horizontal,
@@ -132,7 +132,7 @@ class _FirstSetOfRowsState extends State<FirstSetOfRows> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10)
                 ),
-                child: attendedCpdListHorizontalView(),
+                child: const attendedCpdListHorizontalView(),
               ),
               SizedBox(
                 width: size.height*0.05,

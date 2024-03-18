@@ -61,7 +61,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               InkWell(
                 onTap: (){
                 Navigator.push(context, MaterialPageRoute(builder: (context){
-                  return ProfileScreen();
+                  return const ProfileScreen();
                 }));
               },
                 child: UserAccountsDrawerHeader(
@@ -279,7 +279,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               //
               InkWell(
                 onTap: () async {
-                  int user_id = userData.id;
+                  int userId = userData.id;
                   final response = await authController.signOut();
                   //check if response does not contain error
                   if (!response.containsKey('error')) {
@@ -293,13 +293,13 @@ class _DrawerWidgetState extends State<DrawerWidget> {
 
                     Navigator.pushAndRemoveUntil(
                       context,
-                      MaterialPageRoute(builder: (context) => LoginScreen()),
+                      MaterialPageRoute(builder: (context) => const LoginScreen()),
                       (Route<dynamic> route) => false,
                     );
                   } else {
                     //show error message
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
+                      const SnackBar(
                         content: Text("Logout Failed"),
                         backgroundColor: Colors.red,
                       ),
@@ -308,7 +308,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 },
                 child: Card(
                   child: ListTile(
-                    leading: Icon(Icons.exit_to_app_rounded, color: Colors.red),
+                    leading: const Icon(Icons.exit_to_app_rounded, color: Colors.red),
                     title: Text(
                       "Logout",
                       style: GoogleFonts.lato(

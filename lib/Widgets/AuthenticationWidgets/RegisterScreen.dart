@@ -7,9 +7,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:ippu/Widgets/AuthenticationWidgets/RegistrationFeedback.dart';
 import 'package:ippu/controllers/auth_controller.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
 
 class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
+
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
 }
@@ -20,7 +21,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String _username = '';
   String _password = '';
   String _confirmPassword = '';
-  bool _agreedToTerms = false;
+  final bool _agreedToTerms = false;
   bool _isPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
   late var _accountTypes;
@@ -130,7 +131,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         future: _accountTypes,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Scaffold(
+            return const Scaffold(
               backgroundColor: Colors.white,
               body: Center(
                 child: AnimatedLoadingText(
@@ -298,8 +299,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                               items: accountTypes
                                   .map((accountType) => DropdownMenuItem(
-                                        child: Text(accountType['name']),
                                         value: accountType['id'],
+                                        child: Text(accountType['name']),
                                       ))
                                   .toList(),
                               onChanged: (value) {
@@ -347,7 +348,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   onTap: () {
                                     Navigator.push(context,
                                         MaterialPageRoute(builder: (context) {
-                                      return LoginScreen();
+                                      return const LoginScreen();
                                     }));
                                   },
                                   child: Padding(

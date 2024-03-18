@@ -20,7 +20,8 @@ class _attendedCpdListHorizontalViewState extends State<attendedCpdListHorizonta
   
   
  late Future<List<CpdModel>> cpdDataFuture;
-   void initState() {
+   @override
+  void initState() {
     super.initState();
         cpdDataFuture=fetchUpcomingCpds();
  
@@ -77,19 +78,20 @@ class _attendedCpdListHorizontalViewState extends State<attendedCpdListHorizonta
   }
 }
 //
+  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return FutureBuilder<List<CpdModel>>(
               future: cpdDataFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
                   // 
                   return InkWell(
                     onTap: (){
                       Navigator.push(context, MaterialPageRoute(builder: (context){
-                        return CommunicationScreen();
+                        return const CommunicationScreen();
                       }));
                     },
                     child: Container(
@@ -121,7 +123,7 @@ class _attendedCpdListHorizontalViewState extends State<attendedCpdListHorizonta
                         // border: Border.all(
                         // color: Colors.grey.withOpacity(0.4)
                         // ),
-                         image: DecorationImage(image: AssetImage("assets/checkcommunication.png")),
+                         image: const DecorationImage(image: AssetImage("assets/checkcommunication.png")),
                         color: Colors.lightBlue[50]
                       )
                       )
@@ -134,7 +136,7 @@ class _attendedCpdListHorizontalViewState extends State<attendedCpdListHorizonta
                   return InkWell(
                     onTap: (){
                       Navigator.push(context, MaterialPageRoute(builder: (context){
-                       return CommunicationScreen();
+                       return const CommunicationScreen();
                       }));
                     },
                     child: Container(
@@ -166,7 +168,7 @@ class _attendedCpdListHorizontalViewState extends State<attendedCpdListHorizonta
                         // border: Border.all(
                         // color: Colors.grey.withOpacity(0.4)
                         // ),
-                         image: DecorationImage(image: AssetImage("assets/checkcommunication.png")),
+                         image: const DecorationImage(image: AssetImage("assets/checkcommunication.png")),
                         color: Colors.lightBlue[50]
                       )
                       )
@@ -183,29 +185,29 @@ class _attendedCpdListHorizontalViewState extends State<attendedCpdListHorizonta
                       itemBuilder: (context, index) {
                         final item = data[index];
                          // Ensure the properties accessed here match the structure of your API response
-                        final imagelink = 'assets/cpds0.jpg';
+                        const imagelink = 'assets/cpds0.jpg';
                         final activityName = item.topic;
                         final points = item.points;
                         final startDate =item.startDate;
                         final endDate =item.endDate;
                         final content = item.content;
-                        final attendance_request = item.attendance_request;
+                        final attendanceRequest = item.attendance_request;
                         final rate = item.normalRate;
                         final location = item.location;
                         final type = item.type;
                         final imageLink = item.banner;
-                        final target_group = item.targetGroup;
+                        final targetGroup = item.targetGroup;
                         final cpdId = item.id.toString();
                           return InkWell(
                             onTap: () {
-                              print('${item}');
+                              print('$item');
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) {
                                   return CpdsSingleEventDisplay(
-                                    attendance_request: attendance_request ,
+                                    attendance_request: attendanceRequest ,
                                     content: content,
-                                    target_group: target_group,
+                                    target_group: targetGroup,
                                     startDate: startDate,
                                     endDate: endDate,
                                     rate: location.toString(),
@@ -213,7 +215,7 @@ class _attendedCpdListHorizontalViewState extends State<attendedCpdListHorizonta
                                     cpdId:cpdId.toString(),
                                     location: rate,
                                     attendees: points,
-                                    imagelink: 'https://ippu.org/storage/banners/${imageLink}',
+                                    imagelink: 'https://ippu.org/storage/banners/$imageLink',
                                     cpdsname: activityName,
                                   );
                                 }),
@@ -230,7 +232,7 @@ class _attendedCpdListHorizontalViewState extends State<attendedCpdListHorizonta
                               Text("Upcoming Cpds",
                               style: GoogleFonts.lato(
                                 fontWeight: FontWeight.bold,
-                                color: Color.fromARGB(255, 42, 129, 201),
+                                color: const Color.fromARGB(255, 42, 129, 201),
                               ),
                               ),
                               SizedBox(height: size.height*0.010,),
@@ -246,7 +248,7 @@ class _attendedCpdListHorizontalViewState extends State<attendedCpdListHorizonta
                                 boxShadow: [
                                 BoxShadow(
                                   color: Colors.grey.withOpacity(0.5),
-                                  offset: Offset(0.8, 1.0),
+                                  offset: const Offset(0.8, 1.0),
                                   blurRadius: 4.0,
                                   spreadRadius: 0.2,
                                 ),
@@ -256,7 +258,7 @@ class _attendedCpdListHorizontalViewState extends State<attendedCpdListHorizonta
                                     color: Colors.grey.withOpacity(0.5)
                                   ),
                                   image: DecorationImage(
-                                    image: NetworkImage('https://ippu.org/storage/banners/${imageLink}'),
+                                    image: NetworkImage('https://ippu.org/storage/banners/$imageLink'),
                                   ),
                                 ),
                               ),
@@ -264,7 +266,7 @@ class _attendedCpdListHorizontalViewState extends State<attendedCpdListHorizonta
                               style: GoogleFonts.lato(
                                 fontWeight: FontWeight.bold,
                                 fontSize: size.height*0.015,
-                                color: Color.fromARGB(255, 42, 129, 201),
+                                color: const Color.fromARGB(255, 42, 129, 201),
                               )),
                             ],
                           ),
@@ -273,7 +275,7 @@ class _attendedCpdListHorizontalViewState extends State<attendedCpdListHorizonta
                       },
                     );
                   } else {
-                    return CircularProgressIndicator();
+                    return const CircularProgressIndicator();
                   }
                 }
               },

@@ -56,19 +56,20 @@ class _attendedCpdListBuilderState extends State<attendedCpdListBuilder> {
     }
   }
 
+  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return FutureBuilder<List<AttendedCpdModel>>(
       future: CpdDataFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
-          return Center(
+          return const Center(
             child: Text("Check your internet connection to load the data"),
           );
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return Center(
+          return const Center(
             child: Column(
               children: [
                 Image(image: AssetImage('assets/no_data.png')),
@@ -94,7 +95,7 @@ class _attendedCpdListBuilderState extends State<attendedCpdListBuilder> {
                       boxShadow: [
                         BoxShadow(
                           color: Colors.grey.withOpacity(0.5),
-                          offset: Offset(0.8, 1.0),
+                          offset: const Offset(0.8, 1.0),
                           blurRadius: 4.0,
                           spreadRadius: 0.2,
                         ),
@@ -119,7 +120,7 @@ class _attendedCpdListBuilderState extends State<attendedCpdListBuilder> {
                             ),
                           ),
                         ),
-                        Divider(),
+                        const Divider(),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -144,7 +145,7 @@ class _attendedCpdListBuilderState extends State<attendedCpdListBuilder> {
                                       top: size.height * 0.0008),
                                   child: Text(
                                     data.topic.split(' ').take(3).join(' '),
-                                    style: TextStyle(color: Colors.blue),
+                                    style: const TextStyle(color: Colors.blue),
                                   ),
                                 ),
                               ],
@@ -158,7 +159,7 @@ class _attendedCpdListBuilderState extends State<attendedCpdListBuilder> {
                                     padding: EdgeInsets.only(
                                         left: size.width * 0.06,
                                         top: size.height * 0.016),
-                                    child: Text(
+                                    child: const Text(
                                       "Points",
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold),
@@ -171,9 +172,9 @@ class _attendedCpdListBuilderState extends State<attendedCpdListBuilder> {
                                         right: size.width * 0.06,
                                         top: size.height * 0.0016),
                                     child: Text(
-                                      "${data.points}",
+                                      data.points,
                                       textAlign: TextAlign.justify,
-                                      style: TextStyle(color: Colors.blue),
+                                      style: const TextStyle(color: Colors.blue),
                                     ),
                                   ),
                                 ],
@@ -187,8 +188,7 @@ class _attendedCpdListBuilderState extends State<attendedCpdListBuilder> {
                         Center(
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              primary: Color.fromARGB(255, 42, 129,
-                                  201), // Change button color to green
+                             // Change button color to green
                               padding: EdgeInsets.all(size.height * 0.020),
                             ),
                             onPressed: () {

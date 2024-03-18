@@ -12,7 +12,6 @@ import 'package:ippu/Providers/ProfilePicProvider.dart';
 import 'package:ippu/Providers/SubscriptionStatus.dart';
 import 'package:ippu/Screens/EducationBackgroundScreen.dart';
 import 'package:ippu/controllers/auth_controller.dart';
-import 'package:ippu/main.dart';
 import 'package:ippu/models/UserData.dart';
 import 'package:ippu/models/UserProvider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -30,6 +29,8 @@ class ProfileData {
 }
 
 class InformationScreen extends StatefulWidget {
+  const InformationScreen({super.key});
+
   @override
   _InformationScreenState createState() => _InformationScreenState();
 }
@@ -154,64 +155,64 @@ class _InformationScreenState extends State<InformationScreen> {
                                    const Divider(height: 1),
                     Card(
                         child: ListTile(
-                      title: Text("Name"),
-                      subtitle: Text("${profileData.name}"),
+                      title: const Text("Name"),
+                      subtitle: Text(profileData.name),
                     )),
                     Card(
                         child: ListTile(
-                      title: Text("Email"),
-                      subtitle: Text("${profileData.email}"),
+                      title: const Text("Email"),
+                      subtitle: Text(profileData.email),
                     )),
                     Card(
                         child: ListTile(
-                      title: Text("Gender"),
+                      title: const Text("Gender"),
                       subtitle: Text("${profileData.gender}"),
                     )),
                     Card(
                         child: ListTile(
-                      title: Text("Date of birth"),
+                      title: const Text("Date of birth"),
                       subtitle: Text("${profileData.dob}"),
                     )),
                     Card(
                         child: ListTile(
-                      title: Text("Membership number"),
+                      title: const Text("Membership number"),
                       subtitle:
                           Text("${profileData.membership_number}"),
                     )),
                     Card(
                         child: ListTile(
-                      title: Text("Address"),
+                      title: const Text("Address"),
                       subtitle: Text("${profileData.address}"),
                     )),
                     Card(
                         child: ListTile(
-                      title: Text("Phone number"),
+                      title: const Text("Phone number"),
                       subtitle: Text("${profileData.phone_no}"),
                     )),
                     Card(
                         child: ListTile(
-                      title: Text("Alt Phone number"),
+                      title: const Text("Alt Phone number"),
                       subtitle: Text("${profileData.alt_phone_no}"),
                     )),
                     Card(
                         child: ListTile(
-                      title: Text("Next of Kin name"),
+                      title: const Text("Next of Kin name"),
                       subtitle: Text("${profileData.nok_name}"),
                     )),
                     Card(
                         child: ListTile(
-                      title: Text("Next of Kin address"),
+                      title: const Text("Next of Kin address"),
                       subtitle: Text("${profileData.nok_address}"),
                     )),
                     Card(
                         child: ListTile(
-                      title: Text("Next of Kin phone number"),
+                      title: const Text("Next of Kin phone number"),
                       subtitle: Text("${profileData.nok_phone_no}"),
                     )),
 
                     //
                     SizedBox(height: size.height * 0.02),
-                    Divider(),
+                    const Divider(),
                     SizedBox(height: size.height * 0.02),
                     Padding(
                       padding:
@@ -230,20 +231,20 @@ class _InformationScreenState extends State<InformationScreen> {
                                   fontWeight: FontWeight.bold,
                                   fontSize: size.height * 0.028),
                             ),
-                            Icon(Icons.workspace_premium)
+                            const Icon(Icons.workspace_premium)
                           ],
                         ),
                       ),
                     ),
                     //
                     SizedBox(height: size.height * 0.02),
-                    Divider(),
+                    const Divider(),
                     SizedBox(height: size.height * 0.02),
                     InkWell(
                       onTap: () {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                          return EducationBackgroundScreen();
+                          return const EducationBackgroundScreen();
                         }));
                       },
                       child: Padding(
@@ -263,14 +264,14 @@ class _InformationScreenState extends State<InformationScreen> {
                                     fontWeight: FontWeight.bold,
                                     fontSize: size.height * 0.028),
                               ),
-                              Icon(Icons.cast_for_education)
+                              const Icon(Icons.cast_for_education)
                             ],
                           ),
                         ),
                       ),
                     ),
                     SizedBox(height: size.height * 0.02),
-                    Divider(),
+                    const Divider(),
                     SizedBox(height: size.height * 0.02),
                     Padding(
                       padding:
@@ -289,7 +290,7 @@ class _InformationScreenState extends State<InformationScreen> {
                                   fontWeight: FontWeight.bold,
                                   fontSize: size.height * 0.028),
                             ),
-                            Icon(Icons.work_history)
+                            const Icon(Icons.work_history)
                           ],
                         ),
                       ),
@@ -301,9 +302,9 @@ class _InformationScreenState extends State<InformationScreen> {
             ),
           );
       } else if(snapshot.hasError){
-        return Center(child: Text("An error occured while loading your profile"));
+        return const Center(child: Text("An error occured while loading your profile"));
       } else {
-        return Center(child: CircularProgressIndicator());
+        return const Center(child: CircularProgressIndicator());
       }
     }
     );
@@ -340,7 +341,7 @@ Future<void> renderCertificateInBrowser() async {
 
     if (response.containsKey('error')) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text("Certificate download failed"),
           backgroundColor: Colors.red,
         ),
@@ -358,7 +359,7 @@ Future<void> renderCertificateInBrowser() async {
           _showDialog();
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
+            const SnackBar(
               content: Text("Permission to save certificate to storage denied"),
               backgroundColor: Colors.red,
             ),
@@ -368,7 +369,7 @@ Future<void> renderCertificateInBrowser() async {
     }
   } catch (e) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
+      const SnackBar(
         content: Text("Certificate download failed"),
         backgroundColor: Colors.red,
       ),

@@ -31,7 +31,7 @@ class _availableJobState extends State<availableJob> {
   final userData = Provider.of<UserProvider>(context, listen: false).user;
 
   // Define the URL with userData.id
-  final apiUrl = 'https://ippu.org/api/jobs';
+  const apiUrl = 'https://ippu.org/api/jobs';
 
   // Define the headers with the bearer token
   final headers = {
@@ -67,6 +67,7 @@ class _availableJobState extends State<availableJob> {
 }
 
   //
+  @override
   Widget build(BuildContext context) {
   final size = MediaQuery.of(context).size;
    Provider.of<UserProvider>(context, listen: false).fetchTotalJobs(fetchedData.length);
@@ -74,7 +75,7 @@ class _availableJobState extends State<availableJob> {
     return InkWell(
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) {
-                      return JobsScreen();
+                      return const JobsScreen();
                     }));
                   },
                   child: Container(
@@ -129,7 +130,7 @@ class _availableJobState extends State<availableJob> {
                             decoration: BoxDecoration(
                                 border: Border.all(color: Colors.white),
                                 borderRadius: BorderRadius.circular(8)),
-                            child: Center(child: Text("${fetchedData.length}", style: TextStyle(color: Colors.white))),
+                            child: Center(child: Text("${fetchedData.length}", style: const TextStyle(color: Colors.white))),
                           ),
                         ),
                       ],

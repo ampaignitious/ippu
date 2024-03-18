@@ -34,15 +34,15 @@ class AttendedEventSIngleDisplayScreen extends StatefulWidget {
   @override
   State<AttendedEventSIngleDisplayScreen> createState() =>
       _AttendedEventSIngleDisplayScreenState(
-        this.eventId,
-        this.start_date,
-        this.end_date,
-        this.details,
-        this.imageLink,
-        this.name,
-        this.points,
-        this.rate,
-        this.status
+        eventId,
+        start_date,
+        end_date,
+        details,
+        imageLink,
+        name,
+        points,
+        rate,
+        status
       );
 }
 
@@ -69,15 +69,15 @@ class _AttendedEventSIngleDisplayScreenState
     this.status
   );
 
-  double _progress = 0.0;
+  final double _progress = 0.0;
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text("${name}", style: TextStyle(color: Colors.white),),
-        backgroundColor: Color.fromARGB(255, 42, 129, 201),
+        title: Text(name, style: const TextStyle(color: Colors.white),),
+        backgroundColor: const Color.fromARGB(255, 42, 129, 201),
         elevation: 0,
       ),
       body: SingleChildScrollView(
@@ -98,7 +98,7 @@ class _AttendedEventSIngleDisplayScreenState
                       ),
                       image: DecorationImage(
                           image: NetworkImage(
-                              "https://ippu.org/storage/banners/${imageLink}"))),
+                              "https://ippu.org/storage/banners/$imageLink"))),
                 ),
               ),
               Padding(
@@ -115,12 +115,12 @@ class _AttendedEventSIngleDisplayScreenState
               Padding(
                 padding: EdgeInsets.only(
                     left: size.width * 0.06, top: size.height * 0.0008),
-                child: Text("${name}"),
+                child: Text(name),
               ),
               Padding(
                 padding: EdgeInsets.only(
                     left: size.width * 0.06, top: size.height * 0.016),
-                child: Text(
+                child: const Text(
                   "Details",
                   style: TextStyle(fontWeight: FontWeight.bold),
                   textAlign: TextAlign.justify,
@@ -161,7 +161,7 @@ class _AttendedEventSIngleDisplayScreenState
                 margin: EdgeInsets.only(left: size.width * 0.03),
                 height: size.height * 0.08,
                 width: size.width * 0.96,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.white,
                   boxShadow: [
                     BoxShadow(
@@ -180,12 +180,12 @@ class _AttendedEventSIngleDisplayScreenState
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             "Start Date",
                             style: TextStyle(color: Colors.green),
                           ),
                           Text(
-                            "${start_date}",
+                            start_date,
                             style: TextStyle(fontSize: size.height * 0.008),
                           )
                         ],
@@ -193,12 +193,12 @@ class _AttendedEventSIngleDisplayScreenState
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             "End Date",
                             style: TextStyle(color: Colors.green),
                           ),
                           Text(
-                            "${end_date}",
+                            end_date,
                             style: TextStyle(fontSize: size.height * 0.008),
                           )
                         ],
@@ -206,12 +206,12 @@ class _AttendedEventSIngleDisplayScreenState
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             "Points",
                             style: TextStyle(color: Colors.red),
                           ),
                           Text(
-                            "${points}",
+                            points,
                             style: TextStyle(fontSize: size.height * 0.008),
                           )
                         ],
@@ -228,8 +228,7 @@ class _AttendedEventSIngleDisplayScreenState
               Center(
                 child: status=="Attended"?ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Color.fromARGB(
-                        255, 42, 129, 201), // Change button color to green
+                   // Change button color to green
                     padding: EdgeInsets.all(size.height * 0.024),
                   ),
                   onPressed: () {
@@ -241,12 +240,12 @@ class _AttendedEventSIngleDisplayScreenState
                     child: Text(
                       'Download certificate',
                       style: GoogleFonts.lato(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                             color: Colors.white), // Set text color to white
                       ),
                     ),
                   ),
-                ): Text(""),
+                ): const Text(""),
               ),
               //
               //
@@ -292,7 +291,7 @@ class _AttendedEventSIngleDisplayScreenState
       if (response.containsKey('error')) {
         //show error message
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text("Certificate download failed"),
             backgroundColor: Colors.red,
           ),
@@ -311,7 +310,7 @@ class _AttendedEventSIngleDisplayScreenState
         } else {
           //show error message
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
+            const SnackBar(
               content: Text("Storage permission denied"),
               backgroundColor: Colors.red,
             ),
@@ -321,7 +320,7 @@ class _AttendedEventSIngleDisplayScreenState
     } catch (e) {
       //show error message
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text("Certificate download failed"),
           backgroundColor: Colors.red,
         ),

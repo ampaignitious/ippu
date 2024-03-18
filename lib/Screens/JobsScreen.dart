@@ -64,6 +64,7 @@ class _JobsScreenState extends State<JobsScreen> {
   }
 
   //
+  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final availableJobs =
@@ -71,7 +72,7 @@ class _JobsScreenState extends State<JobsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 42, 129, 201),
+        backgroundColor: const Color.fromARGB(255, 42, 129, 201),
         elevation: 0,
         title: Text("Jobs", style: GoogleFonts.lato(color: Colors.white)),
         actions: [
@@ -84,7 +85,7 @@ class _JobsScreenState extends State<JobsScreen> {
               child: Text(
                 "Total jobs available: ",
                 style: GoogleFonts.lato(
-                    color: Color.fromARGB(255, 15, 255, 23),
+                    color: const Color.fromARGB(255, 15, 255, 23),
                     fontSize: size.height * 0.018,
                     fontWeight: FontWeight.bold),
               ),
@@ -105,7 +106,7 @@ class _JobsScreenState extends State<JobsScreen> {
       body: Column(
         children: [
           Center(
-            child: Container(
+            child: SizedBox(
               height: size.height * 0.80,
               width: size.width * 0.9,
               child: FutureBuilder<List<JobData>>(
@@ -241,7 +242,7 @@ class _JobsScreenState extends State<JobsScreen> {
                                       child: Text(
                                         'View Job Details',
                                           style: GoogleFonts.lato(
-    textStyle: TextStyle(color: Colors.white), // Set text color to white
+    textStyle: const TextStyle(color: Colors.white), // Set text color to white
   ),
                                       ),
                                     ),

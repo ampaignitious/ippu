@@ -24,16 +24,16 @@ class _ThirdSplashScreenState extends State<ThirdSplashScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(''),
+                const Text(''),
                 InkWell(
                   onTap: (){
                     Navigator.push(context, MaterialPageRoute(builder: (context){
-                      return LoginScreen();
+                      return const LoginScreen();
                     }));
                   },
                   child: Padding(
                     padding: EdgeInsets.only(right: size.width*0.05),
-                    child: Text("skip", style: TextStyle(fontSize: size.height*0.025, color: Color.fromARGB(255, 42, 129, 201), fontWeight: FontWeight.bold),),
+                    child: Text("skip", style: TextStyle(fontSize: size.height*0.025, color: const Color.fromARGB(255, 42, 129, 201), fontWeight: FontWeight.bold),),
                   ),
                 )
               ],
@@ -44,7 +44,7 @@ class _ThirdSplashScreenState extends State<ThirdSplashScreen> {
             Container(
               height: size.height*0.35,
               width: double.maxFinite,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 image: DecorationImage(image: AssetImage("assets/image3.png")),
               ),
             ),
@@ -53,13 +53,13 @@ class _ThirdSplashScreenState extends State<ThirdSplashScreen> {
             ),
             Text("Effective communication", style: TextStyle(
               fontSize: size.width * 0.082, 
-              fontWeight: FontWeight.bold,color: Color.fromARGB(255, 42, 129, 201)),),
+              fontWeight: FontWeight.bold,color: const Color.fromARGB(255, 42, 129, 201)),),
             SizedBox(
               height: size.height*0.015,
             ),
             Padding(
               padding: EdgeInsets.only(right: size.width*0.05, left: size.width*0.06),
-              child: Text(" ${effectiveCommunication}", style: TextStyle(fontSize: size.height
+              child: Text(" $effectiveCommunication", style: TextStyle(fontSize: size.height
               *0.018),),
             ),
             SizedBox(
@@ -79,10 +79,10 @@ class _ThirdSplashScreenState extends State<ThirdSplashScreen> {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       // color: Colors.grey,
-                      border: Border.all(color: Color.fromARGB(255, 42, 129, 201)),
+                      border: Border.all(color: const Color.fromARGB(255, 42, 129, 201)),
                       
                     ),
-                    child: Icon(Icons.arrow_back, color: Color.fromARGB(255, 42, 129, 201), size: size.height*0.04,),
+                    child: Icon(Icons.arrow_back, color: const Color.fromARGB(255, 42, 129, 201), size: size.height*0.04,),
                   ),
                 ),
                 Row(
@@ -96,7 +96,7 @@ class _ThirdSplashScreenState extends State<ThirdSplashScreen> {
                         margin: EdgeInsets.only(left: size.width*0.048),
                         height: size.height*0.052,
                         width: size.width*0.062,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                           color: Colors.grey,
                         ),
@@ -106,7 +106,7 @@ class _ThirdSplashScreenState extends State<ThirdSplashScreen> {
                       margin: EdgeInsets.only(left: size.width*0.04),
                       height: size.height*0.052,
                       width: size.width*0.062,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         shape: BoxShape.circle,
                         color: Colors.grey,
                       ),
@@ -115,7 +115,7 @@ class _ThirdSplashScreenState extends State<ThirdSplashScreen> {
                       margin: EdgeInsets.only(left: size.width*0.04),
                       height: size.height*0.052,
                       width: size.width*0.062,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         shape: BoxShape.circle,
                        color: Color.fromARGB(255, 42, 129, 201),
                       ),
@@ -125,13 +125,13 @@ class _ThirdSplashScreenState extends State<ThirdSplashScreen> {
                   InkWell(
                   onTap: (){
                     Navigator.push(context, MaterialPageRoute(builder: (context){
-                  return LoginScreen();
+                  return const LoginScreen();
                 }));},
                   child: Container(
                     margin: EdgeInsets.only(right: size.width*0.04),
                     height: size.height*0.08,
                     width: size.width*0.16,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: Color.fromARGB(255, 42, 129, 201),
                     ),

@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -9,13 +10,13 @@ import 'rest/auth_rest.dart';
 class AuthController {
   static String ACCESS_TOKEN = "access_token";
 
-  Future<Map<String, dynamic>> saveFcmToken(int user_id) async {
+  Future<Map<String, dynamic>> saveFcmToken(int userId) async {
     final dio = Dio();
     final client = AuthRestClient(dio);
     String fcmToken = await checkForFcmToken();
     Map<String, String> details = {
       "fcm_device_token": fcmToken,
-      "user_id": "$user_id"
+      "user_id": "$userId"
     };
     try {
       final response = await client.saveFcmToken(body: details);
@@ -123,6 +124,66 @@ class AuthController {
     }
   }
 
+  Future<Map<String, dynamic>> checkPhoneNumber(String phoneNumber) async {
+    final dio = Dio();
+    final client = AuthRestClient(dio);
+    dio.options.headers['Accept'] = "application/json";
+    dio.options.validateStatus = (status) => status! < 500;
+    dio.options.followRedirects = false;
+    Map<String, String> details = {"phone_number": phoneNumber};
+
+    try {
+      final response = await client.checkPhoneNumber(body: details);
+
+      if (response.containsKey('status')) {
+        return {'status': 'success', 'message': "phone number registered"};
+      } else {
+        return {'status': 'error', 'message': "phone number registered"};
+      }
+    } catch (e) {
+      print("Error: $e");
+      // Exception handling
+      return {
+        "error": "An error occurred",
+        "status": "error",
+      };
+    }
+  }
+
+  Future<Map<String, dynamic>> phoneLogin(String phoneNumber) async {
+    final dio = Dio();
+    final client = AuthRestClient(dio);
+    dio.options.headers['Accept'] = "application/json";
+    dio.options.validateStatus = (status) => status! < 500;
+    dio.options.followRedirects = false;
+    Map<String, String> details = {"phone_number": phoneNumber};
+    try {
+      final response = await client.phoneLogin(body: details);
+      //check for status key
+      if (response.containsKey('authorization') &&
+          response['authorization'].containsKey('token')) {
+        final accessToken = response['authorization']['token'];
+        // Save the access token for later use
+        await saveAccessToken(accessToken);
+
+        //save fcm token
+        await saveFcmToken(response['user']['id']);
+        print("response logging in: $response");
+        return {'status': 'success', 'message': "phone number registered"};
+      } else {
+        return {
+          "error": "Invalid credentials",
+          "status": "error",
+        };
+      } // Handle the case when the access token is not present in the response
+    } catch (e) {
+      return {
+        "error": "Phone number not found",
+        "status": "error",
+      };
+    }
+  }
+
   Future<Map<String, dynamic>> getProfile() async {
     final dio = Dio();
     final client = AuthRestClient(dio);
@@ -149,12 +210,12 @@ class AuthController {
   }
 
   Future<Map<String, dynamic>> getEducationBackground(
-      String user_id, String points, String field) async {
+      String userId, String points, String field) async {
     final dio = Dio();
     dio.options.headers['Authorization'] = "Bearer ${await getAccessToken()}";
     final client = AuthRestClient(dio);
     Map<String, String> details = {
-      "user_id": user_id,
+      "user_id": userId,
       "points": points,
       "field": field
     };
@@ -169,7 +230,7 @@ class AuthController {
     }
   }
 
-  Future<List<dynamic>> getCpds(int user_id) async {
+  Future<List<dynamic>> getCpds(int userId) async {
     final dio = Dio();
     final client = AuthRestClient(dio);
     dio.options.headers['Authorization'] = "Bearer ${await getAccessToken()}";
@@ -179,21 +240,21 @@ class AuthController {
     // dio.interceptors.add(LogInterceptor(responseBody: true));
 
     try {
-      final response = await client.getCpds(user_id: user_id);
+      final response = await client.getCpds(user_id: userId);
       return response['data'];
     } catch (e) {
       return [];
     }
   }
 
-  Future<List<dynamic>> getAllCommunications(int user_id) async {
+  Future<List<dynamic>> getAllCommunications(int userId) async {
     final dio = Dio();
     final client = AuthRestClient(dio);
     dio.options.headers['Authorization'] = "Bearer ${await getAccessToken()}";
     dio.options.headers['X-Requested-With'] = "XMLHttpRequest";
 
     try {
-      final response = await client.getAllCommunications(user_id: user_id);
+      final response = await client.getAllCommunications(user_id: userId);
       return response['data'].values.toList();
     } catch (e) {
       print("catch error fddffd: $e");
@@ -218,14 +279,14 @@ class AuthController {
     }
   }
 
-  Future<List<dynamic>> getEvents(int user_id) async {
+  Future<List<dynamic>> getEvents(int userId) async {
     final dio = Dio();
     final client = AuthRestClient(dio);
     print("Bearer ${await getAccessToken()}");
     dio.options.headers['Authorization'] = "Bearer ${await getAccessToken()}";
     dio.options.headers['X-Requested-With'] = ['XMLHttpRequest'];
     try {
-      final response = await client.getEvents(user_id: user_id);
+      final response = await client.getEvents(user_id: userId);
       return response['data'];
     } catch (e) {
       return [];
@@ -285,14 +346,14 @@ class AuthController {
     }
   }
 
-  Future<Map<String, dynamic>> store(File? attach, int user_id) async {
+  Future<Map<String, dynamic>> store(File? attach, int userId) async {
     final dio = Dio();
     final client = AuthRestClient(dio);
     dio.options.headers['Authorization'] = "Bearer ${await getAccessToken()}";
     dio.options.headers['Accept'] = "application/json";
 
     try {
-      final response = await client.store(user_id, attach!);
+      final response = await client.store(userId, attach!);
       //check if response contains message
       if (response.containsKey('message')) {
         return {

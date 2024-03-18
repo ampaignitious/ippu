@@ -30,6 +30,7 @@ class _CpdsScreenState extends State<CpdsScreen> with TickerProviderStateMixin{
     super.dispose();
   }
 
+  @override
   Widget build(BuildContext context) {
   final cpds = Provider.of<UserProvider>(context).CPDS;
   final size = MediaQuery.of(context).size;
@@ -37,12 +38,12 @@ class _CpdsScreenState extends State<CpdsScreen> with TickerProviderStateMixin{
     return Scaffold(
       drawer:Drawer(
         width: size.width*0.8,
-        child: DrawerWidget(),
+        child: const DrawerWidget(),
       ),
     appBar: AppBar(
      
       flexibleSpace: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color:Color.fromARGB(255, 42, 129, 201)
           ),
         ),
@@ -50,7 +51,7 @@ class _CpdsScreenState extends State<CpdsScreen> with TickerProviderStateMixin{
           Center(
             child: Padding(
               padding: EdgeInsets.only(right: size.width*0.06),
-              child: Text("All Cpds: $cpds", style: TextStyle(color: Colors.white),),
+              child: Text("All Cpds: $cpds", style: const TextStyle(color: Colors.white),),
             ),
           )
         ],
@@ -121,7 +122,7 @@ class _CpdsScreenState extends State<CpdsScreen> with TickerProviderStateMixin{
       ),
       body: TabBarView(
         controller: _cpdTabController,
-        children: [
+        children: const [
           AllCpdsScreen(),
           UpcommingCpdsScreen(),
           AttendedCpdsScreen(),
