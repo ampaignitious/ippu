@@ -45,9 +45,9 @@ dependencies:
   clean_dialog: ^0.0.16
   timeline_tile: ^2.0.0
   permission_handler: ^11.1.0
-  firebase_core: ^2.23.0
+  firebase_core: ^2.27.2
   firebase_messaging: ^14.7.5
-  firebase_auth: 4.16.0
+  firebase_auth: 4.18.0
   flutter_local_notifications: 
   overlay_support: ^2.1.0
   connectivity_plus: ^5.0.2
