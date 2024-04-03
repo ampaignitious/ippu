@@ -133,11 +133,12 @@ class AuthController {
 
     try {
       final response = await client.checkPhoneNumber(body: details);
+      print("controller response: $response");
 
       if (response.containsKey('status')) {
         return {'status': 'success', 'message': "phone number registered"};
       } else {
-        return {'status': 'error', 'message': "phone number registered"};
+        return {'status': 'error', 'message': "phone number not registered"};
       }
     } catch (e) {
       print("Error: $e");

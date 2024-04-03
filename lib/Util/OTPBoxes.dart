@@ -37,7 +37,7 @@ class PinInput extends StatelessWidget {
 
     return Pinput(
       length: 6,
-      androidSmsAutofillMethod: AndroidSmsAutofillMethod.smsUserConsentApi,
+      androidSmsAutofillMethod: AndroidSmsAutofillMethod.none,
       listenForMultipleSmsOnAndroid: true,
       defaultPinTheme: defaultPinTheme,
       focusedPinTheme: focusedPinTheme,
