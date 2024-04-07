@@ -26,6 +26,9 @@ abstract class AuthRestClient {
   @POST(AppEndpoints.phoneLoginEndPoint)
   Future<dynamic> phoneLogin({@Body() required Map<String, String> body});
 
+  @POST(AppEndpoints.googleLoginEndPoint)
+  Future<dynamic> AuthenticateWithGoogleToken({@Body() required Map<String, String> body});
+
   @POST(AppEndpoints.logoutEndPoint)
   Future<dynamic> signOut();
 

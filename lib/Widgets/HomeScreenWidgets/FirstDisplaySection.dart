@@ -91,26 +91,26 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection>
         final List<dynamic> eventData = jsonData['data'];
         List<CpdModel> cpdData = eventData.map((item) {
           return CpdModel(
-              //
-              id: item['id'].toString(),
-              code: item['code'] ?? "",
-              topic: item['topic'] ?? "",
-              content: item['content'] ?? "",
-              hours: item['hours'] ?? "",
-              points: item['points'] ?? "",
-              targetGroup: item['target_group'] ?? "",
-              location: item['location'] ?? "",
-              startDate: item['start_date'] ?? "",
-              endDate: item['end_date'] ?? "",
-              normalRate: item['normal_rate'] ?? "",
-              membersRate: item['members_rate'] ?? "",
-              resource: item['resource'] ?? "",
-              status: item['status'] ?? "",
-              type: item['type'] ?? "",
-              banner: item['banner'] ?? "",
-              attendance_request: item['attendance_request'],
-              attendance_status: item['attendance_status'] ?? "",
-              );
+            //
+            id: item['id'].toString(),
+            code: item['code'] ?? "",
+            topic: item['topic'] ?? "",
+            content: item['content'] ?? "",
+            hours: item['hours'] ?? "",
+            points: item['points'] ?? "",
+            targetGroup: item['target_group'] ?? "",
+            location: item['location'] ?? "",
+            startDate: item['start_date'] ?? "",
+            endDate: item['end_date'] ?? "",
+            normalRate: item['normal_rate'] ?? "",
+            membersRate: item['members_rate'] ?? "",
+            resource: item['resource'] ?? "",
+            status: item['status'] ?? "",
+            type: item['type'] ?? "",
+            banner: item['banner'] ?? "",
+            attendance_request: item['attendance_request'],
+            attendance_status: item['attendance_status'] ?? "",
+          );
         }).toList();
         print(cpdData);
         return cpdData;
@@ -163,9 +163,9 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection>
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-       String? status= context.watch<SubscriptionStatusProvider>().status;
+    String? status = context.watch<SubscriptionStatusProvider>().status;
 
-        print("Sub Status: $status");
+    print("Sub Status: $status");
     final profileStatus = context.watch<UserProvider>().profileStatusCheck;
 
     return Stack(
@@ -221,7 +221,6 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection>
                 SizedBox(height: size.height * 0.024),
 
                 const availableJob(),
-                
               ],
             ),
           ),
@@ -290,7 +289,8 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection>
               )
             : const Text(""),
         // container displaying the notifcation
-        profileStatus! ? Center(
+        profileStatus!
+            ? Center(
                 child: profileStatus
                     ? Container(
                         height: size.height * 0.08,

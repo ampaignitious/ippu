@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ippu/Screens/DefaultScreen.dart';
 import 'package:ippu/Util/OTPBoxes.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ippu/controllers/auth_controller.dart';
 
 class Digitcode extends StatefulWidget {
@@ -59,6 +59,23 @@ class _WelcomeState extends State<Digitcode> {
               const SizedBox(height: 20),
 
               PinInputBoxes(otp),
+              const SizedBox(height: 20),
+              const Text("If you didn't receive the code, tap"),
+              //Resend code
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context, widget.phoneNumber);
+                },
+                child: const Text(
+                  "Back",
+                  style: TextStyle(
+                    color: Colors.blue,
+                    fontSize: 20,
+                  ),
+                ),
+              ),
+              const Text("and check your phone number to try again."),
+
               const SizedBox(height: 20),
             ],
           ),

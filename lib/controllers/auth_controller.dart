@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import 'rest/auth_rest.dart';
 
@@ -499,6 +500,49 @@ class AuthController {
       return response['data'];
     } catch (e) {
       return [];
+    }
+  }
+
+  Future<dynamic> signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
+      final log_in = await AuthenticateWithGoogleToken(googleAuth!.accessToken);
+      if (log_in) {
+        return true;
+      } else {
+        return false;
+      }
+    } on Exception catch (e) {
+      // TODO
+      return false;
+    }
+  }
+
+  Future<bool> AuthenticateWithGoogleToken(String? token) async {
+    final dio = Dio();
+    final client = AuthRestClient(dio);
+    //accept application/json
+    dio.options.headers['Accept'] = "application/json";
+    Map<String, String> details = {"token": token!};
+    try {
+      final response = await client.AuthenticateWithGoogleToken(body: details);
+      if (response.containsKey('authorization') &&
+          response['authorization'].containsKey('token')) {
+        final accessToken = response['authorization']['token'];
+        // Save the access token for later use
+        await saveAccessToken(accessToken);
+
+        //save fcm token
+        await saveFcmToken(response['user']['id']);
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      return false;
     }
   }
 }

@@ -6,7 +6,8 @@ import 'package:ippu/Widgets/AuthenticationWidgets/DigitCode.dart';
 import 'package:ippu/controllers/auth_controller.dart';
 
 class PhoneAuthLogin extends StatefulWidget {
-  const PhoneAuthLogin({super.key});
+  final String? phoneNumber;
+  const PhoneAuthLogin({super.key, this.phoneNumber});
 
   @override
   State<PhoneAuthLogin> createState() => _WelcomeState();
@@ -17,13 +18,27 @@ class _WelcomeState extends State<PhoneAuthLogin> {
   late final Rx<User?> firebaseUser;
   var verificationId = ''.obs;
   var OTPCode;
+  bool isLoading = false; // Variable to control the visibility of the spinner
 
   TextEditingController phoneNumber = TextEditingController(text: '+256');
   TextEditingController otp = TextEditingController();
 
   @override
+  @override
   void initState() {
     super.initState();
+    // Check if phoneNumber is provided and initialize the controller
+    if (widget.phoneNumber != null) {
+      // Remove spaces from the phone number
+      String phoneNumberWithoutSpaces = widget.phoneNumber!.replaceAll(' ', '');
+
+      // Format the phone number as desired "+256 700 000 000"
+      String formattedPhoneNumber =
+          '${phoneNumberWithoutSpaces.substring(0, 4)} ${phoneNumberWithoutSpaces.substring(4, 7)} ${phoneNumberWithoutSpaces.substring(7, 10)} ${phoneNumberWithoutSpaces.substring(10)}';
+
+      // Set the formatted phone number to the controller
+      phoneNumber.text = formattedPhoneNumber;
+    }
   }
 
   @override
@@ -71,20 +86,25 @@ class _WelcomeState extends State<PhoneAuthLogin> {
   }
 
   Widget SendOTPButton(String text) => ElevatedButton(
-        onPressed: () async {
-          //get the phone number and remove all spaces
-          String formattedPhoneNumber = phoneNumber.text.replaceAll(' ', '');
-          phoneAuthentication(formattedPhoneNumber);
-        },
+        onPressed: isLoading
+            ? null
+            : () async {
+                //get the phone number and remove all spaces
+                String formattedPhoneNumber =
+                    phoneNumber.text.replaceAll(' ', '');
+                await phoneAuthentication(formattedPhoneNumber);
+              },
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all<Color>(
               Colors.blue), // Set button background color to blue
         ),
-        child: Text(
-          text,
-          style:
-              const TextStyle(color: Colors.white), // Set text color to white
-        ),
+        child: isLoading
+            ? const Text("loading........")
+            : Text(
+                text,
+                style: const TextStyle(
+                    color: Colors.white), // Set text color to white
+              ),
       );
 
   Widget inputTextField(String labelText,
@@ -95,6 +115,9 @@ class _WelcomeState extends State<PhoneAuthLogin> {
             child: TextFormField(
           controller: textEditingController,
           inputFormatters: [PhoneNumberFormatter()],
+          enabled: !isLoading,
+          //set keyboard type to phone
+          keyboardType: TextInputType.phone,
           decoration: InputDecoration(
             labelText: labelText,
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
@@ -110,40 +133,85 @@ class _WelcomeState extends State<PhoneAuthLogin> {
         )),
       );
 
-  void phoneAuthentication(String phoneNo) async {
+  Future<void> phoneAuthentication(String phoneNo) async {
+    if (mounted) {
+      setState(() {
+        isLoading = true; // Set isLoading to true when authentication starts
+      });
+    }
     //check if phone number is valid
     var isPhoneValid = await checkPhoneNumber(phoneNo);
+
     if (isPhoneValid) {
-      await _auth.verifyPhoneNumber(
-        phoneNumber: phoneNo,
-        verificationCompleted: (PhoneAuthCredential credential) async {
-          //get the otp code
-          OTPCode = credential.smsCode;
+      try {
+        await _auth.verifyPhoneNumber(
+          phoneNumber: phoneNo,
+          verificationCompleted: (PhoneAuthCredential credential) async {
+            //get the otp code
+            OTPCode = credential.smsCode;
+          },
+          verificationFailed: (e) {
+            if (e.code == 'invalid-phone-number') {
+              Get.snackbar('Error', 'The provided phone number is not valid.');
+            } else {
+              Get.snackbar('Error', 'Something went wrong. Try again');
+            }
+            if (mounted) {
+              setState(() {
+                isLoading =
+                    false; // Set isLoading to false when authentication ends
+              });
+            }
+          },
+          codeSent: (verificationId, resendToken) async {
+            this.verificationId.value = verificationId;
 
-        },
-        verificationFailed: (e) {
-          if (e.code == 'invalid-phone-number') {
-            Get.snackbar('Error', 'The provided phone number is not valid.');
-          } else {
-            Get.snackbar('Error', 'Something went wrong. Try again');
-          }
-        },
-        codeSent: (verificationId, resendToken) async {
-          this.verificationId.value = verificationId;
+            //Navigate Digitcode screen()
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Digitcode(
+                  phoneNumber: phoneNo,
+                  auth: _auth,
+                  verificationId: verificationId,
+                  OTPCode: OTPCode,
+                ),
+              ),
+            );
 
-          //Navigate Digitcode screen()
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) {
-            //save the fcm token to the database
-            return Digitcode(phoneNumber: phoneNo, auth:_auth, verificationId: verificationId, OTPCode: OTPCode);
-          }));
-        },
-        codeAutoRetrievalTimeout: (verificationId) {
-          this.verificationId.value = verificationId;
-        },
-      );
+            if (mounted) {
+              setState(() {
+                isLoading =
+                    false; // Set isLoading to false when authentication ends
+              });
+            }
+          },
+          codeAutoRetrievalTimeout: (verificationId) {
+            this.verificationId.value = verificationId;
+            if (mounted) {
+              setState(() {
+                isLoading =
+                    false; // Set isLoading to false when authentication ends
+              });
+            }
+          },
+        );
+      } catch (e) {
+        Get.snackbar('Error', 'Something went wrong. Try again');
+        if (mounted) {
+          setState(() {
+            isLoading =
+                false; // Set isLoading to false when authentication ends
+          });
+        }
+      }
     } else {
       Get.snackbar('Error', 'Phone number not registered. Please register');
+      if (mounted) {
+        setState(() {
+          isLoading = false; // Set isLoading to false when authentication ends
+        });
+      }
     }
   }
 
@@ -151,7 +219,6 @@ class _WelcomeState extends State<PhoneAuthLogin> {
     AuthController authController = AuthController();
 
     final response = await authController.checkPhoneNumber(phone);
-    print("checking phone number: $response");
     //check if response status is success
     if (response['status'] == 'success') {
       return true;

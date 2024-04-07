@@ -7,6 +7,8 @@ class AppEndpoints {
   static const String checkPhoneNumberEndPoint = "/check-phone-number";
   //phone number login
   static const String phoneLoginEndPoint = "/phone-number-login";
+  //sign in with google
+  static const String googleLoginEndPoint = "/login-by-google";
   static const String logoutEndPoint = "/logout";
 
   static const String cpdsEndPoint = "/cpds/{user_id}";

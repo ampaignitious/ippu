@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:ippu/Providers/ProfilePicProvider.dart';
 import 'package:ippu/Screens/ProfileScreen.dart';
+import 'package:ippu/Util/PhoneNumberFormatter%20.dart';
 import 'package:ippu/controllers/auth_controller.dart';
 import 'package:ippu/models/UserData.dart';
 import 'dart:io';
@@ -278,10 +279,11 @@ class _EditProfileState extends State<EditProfile> {
                                 initialValue: userDataProfile.name,
                               ),
                               SizedBox(height: size.height * 0.018),
-                              Text("Gender:", style: GoogleFonts.lato(
-                                color: Colors.grey,
-                                fontSize: size.height * 0.018,
-                              )),
+                              Text("Gender:",
+                                  style: GoogleFonts.lato(
+                                    color: Colors.grey,
+                                    fontSize: size.height * 0.018,
+                                  )),
                               Row(
                                 children: [
                                   Radio(
@@ -380,11 +382,14 @@ class _EditProfileState extends State<EditProfile> {
                                   border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(20)),
                                 ),
+                                inputFormatters: [PhoneNumberFormatter()],
+                                keyboardType: TextInputType.phone,
                                 onSaved: (value) {
-                                  phoneNo =
-                                      (value ?? userDataProfile.phone_no)!;
+                                  //remove spaces from phone number
+                                  phoneNo = (value ?? userDataProfile.phone_no)!.replaceAll(' ', '');
+
                                 },
-                                initialValue: userDataProfile.phone_no,
+                                initialValue: padPhoneNumber(userDataProfile.phone_no),
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return 'this field is required';
@@ -399,11 +404,14 @@ class _EditProfileState extends State<EditProfile> {
                                   border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(20)),
                                 ),
+                                inputFormatters: [PhoneNumberFormatter()],
+                                keyboardType: TextInputType.phone,
                                 onSaved: (value) {
                                   altPhoneNo =
-                                      (value ?? userDataProfile.alt_phone_no)!;
+                                      (value ?? userDataProfile.alt_phone_no)!.replaceAll(' ', '');
                                 },
-                                initialValue: userDataProfile.alt_phone_no,
+
+                                initialValue: padPhoneNumber(userDataProfile.alt_phone_no),
                               ),
                               SizedBox(height: size.height * 0.018),
                               TextFormField(
@@ -493,7 +501,8 @@ class _EditProfileState extends State<EditProfile> {
   Future<void> _selectDate(
       BuildContext context, TextEditingController controller) async {
     DateTime currentDate = DateTime.now();
-    DateTime eighteenYearsAgo = currentDate.subtract(const Duration(days: 18 * 365));
+    DateTime eighteenYearsAgo =
+        currentDate.subtract(const Duration(days: 18 * 365));
 
     final DateTime? picked = await showDatePicker(
         context: context,
@@ -503,8 +512,8 @@ class _EditProfileState extends State<EditProfile> {
         firstDate: DateTime(1920),
         lastDate: DateTime(2101),
         //selectable date starts from date.now minus 18 years
-        selectableDayPredicate: (DateTime date) =>
-            date.isBefore(currentDate.subtract(const Duration(days: 18 * 365 - 1))));
+        selectableDayPredicate: (DateTime date) => date.isBefore(
+            currentDate.subtract(const Duration(days: 18 * 365 - 1))));
     if (picked != null) {
       // Update the selected date in the text field
       final formattedDate = DateFormat('yyyy-MM-dd').format(picked);
@@ -588,5 +597,12 @@ class _EditProfileState extends State<EditProfile> {
     const daysPerYear = 365.25;
     final years = (difference / daysPerYear).floor();
     return years >= 18;
+  }
+
+  String padPhoneNumber(phoneNumberWithoutSpaces)
+  {
+    String formattedPhoneNumber =
+          '${phoneNumberWithoutSpaces.substring(0, 4)} ${phoneNumberWithoutSpaces.substring(4, 7)} ${phoneNumberWithoutSpaces.substring(7, 10)} ${phoneNumberWithoutSpaces.substring(10)}';
+    return formattedPhoneNumber;
   }
 }

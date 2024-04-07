@@ -6,7 +6,6 @@ import 'package:ippu/Widgets/AuthenticationWidgets/RegisterScreen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ippu/controllers/auth_controller.dart';
 
-
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -19,6 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String _userEmail = '';
   String _userPassword = '';
   bool _isLoginPasswordVisible = false;
+  bool _isSigningIn = false; // Add a boolean variable to track sign-in process
 
   Future<void> _loginForm() async {
     if (_loginFormKey.currentState!.validate()) {
@@ -142,7 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         decoration: InputDecoration(
                           labelText: 'Email',
                           border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20)),
+                              borderRadius: BorderRadius.circular(8.0)),
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -160,7 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         decoration: InputDecoration(
                           labelText: 'Password',
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(8.0),
                           ),
                           suffixIcon: GestureDetector(
                             onTap: () {
@@ -193,14 +193,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color.fromARGB(255, 42, 129,
                               201), // Change button color to green
-                          padding: EdgeInsets.all(size.height * 0.028),
+                          padding: EdgeInsets.all(size.height * 0.011),
                         ),
-                        onPressed: _loginForm,
+                        onPressed: _isSigningIn ? null : _loginForm,
                         child: const Text('Sign In',
                             style:
                                 TextStyle(color: Colors.white, fontSize: 25)),
                       ),
-                      SizedBox(height: size.height * 0.026),
+                      SizedBox(height: size.height * 0.020),
                       Row(
                         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -215,7 +215,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           InkWell(
-                            onTap: () {
+                            onTap: _isSigningIn ? null : () {
                               Navigator.push(context,
                                   MaterialPageRoute(builder: (context) {
                                 return const RegisterScreen();
@@ -237,7 +237,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ],
                       ),
                       GestureDetector(
-                        onTap: () {
+                        onTap: _isSigningIn ? null : () {
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
                             return const ForgotPasswordScreen();
@@ -245,7 +245,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                         child: Center(
                           child: Padding(
-                            padding: EdgeInsets.only(top: size.width * 0.08),
+                            padding: EdgeInsets.only(top: size.width * 0.02),
                             child: Text(
                               "forgot password ?",
                               style: GoogleFonts.lato(
@@ -258,18 +258,63 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       GestureDetector(
-                        onTap: () {
+                        onTap: _isSigningIn ? null : () {
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
                             return const PhoneAuthLogin();
                           }));
+                        },
+                        child: Center(
+                          child: Padding(
+                            padding: EdgeInsets.only(top: size.width * 0.10),
+                            child: Text(
+                              "Sign In With Phone Number",
+                              style: GoogleFonts.lato(
+                                fontSize: size.height * 0.020,
+                                color: const Color.fromARGB(255, 42, 129, 201)
+                                    .withOpacity(0.6),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: _isSigningIn ? null : () async {
+
+                          setState(() {
+                            _isSigningIn = true;
+                          });
+
+
+                          // Implement Google Sign In here
+                          final authController = AuthController();
+                          bool response = await authController.signInWithGoogle();
+                          
+                          if (response) {
+                            Navigator.pushReplacement(context,
+                                MaterialPageRoute(builder: (context) {
+                              //save the fcm token to the database
+                              return const DefaultScreen();
+                            }));
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                    "Something went wrong. Please try again later."),
+                              ),
+                            );
+                          }
+
+                          setState(() {
+                            _isSigningIn = false;
+                          });
 
                         },
                         child: Center(
                           child: Padding(
                             padding: EdgeInsets.only(top: size.width * 0.08),
                             child: Text(
-                              "Login using Phone Number",
+                              "Sign In With Google",
                               style: GoogleFonts.lato(
                                 fontSize: size.height * 0.020,
                                 color: const Color.fromARGB(255, 42, 129, 201)
