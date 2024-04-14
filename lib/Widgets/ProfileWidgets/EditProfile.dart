@@ -13,6 +13,7 @@ import 'package:ippu/models/UserData.dart';
 import 'dart:io';
 import 'package:ippu/models/UserProvider.dart';
 import 'package:provider/provider.dart';
+import 'package:ippu/Screens/animated_text.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
@@ -187,22 +188,28 @@ class _EditProfileState extends State<EditProfile> {
       future: profileData,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return const Scaffold(
-            body: Center(
-              child: Text('An error occurred'),
-            ),
+                return const Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Center(
+                child:Text("An error occurred while loading the profile data"),
+              ),
+            ],
           );
         }
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Scaffold(
-            backgroundColor: Colors.white,
-            body: Center(
-              child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(
-                  Colors.blue, // Set the color of the spinner
+          return const Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Center(
+                child: AnimatedLoadingText(
+                  loadingTexts: [
+                    "Fetching account data...",
+                    "Please wait...",
+                  ],
                 ),
               ),
-            ),
+            ],
           );
         }
         if (snapshot.hasData) {
@@ -386,10 +393,11 @@ class _EditProfileState extends State<EditProfile> {
                                 keyboardType: TextInputType.phone,
                                 onSaved: (value) {
                                   //remove spaces from phone number
-                                  phoneNo = (value ?? userDataProfile.phone_no)!.replaceAll(' ', '');
-
+                                  phoneNo = (value ?? userDataProfile.phone_no)!
+                                      .replaceAll(' ', '');
                                 },
-                                initialValue: padPhoneNumber(userDataProfile.phone_no),
+                                initialValue:
+                                    padPhoneNumber(userDataProfile.phone_no),
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return 'this field is required';
@@ -408,10 +416,11 @@ class _EditProfileState extends State<EditProfile> {
                                 keyboardType: TextInputType.phone,
                                 onSaved: (value) {
                                   altPhoneNo =
-                                      (value ?? userDataProfile.alt_phone_no)!.replaceAll(' ', '');
+                                      (value ?? userDataProfile.alt_phone_no)!
+                                          .replaceAll(' ', '');
                                 },
-
-                                initialValue: padPhoneNumber(userDataProfile.alt_phone_no),
+                                initialValue: padPhoneNumber(
+                                    userDataProfile.alt_phone_no),
                               ),
                               SizedBox(height: size.height * 0.018),
                               TextFormField(
@@ -599,10 +608,12 @@ class _EditProfileState extends State<EditProfile> {
     return years >= 18;
   }
 
-  String padPhoneNumber(phoneNumberWithoutSpaces)
-  {
+  String padPhoneNumber(phoneNumberWithoutSpaces) {
+    if(phoneNumberWithoutSpaces == ""){
+      return "";
+    }
     String formattedPhoneNumber =
-          '${phoneNumberWithoutSpaces.substring(0, 4)} ${phoneNumberWithoutSpaces.substring(4, 7)} ${phoneNumberWithoutSpaces.substring(7, 10)} ${phoneNumberWithoutSpaces.substring(10)}';
+        '${phoneNumberWithoutSpaces.substring(0, 4)} ${phoneNumberWithoutSpaces.substring(4, 7)} ${phoneNumberWithoutSpaces.substring(7, 10)} ${phoneNumberWithoutSpaces.substring(10)}';
     return formattedPhoneNumber;
   }
 }

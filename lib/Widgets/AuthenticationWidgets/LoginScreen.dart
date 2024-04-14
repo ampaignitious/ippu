@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:ippu/Screens/DefaultScreen.dart';
 import 'package:ippu/Widgets/AuthenticationWidgets/ForgotPasswordScreen.dart';
 import 'package:ippu/Widgets/AuthenticationWidgets/PhoneAuthlogin.dart';
@@ -95,7 +96,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 Positioned(
-                  // bottom: 0,
                   child: Container(
                     margin: EdgeInsets.only(top: size.height * 0.18),
                     height: size.height * 0.06,
@@ -112,7 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ],
             ),
             SizedBox(
-              height: size.height * 0.025,
+              height: size.height * 0.010,
             ),
             Text("Login Page",
                 style: GoogleFonts.montserrat(
@@ -138,55 +138,129 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      TextFormField(
-                        decoration: InputDecoration(
-                          labelText: 'Email',
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8.0)),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your email';
-                          }
-                          // You can add more validation here if needed
-                          return null;
-                        },
-                        onSaved: (value) {
-                          _userEmail = value!;
-                        },
+                      SizedBox(
+                        height: size.height * 0.01,
                       ),
-                      SizedBox(height: size.height * 0.028),
-                      TextFormField(
-                        decoration: InputDecoration(
-                          labelText: 'Password',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                          suffixIcon: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _isLoginPasswordVisible =
-                                    !_isLoginPasswordVisible;
-                              });
-                            },
-                            child: Icon(
-                              _isLoginPasswordVisible
-                                  ? Icons.visibility
-                                  : Icons.visibility_off,
+                      buttonItem(
+                          "assets/google.svg",
+                          "Continue with Google",
+                          25,
+                          _isSigningIn
+                              ? () {}
+                              : () async {
+                                  setState(() {
+                                    _isSigningIn = true;
+                                  });
+
+                                  // Implement Google Sign In here
+                                  final authController = AuthController();
+                                  bool response =
+                                      await authController.signInWithGoogle();
+
+                                  if (response) {
+                                    Navigator.pushReplacement(context,
+                                        MaterialPageRoute(builder: (context) {
+                                      //save the fcm token to the database
+                                      return const DefaultScreen();
+                                    }));
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                            "Something went wrong. Please try again later."),
+                                      ),
+                                    );
+                                  }
+
+                                  setState(() {
+                                    _isSigningIn = false;
+                                  });
+                                }),
+                      SizedBox(
+                        height: size.height * 0.01,
+                      ),
+                      buttonItem(
+                          "assets/phone.svg",
+                          "Continue with Phone",
+                          30,
+                          _isSigningIn
+                              ? () {}
+                              : () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return const PhoneAuthLogin();
+                                  }));
+                                }),
+                      SizedBox(
+                        height: size.height * 0.01,
+                      ),
+                      const Center(
+                        child: Text(
+                          "Or",
+                          style: TextStyle(color: Colors.blue, fontSize: 18),
+                        ),
+                      ),
+                      SizedBox(
+                        height: size.height * 0.01,
+                      ),
+                      Container(
+                        width: size.width, // Set the desired width
+                        height: size.height * 0.06, // Set the desired height
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            labelText: 'Email',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
                             ),
                           ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your email';
+                            }
+                            // You can add more validation here if needed
+                            return null;
+                          },
+                          onSaved: (value) {
+                            _userEmail = value!;
+                          },
                         ),
-                        obscureText: !_isLoginPasswordVisible,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter a password';
-                          }
-                          // You can add more validation here if needed
-                          return null;
-                        },
-                        onSaved: (value) {
-                          _userPassword = value!;
-                        },
+                      ),
+                      SizedBox(height: size.height * 0.028),
+                      Container(
+                        width: size.width, // Set the desired width
+                        height: size.height * 0.06, // Set the desired height
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            labelText: 'Password',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            suffixIcon: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _isLoginPasswordVisible =
+                                      !_isLoginPasswordVisible;
+                                });
+                              },
+                              child: Icon(
+                                _isLoginPasswordVisible
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                              ),
+                            ),
+                          ),
+                          obscureText: !_isLoginPasswordVisible,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter a password';
+                            }
+                            // You can add more validation here if needed
+                            return null;
+                          },
+                          onSaved: (value) {
+                            _userPassword = value!;
+                          },
+                        ),
                       ),
                       SizedBox(height: size.height * 0.034),
                       ElevatedButton(
@@ -215,12 +289,14 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           InkWell(
-                            onTap: _isSigningIn ? null : () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return const RegisterScreen();
-                              }));
-                            },
+                            onTap: _isSigningIn
+                                ? null
+                                : () {
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (context) {
+                                      return const RegisterScreen();
+                                    }));
+                                  },
                             child: Padding(
                               padding:
                                   EdgeInsets.only(left: size.width * 0.015),
@@ -237,84 +313,19 @@ class _LoginScreenState extends State<LoginScreen> {
                         ],
                       ),
                       GestureDetector(
-                        onTap: _isSigningIn ? null : () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                            return const ForgotPasswordScreen();
-                          }));
-                        },
+                        onTap: _isSigningIn
+                            ? null
+                            : () {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return const ForgotPasswordScreen();
+                                }));
+                              },
                         child: Center(
                           child: Padding(
                             padding: EdgeInsets.only(top: size.width * 0.02),
                             child: Text(
                               "forgot password ?",
-                              style: GoogleFonts.lato(
-                                fontSize: size.height * 0.020,
-                                color: const Color.fromARGB(255, 42, 129, 201)
-                                    .withOpacity(0.6),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: _isSigningIn ? null : () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                            return const PhoneAuthLogin();
-                          }));
-                        },
-                        child: Center(
-                          child: Padding(
-                            padding: EdgeInsets.only(top: size.width * 0.10),
-                            child: Text(
-                              "Sign In With Phone Number",
-                              style: GoogleFonts.lato(
-                                fontSize: size.height * 0.020,
-                                color: const Color.fromARGB(255, 42, 129, 201)
-                                    .withOpacity(0.6),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: _isSigningIn ? null : () async {
-
-                          setState(() {
-                            _isSigningIn = true;
-                          });
-
-
-                          // Implement Google Sign In here
-                          final authController = AuthController();
-                          bool response = await authController.signInWithGoogle();
-                          
-                          if (response) {
-                            Navigator.pushReplacement(context,
-                                MaterialPageRoute(builder: (context) {
-                              //save the fcm token to the database
-                              return const DefaultScreen();
-                            }));
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text(
-                                    "Something went wrong. Please try again later."),
-                              ),
-                            );
-                          }
-
-                          setState(() {
-                            _isSigningIn = false;
-                          });
-
-                        },
-                        child: Center(
-                          child: Padding(
-                            padding: EdgeInsets.only(top: size.width * 0.08),
-                            child: Text(
-                              "Sign In With Google",
                               style: GoogleFonts.lato(
                                 fontSize: size.height * 0.020,
                                 color: const Color.fromARGB(255, 42, 129, 201)
@@ -330,6 +341,47 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget buttonItem(
+      String imagePath, String buttonName, double size, Function() onTap) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        width: MediaQuery.of(context).size.width - 60,
+        height: 60,
+        child: Card(
+          elevation: 8,
+          color: Colors.blue,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+              side: const BorderSide(
+                width: 1,
+                color: Colors.white,
+              )),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SvgPicture.asset(
+                imagePath,
+                height: size,
+                width: size,
+              ),
+              const SizedBox(
+                width: 15,
+              ),
+              Text(
+                buttonName,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 17,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
