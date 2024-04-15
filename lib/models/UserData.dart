@@ -15,7 +15,7 @@ class UserData {
   final String? nok_phone_no;
   final String? subscription_status;
   String profile_pic;
- 
+  final int? account_type_id;
   UserData({
     required this.id,
     this.points,
@@ -32,14 +32,11 @@ class UserData {
     this.nok_name,
     this.nok_address,
     this.nok_phone_no,
-    required this.profile_pic
+    required this.profile_pic,
+    this.account_type_id,
   });
 
   bool checkifAnyIsNull(){
-    print("gender: $gender");
-    print("dob: $dob");
-    print("address: $address");
-    print("phone_no: $phone_no");
     return [gender, dob, address, phone_no].contains('null');
   }
 }

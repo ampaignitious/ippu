@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -42,13 +43,18 @@ class _EditProfileState extends State<EditProfile> {
 
   bool isMale = false;
   bool isFemale = false;
+  int selectedAccountType = 1;
+  late var _accountTypes;
 
   late ImageProvider _avatarImage;
 
   final FocusNode _dateFocusNode = FocusNode();
+
   @override
   void initState() {
     super.initState();
+    //get account types
+    _accountTypes = _fetchAccountTypes();
     _avatarImage = NetworkImage(
         Provider.of<ProfilePicProvider>(context, listen: false).profilePic);
     //set date controller from user data
@@ -67,7 +73,47 @@ class _EditProfileState extends State<EditProfile> {
           isFemale = gender == 'female';
         });
       }
+
+      //set selected account type
+      if (value.account_type_id != null) {
+        setState(() {
+          selectedAccountType = value.account_type_id!;
+        });
+      }
     });
+  }
+
+  Future<List<Map<String, dynamic>>> _fetchAccountTypes() async {
+    final response =
+        await http.get(Uri.parse('https://ippu.org/api/account-types'));
+
+    if (response.statusCode == 200) {
+      final jsonData = json.decode(response.body);
+
+      if (jsonData.containsKey('data')) {
+        final data = jsonData['data'] as List<dynamic>;
+        if (data.isEmpty) {
+          // Add a default account type
+          return [
+            {'id': 1, 'name': 'Please select account type'}
+          ];
+        } else {
+          // Create a list of account type names
+          final accountTypeNames = data
+              .map((entry) => {'id': entry['id'], 'name': entry['name']})
+              .toList();
+          return accountTypeNames;
+        }
+      } else {
+        return [
+          {'id': 1, 'name': 'Please select account type'}
+        ];
+      }
+    } else {
+      return [
+        {'id': 1, 'name': 'Please select account type'}
+      ];
+    }
   }
 
   Future<void> _pickImage() async {
@@ -164,10 +210,13 @@ class _EditProfileState extends State<EditProfile> {
             nok_address: userData['nok_address'] ?? "",
             nok_phone_no: userData['nok_phone_no'] ?? "",
             points: userData['points'] ?? "",
+            account_type_id: userData['account_type_id'] ?? 1,
             subscription_status: userData['subscription_status'].toString(),
             profile_pic: userData['profile_pic'] ??
                 "https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes-thumbnail.png",
           );
+
+          log("profile: ${response['data']}");
 
           return profile;
         } else {
@@ -181,18 +230,23 @@ class _EditProfileState extends State<EditProfile> {
     }
   }
 
+  //combine the futures of account types and profile data
+  Future<List<dynamic>> _combineFutures() async {
+    return Future.wait([_accountTypes, profileData]);
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return FutureBuilder(
-      future: profileData,
+      future: _combineFutures(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-                return const Column(
+          return const Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Center(
-                child:Text("An error occurred while loading the profile data"),
+                child: Text("An error occurred while loading the profile data"),
               ),
             ],
           );
@@ -214,7 +268,11 @@ class _EditProfileState extends State<EditProfile> {
         }
         if (snapshot.hasData) {
           //get user data
-          userDataProfile = snapshot.data as UserData;
+          userDataProfile = snapshot.data?[1] as UserData;
+          //selected account type
+          List<Map<String, dynamic>> accountTypes = snapshot.data?[0];
+
+          log('account types: $accountTypes');
 
           return Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -318,6 +376,41 @@ class _EditProfileState extends State<EditProfile> {
                                   ),
                                   const Text('Female'),
                                 ],
+                              ),
+                              SizedBox(height: size.height * 0.018),
+                              //account type dropdown
+                              DropdownButtonFormField(
+                                decoration: InputDecoration(
+                                  labelText: 'Account Type',
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                ),
+                                items: accountTypes
+                                    .map((accountType) => DropdownMenuItem(
+                                          value: accountType['id'],
+                                          child: Text(accountType['name'], style: GoogleFonts.lato(
+                                            color: Colors.blue,
+                                          ),),
+                                        ))
+                                    .toList(),
+                                //initial value as value with id 1 from drop down list
+                                value: accountTypes[selectedAccountType]['id'],
+                                onChanged: (value) {
+                                  setState(() {
+                                    //get the index of the selected account type in accountTypes
+                                    final index = accountTypes.indexWhere(
+                                        (element) => element['id'] == value);
+                                    selectedAccountType = index;
+                                    // selectedAccountType = value as int;
+                                  });
+                                },
+                                validator: (value) {
+                                  if (value == null) {
+                                    return 'Please select an account type';
+                                  }
+                                  return null;
+                                },
                               ),
                               SizedBox(height: size.height * 0.018),
                               TextFormField(
@@ -558,6 +651,7 @@ class _EditProfileState extends State<EditProfile> {
       'nok_name': nokName,
       'nok_email': nokAddress,
       'nok_phone_no': nokPhoneNo,
+      'account_type_id': selectedAccountType,
     };
 
     try {
@@ -609,7 +703,7 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   String padPhoneNumber(phoneNumberWithoutSpaces) {
-    if(phoneNumberWithoutSpaces == ""){
+    if (phoneNumberWithoutSpaces == "") {
       return "";
     }
     String formattedPhoneNumber =
