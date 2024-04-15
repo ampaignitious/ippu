@@ -6,6 +6,7 @@ import 'package:ippu/Widgets/AuthenticationWidgets/PhoneAuthlogin.dart';
 import 'package:ippu/Widgets/AuthenticationWidgets/RegisterScreen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ippu/controllers/auth_controller.dart';
+import 'dart:io' show Platform;
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -141,41 +142,82 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(
                         height: size.height * 0.01,
                       ),
-                      buttonItem(
-                          "assets/google.svg",
-                          "Continue with Google",
-                          25,
-                          _isSigningIn
-                              ? () {}
-                              : () async {
-                                  setState(() {
-                                    _isSigningIn = true;
-                                  });
+                      //sign in with google on android or apple id on ios
+                      checkPlatform == "android"
+                          ? buttonItem(
+                              "assets/google.svg",
+                              "Continue with Google",
+                              25,
+                              _isSigningIn
+                                  ? () {}
+                                  : () async {
+                                      setState(() {
+                                        _isSigningIn = true;
+                                      });
 
-                                  // Implement Google Sign In here
-                                  final authController = AuthController();
-                                  bool response =
-                                      await authController.signInWithGoogle();
+                                      // Implement Google Sign In here
+                                      final authController = AuthController();
+                                      bool response = await authController
+                                          .signInWithGoogle();
 
-                                  if (response) {
-                                    Navigator.pushReplacement(context,
-                                        MaterialPageRoute(builder: (context) {
-                                      //save the fcm token to the database
-                                      return const DefaultScreen();
-                                    }));
-                                  } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text(
-                                            "Something went wrong. Please try again later."),
-                                      ),
-                                    );
-                                  }
+                                      if (response) {
+                                        Navigator.pushReplacement(context,
+                                            MaterialPageRoute(
+                                                builder: (context) {
+                                          //save the fcm token to the database
+                                          return const DefaultScreen();
+                                        }));
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                                "Something went wrong. Please try again later."),
+                                          ),
+                                        );
+                                      }
 
-                                  setState(() {
-                                    _isSigningIn = false;
-                                  });
-                                }),
+                                      setState(() {
+                                        _isSigningIn = false;
+                                      });
+                                    })
+                          : buttonItem(
+                              "assets/google.svg",
+                              "Continue with Apple ID",
+                              25,
+                              _isSigningIn
+                                  ? () {}
+                                  : () async {
+                                      setState(() {
+                                        _isSigningIn = true;
+                                      });
+
+                                      // Implement Google Sign In here
+                                      final authController = AuthController();
+                                      bool response = await authController
+                                          .signInWithGoogle();
+
+                                      if (response) {
+                                        Navigator.pushReplacement(context,
+                                            MaterialPageRoute(
+                                                builder: (context) {
+                                          //save the fcm token to the database
+                                          return const DefaultScreen();
+                                        }));
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                                "Something went wrong. Please try again later."),
+                                          ),
+                                        );
+                                      }
+
+                                      setState(() {
+                                        _isSigningIn = false;
+                                      });
+                                    }),
                       SizedBox(
                         height: size.height * 0.01,
                       ),
@@ -385,5 +427,17 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  String checkPlatform() {
+    String os = Platform.operatingSystem;
+
+    if (os == 'android') {
+      return 'android';
+    } else if (os == 'ios') {
+      return 'ios';
+    }
+
+    return 'unknown';
   }
 }
