@@ -389,9 +389,12 @@ class _EditProfileState extends State<EditProfile> {
                                 items: accountTypes
                                     .map((accountType) => DropdownMenuItem(
                                           value: accountType['id'],
-                                          child: Text(accountType['name'], style: GoogleFonts.lato(
-                                            color: Colors.blue,
-                                          ),),
+                                          child: Text(
+                                            accountType['name'],
+                                            style: GoogleFonts.lato(
+                                              color: Colors.blue,
+                                            ),
+                                          ),
                                         ))
                                     .toList(),
                                 //initial value as value with id 1 from drop down list
@@ -495,6 +498,11 @@ class _EditProfileState extends State<EditProfile> {
                                   if (value == null || value.isEmpty) {
                                     return 'this field is required';
                                   }
+
+                                  //check if length of phone number is 13
+                                  if (value.length != 13) {
+                                    return 'Invalid phone number';
+                                  }
                                   return null;
                                 },
                               ),
@@ -530,6 +538,10 @@ class _EditProfileState extends State<EditProfile> {
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return 'this field is required';
+                                  }
+                                  //check if length of phone number is 13
+                                  if (value.length < 3) {
+                                    return 'Invalid name';
                                   }
                                   return null;
                                 },
@@ -706,6 +718,22 @@ class _EditProfileState extends State<EditProfile> {
     if (phoneNumberWithoutSpaces == "") {
       return "";
     }
+
+    //check the length of the phone number, if it has 10 characters, add +256 at the beginning
+    if (phoneNumberWithoutSpaces.length == 10) {
+      phoneNumberWithoutSpaces = '+256$phoneNumberWithoutSpaces';
+    }
+
+    if (phoneNumberWithoutSpaces.length != 13) {
+      return "";
+    }
+
+    //check if the second character is +
+    if (phoneNumberWithoutSpaces[1] == '+') {
+      //remove it
+      phoneNumberWithoutSpaces = phoneNumberWithoutSpaces.substring(2);
+    }
+
     String formattedPhoneNumber =
         '${phoneNumberWithoutSpaces.substring(0, 4)} ${phoneNumberWithoutSpaces.substring(4, 7)} ${phoneNumberWithoutSpaces.substring(7, 10)} ${phoneNumberWithoutSpaces.substring(10)}';
     return formattedPhoneNumber;
