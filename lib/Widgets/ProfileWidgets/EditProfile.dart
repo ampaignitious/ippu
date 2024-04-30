@@ -499,6 +499,9 @@ class _EditProfileState extends State<EditProfile> {
                                     return 'this field is required';
                                   }
 
+                                  //remove spaces from phone number
+                                  value = value.replaceAll(' ', '');
+
                                   //check if length of phone number is 13
                                   if (value.length != 13) {
                                     return 'Invalid phone number';
