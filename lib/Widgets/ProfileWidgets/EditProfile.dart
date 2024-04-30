@@ -274,6 +274,15 @@ class _EditProfileState extends State<EditProfile> {
 
           log('account types: $accountTypes');
 
+          //search for ana account type with the id of the selected account type
+          selectedAccountType = accountTypes.indexWhere(
+              (element) => element['id'] == selectedAccountType);
+
+              //if selected account type is not found, set it to 8
+          if (selectedAccountType == -1) {
+            selectedAccountType = 2;
+          }
+
           return Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -498,14 +507,6 @@ class _EditProfileState extends State<EditProfile> {
                                   if (value == null || value.isEmpty) {
                                     return 'this field is required';
                                   }
-
-                                  //remove spaces from phone number
-                                  value = value.replaceAll(' ', '');
-
-                                  //check if length of phone number is 13
-                                  if (value.length != 13) {
-                                    return 'Invalid phone number';
-                                  }
                                   return null;
                                 },
                               ),
@@ -589,7 +590,10 @@ class _EditProfileState extends State<EditProfile> {
                         255, 42, 129, 201), // Change button color to green
                     padding: EdgeInsets.all(size.height * 0.024),
                   ),
-                  onPressed: _submitForm,
+                  onPressed: () {
+                    final accountID = accountTypes[selectedAccountType]['id'];
+                    _submitForm(accountID);
+                  },
                   child: Padding(
                     padding:
                         EdgeInsets.symmetric(horizontal: size.width * 0.12),
@@ -640,15 +644,15 @@ class _EditProfileState extends State<EditProfile> {
     }
   }
 
-  void _submitForm() {
+  void _submitForm(selectedAccountTypeId) {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       // Call the function to send data to the API
-      sendUserDataToApi();
+      sendUserDataToApi(selectedAccountTypeId);
     }
   }
 
-  void sendUserDataToApi() async {
+  void sendUserDataToApi(selectedAccountTypeId) async {
     UserData? userData = Provider.of<UserProvider>(context, listen: false).user;
     final userId = userData?.id; // Replace with your actual user ID
 
@@ -666,7 +670,7 @@ class _EditProfileState extends State<EditProfile> {
       'nok_name': nokName,
       'nok_email': nokAddress,
       'nok_phone_no': nokPhoneNo,
-      'account_type_id': selectedAccountType,
+      'account_type_id': selectedAccountTypeId,
     };
 
     try {
