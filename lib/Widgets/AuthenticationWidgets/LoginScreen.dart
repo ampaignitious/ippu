@@ -6,6 +6,7 @@ import 'package:ippu/Widgets/AuthenticationWidgets/PhoneAuthlogin.dart';
 import 'package:ippu/Widgets/AuthenticationWidgets/RegisterScreen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ippu/controllers/auth_controller.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'dart:io' show Platform;
 
 class LoginScreen extends StatefulWidget {
@@ -194,44 +195,46 @@ class _LoginScreenState extends State<LoginScreen> {
                                         return const PhoneAuthLogin();
                                       }));
                                     })
-                          : buttonItem(
-                              "assets/apple.svg",
-                              "Continue Apple Sign In",
-                              30,
-                              _isSigningIn
-                                  ? () {}
-                                  : () {
-                                      setState(() {
-                                        _isSigningIn = true;
-                                      });
+                          : SignInWithAppleButton(
+                              onPressed: () async {
+                                final credential =
+                                    await SignInWithApple.getAppleIDCredential(
+                                  scopes: [
+                                    AppleIDAuthorizationScopes.email,
+                                    AppleIDAuthorizationScopes.fullName,
+                                  ],
+                                );
+                                var firstName = "";
+                                var lastName = "";
+                                if (credential.givenName != null) {
+                                  firstName = "${credential.givenName}";
+                                }
+                                if (credential.familyName != null) {
+                                  lastName = "${credential.familyName}";
+                                }
 
-                                      // Implement Apple Sign In here
-                                      final authController = AuthController();
-                                      authController.signInWithApple().then(
-                                        (response) {
-                                          if (response) {
-                                            Navigator.pushReplacement(context,
-                                                MaterialPageRoute(
-                                                    builder: (context) {
-                                              //save the fcm token to the database
-                                              return const DefaultScreen();
-                                            }));
-                                          } else {
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                              const SnackBar(
-                                                content: Text(
-                                                    "Something went wrong. Please try again later."),
-                                              ),
-                                            );
-                                          }
+                                var fullName = "$firstName $lastName";
 
-                                          setState(() {
-                                            _isSigningIn = false;
-                                          });
-                                        },
-                                      );
-                                    }),
+                                final authController = AuthController();
+                                bool response =
+                                    await authController.authenticateWithAppleEmail({"email":credential.email!, "fullName":fullName});
+
+                                if (response) {
+                                  Navigator.pushReplacement(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    //save the fcm token to the database
+                                    return const DefaultScreen();
+                                  }));
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                          "Something went wrong. Please try again later."),
+                                    ),
+                                  );
+                                }
+                              },
+                            ),
                       SizedBox(
                         height: size.height * 0.01,
                       ),
