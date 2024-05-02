@@ -196,6 +196,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       }));
                                     })
                           : SignInWithAppleButton(
+                            style: SignInWithAppleButtonStyle.white,
                               onPressed: () async {
                                 final credential =
                                     await SignInWithApple.getAppleIDCredential(
