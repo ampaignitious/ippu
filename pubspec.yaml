@@ -36,6 +36,7 @@ dependencies:
   fl_chart: ^0.66.2
   fluttertoast:
   table_calendar: ^3.1.0
+  sign_in_with_apple: ^6.1.0
   provider:
   intl:
   flutter:
