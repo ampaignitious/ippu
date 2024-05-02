@@ -27,7 +27,12 @@ abstract class AuthRestClient {
   Future<dynamic> phoneLogin({@Body() required Map<String, String> body});
 
   @POST(AppEndpoints.googleLoginEndPoint)
-  Future<dynamic> AuthenticateWithGoogleToken({@Body() required Map<String, String> body});
+  Future<dynamic> AuthenticateWithGoogleToken(
+      {@Body() required Map<String, String> body});
+
+  @POST(AppEndpoints.googleLoginEndPoint)
+  Future<dynamic> authenticateWithAppleEmail(
+      {@Body() required Map<String, String> body});
 
   @POST(AppEndpoints.logoutEndPoint)
   Future<dynamic> signOut();
@@ -37,10 +42,8 @@ abstract class AuthRestClient {
 
   @POST(AppEndpoints.uploadProfilePicture)
   @FormUrlEncoded()
-  Future<dynamic> store(
-      @Path('user') int userId,
-      @Part(name: 'profile_photo_path')
-      File profilePhotoPath);
+  Future<dynamic> store(@Path('user') int userId,
+      @Part(name: 'profile_photo_path') File profilePhotoPath);
 
   @GET(AppEndpoints.accountTypesEndPoint)
   Future<dynamic> getAccountTypes();
@@ -80,7 +83,7 @@ abstract class AuthRestClient {
 
   @GET(AppEndpoints.upcomingEventsEndPoint)
   Future<dynamic> getUpcomingEvents();
-  
+
   @POST(AppEndpoints.subscribe)
   Future<dynamic> subscribe();
 }

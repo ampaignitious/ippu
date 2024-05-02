@@ -142,58 +142,96 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(
                         height: size.height * 0.01,
                       ),
- buttonItem(
-                              "assets/google.svg",
-                              "Continue with Google",
-                              25,
+                      buttonItem(
+                          "assets/google.svg",
+                          "Continue with Google",
+                          25,
+                          _isSigningIn
+                              ? () {}
+                              : () async {
+                                  setState(() {
+                                    _isSigningIn = true;
+                                  });
+
+                                  // Implement Google Sign In here
+                                  final authController = AuthController();
+                                  bool response =
+                                      await authController.signInWithGoogle();
+
+                                  if (response) {
+                                    Navigator.pushReplacement(context,
+                                        MaterialPageRoute(builder: (context) {
+                                      //save the fcm token to the database
+                                      return const DefaultScreen();
+                                    }));
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                            "Something went wrong. Please try again later."),
+                                      ),
+                                    );
+                                  }
+
+                                  setState(() {
+                                    _isSigningIn = false;
+                                  });
+                                }),
+                      SizedBox(
+                        height: size.height * 0.01,
+                      ),
+                      //check if platform is android
+                      Platform.isAndroid
+                          ? buttonItem(
+                              "assets/phone.svg",
+                              "Continue with Phone",
+                              30,
                               _isSigningIn
                                   ? () {}
-                                  : () async {
+                                  : () {
+                                      Navigator.push(context,
+                                          MaterialPageRoute(builder: (context) {
+                                        return const PhoneAuthLogin();
+                                      }));
+                                    })
+                          : buttonItem(
+                              "assets/apple.svg",
+                              "Continue Apple Sign In",
+                              30,
+                              _isSigningIn
+                                  ? () {}
+                                  : () {
                                       setState(() {
                                         _isSigningIn = true;
                                       });
 
-                                      // Implement Google Sign In here
+                                      // Implement Apple Sign In here
                                       final authController = AuthController();
-                                      bool response = await authController
-                                          .signInWithGoogle();
+                                      authController.signInWithApple().then(
+                                        (response) {
+                                          if (response) {
+                                            Navigator.pushReplacement(context,
+                                                MaterialPageRoute(
+                                                    builder: (context) {
+                                              //save the fcm token to the database
+                                              return const DefaultScreen();
+                                            }));
+                                          } else {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              const SnackBar(
+                                                content: Text(
+                                                    "Something went wrong. Please try again later."),
+                                              ),
+                                            );
+                                          }
 
-                                      if (response) {
-                                        Navigator.pushReplacement(context,
-                                            MaterialPageRoute(
-                                                builder: (context) {
-                                          //save the fcm token to the database
-                                          return const DefaultScreen();
-                                        }));
-                                      } else {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          const SnackBar(
-                                            content: Text(
-                                                "Something went wrong. Please try again later."),
-                                          ),
-                                        );
-                                      }
-
-                                      setState(() {
-                                        _isSigningIn = false;
-                                      });
+                                          setState(() {
+                                            _isSigningIn = false;
+                                          });
+                                        },
+                                      );
                                     }),
-                      SizedBox(
-                        height: size.height * 0.01,
-                      ),
-                      buttonItem(
-                          "assets/phone.svg",
-                          "Continue with Phone",
-                          30,
-                          _isSigningIn
-                              ? () {}
-                              : () {
-                                  Navigator.push(context,
-                                      MaterialPageRoute(builder: (context) {
-                                    return const PhoneAuthLogin();
-                                  }));
-                                }),
                       SizedBox(
                         height: size.height * 0.01,
                       ),
