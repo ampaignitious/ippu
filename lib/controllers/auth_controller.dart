@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import 'rest/auth_rest.dart';
 
@@ -523,46 +522,13 @@ class AuthController {
     }
   }
 
-  Future<dynamic> signInWithApple() async {
-    try {
-      final credential = await SignInWithApple.getAppleIDCredential(
-        scopes: [
-          AppleIDAuthorizationScopes.email,
-          AppleIDAuthorizationScopes.fullName,
-        ],
-      );
-      // Now send the credential (especially `credential.authorizationCode`) to your server to create a session
-      // after they have been validated with Apple (see `Integration` section for more information on how to do this)
-      var firstName = "";
-      var lastName = "";
-      if (credential.givenName != null) {
-        firstName = "${credential.givenName}";
-      }
-      if (credential.familyName != null) {
-        lastName = "${credential.familyName}";
-      }
-
-      var fullName = "$firstName $lastName";
-      final log_in =
-          await authenticateWithAppleEmail({"email":credential.email!, "fullName":fullName});
-      if (log_in) {
-        return true;
-      } else {
-        return false;
-      }
-    } on Exception catch (e) {
-      log('Failed to login with Apple: $e');
-      // TODO
-      return false;
-    }
-  }
-
   Future<bool> authenticateWithAppleEmail(
       Map<String, String> credentials) async {
     final dio = Dio();
     final client = AuthRestClient(dio);
     //accept application/json
     dio.options.headers['Accept'] = "application/json";
+    
     try {
       final response = await client.authenticateWithAppleEmail(body: credentials);
       if (response.containsKey('authorization') &&
@@ -578,6 +544,7 @@ class AuthController {
         return false;
       }
     } catch (e) {
+      log('Failed to login with Apple: $e');
       return false;
     }
   }

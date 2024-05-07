@@ -172,7 +172,7 @@ class _AuthRestClient implements AuthRestClient {
     )
         .compose(
           _dio.options,
-          '/login-by-google',
+          '/login-by-apple',
           queryParameters: queryParameters,
           data: _data,
         )

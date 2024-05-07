@@ -30,7 +30,7 @@ abstract class AuthRestClient {
   Future<dynamic> AuthenticateWithGoogleToken(
       {@Body() required Map<String, String> body});
 
-  @POST(AppEndpoints.googleLoginEndPoint)
+  @POST(AppEndpoints.appleLoginEndPoint)
   Future<dynamic> authenticateWithAppleEmail(
       {@Body() required Map<String, String> body});
 
