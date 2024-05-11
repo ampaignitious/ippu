@@ -61,11 +61,9 @@ class _MyAppState extends State<MyApp> {
       await FirebaseApi().initNotifications();
 
       await askForNotificationPermission();
-      print("first launch");
       // If it's the first launch, return true.
       return true;
     } else {
-      print("Not first launch");
       // If it's not the first launch, return false.
       return false;
     }

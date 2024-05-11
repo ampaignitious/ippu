@@ -48,7 +48,6 @@ class _EducationBackgroundScreenState extends State<EducationBackgroundScreen> {
   final TextEditingController _endDate = TextEditingController();
   final TextEditingController _points = TextEditingController();
   final TextEditingController _field = TextEditingController();
-  final TextEditingController _userId = TextEditingController();
   int education_background_id = 0;
 
   Future<void> addEducationBackground({
@@ -88,7 +87,6 @@ class _EducationBackgroundScreenState extends State<EducationBackgroundScreen> {
       });
     } else {
       // Error handling for the failed request
-      print('Failed to add education background: ${response.statusCode}');
     }
   }
 
@@ -102,7 +100,6 @@ class _EducationBackgroundScreenState extends State<EducationBackgroundScreen> {
     required int id,
     required String education_background_id,
   }) async {
-    print('education_background_id: $education_background_id');
     const String apiUrl = 'https://ippu.org/api/edit-education-background';
 
     final Map<String, dynamic> requestData = {
@@ -125,7 +122,6 @@ class _EducationBackgroundScreenState extends State<EducationBackgroundScreen> {
       },
     );
 
-    print('response body: ${response.body}');
 
     if (response.statusCode == 200) {
       // Education background added successfully
@@ -136,7 +132,6 @@ class _EducationBackgroundScreenState extends State<EducationBackgroundScreen> {
       });
     } else {
       // Error handling for the failed request
-      print('Failed to add education background: ${response.statusCode}');
     }
   }
 
@@ -174,8 +169,6 @@ class _EducationBackgroundScreenState extends State<EducationBackgroundScreen> {
   //
 
   Widget _buildExistingContent() {
-    // Fetch the education data from the API
-    final educationData = fetchEducationData();
     final size = MediaQuery.of(context).size;
 
     return Column(
@@ -492,7 +485,6 @@ class _EducationBackgroundScreenState extends State<EducationBackgroundScreen> {
       }
     } catch (error) {
       // Handle the error here, e.g., display an error message to the user
-      print('Error: $error');
       return []; // Return an empty list or handle the error in your UI
     }
   }
@@ -514,6 +506,5 @@ class _EducationBackgroundScreenState extends State<EducationBackgroundScreen> {
     _endDate.text = educationData.endDate;
     education_background_id = int.parse(educationData.id);
 
-    print('education_background_id: $education_background_id');
   }
 }

@@ -8,9 +8,7 @@ import 'package:flutter/material.dart';
 
   Future<void> handleBackgroundMessage(RemoteMessage message) async {
     // Process the notification payload here
-    print('Handling a background message ${message.messageId}');
     print('Body: ${message.notification!.body}');
-    print('Title: ${message.notification!.title}');
     print('Payload: ${message.data}');
   }
 
@@ -111,7 +109,6 @@ class FirebaseApi {
   Future<void> initNotifications() async {
     await firebaseMessaging.requestPermission();
     final fcmToken = await firebaseMessaging.getToken();
-    print('FCM Token: $fcmToken');
 
     //save the token to the shared preferences
     final prefs = await SharedPreferences.getInstance();

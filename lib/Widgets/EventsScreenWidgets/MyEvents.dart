@@ -64,7 +64,6 @@ class _MyEventsState extends State<MyEvents> {
       }
     } catch (error) {
       // Handle the error here, e.g., display an error message to the user
-      print('Error: $error');
       return []; // Return an empty list or handle the error in your UI
     }
   }
@@ -214,9 +213,6 @@ class _MyEventsState extends State<MyEvents> {
                                             EdgeInsets.all(size.height * 0.020),
                                       ),
                                       onPressed: () {
-                                        print(data);
-                                        print(data.id);
-
                                         Navigator.push(context,
                                             MaterialPageRoute(
                                                 builder: (context) {

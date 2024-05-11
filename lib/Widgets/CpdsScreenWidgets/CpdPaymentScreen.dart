@@ -106,6 +106,7 @@ class _CpdPaymentScreenState extends State<CpdPaymentScreen> {
             Center(
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue,
              // Change button color to green
                   padding: EdgeInsets.all(size.height * 0.024),
                 ),
@@ -157,20 +158,16 @@ class _CpdPaymentScreenState extends State<CpdPaymentScreen> {
       if (response.statusCode == 200) {
         // Handle a successful API response
         const CircularProgressIndicator();
-        print("Attendence registered successfully");
         showBottomNotification('Attendance for event sent successfully');
         Navigator.pop(context);
         // Navigator.pop(context);
       } else {
         // Handle errors or unsuccessful response
-        print('Failed to send data to API');
         print(
             'Failed to send data to API. Status code: ${response.statusCode}');
-        print('Response body: ${response.body}');
       }
     } catch (error) {
       // Handle network errors or exceptions
-      print('Error: $error');
     }
   }
 

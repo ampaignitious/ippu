@@ -51,7 +51,6 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                 // Validate the entered verification code and proceed accordingly
                 num verificationCode =
                     num.parse(_verificationCodeController.text);
-                print(verificationCode);
                 print('verification code: $verificationCode');
                 // Implement logic to validate the verification code (compare with the stored code)
                 if (await verificationCodeIsValid(verificationCode)) {

@@ -31,7 +31,6 @@ class _HomeScreenState extends State<HomeScreen> {
         user.phone_no == null &&
         user.nok_name == null &&
         user.nok_phone_no == null) {
-      print("gender: ${user.gender}");
       return false;
     } else {
       return true;

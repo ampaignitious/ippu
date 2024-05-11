@@ -58,7 +58,6 @@ class _JobsScreenState extends State<JobsScreen> {
       }
     } catch (error) {
       //catch the exception
-      print("error: $error ");
       return []; // Return an empty list or handle the error in your UI
     }
   }

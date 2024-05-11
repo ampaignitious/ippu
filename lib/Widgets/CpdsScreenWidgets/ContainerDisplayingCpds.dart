@@ -58,7 +58,6 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
 
   Future<List<CpdModel>> fetchAllCpds() async {
     final userData = Provider.of<UserProvider>(context, listen: false).user;
-    print('user id: ${userData?.id}');
     // Define the URL with userData.id
     final apiUrl = 'https://ippu.org/api/cpds/${userData?.id}';
 
@@ -73,7 +72,6 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
         final Map<String, dynamic> jsonData = jsonDecode(response.body);
         final List<dynamic> eventData = jsonData['data'];
         List<CpdModel> cpdData = eventData.map((item) {
-          print('attendence request: ${item['attendance_request']}');
           return CpdModel(
               //
               id: item['id'].toString(),
@@ -102,7 +100,6 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
       }
     } catch (error) {
       // Handle the error here, e.g., display an error message to the user
-      print('Error: $error');
       return []; // Return an empty list or handle the error in your UI
     }
   }

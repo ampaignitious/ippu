@@ -67,7 +67,6 @@ class AuthController {
 
         //save fcm token
         await saveFcmToken(response['user']['id']);
-        print("response: $response");
         return response;
       } else {
         return {
@@ -76,7 +75,6 @@ class AuthController {
         };
       } // Handle the case when the access token is not present in the response
     } catch (e) {
-      print("catch error: $e");
       return {
         "error": "Invalid credentials",
         "status": "error",
@@ -134,7 +132,6 @@ class AuthController {
 
     try {
       final response = await client.checkPhoneNumber(body: details);
-      print("controller response: $response");
 
       if (response.containsKey('status')) {
         return {'status': 'success', 'message': "phone number registered"};
@@ -142,7 +139,6 @@ class AuthController {
         return {'status': 'error', 'message': "phone number not registered"};
       }
     } catch (e) {
-      print("Error: $e");
       // Exception handling
       return {
         "error": "An error occurred",
@@ -169,7 +165,6 @@ class AuthController {
 
         //save fcm token
         await saveFcmToken(response['user']['id']);
-        print("response logging in: $response");
         return {'status': 'success', 'message': "phone number registered"};
       } else {
         return {
@@ -258,7 +253,6 @@ class AuthController {
       final response = await client.getAllCommunications(user_id: userId);
       return response['data'].values.toList();
     } catch (e) {
-      print("catch error fddffd: $e");
       return [];
     }
   }
@@ -339,7 +333,6 @@ class AuthController {
         };
       }
     } catch (e) {
-      print("catch error: $e");
       return {
         "error": "Failed to sign out",
         "status": "error",
@@ -409,7 +402,6 @@ class AuthController {
       //check if response contains message
       if (response.containsKey('message')) {
         var certificate = response['data']['certificate'];
-        print("certificate: $certificate");
         return {
           "certificate": response['data']['certificate'],
           "status": "success",
@@ -421,7 +413,6 @@ class AuthController {
         };
       }
     } catch (e) {
-      print("catch error: $e");
       return {
         "error": "Failed to download certificate",
         "status": "error",
@@ -439,7 +430,6 @@ class AuthController {
       //check if response contains message
       if (response.containsKey('message')) {
         var certificate = response['data']['certificate'];
-        print("certificate: $certificate");
         return {
           "certificate": response['data']['certificate'],
           "status": "success",
@@ -451,7 +441,6 @@ class AuthController {
         };
       }
     } catch (e) {
-      print("catch error: $e");
       return {
         "error": "Failed to download certificate",
         "status": "error",
@@ -469,7 +458,6 @@ class AuthController {
       //check if response contains message
       if (response.containsKey('message')) {
         var certificate = response['data']['certificate'];
-        print("certificate: $certificate");
         return {
           "certificate": response['data']['certificate'],
           "status": "success",
@@ -481,7 +469,6 @@ class AuthController {
         };
       }
     } catch (e) {
-      print("catch error: $e");
       return {
         "error": "Failed to download certificate",
         "status": "error",
@@ -509,8 +496,8 @@ class AuthController {
 
       final GoogleSignInAuthentication? googleAuth =
           await googleUser?.authentication;
-      final log_in = await AuthenticateWithGoogleToken(googleAuth!.accessToken);
-      if (log_in) {
+      final logIn = await AuthenticateWithGoogleToken(googleAuth!.accessToken);
+      if (logIn) {
         return true;
       } else {
         return false;

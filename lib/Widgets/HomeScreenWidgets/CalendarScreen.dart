@@ -103,16 +103,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
             }
           }
         }
-        print("updated events: $updatedEvents");
         // Return the updated events data structure
         return updatedEvents;
       } else {
-        print('Failed to load events: ${response.statusCode}');
         // Return an empty map if fetching fails
         return LinkedHashMap();
       }
     } catch (e) {
-      print('Error loading events: $e');
       // Return an empty map if an error occurs
       return LinkedHashMap();
     }
@@ -158,16 +155,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
             }
           }
         }
-        print("updated events: $updatedEvents");
         // Return the updated events data structure
         return updatedEvents;
       } else {
-        print('Failed to load events: ${response.statusCode}');
         // Return an empty map if fetching fails
         return LinkedHashMap();
       }
     } catch (e) {
-      print('Error loading events: $e');
       // Return an empty map if an error occurs
       return LinkedHashMap();
     }
@@ -292,7 +286,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   snapshot.data as LinkedHashMap<DateTime, List<Event>>;
 
                   final events = _getEventsForDay(_selectedDay!);
-                  print("selected events: $events");
                   //set the selected events to the value notifier
                   _selectedEvents.value = events;
               return Stack(

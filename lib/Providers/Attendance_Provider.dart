@@ -8,6 +8,5 @@ class AttendanceProvider extends ChangeNotifier {
   void setSubscriptionStatus(bool status) {
     _status = status;
     notifyListeners();
-    print("attendance for the event set for all screens");
   }
 }

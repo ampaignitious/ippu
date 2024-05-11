@@ -8,6 +8,5 @@ class SubscriptionStatusProvider extends ChangeNotifier {
   void setSubscriptionStatus(String status) {
     _status = status;
     notifyListeners();
-    print("subscription status set for all screens");
   }
 }

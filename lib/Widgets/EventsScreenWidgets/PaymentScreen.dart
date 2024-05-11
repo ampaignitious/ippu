@@ -106,7 +106,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
             Center(
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                // Change button color to green
+                  // Change button color to green
+                  backgroundColor: Colors.green,
                   padding: EdgeInsets.all(size.height * 0.024),
                 ),
                 onPressed: () {
@@ -116,9 +117,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   padding: EdgeInsets.symmetric(horizontal: size.width * 0.12),
                   child: Text(
                     'Confirm Attendence',
-                      style: GoogleFonts.lato(
-    textStyle: const TextStyle(color: Colors.white), // Set text color to white
-  ),
+                    style: GoogleFonts.lato(
+                      textStyle: const TextStyle(
+                          color: Colors.white), // Set text color to white
+                    ),
                   ),
                 ),
               ),
@@ -156,21 +158,17 @@ class _PaymentScreenState extends State<PaymentScreen> {
       if (response.statusCode == 200) {
         // Handle a successful API response
         const CircularProgressIndicator();
-        print("Attendence registered successfully");
         showBottomNotification('Attendance for event sent successfully');
         Navigator.pop(context);
 
         // Navigator.pop(context);
       } else {
         // Handle errors or unsuccessful response
-        print('Failed to send data to API');
         print(
             'Failed to send data to API. Status code: ${response.statusCode}');
-        print('Response body: ${response.body}');
       }
     } catch (error) {
       // Handle network errors or exceptions
-      print('Error: $error');
     }
   }
 

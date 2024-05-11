@@ -76,14 +76,12 @@ class _allCpdDisplayState extends State<allCpdDisplay> {
               //
               );
         }).toList();
-        print(cpdData);
         return cpdData;
       } else {
         throw Exception('Failed to load events data');
       }
     } catch (error) {
       // Handle the error here, e.g., display an error message to the user
-      print('Error: $error');
       return []; // Return an empty list or handle the error in your UI
     }
   }

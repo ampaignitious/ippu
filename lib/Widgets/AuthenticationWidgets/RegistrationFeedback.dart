@@ -116,7 +116,6 @@ class _RegistrationFeedbackState extends State<RegistrationFeedback>
             InkWell(
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  print('email: ${widget.email}');
                   return VerificationCodeScreen(email: widget.email);
                 }));
               },

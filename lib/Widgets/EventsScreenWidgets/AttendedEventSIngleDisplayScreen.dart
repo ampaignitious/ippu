@@ -186,7 +186,7 @@ class _AttendedEventSIngleDisplayScreenState
                           ),
                           Text(
                             start_date,
-                            style: TextStyle(fontSize: size.height * 0.008),
+                            style: TextStyle(fontSize: size.height * 0.012),
                           )
                         ],
                       ),
@@ -199,7 +199,7 @@ class _AttendedEventSIngleDisplayScreenState
                           ),
                           Text(
                             end_date,
-                            style: TextStyle(fontSize: size.height * 0.008),
+                            style: TextStyle(fontSize: size.height * 0.012),
                           )
                         ],
                       ),
@@ -212,7 +212,7 @@ class _AttendedEventSIngleDisplayScreenState
                           ),
                           Text(
                             points,
-                            style: TextStyle(fontSize: size.height * 0.008),
+                            style: TextStyle(fontSize: size.height * 0.012),
                           )
                         ],
                       ),

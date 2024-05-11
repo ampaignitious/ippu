@@ -7,7 +7,6 @@ class AuthProvider extends ChangeNotifier {
   bool get isAuthenticated => _isAuthenticated;
 
   Future<bool> isLoggedIn() async {
-    print('Checking if the user is logged in...');
     
     String? accessToken = await _getAccessToken();
     _updateAuthenticationStatus(accessToken != null);

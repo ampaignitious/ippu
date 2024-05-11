@@ -2,19 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ippu/Widgets/EventsScreenWidgets/PaymentScreen.dart';
+import 'package:share_plus/share_plus.dart';
 
 class SingleEventDisplay extends StatefulWidget {
-  String imagelink;
-  String eventName;
-  String rate;
-  String startDate;
-  String endDate;
-  String points;
-  String id;
-  bool attendance_request;
+  final String imagelink;
+  final String eventName;
+  final String rate;
+  final String startDate;
+  final String endDate;
+  final String points;
+  final String id;
+  final bool attendance_request;
 
-  String description;
-  SingleEventDisplay(
+  final String description;
+
+  const SingleEventDisplay(
       {super.key,
       required this.attendance_request,
       required this.id,
@@ -27,42 +29,18 @@ class SingleEventDisplay extends StatefulWidget {
       required this.imagelink});
 
   @override
-  State<SingleEventDisplay> createState() => _SingleEventDisplayState(
-      attendance_request,
-      id,
-      points,
-      description,
-      rate,
-      eventName,
-      imagelink,
-      startDate,
-      endDate);
+  State<SingleEventDisplay> createState() => _SingleEventDisplayState();
 }
 
 class _SingleEventDisplayState extends State<SingleEventDisplay> {
   //
-  String imagelink;
-  String eventName;
-  String points;
-  String startDate;
-  String endDate;
-  String description;
-  String rate;
-  String id;
-  bool attendance_request;
-  _SingleEventDisplayState(
-      this.attendance_request,
-      this.id,
-      this.rate,
-      this.description,
-      this.points,
-      this.eventName,
-      this.imagelink,
-      this.startDate,
-      this.endDate);
-  //
   int attended = 0;
   String attendance_status = "";
+
+  String generateDeepLink() {
+    // Generate the deep link
+    return "https://ippu.org/myevents";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +49,7 @@ class _SingleEventDisplayState extends State<SingleEventDisplay> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          eventName,
+          widget.eventName,
           style: GoogleFonts.lato(
             textStyle:
                 const TextStyle(color: Colors.white), // Set text color to white
@@ -98,35 +76,59 @@ class _SingleEventDisplayState extends State<SingleEventDisplay> {
                         BoxShadow(
                           color: Colors.grey.withOpacity(
                               0.5), // Adjust shadow color and opacity
-                          offset: const Offset(0.8, 1.0), // Adjust the shadow offset
+                          offset: const Offset(
+                              0.8, 1.0), // Adjust the shadow offset
                           blurRadius: 4.0, // Adjust the blur radius
                           spreadRadius: 0.2, // Adjust the spread radius
                         )
                       ],
-                      image:
-                          DecorationImage(image: NetworkImage(imagelink))),
+                      image: DecorationImage(
+                          image: NetworkImage(widget.imagelink))),
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.only(
-                    left: size.width * 0.06, top: size.height * 0.008),
-                child: Text(
-                  "Event Name",
-                  style: GoogleFonts.lato(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.blue,
-                      fontSize: size.height * 0.027),
-                ),
+              Row(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(
+                        left: size.width * 0.06, top: size.height * 0.008),
+                    child: Text(
+                      "Event Name",
+                      style: GoogleFonts.lato(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blue,
+                        fontSize: size.height * 0.027,
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    icon: const Icon(
+                      Icons.share, // Use the share icon from Material Icons
+                      color: Colors.blue, // Set the color of the icon
+                    ),
+                    onPressed: () {
+                      //generate the deep link to this event
+                      //share the deep link
+                      final deepLink = generateDeepLink();
+
+                      String message = "🎉 ${widget.eventName} 🎉\n\n"
+                          "📅 Event Date: ${widget.startDate} - ${widget.endDate}\n\n"
+                          "📌 To book for the event attendance, click on the link below:\n"
+                          "$deepLink";
+                      Share.share(message);
+                    },
+                  ),
+                ],
               ),
+
               Padding(
                 padding: EdgeInsets.only(
                     left: size.width * 0.06, top: size.height * 0.0022),
                 // child: Text("this will be about learning sessions"),
                 child: Text(
-                  eventName,
+                  widget.eventName,
                   style: GoogleFonts.lato(
                     textStyle: const TextStyle(
-                        color: Colors.white), // Set text color to white
+                        color: Colors.black), // Set text color to white
                   ),
                 ),
               ),
@@ -147,7 +149,7 @@ class _SingleEventDisplayState extends State<SingleEventDisplay> {
                     left: size.width * 0.02, top: size.height * 0.0019),
                 // child: Text("this will be about learning sessions"),
                 child: Html(
-                  data: description,
+                  data: widget.description,
                   style: {
                     "p": Style(
                       // Apply style to <p> tags
@@ -199,8 +201,8 @@ class _SingleEventDisplayState extends State<SingleEventDisplay> {
                             style: TextStyle(color: Colors.green),
                           ),
                           Text(
-                            extractDate(startDate),
-                            style: TextStyle(fontSize: size.height * 0.008),
+                            extractDate(widget.startDate),
+                            style: TextStyle(fontSize: size.height * 0.012),
                           )
                         ],
                       ),
@@ -212,8 +214,8 @@ class _SingleEventDisplayState extends State<SingleEventDisplay> {
                             style: TextStyle(color: Colors.green),
                           ),
                           Text(
-                            extractDate(endDate),
-                            style: TextStyle(fontSize: size.height * 0.008),
+                            extractDate(widget.endDate),
+                            style: TextStyle(fontSize: size.height * 0.012),
                           )
                         ],
                       ),
@@ -225,8 +227,8 @@ class _SingleEventDisplayState extends State<SingleEventDisplay> {
                             style: TextStyle(color: Colors.red),
                           ),
                           Text(
-                            points,
-                            style: TextStyle(fontSize: size.height * 0.008),
+                            widget.points,
+                            style: TextStyle(fontSize: size.height * 0.012),
                           )
                         ],
                       ),
@@ -238,8 +240,8 @@ class _SingleEventDisplayState extends State<SingleEventDisplay> {
                             style: TextStyle(color: Colors.red),
                           ),
                           Text(
-                            rate,
-                            style: TextStyle(fontSize: size.height * 0.008),
+                            widget.rate,
+                            style: TextStyle(fontSize: size.height * 0.012),
                           )
                         ],
                       ),
@@ -274,9 +276,9 @@ class _SingleEventDisplayState extends State<SingleEventDisplay> {
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
                             return PaymentScreen(
-                              eventAmount: points,
-                              eventId: id,
-                              eventName: eventName,
+                              eventAmount: widget.points,
+                              eventId: widget.id,
+                              eventName: widget.eventName,
                             );
                           }));
 
@@ -286,7 +288,7 @@ class _SingleEventDisplayState extends State<SingleEventDisplay> {
                           padding: EdgeInsets.symmetric(
                               horizontal: size.width * 0.12),
                           child: Text(
-                            'Register to Attend',
+                            'Book Attendance',
                             style: GoogleFonts.lato(
                               textStyle: const TextStyle(
                                   color:
@@ -390,12 +392,12 @@ class _SingleEventDisplayState extends State<SingleEventDisplay> {
   //based on the attendance_request and the start and end date of the event
   int showRegisterButton() {
     DateTime currentDate = DateTime.now();
-    DateTime startDate = DateTime.parse(this.startDate);
-    DateTime endDate = DateTime.parse(this.endDate);
+    DateTime startDate = DateTime.parse(widget.startDate);
+    DateTime endDate = DateTime.parse(widget.endDate);
     int statusCode = 0;
 
     //check if the event is still valid
-    if (attendance_request == false) {
+    if (widget.attendance_request == false) {
       if (currentDate.isAfter(endDate)) {
         attendance_status = "You missed this event";
         statusCode = 1;

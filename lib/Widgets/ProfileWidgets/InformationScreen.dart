@@ -55,7 +55,6 @@ class _InformationScreenState extends State<InformationScreen> {
         numberOfCertificates = count;
       });
     } catch (error) {
-      print('Error fetching attended events count: $error');
     }
   }
 
@@ -96,7 +95,6 @@ class _InformationScreenState extends State<InformationScreen> {
         }
       }
     } catch (error) {
-      print("catched error: $error");
       throw Exception("An error occurred while loading the profile");
     }
   }
@@ -328,7 +326,6 @@ class _InformationScreenState extends State<InformationScreen> {
       }
     } catch (error) {
       // Handle the error here, e.g., display an error message to the user
-      print('Error: $error');
       return 0; // Return 0 or handle the error count in your UI
     }
   }

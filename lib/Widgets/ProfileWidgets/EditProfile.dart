@@ -225,7 +225,6 @@ class _EditProfileState extends State<EditProfile> {
         }
       }
     } catch (error) {
-      print("catched error: $error");
       throw Exception("An error occurred while loading the profile");
     }
   }
@@ -275,10 +274,10 @@ class _EditProfileState extends State<EditProfile> {
           log('account types: $accountTypes');
 
           //search for ana account type with the id of the selected account type
-          selectedAccountType = accountTypes.indexWhere(
-              (element) => element['id'] == selectedAccountType);
+          selectedAccountType = accountTypes
+              .indexWhere((element) => element['id'] == selectedAccountType);
 
-              //if selected account type is not found, set it to 8
+          //if selected account type is not found, set it to 8
           if (selectedAccountType == -1) {
             selectedAccountType = 2;
           }
@@ -683,11 +682,9 @@ class _EditProfileState extends State<EditProfile> {
           'Authorization': 'Bearer ${userData?.token}'
         },
       );
-      print("response-code: ${response.statusCode}");
       const CircleAvatar();
       if (response.statusCode == 200) {
         // Handle a successful API response
-        print('Data sent successfully');
         const CircleAvatar();
         showBottomNotification('Profile information updated successfully');
         Navigator.push(context,
@@ -695,7 +692,6 @@ class _EditProfileState extends State<EditProfile> {
       } else {
         // Handle errors or unsuccessful response
         showBottomNotification('Update failed, please try again');
-        print('Failed to send data to API');
       }
     } catch (error) {
       // Handle network errors or exceptions

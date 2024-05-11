@@ -42,7 +42,6 @@ class _LoginScreenState extends State<LoginScreen> {
         final authResponse =
             await authController.signIn(_userEmail, _userPassword);
 
-        print("authResponse: $authResponse");
 
         // Close the loading indicator dialog
         Navigator.pop(context);
@@ -62,7 +61,6 @@ class _LoginScreenState extends State<LoginScreen> {
         }
       } catch (e) {
         // Handle unexpected errors
-        print('Login failed: $e');
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text("Something went wrong. Please try again later."),
         ));
@@ -248,7 +246,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(
                         height: size.height * 0.01,
                       ),
-                      Container(
+                      SizedBox(
                         width: size.width, // Set the desired width
                         height: size.height * 0.06, // Set the desired height
                         child: TextFormField(
@@ -271,7 +269,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       SizedBox(height: size.height * 0.028),
-                      Container(
+                      SizedBox(
                         width: size.width, // Set the desired width
                         height: size.height * 0.06, // Set the desired height
                         child: TextFormField(
@@ -395,7 +393,7 @@ class _LoginScreenState extends State<LoginScreen> {
       String imagePath, String buttonName, double size, Function() onTap) {
     return InkWell(
       onTap: onTap,
-      child: Container(
+      child: SizedBox(
         width: MediaQuery.of(context).size.width - 60,
         height: 60,
         child: Card(

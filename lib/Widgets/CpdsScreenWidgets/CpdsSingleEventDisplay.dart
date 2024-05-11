@@ -2,21 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ippu/Widgets/CpdsScreenWidgets/CpdPaymentScreen.dart';
+import 'package:share_plus/share_plus.dart';
 
 class CpdsSingleEventDisplay extends StatefulWidget {
-  String imagelink;
-  String cpdsname;
-  String startDate;
-  String endDate;
-  String type;
-  String location;
-  bool attendance_request;
-  String attendees;
-  String content;
-  String cpdId;
-  String rate;
-  String target_group;
-  CpdsSingleEventDisplay(
+  final String imagelink;
+  final String cpdsname;
+  final String startDate;
+  final String endDate;
+  final String type;
+  final String location;
+  final bool attendance_request;
+  final String attendees;
+  final String content;
+  final String cpdId;
+  final String rate;
+  final String target_group;
+  const CpdsSingleEventDisplay(
       {super.key,
       required this.attendance_request,
       required this.rate,
@@ -32,51 +33,19 @@ class CpdsSingleEventDisplay extends StatefulWidget {
       required this.imagelink});
 
   @override
-  State<CpdsSingleEventDisplay> createState() => _CpdsSingleEventDisplayState(
-      attendance_request,
-      cpdId,
-      rate,
-      location,
-      content,
-      target_group,
-      attendees,
-      cpdsname,
-      imagelink,
-      startDate,
-      endDate,
-      type);
+  State<CpdsSingleEventDisplay> createState() => _CpdsSingleEventDisplayState();
 }
 
 class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
-  String imagelink;
-  String cpdsname;
-  String startDate;
-  String endDate;
-  String type;
-  String cpdId;
-  String? rate;
-  String location;
-  String attendees;
-  String content;
-  bool attendance_request;
-  String target_group;
 
 
-  _CpdsSingleEventDisplayState(
-      this.attendance_request,
-      this.cpdId,
-      this.content,
-      this.rate,
-      this.location,
-      this.target_group,
-      this.attendees,
-      this.cpdsname,
-      this.imagelink,
-      this.startDate,
-      this.endDate,
-      this.type);
 
   String attendance_status = "";
+
+    String generateDeepLink() {
+    // Generate the deep link
+    return "https://ippu.org/myevents";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,10 +55,11 @@ class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          cpdsname,
-            style: GoogleFonts.lato(
-    textStyle: const TextStyle(color: Colors.white), // Set text color to white
-  ),
+          widget.cpdsname,
+          style: GoogleFonts.lato(
+            textStyle:
+                const TextStyle(color: Colors.white), // Set text color to white
+          ),
         ),
         backgroundColor: const Color.fromARGB(255, 42, 129, 201),
         elevation: 0,
@@ -110,26 +80,46 @@ class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
                       // border: Border.all(
                       //   // color: Colors.white,
                       // ),
-                      image:
-                          DecorationImage(image: NetworkImage(imagelink))),
+                      image: DecorationImage(image: NetworkImage(widget.imagelink))),
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.only(
-                    left: size.width * 0.06, top: size.height * 0.004),
-                child: Text(
-                  "Description",
-                  style: GoogleFonts.lato(
-                    fontWeight: FontWeight.bold,
+              Row(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(
+                        left: size.width * 0.06, top: size.height * 0.004),
+                    child: Text(
+                      "Description",
+                      style: GoogleFonts.lato(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
-                ),
+                                    IconButton(
+                    icon: const Icon(
+                      Icons.share, // Use the share icon from Material Icons
+                      color: Colors.blue, // Set the color of the icon
+                    ),
+                    onPressed: () {
+                      //generate the deep link to this event
+                      //share the deep link
+                      final deepLink = generateDeepLink();
+
+                      String message = "🎉 ${widget.cpdsname}🎉\n\n"
+                          "📅 Event Date: ${widget.startDate} - ${widget.endDate}\n\n"
+                          "📌 To book for the event attendance, click on the link below:\n"
+                          "$deepLink";
+                      Share.share(message);
+                    },
+                  ),
+                ],
               ),
 
               Padding(
                   padding: EdgeInsets.only(
                       left: size.width * 0.06, top: size.height * 0.0008),
                   child: Html(
-                    data: location,
+                    data: widget.location,
                     style: {
                       "p": Style(
                         // Apply style to <p> tags
@@ -162,7 +152,7 @@ class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
                     right: size.width * 0.06,
                     top: size.height * 0.0016),
                 child: Text(
-                  target_group,
+                  widget.target_group,
                   textAlign: TextAlign.justify,
                 ),
               ),
@@ -198,8 +188,8 @@ class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
                             style: TextStyle(color: Colors.green),
                           ),
                           Text(
-                            extractDate(startDate),
-                            style: TextStyle(fontSize: size.height * 0.008),
+                            extractDate(widget.startDate),
+                            style: TextStyle(fontSize: size.height * 0.012),
                           )
                         ],
                       ),
@@ -211,8 +201,8 @@ class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
                             style: TextStyle(color: Colors.green),
                           ),
                           Text(
-                            extractDate(endDate),
-                            style: TextStyle(fontSize: size.height * 0.008),
+                            extractDate(widget.endDate),
+                            style: TextStyle(fontSize: size.height * 0.012),
                           )
                         ],
                       ),
@@ -224,8 +214,8 @@ class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
                             style: TextStyle(color: Colors.red),
                           ),
                           Text(
-                            type,
-                            style: TextStyle(fontSize: size.height * 0.008),
+                            widget.type,
+                            style: TextStyle(fontSize: size.height * 0.012),
                           )
                         ],
                       ),
@@ -237,8 +227,8 @@ class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
                             style: TextStyle(color: Colors.red),
                           ),
                           Text(
-                            content,
-                            style: TextStyle(fontSize: size.height * 0.008),
+                            widget.content,
+                            style: TextStyle(fontSize: size.height * 0.012),
                           )
                         ],
                       ),
@@ -250,7 +240,7 @@ class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
               SizedBox(
                 height: size.height * 0.022,
               ),
-                            Center(
+              Center(
                 child: (() {
                   switch (status) {
                     case 1:
@@ -264,15 +254,16 @@ class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
                     case 2:
                       return ElevatedButton(
                         style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
                           padding: EdgeInsets.all(size.height * 0.024),
                         ),
                         onPressed: () {
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
                             return CpdPaymentScreen(
-                              eventAmount: rate,
-                              eventName: cpdsname,
-                              eventId: cpdId,
+                              eventAmount: widget.rate,
+                              eventName: widget.cpdsname,
+                              eventId: widget.cpdId,
                             );
                           }));
                         },
@@ -280,10 +271,12 @@ class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
                           padding: EdgeInsets.symmetric(
                               horizontal: size.width * 0.12),
                           child: Text(
-                            'Register to Attend',
-                              style: GoogleFonts.lato(
-    textStyle: const TextStyle(color: Colors.white), // Set text color to white
-  ),
+                            'Book Attendance',
+                            style: GoogleFonts.lato(
+                              textStyle: const TextStyle(
+                                  color:
+                                      Colors.white), // Set text color to white
+                            ),
                           ),
                         ),
                       );
@@ -378,12 +371,12 @@ class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
   //based on the attendance_request and the start and end date of the event
   int showRegisterButton() {
     DateTime currentDate = DateTime.now();
-    DateTime startDate = DateTime.parse(this.startDate);
-    DateTime endDate = DateTime.parse(this.endDate);
+    DateTime startDate = DateTime.parse(widget.startDate);
+    DateTime endDate = DateTime.parse(widget.endDate);
     int statusCode = 0;
 
     //check if the event is still valid
-    if (attendance_request == false) {
+    if (widget.attendance_request == false) {
       if (currentDate.isAfter(endDate)) {
         attendance_status = "You missed this cpd";
         statusCode = 1;
@@ -449,5 +442,9 @@ class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
     }
 
     return statusCode;
+  }
+
+  void shareCPD(String CPDName, String description){
+    Share.share('Check out this CPD event: $CPDName\n\n$description');
   }
 }

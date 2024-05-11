@@ -93,7 +93,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
       AuthController authController = AuthController();
       final response = await authController.signUp(requestData);
 
-      print("Response: $response");
 
       // Close the loading indicator dialog
       if (mounted) {

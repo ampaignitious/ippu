@@ -8,6 +8,5 @@ class ProfilePicProvider extends ChangeNotifier {
   void setProfilePic(String profilePic) {
     _profilePic = profilePic;
     notifyListeners();
-    print("profile pic set for all screens");
   }
 }

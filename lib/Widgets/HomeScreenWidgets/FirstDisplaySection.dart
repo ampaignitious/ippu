@@ -112,14 +112,12 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection>
             attendance_status: item['attendance_status'] ?? "",
           );
         }).toList();
-        print(cpdData);
         return cpdData;
       } else {
         throw Exception('Failed to load events data');
       }
     } catch (error) {
       // Handle the error here, e.g., display an error message to the user
-      print('Error: $error');
       return []; // Return an empty list or handle the error in your UI
     }
   }
@@ -144,7 +142,6 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection>
 
       setState(() {
         totalEvents = events.length;
-        print("total events $totalEvents");
         totalCPDS = cpds.length;
         totalCommunications = communications.length;
         Provider.of<UserProvider>(context, listen: false)
@@ -156,7 +153,6 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection>
       });
     } catch (e) {
       // Handle any errors here
-      print('Error fetching data: $e');
     }
   }
 
@@ -165,7 +161,6 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection>
     final size = MediaQuery.of(context).size;
     String? status = context.watch<SubscriptionStatusProvider>().status;
 
-    print("Sub Status: $status");
     final profileStatus = context.watch<UserProvider>().profileStatusCheck;
 
     return Stack(

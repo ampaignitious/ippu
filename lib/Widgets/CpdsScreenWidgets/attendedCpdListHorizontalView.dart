@@ -66,14 +66,12 @@ class _attendedCpdListHorizontalViewState extends State<attendedCpdListHorizonta
           attendance_status:item['attendance_status']??""
         );
       }).toList();
-      print(cpdData);
       return cpdData;
     } else {
       throw Exception('Failed to load events data');
     }
   } catch (error) {
     // Handle the error here, e.g., display an error message to the user
-    print('Error: $error');
     return []; // Return an empty list or handle the error in your UI
   }
 }
@@ -185,7 +183,6 @@ class _attendedCpdListHorizontalViewState extends State<attendedCpdListHorizonta
                       itemBuilder: (context, index) {
                         final item = data[index];
                          // Ensure the properties accessed here match the structure of your API response
-                        const imagelink = 'assets/cpds0.jpg';
                         final activityName = item.topic;
                         final points = item.points;
                         final startDate =item.startDate;
@@ -200,7 +197,6 @@ class _attendedCpdListHorizontalViewState extends State<attendedCpdListHorizonta
                         final cpdId = item.id.toString();
                           return InkWell(
                             onTap: () {
-                              print('$item');
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) {

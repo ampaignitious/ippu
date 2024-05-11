@@ -37,12 +37,10 @@ class CommunicationService {
 
         return counts;
       } else {
-        print('Error: Communications data is not in the expected format');
         return {'readCount': 0, 'unreadCount': 0, 'totalCommunications': 0};
       }
     } catch (error) {
       // Handle the error (e.g., log it or throw a custom exception)
-      print('Error fetching communications: $error');
       return {'readCount': 0, 'unreadCount': 0, 'totalCommunications': 0};
     }
   }

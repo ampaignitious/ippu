@@ -88,14 +88,12 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents>
             status: item['status'] ?? '',
           );
         }).toList();
-        print(eventsData);
         return eventsData;
       } else {
         throw Exception('Failed to load events data');
       }
     } catch (error) {
       // Handle the error here, e.g., display an error message to the user
-      print('Error: $error');
       return []; // Return an empty list or handle the error in your UI
     }
   }
@@ -207,7 +205,6 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents>
                                 .contains(_searchQuery.toLowerCase())) {
                           return InkWell(
                             onTap: () {
-                              print(item.attandence_request);
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) {

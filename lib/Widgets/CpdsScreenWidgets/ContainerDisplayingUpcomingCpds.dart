@@ -88,14 +88,12 @@ class _ContainerDisplayingUpcomingCpdsState extends State<ContainerDisplayingUpc
           attendance_status:item['attendance_status']??"",
         );
       }).toList();
-      print(cpdData);
       return cpdData;
     } else {
       throw Exception('Failed to load events data');
     }
   } catch (error) {
     // Handle the error here, e.g., display an error message to the user
-    print('Error: $error');
     return []; // Return an empty list or handle the error in your UI
   }
 }
@@ -178,7 +176,6 @@ final size = MediaQuery.of(context).size;
                                 .contains(_searchQuery.toLowerCase())) {
                           return InkWell(
                             onTap: () {
-                              print('$item');
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) {

@@ -5,7 +5,7 @@ import 'package:pinput/pinput.dart';
 class PinInput extends StatelessWidget {
   final TextEditingController? controller;
   final void Function(String)? onPinComplete; // Callback method
-  const PinInput({Key? key, required this.controller, this.onPinComplete}) : super(key: key);
+  const PinInput({super.key, required this.controller, this.onPinComplete});
 
   @override
   Widget build(BuildContext context) {

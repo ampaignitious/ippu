@@ -213,10 +213,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
     var status = await Permission.notification.status;
 
     if (status.isGranted) {
-      print("Permission granted");
       return true;
     } else {
-      print("Permission denied");
       return false;
     }
   }
@@ -228,10 +226,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
     var status = await Permission.notification.status;
 
     if (status.isGranted) {
-      print("Permission granted");
       return true;
     } else {
-      print("Permission denied");
       openAppSettings();
       return false;
     }

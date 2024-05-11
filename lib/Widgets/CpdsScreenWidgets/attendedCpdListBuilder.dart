@@ -51,7 +51,6 @@ class _attendedCpdListBuilderState extends State<attendedCpdListBuilder> {
       }).toList();
       return eventsData;
     } catch (error) {
-      print('Error: $error');
       return [];
     }
   }

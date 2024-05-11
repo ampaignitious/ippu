@@ -36,7 +36,6 @@ class _WorkExperienceState extends State<WorkExperience> {
   final TextEditingController _title = TextEditingController();
   final TextEditingController _startDate = TextEditingController();
   final TextEditingController _endDate = TextEditingController();
-  final TextEditingController _userId = TextEditingController();
   final TextEditingController _description = TextEditingController();
   final TextEditingController _position = TextEditingController();
   int experience_id = 0;
@@ -58,7 +57,6 @@ class _WorkExperienceState extends State<WorkExperience> {
       "position": position,
       "user_id": id,
     };
-    print(requestData);
     final response = await http.post(
       Uri.parse(apiUrl),
       body: json.encode(requestData),
@@ -67,11 +65,9 @@ class _WorkExperienceState extends State<WorkExperience> {
       },
     );
 
-    print('response: ${response.body}');
 
     if (response.statusCode == 200) {
       // WorkExperience background added successfully
-      print(response.body);
       print('Work Experience added successfully');
       showBottomNotification('work experience added successfully');
 
@@ -80,7 +76,6 @@ class _WorkExperienceState extends State<WorkExperience> {
       });
     } else {
       // Error handling for the failed request
-      print('Failed to add work experience: ${response.statusCode}');
     }
   }
 
@@ -111,11 +106,9 @@ class _WorkExperienceState extends State<WorkExperience> {
       },
     );
 
-    print('response: ${response.body}');
 
     if (response.statusCode == 200) {
       // WorkExperience background added successfully
-      print(response.body);
       print('Work Experience added successfully');
       showBottomNotification('work experience added successfully');
 
@@ -124,7 +117,6 @@ class _WorkExperienceState extends State<WorkExperience> {
       });
     } else {
       // Error handling for the failed request
-      print('Failed to add work experience: ${response.statusCode}');
     }
   }
 
@@ -169,8 +161,6 @@ class _WorkExperienceState extends State<WorkExperience> {
   //
 
   Widget _buildExistingContent() {
-    // Fetch the WorkExperience data from the API
-    final experienceData = fetchWorkingExperience();
     final size = MediaQuery.of(context).size;
 
     return Column(
@@ -475,7 +465,6 @@ class _WorkExperienceState extends State<WorkExperience> {
       if (response.statusCode == 200) {
         final Map<String, dynamic> jsonData = jsonDecode(response.body);
         final List<dynamic> availableExperience = jsonData['data'];
-        print(availableExperience);
         List<WorkingExperience> Experience = availableExperience.map((item) {
           return WorkingExperience(
             id: item['id'].toString(),
@@ -492,7 +481,6 @@ class _WorkExperienceState extends State<WorkExperience> {
       }
     } catch (error) {
       // Handle the error here, e.g., display an error message to the user
-      print("There is an error ");
       print('Error: $error');
       return []; // Return an empty list or handle the error in your UI
     }

@@ -36,7 +36,6 @@ class _CommunicationScreenState extends State<CommunicationScreen>
       unreadCommunications = counts['unreadCount'] ?? 0;
     });
 
-    print('Total Communications: $totalCommunications');
     print('Unread Communications: $unreadCommunications');
   }
 

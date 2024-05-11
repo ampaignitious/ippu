@@ -83,7 +83,6 @@ class _ContainerDisplayingCommunicationsState
                 final item = data[index];
                 return InkWell(
                   onTap: () {
-                    print('$item');
                   },
                   child: InkWell(
                     onTap: () {
@@ -281,7 +280,6 @@ class _ContainerDisplayingCommunicationsState
       }
     } catch (error) {
       // Handle the error here, e.g., display an error message to the user
-      print('Error: $error');
       return []; // Return an empty list or handle the error in your UI
     }
   }
@@ -289,7 +287,6 @@ class _ContainerDisplayingCommunicationsState
   Future<void> markAsRead(String messageId) async {
     final userData = Provider.of<UserProvider>(context, listen: false).user;
     const apiUrl = 'https://ippu.org/api/mark-as-read';
-    print('apiUrl: $apiUrl');
 
     // Define the headers with the bearer token
     final headers = {
@@ -306,16 +303,12 @@ class _ContainerDisplayingCommunicationsState
       final response =
           await http.post(Uri.parse(apiUrl), headers: headers, body: body);
       if (response.statusCode == 200) {
-        print('body: ${response.body}');
         // Communication marked as read successfully
-        print('Communication marked as read.');
       } else {
-        print('body: ${response.body}');
         throw Exception('Failed to mark communication as read');
       }
     } catch (error) {
       // Handle the error here, e.g., display an error message to the user
-      print('Error: $error');
     }
   }
 }

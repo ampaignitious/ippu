@@ -8,6 +8,5 @@ class UserProfile extends ChangeNotifier {
   void setProfile(Profile profile) {
     _profile = profile;
     notifyListeners();
-    print("profile pic set for all screens");
   }
 }

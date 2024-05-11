@@ -188,7 +188,6 @@ class _ProfileScreenState extends State<ProfileScreen>
         showBottomNotification("Something went wrong");
       }
     } catch (e) {
-      print(e);
       showBottomNotification("Something went wrong");
     }
   }

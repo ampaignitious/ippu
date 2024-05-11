@@ -43,7 +43,6 @@ class _availableJobState extends State<availableJob> {
     if (response.statusCode == 200) {
       final Map<String, dynamic> jsonData = jsonDecode(response.body);
       final List<dynamic> availableJobs = jsonData['data'];
-      print(availableJobs);
       List<JobData> jobs = availableJobs.map((item) {
         return JobData(
           id:item['id'] ,
@@ -60,7 +59,6 @@ class _availableJobState extends State<availableJob> {
     }
   } catch (error) {
     // Handle the error here, e.g., display an error message to the user
-    print("There is an error ");
     print('Error: $error');
     return []; // Return an empty list or handle the error in your UI
   }
