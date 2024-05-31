@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:clean_dialog/clean_dialog.dart';
@@ -54,8 +55,7 @@ class _InformationScreenState extends State<InformationScreen> {
       setState(() {
         numberOfCertificates = count;
       });
-    } catch (error) {
-    }
+    } catch (error) {}
   }
 
   Future<UserData> loadProfile() async {
@@ -68,7 +68,7 @@ class _InformationScreenState extends State<InformationScreen> {
         if (response['data'] != null) {
           // Access the user object directly from the 'data' key
           Map<String, dynamic> userData = response['data'];
-
+          log("User data: $userData");
           UserData profile = UserData(
             id: userData['id'],
             name: userData['name'] ?? "",
@@ -84,6 +84,10 @@ class _InformationScreenState extends State<InformationScreen> {
             nok_phone_no: userData['nok_phone_no'] ?? "",
             points: userData['points'] ?? "",
             subscription_status: userData['subscription_status'].toString(),
+            membership_expiry_date:
+                userData['subscription_status'].toString() == "false"
+                    ? ""
+                    : userData['latest_membership']["expiry_date"],
             profile_pic: userData['profile_pic'] ??
                 "https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes-thumbnail.png",
           );
@@ -139,6 +143,12 @@ class _InformationScreenState extends State<InformationScreen> {
                         userData.email,
                         style: GoogleFonts.lato(color: Colors.grey),
                       ),
+                      SizedBox(height: size.height * 0.02),
+                      if (userData.membership_expiry_date != "")
+                        Text(
+                          "Subscriptions Ends: ${userData.membership_expiry_date}",
+                          style: GoogleFonts.lato(color: Colors.grey),
+                        ),
                       SizedBox(height: size.height * 0.02),
                       // add download membership certificate button
                       if (status == 'Approved')
@@ -309,7 +319,8 @@ class _InformationScreenState extends State<InformationScreen> {
 
   Future<int> certificateCount() async {
     final userData = Provider.of<UserProvider>(context, listen: false).user;
-    final apiUrl = 'https://ippu.org/api/attended-events/${userData?.id}';
+    final apiUrl =
+        'https://ippu.org/api/attended-events/${userData?.id}';
     final headers = {
       'Authorization': 'Bearer ${userData?.token}',
     };

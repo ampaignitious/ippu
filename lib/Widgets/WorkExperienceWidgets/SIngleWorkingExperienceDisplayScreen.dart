@@ -17,24 +17,13 @@ class SingleWorkingExperienceDisplayScreen extends StatefulWidget {
    const SingleWorkingExperienceDisplayScreen({super.key , this.field ,this.title, this.attachment,this.id, this.user_id, this.start_date, this.end_date, this.points, this.description, this.position, this.type});
 
   @override
-  State<SingleWorkingExperienceDisplayScreen> createState() => _SingleWorkingExperienceDisplayScreenState( field ,title, attachment,id, user_id, start_date, end_date, points, description, position, type);
+  State<SingleWorkingExperienceDisplayScreen> createState() => _SingleWorkingExperienceDisplayScreenState();
 }
 
 class _SingleWorkingExperienceDisplayScreenState extends State<SingleWorkingExperienceDisplayScreen> {
-  @override
-      final String? id;
-  final String? user_id;
-  final String? title;
-  final String? description;
-  final String? start_date;
-  final String? end_date;
-  final String? attachment;
-  final String? field;
-  final String? points;
-  final String? position;
-  final String? type;
+ 
   final String fieldType ="Not Specified";
-  _SingleWorkingExperienceDisplayScreenState( this.field ,this.title, this.attachment,this.id, this.user_id, this.start_date, this.end_date, this.points, this.description, this.position, this.type);
+  
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -43,7 +32,7 @@ class _SingleWorkingExperienceDisplayScreenState extends State<SingleWorkingExpe
         backgroundColor: const Color.fromARGB(255, 42, 129, 201),
         title: Padding(
                       padding: EdgeInsets.only(left: size.width*0.02,  right: size.width*0.016,),
-                      child: Text(" Job Title:$title", style: GoogleFonts.roboto(
+                      child: Text(" Job Title:${widget.title}", style: GoogleFonts.roboto(
                   fontSize: size.height*0.02,
                   fontWeight: FontWeight.bold,
                   fontStyle: FontStyle.normal,
@@ -73,7 +62,7 @@ class _SingleWorkingExperienceDisplayScreenState extends State<SingleWorkingExpe
                     // communication title section
                     Padding(
                         padding: EdgeInsets.only(left: size.width*0.02, top: size.height*0.02, right: size.width*0.016,),
-                        child: Text("Job Title: $title", style: GoogleFonts.roboto(
+                        child: Text("Job Title: ${widget.title}", style: GoogleFonts.roboto(
                     fontSize: size.height*0.02,
                     fontWeight: FontWeight.bold,
                     fontStyle: FontStyle.normal,
@@ -95,7 +84,7 @@ class _SingleWorkingExperienceDisplayScreenState extends State<SingleWorkingExpe
                       Padding(
                         padding: EdgeInsets.only(left: size.width*0.066, top: size.height*0.008, right: size.width*0.04, bottom: size.height*0.008,),
                         child: Html(
-                        data: position,
+                        data: widget.position,
                         style: {
                         "p": Style( // Apply style to <p> tags
                           fontSize: FontSize(size.height*0.010),
@@ -127,7 +116,7 @@ class _SingleWorkingExperienceDisplayScreenState extends State<SingleWorkingExpe
                       Padding(
                         padding: EdgeInsets.only(left: size.width*0.066, top: size.height*0.008, right: size.width*0.04, bottom: size.height*0.008,),
                         child: Html(
-                        data: description,
+                        data: widget.description,
                         style: {
                         "p": Style( // Apply style to <p> tags
                           fontSize: FontSize(size.height*0.010),
@@ -161,7 +150,7 @@ class _SingleWorkingExperienceDisplayScreenState extends State<SingleWorkingExpe
                     Padding(
                         padding: EdgeInsets.only(left: size.width*0.066, top: size.height*0.008, right: size.width*0.04, bottom: size.height*0.008,),
                         child: Html(
-                        data: (field==null)? fieldType:field,
+                        data: (widget.field==null)? fieldType:widget.field,
                         style: {
                         "p": Style( // Apply style to <p> tags
                           fontSize: FontSize(size.height*0.010),
@@ -193,7 +182,7 @@ class _SingleWorkingExperienceDisplayScreenState extends State<SingleWorkingExpe
                     Padding(
                         padding: EdgeInsets.only(left: size.width*0.066, top: size.height*0.008, right: size.width*0.04, bottom: size.height*0.008,),
                         child: Html(
-                        data: (attachment==null)? fieldType:attachment,
+                        data: (widget.attachment==null)? fieldType:widget.attachment,
                         style: {
                         "p": Style( // Apply style to <p> tags
                           fontSize: FontSize(size.height*0.010),
@@ -225,7 +214,7 @@ class _SingleWorkingExperienceDisplayScreenState extends State<SingleWorkingExpe
                     Padding(
                         padding: EdgeInsets.only(left: size.width*0.066, top: size.height*0.008, right: size.width*0.04, bottom: size.height*0.008,),
                         child: Html(
-                        data: (type==null)? fieldType:type,
+                        data: (widget.type==null)? fieldType:widget.type,
                         style: {
                         "p": Style( // Apply style to <p> tags
                           fontSize: FontSize(size.height*0.010),
@@ -257,7 +246,7 @@ class _SingleWorkingExperienceDisplayScreenState extends State<SingleWorkingExpe
                     Padding(
                         padding: EdgeInsets.only(left: size.width*0.066, top: size.height*0.008, right: size.width*0.04, bottom: size.height*0.008,),
                         child: Html(
-                        data: (points==null)? fieldType:points,
+                        data: (widget.points==null)? fieldType:widget.points,
                         style: {
                         "p": Style( // Apply style to <p> tags
                           fontSize: FontSize(size.height*0.010),
@@ -293,7 +282,7 @@ class _SingleWorkingExperienceDisplayScreenState extends State<SingleWorkingExpe
                                   color:Colors.green,
                                   fontWeight: FontWeight.bold
                                 ),),
-                                Text("$start_date", style: GoogleFonts.roboto(
+                                Text("${widget.start_date}", style: GoogleFonts.roboto(
                                   fontSize:size.height*0.016,
                                 ),)
                               ],
@@ -307,7 +296,7 @@ class _SingleWorkingExperienceDisplayScreenState extends State<SingleWorkingExpe
                                   color:Colors.green,
                                   fontWeight: FontWeight.bold
                                 ),),
-                                Text("$end_date", style: GoogleFonts.roboto(
+                                Text("${widget.end_date}", style: GoogleFonts.roboto(
                                   fontSize:size.height*0.016,
                                 ),)
                               ],

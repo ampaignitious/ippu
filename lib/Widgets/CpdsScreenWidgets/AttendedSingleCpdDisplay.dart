@@ -7,18 +7,18 @@ import 'package:ippu/controllers/auth_controller.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class AttendedSingleCpdDisplay extends StatefulWidget {
-  String? imagelink;
-  String? cpdsname;
-  String? startDate;
-  String? endDate;
-  String? type;
-  String? location;
-  String? content;
-  String? target_group;
-  String eventId;
-  String? status;
+  final String? imagelink;
+  final String? cpdsname;
+  final String? startDate;
+  final String? endDate;
+  final String? type;
+  final String? location;
+  final String? content;
+  final String? target_group;
+  final String eventId;
+  final String? status;
 
-  AttendedSingleCpdDisplay(
+  const AttendedSingleCpdDisplay(
       {super.key,
       this.location,
       this.startDate,
@@ -33,44 +33,10 @@ class AttendedSingleCpdDisplay extends StatefulWidget {
       });
 
   @override
-  State<AttendedSingleCpdDisplay> createState() =>
-      _AttendedSingleCpdDisplayState(
-          content,
-          location,
-          target_group,
-          cpdsname,
-          imagelink,
-          startDate,
-          endDate,
-          type,
-          eventId,
-          status
-          );
+  State<AttendedSingleCpdDisplay> createState() => _AttendedSingleCpdDisplayState();
 }
 
 class _AttendedSingleCpdDisplayState extends State<AttendedSingleCpdDisplay> {
-  String? imagelink;
-  String? cpdsname;
-  String? startDate;
-  String? endDate;
-  String? type;
-  String? location;
-  String eventId;
-
-  String? content;
-  String? target_group;
-  String? status;
-  _AttendedSingleCpdDisplayState(
-      this.content,
-      this.location,
-      this.target_group,
-      this.cpdsname,
-      this.imagelink,
-      this.startDate,
-      this.endDate,
-      this.type,
-      this.eventId,
-      this.status);
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +46,7 @@ class _AttendedSingleCpdDisplayState extends State<AttendedSingleCpdDisplay> {
           elevation: 0,
           backgroundColor: const Color.fromARGB(255, 42, 129, 201),
           title: Text(
-            "$cpdsname",
+            "${widget.cpdsname}",
             style: const TextStyle(color: Colors.white),
           )),
       body: SingleChildScrollView(
@@ -103,7 +69,7 @@ class _AttendedSingleCpdDisplayState extends State<AttendedSingleCpdDisplay> {
                       //   // color: Colors.white,
                       // ),
                       image:
-                          DecorationImage(image: NetworkImage("$imagelink"))),
+                          DecorationImage(image: NetworkImage("${widget.imagelink}"))),
                 ),
               ),
               Padding(
@@ -120,7 +86,7 @@ class _AttendedSingleCpdDisplayState extends State<AttendedSingleCpdDisplay> {
               Padding(
                   padding: EdgeInsets.only(
                       left: size.width * 0.06, top: size.height * 0.0008),
-                  child: Text("$cpdsname")),
+                  child: Text("${widget.cpdsname}")),
               Padding(
                 padding: EdgeInsets.only(
                     left: size.width * 0.06, top: size.height * 0.016),
@@ -136,7 +102,7 @@ class _AttendedSingleCpdDisplayState extends State<AttendedSingleCpdDisplay> {
                     right: size.width * 0.06,
                     top: size.height * 0.0016),
                 child: Html(
-                  data: content,
+                  data: widget.content,
                   style: {
                     "p": Style(
                       // Apply style to <p> tags
@@ -171,7 +137,7 @@ class _AttendedSingleCpdDisplayState extends State<AttendedSingleCpdDisplay> {
                     right: size.width * 0.06,
                     top: size.height * 0.0016),
                 child: Text(
-                  "$target_group",
+                  "${widget.target_group}",
                   textAlign: TextAlign.justify,
                 ),
               ),
@@ -207,7 +173,7 @@ class _AttendedSingleCpdDisplayState extends State<AttendedSingleCpdDisplay> {
                             style: TextStyle(color: Colors.green),
                           ),
                           Text(
-                            "$startDate",
+                            "${widget.startDate}",
                             style: TextStyle(fontSize: size.height * 0.008),
                           )
                         ],
@@ -220,7 +186,7 @@ class _AttendedSingleCpdDisplayState extends State<AttendedSingleCpdDisplay> {
                             style: TextStyle(color: Colors.green),
                           ),
                           Text(
-                            "$endDate",
+                            "${widget.endDate}",
                             style: TextStyle(fontSize: size.height * 0.008),
                           )
                         ],
@@ -233,7 +199,7 @@ class _AttendedSingleCpdDisplayState extends State<AttendedSingleCpdDisplay> {
                             style: TextStyle(color: Colors.red),
                           ),
                           Text(
-                            "$type",
+                            "${widget.type}",
                             style: TextStyle(fontSize: size.height * 0.008),
                           )
                         ],
@@ -246,7 +212,7 @@ class _AttendedSingleCpdDisplayState extends State<AttendedSingleCpdDisplay> {
                             style: TextStyle(color: Colors.red),
                           ),
                           Text(
-                            "$location",
+                            "${widget.location}",
                             style: TextStyle(fontSize: size.height * 0.008),
                           )
                         ],
@@ -261,7 +227,7 @@ class _AttendedSingleCpdDisplayState extends State<AttendedSingleCpdDisplay> {
               ),
               //
 
-              status=="Attended"?Center(
+              widget.status=="Attended"?Center(
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(
@@ -269,7 +235,7 @@ class _AttendedSingleCpdDisplayState extends State<AttendedSingleCpdDisplay> {
                     padding: EdgeInsets.all(size.height * 0.024),
                   ),
                   onPressed: () {
-                    renderCertificateInBrowser(eventId);
+                    renderCertificateInBrowser(widget.eventId);
                   },
                   child: Padding(
                     padding:

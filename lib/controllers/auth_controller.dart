@@ -401,7 +401,6 @@ class AuthController {
       final response = await client.downloadEventCertificate(event: event);
       //check if response contains message
       if (response.containsKey('message')) {
-        var certificate = response['data']['certificate'];
         return {
           "certificate": response['data']['certificate'],
           "status": "success",
@@ -429,7 +428,6 @@ class AuthController {
       final response = await client.downloadCpdCertificate(cpd: cpd);
       //check if response contains message
       if (response.containsKey('message')) {
-        var certificate = response['data']['certificate'];
         return {
           "certificate": response['data']['certificate'],
           "status": "success",
@@ -457,7 +455,6 @@ class AuthController {
       final response = await client.downloadMembershipCertificate();
       //check if response contains message
       if (response.containsKey('message')) {
-        var certificate = response['data']['certificate'];
         return {
           "certificate": response['data']['certificate'],
           "status": "success",
@@ -515,9 +512,10 @@ class AuthController {
     final client = AuthRestClient(dio);
     //accept application/json
     dio.options.headers['Accept'] = "application/json";
-    
+
     try {
-      final response = await client.authenticateWithAppleEmail(body: credentials);
+      final response =
+          await client.authenticateWithAppleEmail(body: credentials);
       if (response.containsKey('authorization') &&
           response['authorization'].containsKey('token')) {
         final accessToken = response['authorization']['token'];
@@ -558,6 +556,27 @@ class AuthController {
       }
     } catch (e) {
       return false;
+    }
+  }
+
+  //payments history
+  Future<dynamic> getPaymentsHistory() async {
+    final dio = Dio();
+    final client = AuthRestClient(dio);
+    dio.options.headers['Authorization'] = "Bearer ${await getAccessToken()}";
+    dio.options.headers['Accept'] = "application/json";
+    try {
+      final response = await client.getPaymentsHistory();
+
+      //check if response contains message
+      if (response.containsKey('data')) {
+        return response['data'];
+      } else {
+        return [];
+      }
+    } catch (e) {
+      log("Error: $e");
+      return [];
     }
   }
 }

@@ -13,6 +13,7 @@ import 'package:ippu/controllers/auth_controller.dart';
 import 'package:ippu/models/UserData.dart';
 import 'package:ippu/models/UserProvider.dart';
 import 'package:provider/provider.dart';
+import 'dart:developer';
 
 import '../Widgets/AuthenticationWidgets/LoginScreen.dart';
 
@@ -57,6 +58,7 @@ class _DefaultScreenState extends State<DefaultScreen> {
     AuthController authController = AuthController();
     try {
       final response = await authController.getProfile();
+      log("profile response details: $response");
       if (response.containsKey("error")) {
         //check if it the error key is unauthorized and redirect to login
         if (response['error'] == "Unauthorized") {
@@ -76,23 +78,27 @@ class _DefaultScreenState extends State<DefaultScreen> {
           Map<String, dynamic> userData = response['data'];
 
           UserData profile = UserData(
-            id: userData['id'],
-            name: userData['name'].toString(),
-            email: userData['email'].toString(),
-            gender: userData['gender'].toString(),
-            dob: userData['dob'].toString(),
-            membership_number: userData['membership_number'].toString(),
-            address: userData['address'].toString(),
-            phone_no: userData['phone_no'].toString(),
-            alt_phone_no: userData['alt_phone_no'].toString(),
-            nok_name: userData['nok_name'].toString(),
-            nok_address: userData['nok_address'].toString(),
-            nok_phone_no: userData['nok_phone_no'].toString(),
-            points: userData['points'].toString(),
-            subscription_status: userData['subscription_status'].toString(),
-            profile_pic: userData['profile_pic'] ??
-                "https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes-thumbnail.png",
-          );
+              id: userData['id'],
+              name: userData['name'].toString(),
+              email: userData['email'].toString(),
+              gender: userData['gender'].toString(),
+              dob: userData['dob'].toString(),
+              membership_number: userData['membership_number'].toString(),
+              address: userData['address'].toString(),
+              phone_no: userData['phone_no'].toString(),
+              alt_phone_no: userData['alt_phone_no'].toString(),
+              nok_name: userData['nok_name'].toString(),
+              nok_address: userData['nok_address'].toString(),
+              nok_phone_no: userData['nok_phone_no'].toString(),
+              points: userData['points'].toString(),
+              subscription_status: userData['subscription_status'].toString(),
+              membership_amount: userData['membership_amount'].toString(),
+              profile_pic: userData['profile_pic'] ??
+                  "https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes-thumbnail.png",
+              membership_expiry_date:
+                  userData['subscription_status'].toString() == "false"
+                      ? ""
+                      : userData['latest_membership']["expiry_date"]);
 
           if (mounted) {
             Provider.of<UserProvider>(context, listen: false).setUser(profile);
@@ -111,6 +117,8 @@ class _DefaultScreenState extends State<DefaultScreen> {
         }
       }
     } catch (error) {
+      // Handle the case where the API call fails
+      log("Error loading profile: $error");
       return null;
     }
   }
@@ -176,18 +184,19 @@ class _DefaultScreenState extends State<DefaultScreen> {
             child: Text("${snapshot.error}"),
           );
         } else if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Scaffold(
-                backgroundColor: Colors.white,
-                body: Center(
-                  child: AnimatedLoadingText(
-                    loadingTexts: [
-                      "Loading",
-                      "Please wait...",
-                    ],
-                  ),
-                ),
-              );
+          return const Scaffold(
+            backgroundColor: Colors.white,
+            body: Center(
+              child: AnimatedLoadingText(
+                loadingTexts: [
+                  "Loading",
+                  "Please wait...",
+                ],
+              ),
+            ),
+          );
         } else {
+          log("failed to load profile");
           // Check if there is no internet connection
           if (!connectivity.isConnected) {
             showBottomNotification("No internet connection");

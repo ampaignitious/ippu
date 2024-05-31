@@ -73,7 +73,7 @@ class _UpcomingEventsHorizontalHomeDisplayState
           name: item['name']??'',
           start_date: item['start_date']??'',
           end_date: item['end_date']??'',
-          rate: item['rate']??'',
+          normal_rate: item['rate']??'',
           attandence_request: item['attendance_request']??'' ,
           member_rate: item['member_rate']??'',
           points: item['points'].toString(), // Convert points to string if needed
@@ -294,9 +294,9 @@ class _UpcomingEventsHorizontalHomeDisplayState
                         final startDate = item.start_date;
                         final endData =item.end_date;
                         final description = item.details;
-                        final displaypoints = item.points;
                         final attendanceRequest = item.attandence_request;
-                        final rate = item.rate;
+                        final normal_rate = item.normal_rate;
+                        final member_rate = item.member_rate;
                         final eventId = item.id.toString();
                         final imageLink = item.banner_name;
                         final points= item.points.toString();
@@ -313,7 +313,8 @@ class _UpcomingEventsHorizontalHomeDisplayState
                             id: eventId.toString(),
                             attendance_request: attendanceRequest,
                             points: points.toString(),
-                            rate: rate,
+                            normal_rate: normal_rate,
+                            member_rate: member_rate,
                             description: description,
                             startDate: extractDate(startDate) ,
                             endDate: extractDate(endData) ,

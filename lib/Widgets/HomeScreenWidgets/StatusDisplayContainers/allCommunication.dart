@@ -11,17 +11,43 @@ class allCommunication extends StatefulWidget {
 }
 
 class _allCommunicationState extends State<allCommunication> {
+  void _showDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Incomplete Profile'),
+          content:
+              const Text('Please complete your profile to access this feature'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Ok'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final totalCommunication =
         Provider.of<UserProvider>(context).totalCommunications;
+    final profileStatus = context.watch<UserProvider>().profileStatusCheck;
     return InkWell(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return const CommunicationScreen();
-        }));
+        if (profileStatus == true) {
+          _showDialog();
+          return;
+        } else {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return const CommunicationScreen();
+          }));
+        }
       },
       child: Container(
         height: size.height * 0.098,

@@ -69,7 +69,7 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents>
 
         log("events data: $eventData");
         List<AllEventsModel> eventsData = eventData.map((item) {
-          if(item['points']==null){
+          if (item['points'] == null) {
             item['points'] = '0';
           }
           return AllEventsModel(
@@ -77,7 +77,7 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents>
             name: item['name'] ?? '',
             start_date: item['start_date'] ?? '',
             end_date: item['end_date'] ?? '',
-            rate: item['rate'] ?? '',
+            normal_rate: item['rate'] ?? '',
             attandence_request: item['attendance_request'] ?? '',
             member_rate: item['member_rate'] ?? '',
             points:
@@ -193,9 +193,8 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents>
                         final startDate = item.start_date;
                         final endData = item.end_date;
                         final description = item.details;
-                        final displaypoints = item.points;
                         final attendanceRequest = item.attandence_request;
-                        final rate = item.rate;
+                        final rate = item.normal_rate;
                         final eventId = item.id.toString();
                         final imageLink = item.banner_name;
                         final points = item.points.toString();
@@ -212,10 +211,11 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents>
                                     id: eventId.toString(),
                                     attendance_request: attendanceRequest,
                                     points: points.toString(),
-                                    rate: rate,
+                                    normal_rate: rate,
                                     description: description,
                                     startDate: startDate,
                                     endDate: endData,
+                                    member_rate: item.member_rate,
                                     imagelink:
                                         'https://ippu.org/storage/banners/$imageLink',
                                     eventName: eventName,
@@ -256,7 +256,8 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents>
                                   width: size.width * 0.7,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color: const Color.fromARGB(255, 42, 129, 201),
+                                    color:
+                                        const Color.fromARGB(255, 42, 129, 201),
                                     boxShadow: [
                                       BoxShadow(
                                         color: Colors.grey.withOpacity(0.5),
@@ -277,19 +278,20 @@ class _ContainerDisplayingEventsState extends State<ContainerDisplayingEvents>
                                               MainAxisAlignment.spaceBetween,
                                           children: [
                                             Expanded(
-                                            child: Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: size.width * 0.03),
-                                              child: Text(
-                                                item.name.split(' ').take(4).join(
-                                                    ' '), // Display only the first two words
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: size.height * 0.014,
+                                              child: Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: size.width * 0.03),
+                                                child: Text(
+                                                  item.name.split(' ').take(4).join(
+                                                      ' '), // Display only the first two words
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize:
+                                                        size.height * 0.014,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
                                             ),
                                             Padding(
                                               padding: EdgeInsets.only(

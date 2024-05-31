@@ -3,9 +3,9 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SingleJobDetailDisplayScreen extends StatefulWidget {
-  String title;
-  String deadline;
-  String description;
+  final String title;
+  final String deadline;
+  final String description;
   SingleJobDetailDisplayScreen(
       {super.key,
       required this.title,
@@ -13,19 +13,11 @@ class SingleJobDetailDisplayScreen extends StatefulWidget {
       required this.description});
 
   @override
-  State<SingleJobDetailDisplayScreen> createState() =>
-      _SingleJobDetailDisplayScreenState(
-          deadline, description, title);
+  State<SingleJobDetailDisplayScreen> createState() => _SingleJobDetailDisplayScreenState();
 }
 
 class _SingleJobDetailDisplayScreenState
     extends State<SingleJobDetailDisplayScreen> {
-  @override
-  String title;
-  String deadline;
-  String description;
-  _SingleJobDetailDisplayScreenState(
-      this.deadline, this.description, this.title);
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -38,7 +30,7 @@ class _SingleJobDetailDisplayScreenState
               right: size.width * 0.016,
             ),
             child: Text(
-              title,
+            widget.title,
               style: GoogleFonts.roboto(
                 fontSize: size.height * 0.02,
                 fontWeight: FontWeight.bold,
@@ -79,7 +71,7 @@ class _SingleJobDetailDisplayScreenState
                     right: size.width * 0.016,
                   ),
                   child: Text(
-                    "Job title: $title",
+                    "Job title: ${widget.title}",
                     style: GoogleFonts.roboto(
                       fontSize: size.height * 0.02,
                       fontWeight: FontWeight.bold,
@@ -99,7 +91,7 @@ class _SingleJobDetailDisplayScreenState
                   bottom: size.height * 0.008,
                 ),
                 child: Html(
-                  data: description,
+                  data: widget.description,
                   style: {
                     "p": Style(
                       // Apply style to <p> tags

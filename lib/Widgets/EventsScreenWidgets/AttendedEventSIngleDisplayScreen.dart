@@ -8,17 +8,17 @@ import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class AttendedEventSIngleDisplayScreen extends StatefulWidget {
-  String name;
-  String eventId;
-  String details;
-  String points;
-  String imageLink;
-  String rate;
-  String start_date;
-  String end_date;
-  String status;
+  final String name;
+  final String eventId;
+  final String details;
+  final String points;
+  final String imageLink;
+  final String rate;
+  final String start_date;
+  final String end_date;
+  final String status;
 
-  AttendedEventSIngleDisplayScreen(
+  const AttendedEventSIngleDisplayScreen(
       {super.key,
       required this.eventId,
       required this.start_date,
@@ -33,50 +33,19 @@ class AttendedEventSIngleDisplayScreen extends StatefulWidget {
 
   @override
   State<AttendedEventSIngleDisplayScreen> createState() =>
-      _AttendedEventSIngleDisplayScreenState(
-        eventId,
-        start_date,
-        end_date,
-        details,
-        imageLink,
-        name,
-        points,
-        rate,
-        status
-      );
+      _AttendedEventSIngleDisplayScreenState();
 }
 
 class _AttendedEventSIngleDisplayScreenState
     extends State<AttendedEventSIngleDisplayScreen> {
-  String name;
-  String details;
-  String points;
-  String imageLink;
-  String rate;
-  String start_date;
-  String end_date;
-  String eventId;
-  String status;
-  _AttendedEventSIngleDisplayScreenState(
-    this.eventId,
-    this.start_date,
-    this.end_date,
-    this.details,
-    this.imageLink,
-    this.name,
-    this.points,
-    this.rate,
-    this.status
-  );
 
-  final double _progress = 0.0;
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text(name, style: const TextStyle(color: Colors.white),),
+        title: Text(widget.name, style: const TextStyle(color: Colors.white),),
         backgroundColor: const Color.fromARGB(255, 42, 129, 201),
         elevation: 0,
       ),
@@ -98,7 +67,7 @@ class _AttendedEventSIngleDisplayScreenState
                       ),
                       image: DecorationImage(
                           image: NetworkImage(
-                              "https://ippu.org/storage/banners/$imageLink"))),
+                              "https://ippu.org/storage/banners/${widget.imageLink}"))),
                 ),
               ),
               Padding(
@@ -115,7 +84,7 @@ class _AttendedEventSIngleDisplayScreenState
               Padding(
                 padding: EdgeInsets.only(
                     left: size.width * 0.06, top: size.height * 0.0008),
-                child: Text(name),
+                child: Text(widget.name),
               ),
               Padding(
                 padding: EdgeInsets.only(
@@ -132,7 +101,7 @@ class _AttendedEventSIngleDisplayScreenState
                     right: size.width * 0.06,
                     top: size.height * 0.0016),
                 child: Html(
-                  data: details,
+                  data: widget.details,
                   style: {
                     "p": Style(
                       // Apply style to <p> tags
@@ -185,7 +154,7 @@ class _AttendedEventSIngleDisplayScreenState
                             style: TextStyle(color: Colors.green),
                           ),
                           Text(
-                            start_date,
+                            widget.start_date,
                             style: TextStyle(fontSize: size.height * 0.012),
                           )
                         ],
@@ -198,7 +167,7 @@ class _AttendedEventSIngleDisplayScreenState
                             style: TextStyle(color: Colors.green),
                           ),
                           Text(
-                            end_date,
+                            widget.end_date,
                             style: TextStyle(fontSize: size.height * 0.012),
                           )
                         ],
@@ -211,7 +180,7 @@ class _AttendedEventSIngleDisplayScreenState
                             style: TextStyle(color: Colors.red),
                           ),
                           Text(
-                            points,
+                            widget.points,
                             style: TextStyle(fontSize: size.height * 0.012),
                           )
                         ],
@@ -226,13 +195,13 @@ class _AttendedEventSIngleDisplayScreenState
               ),
               //
               Center(
-                child: status=="Attended"?ElevatedButton(
+                child: widget.status=="Attended"?ElevatedButton(
                   style: ElevatedButton.styleFrom(
                    // Change button color to green
                     padding: EdgeInsets.all(size.height * 0.024),
                   ),
                   onPressed: () {
-                    renderCertificateInBrowser(eventId);
+                    renderCertificateInBrowser(widget.eventId);
                   },
                   child: Padding(
                     padding:

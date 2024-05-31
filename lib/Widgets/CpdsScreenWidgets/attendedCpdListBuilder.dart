@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:ippu/Widgets/CpdsScreenWidgets/AttendedSingleCpdDisplay.dart';
 import 'package:ippu/controllers/auth_controller.dart';
 import 'package:ippu/models/AttendedCpdModel.dart';
-import 'package:ippu/models/UserProvider.dart';
-import 'package:provider/provider.dart';
+
 
 class attendedCpdListBuilder extends StatefulWidget {
   const attendedCpdListBuilder({super.key});
@@ -81,8 +80,6 @@ class _attendedCpdListBuilderState extends State<attendedCpdListBuilder> {
           return ListView.builder(
             itemCount: CpdData.length,
             itemBuilder: (context, index) {
-              final userData = Provider.of<UserProvider>(context, listen: false)
-                  .totalNumberOfAttendedCpds(CpdData.length);
               AttendedCpdModel data = CpdData[index];
               return Column(
                 children: [

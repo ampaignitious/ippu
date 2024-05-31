@@ -15,18 +15,44 @@ class _allEventDisplayState extends State<allEventDisplay> {
   @override
   void initState() {
     super.initState();
-  } 
+  }
+
+  void _showDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Incomplete Profile'),
+          content:
+              const Text('Please complete your profile to access this feature'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Ok'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-
+    final profileStatus = context.watch<UserProvider>().profileStatusCheck;
     final totalEvents = Provider.of<UserProvider>(context).totalEvents;
     return InkWell(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return const EventsScreen();
-        }));
+        if (profileStatus == true) {
+          _showDialog();
+          return;
+        } else {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return const EventsScreen();
+          }));
+        }
       },
       child: Container(
         height: size.height * 0.098,
@@ -68,7 +94,7 @@ class _allEventDisplayState extends State<allEventDisplay> {
             Padding(
               padding: EdgeInsets.only(left: size.width * 0.055),
               child: Text(
-                "Check out all EventS",
+                "Check out all Events",
                 style: TextStyle(
                     color: Colors.white, fontSize: size.height * 0.022),
               ),

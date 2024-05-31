@@ -54,27 +54,27 @@ class _allCpdDisplayState extends State<allCpdDisplay> {
         final List<dynamic> eventData = jsonData['data'];
         List<CpdModel> cpdData = eventData.map((item) {
           return CpdModel(
-              //
-              id: item['id'].toString(),
-              code: item['code']??"",
-              topic: item['topic']??"",
-              content: item['content']??"",
-              hours: item['hours']??"",
-              points: item['points']??"",
-              targetGroup: item['target_group']??"",
-              location: item['location']??"",
-              startDate: item['start_date']??"",
-              endDate: item['end_date']??"",
-              normalRate: item['normal_rate']??"",
-              membersRate: item['members_rate']??"",
-              resource: item['resource']??"",
-              status: item['status']??"",
-              type: item['type']??"",
-              banner: item['banner']??"",
-              attendance_request: item['attendance_request'],
-              attendance_status: item['attendance_status']??"",
-              //
-              );
+            //
+            id: item['id'].toString(),
+            code: item['code'] ?? "",
+            topic: item['topic'] ?? "",
+            content: item['content'] ?? "",
+            hours: item['hours'] ?? "",
+            points: item['points'] ?? "",
+            targetGroup: item['target_group'] ?? "",
+            location: item['location'] ?? "",
+            startDate: item['start_date'] ?? "",
+            endDate: item['end_date'] ?? "",
+            normalRate: item['normal_rate'] ?? "",
+            membersRate: item['members_rate'] ?? "",
+            resource: item['resource'] ?? "",
+            status: item['status'] ?? "",
+            type: item['type'] ?? "",
+            banner: item['banner'] ?? "",
+            attendance_request: item['attendance_request'],
+            attendance_status: item['attendance_status'] ?? "",
+            //
+          );
         }).toList();
         return cpdData;
       } else {
@@ -86,16 +86,43 @@ class _allCpdDisplayState extends State<allCpdDisplay> {
     }
   }
 
+  void _showDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Incomplete Profile'),
+          content:
+              const Text('Please complete your profile to access this feature'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Ok'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final profileStatus = context.watch<UserProvider>().profileStatusCheck;
     Provider.of<UserProvider>(context)
         .totalNumberOfPointsFromCpd(totalCpdPoints);
     return InkWell(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return const CpdsScreen();
-        }));
+        if (profileStatus == true) {
+          _showDialog();
+          return;
+        } else {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return const CpdsScreen();
+          }));
+        }
       },
       child: Container(
         height: size.height * 0.098,

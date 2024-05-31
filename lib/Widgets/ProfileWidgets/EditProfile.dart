@@ -44,6 +44,7 @@ class _EditProfileState extends State<EditProfile> {
   bool isMale = false;
   bool isFemale = false;
   int selectedAccountType = 1;
+  int real_selected_id = 8;
   late var _accountTypes;
 
   late ImageProvider _avatarImage;
@@ -78,6 +79,7 @@ class _EditProfileState extends State<EditProfile> {
       if (value.account_type_id != null) {
         setState(() {
           selectedAccountType = value.account_type_id!;
+          real_selected_id = value.account_type_id!;
         });
       }
     });
@@ -197,24 +199,27 @@ class _EditProfileState extends State<EditProfile> {
           Map<String, dynamic> userData = response['data'];
 
           UserData profile = UserData(
-            id: userData['id'],
-            name: userData['name'] ?? "",
-            email: userData['email'] ?? "",
-            gender: userData['gender'],
-            dob: userData['dob'] ?? "",
-            membership_number: userData['membership_number'] ?? "",
-            address: userData['address'] ?? "",
-            phone_no: userData['phone_no'] ?? "",
-            alt_phone_no: userData['alt_phone_no'] ?? "",
-            nok_name: userData['nok_name'] ?? "",
-            nok_address: userData['nok_address'] ?? "",
-            nok_phone_no: userData['nok_phone_no'] ?? "",
-            points: userData['points'] ?? "",
-            account_type_id: userData['account_type_id'] ?? 1,
-            subscription_status: userData['subscription_status'].toString(),
-            profile_pic: userData['profile_pic'] ??
-                "https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes-thumbnail.png",
-          );
+              id: userData['id'],
+              name: userData['name'] ?? "",
+              email: userData['email'] ?? "",
+              gender: userData['gender'],
+              dob: userData['dob'] ?? "",
+              membership_number: userData['membership_number'] ?? "",
+              address: userData['address'] ?? "",
+              phone_no: userData['phone_no'] ?? "",
+              alt_phone_no: userData['alt_phone_no'] ?? "",
+              nok_name: userData['nok_name'] ?? "",
+              nok_address: userData['nok_address'] ?? "",
+              nok_phone_no: userData['nok_phone_no'] ?? "",
+              points: userData['points'] ?? "",
+              account_type_id: userData['account_type_id'] ?? 1,
+              subscription_status: userData['subscription_status'].toString(),
+              profile_pic: userData['profile_pic'] ??
+                  "https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes-thumbnail.png",
+              membership_expiry_date:
+                  userData['subscription_status'].toString() == "false"
+                      ? ""
+                      : userData['latest_membership']["expiry_date"]);
 
           log("profile: ${response['data']}");
 
@@ -406,13 +411,17 @@ class _EditProfileState extends State<EditProfile> {
                                         ))
                                     .toList(),
                                 //initial value as value with id 1 from drop down list
-                                value: accountTypes[selectedAccountType]['id'],
+                                value: real_selected_id,
                                 onChanged: (value) {
                                   setState(() {
                                     //get the index of the selected account type in accountTypes
                                     final index = accountTypes.indexWhere(
                                         (element) => element['id'] == value);
                                     selectedAccountType = index;
+                                    log("selected Account: $selectedAccountType");
+                                    real_selected_id =
+                                        accountTypes[selectedAccountType]['id'];
+                                    log("real value: $real_selected_id");
                                     // selectedAccountType = value as int;
                                   });
                                 },
@@ -669,7 +678,7 @@ class _EditProfileState extends State<EditProfile> {
       'nok_name': nokName,
       'nok_email': nokAddress,
       'nok_phone_no': nokPhoneNo,
-      'account_type_id': selectedAccountTypeId,
+      'account_type_id': real_selected_id
     };
 
     try {
@@ -689,6 +698,9 @@ class _EditProfileState extends State<EditProfile> {
         showBottomNotification('Profile information updated successfully');
         Navigator.push(context,
             MaterialPageRoute(builder: ((context) => const ProfileScreen())));
+
+        Provider.of<UserProvider>(context, listen: false)
+            .setProfileStatus(false);
       } else {
         // Handle errors or unsuccessful response
         showBottomNotification('Update failed, please try again');

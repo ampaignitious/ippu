@@ -32,5 +32,7 @@ class AppEndpoints {
 
   static const String downloadMembershipCertificate = "/membership-certificate";
 
+  static const String paymentsHistory = "/payments-history";
+
   static const String subscribe = "/subscribe";
 }

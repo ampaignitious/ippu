@@ -3,25 +3,26 @@ import 'package:ippu/Widgets/CpdsScreenWidgets/CpdsSingleEventDisplay.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
- import 'package:ippu/models/CpdModel.dart';
+import 'package:ippu/models/CpdModel.dart';
 import 'package:ippu/models/UserProvider.dart';
 import 'package:provider/provider.dart';
-
 
 class ContainerDisplayingUpcomingCpds extends StatefulWidget {
   const ContainerDisplayingUpcomingCpds({super.key});
 
   @override
-  State<ContainerDisplayingUpcomingCpds> createState() => _ContainerDisplayingUpcomingCpdsState();
+  State<ContainerDisplayingUpcomingCpds> createState() =>
+      _ContainerDisplayingUpcomingCpdsState();
 }
 
-class _ContainerDisplayingUpcomingCpdsState extends State<ContainerDisplayingUpcomingCpds> with TickerProviderStateMixin {
- 
-
+class _ContainerDisplayingUpcomingCpdsState
+    extends State<ContainerDisplayingUpcomingCpds>
+    with TickerProviderStateMixin {
   final ScrollController _scrollController = ScrollController();
 
   void _scrollToTop() {
-    _scrollController.animateTo(0, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
+    _scrollController.animateTo(0,
+        duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
   }
 
   bool _showBackToTopButton = false;
@@ -31,13 +32,13 @@ class _ContainerDisplayingUpcomingCpdsState extends State<ContainerDisplayingUpc
   void initState() {
     super.initState();
     _scrollController.addListener(_updateScrollVisibility);
-    cpdDataFuture=fetchUpcomingCpds();
+    cpdDataFuture = fetchUpcomingCpds();
   }
 
   void _updateScrollVisibility() {
     setState(() {
-      _showBackToTopButton = _scrollController.offset > _scrollController.position.maxScrollExtent / 2;
-      
+      _showBackToTopButton = _scrollController.offset >
+          _scrollController.position.maxScrollExtent / 2;
     });
   }
 
@@ -49,61 +50,64 @@ class _ContainerDisplayingUpcomingCpdsState extends State<ContainerDisplayingUpc
     _searchController.dispose();
     super.dispose();
   }
- // function for fetching cpds 
+
+  // function for fetching cpds
   Future<List<CpdModel>> fetchUpcomingCpds() async {
-  final userData = Provider.of<UserProvider>(context, listen: false).user;
+    final userData = Provider.of<UserProvider>(context, listen: false).user;
 
-  // Define the URL with userData.id
-  final apiUrl = 'https://ippu.org/api/upcoming-cpds/${userData?.id}';
+    // Define the URL with userData.id
+    final apiUrl = 'https://ippu.org/api/upcoming-cpds/${userData?.id}';
 
-  // Define the headers with the bearer token
-  final headers = {
-    'Authorization': 'Bearer ${userData?.token}',
-  };
+    // Define the headers with the bearer token
+    final headers = {
+      'Authorization': 'Bearer ${userData?.token}',
+    };
 
-  try {
-    final response = await http.get(Uri.parse(apiUrl), headers: headers);
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> jsonData = jsonDecode(response.body);
-      final List<dynamic> eventData = jsonData['data'];
-      List<CpdModel> cpdData = eventData.map((item) {
-        return CpdModel(
-          id:item['id'].toString(),
-          code:item['code']??"",
-          topic: item['topic']??"",
-          content: item['content']??"",
-          hours: item['hours']??"",
-          points: item['points']??"",
-          targetGroup:item['target_group']??"",
-          location:item['location']??"",
-          startDate:item['start_date']??"",
-          endDate:item['end_date']??"",
-          normalRate:item['normal_rate']??"",
-          membersRate:item['members_rate']??"",
-          resource:item['resource']??"",
-          status:item['status']??"",
-          type:item['type']??"",
-          banner:item['banner']??"",
-          attendance_request:item['attendance_request']??"",
-          attendance_status:item['attendance_status']??"",
-        );
-      }).toList();
-      return cpdData;
-    } else {
-      throw Exception('Failed to load events data');
+    try {
+      final response = await http.get(Uri.parse(apiUrl), headers: headers);
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> jsonData = jsonDecode(response.body);
+        final List<dynamic> eventData = jsonData['data'];
+        List<CpdModel> cpdData = eventData.map((item) {
+          return CpdModel(
+            id: item['id'].toString(),
+            code: item['code'] ?? "",
+            topic: item['topic'] ?? "",
+            content: item['content'] ?? "",
+            hours: item['hours'] ?? "",
+            points: item['points'] ?? "",
+            targetGroup: item['target_group'] ?? "",
+            location: item['location'] ?? "",
+            startDate: item['start_date'] ?? "",
+            endDate: item['end_date'] ?? "",
+            normalRate: item['normal_rate'] ?? "",
+            membersRate: item['members_rate'] ?? "",
+            resource: item['resource'] ?? "",
+            status: item['status'] ?? "",
+            type: item['type'] ?? "",
+            banner: item['banner'] ?? "",
+            attendance_request: item['attendance_request'] ?? "",
+            attendance_status: item['attendance_status'] ?? "",
+          );
+        }).toList();
+        return cpdData;
+      } else {
+        throw Exception('Failed to load events data');
+      }
+    } catch (error) {
+      // Handle the error here, e.g., display an error message to the user
+      return []; // Return an empty list or handle the error in your UI
     }
-  } catch (error) {
-    // Handle the error here, e.g., display an error message to the user
-    return []; // Return an empty list or handle the error in your UI
   }
-}
 //
 
   @override
   Widget build(BuildContext context) {
-final size = MediaQuery.of(context).size;
-   return Scaffold(
-    floatingActionButton: Visibility(
+    final size = MediaQuery.of(context).size;
+    final profileStatus = context.watch<UserProvider>().profileStatusCheck;
+
+    return Scaffold(
+      floatingActionButton: Visibility(
         visible: _showBackToTopButton,
         child: FloatingActionButton(
           backgroundColor: const Color.fromARGB(255, 42, 129, 201),
@@ -155,15 +159,15 @@ final size = MediaQuery.of(context).size;
                       itemCount: data.length,
                       itemBuilder: (context, index) {
                         final item = data[index];
-                         // Ensure the properties accessed here match the structure of your API response
-                        const imagelink = 'assets/cpds0.jpg';
+                        // Ensure the properties accessed here match the structure of your API response
                         final activityName = item.topic;
                         final points = item.points;
-                        final startDate =extractDate(item.startDate);
-                        final endDate =extractDate(item.endDate);
+                        final startDate = item.startDate;
+                        final endDate = item.endDate;
                         final content = item.content;
                         final attendanceRequest = item.attendance_request;
-                        final rate = item.normalRate;
+                        final normal_rate = item.normalRate;
+                        final member_rate = item.membersRate;
                         final location = item.location;
                         final type = item.type;
                         final imageLink = item.banner;
@@ -176,141 +180,166 @@ final size = MediaQuery.of(context).size;
                                 .contains(_searchQuery.toLowerCase())) {
                           return InkWell(
                             onTap: () {
+                              if (profileStatus == true) {
+                                _showDialog();
+                                return;
+                              }
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) {
                                   return CpdsSingleEventDisplay(
-                                    attendance_request: attendanceRequest ,
+                                    attendance_request: attendanceRequest,
                                     content: content,
                                     target_group: targetGroup,
                                     startDate: startDate,
                                     endDate: endDate,
                                     rate: location.toString(),
                                     type: type,
-                                    cpdId:cpdId.toString(),
-                                    location: rate,
+                                    cpdId: cpdId.toString(),
                                     attendees: points,
-                                    imagelink: 'https://ippu.org/storage/banners/$imageLink',
+                                    imagelink:
+                                        'https://ippu.org/storage/banners/$imageLink',
                                     cpdsname: activityName,
+                                    normal_rate: normal_rate,
+                                    member_rate: member_rate,
+                                    location: location,
                                   );
                                 }),
                               );
                             },
-                        child: Column(
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(
-                                right: size.height * 0.009,
-                                left: size.height * 0.009,
-                              ),
-                              height: size.height * 0.35,
-                              width: size.width * 0.85,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                              boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                offset: const Offset(0.8, 1.0),
-                                blurRadius: 4.0,
-                                spreadRadius: 0.2,
-                              ),
-                            ],
-                                borderRadius: BorderRadius.circular(5),
-                                border: Border.all(
-                                  color: Colors.grey.withOpacity(0.5)
-                                ),
-                                image: DecorationImage(
-                                  image: NetworkImage('https://ippu.org/storage/banners/$imageLink'),
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: size.height * 0.012),
-
-                            Container(
-                          height: size.height * 0.089,
-                          width: size.width * 0.7,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: const Color.fromARGB(255, 42, 129, 201),
-                          ),
-                          child: Center(
                             child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                SizedBox(height: size.height * 0.008),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(left: size.width * 0.03),
-                                      child: Text(
-                                        item.topic.split(' ').take(4).join(' '),
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: size.height * 0.014,
-                                        ),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                    right: size.height * 0.009,
+                                    left: size.height * 0.009,
+                                  ),
+                                  height: size.height * 0.35,
+                                  width: size.width * 0.85,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        offset: const Offset(0.8, 1.0),
+                                        blurRadius: 4.0,
+                                        spreadRadius: 0.2,
                                       ),
+                                    ],
+                                    borderRadius: BorderRadius.circular(5),
+                                    border: Border.all(
+                                        color: Colors.grey.withOpacity(0.5)),
+                                    image: DecorationImage(
+                                      image: NetworkImage(
+                                          'https://ippu.org/storage/banners/$imageLink'),
                                     ),
-                                    Padding(
-                                      padding: EdgeInsets.only(right: size.width * 0.01),
-                                      child: Icon(
-                                        Icons.read_more,
-                                        size: size.height * 0.02,
-                                        color: Colors.white,
-                                      ),
-                                    )
-                                  ],
+                                  ),
                                 ),
-                                const Divider(
-                                  color: Colors.white,
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                SizedBox(height: size.height * 0.012),
+                                Container(
+                                  height: size.height * 0.089,
+                                  width: size.width * 0.7,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color:
+                                        const Color.fromARGB(255, 42, 129, 201),
+                                  ),
+                                  child: Center(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
+                                        SizedBox(height: size.height * 0.008),
                                         Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Icon(
-                                              Icons.calendar_month,
-                                              size: size.height * 0.02,
-                                              color: Colors.white,
-                                            ),
-                                            const Text(
-                                              "Start Date",
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                  left: size.width * 0.03),
+                                              child: Text(
+                                                item.topic
+                                                    .split(' ')
+                                                    .take(4)
+                                                    .join(' '),
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: size.height * 0.014,
+                                                ),
                                               ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                  right: size.width * 0.01),
+                                              child: Icon(
+                                                Icons.read_more,
+                                                size: size.height * 0.02,
+                                                color: Colors.white,
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                        const Divider(
+                                          color: Colors.white,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.calendar_month,
+                                                      size: size.height * 0.02,
+                                                      color: Colors.white,
+                                                    ),
+                                                    const Text(
+                                                      "Start Date",
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Text(
+                                                  extractDate(item.startDate),
+                                                  style: TextStyle(
+                                                      fontSize:
+                                                          size.height * 0.008,
+                                                      color: Colors.white),
+                                                ),
+                                              ],
+                                            ),
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                const Text("Rate",
+                                                    style: TextStyle(
+                                                        color: Colors.white)),
+                                                Text(
+                                                  item.type,
+                                                  style: TextStyle(
+                                                      fontSize:
+                                                          size.height * 0.008,
+                                                      color: Colors.white),
+                                                )
+                                              ],
                                             ),
                                           ],
                                         ),
-                                        Text(
-                                          extractDate(item.startDate),
-                                          style: TextStyle(fontSize: size.height * 0.008, color: Colors.white),
-                                        ),
                                       ],
                                     ),
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        const Text("Rate", style: TextStyle(color: Colors.white)),
-                                        Text(
-                                          item.type,
-                                          style: TextStyle(fontSize: size.height * 0.008, color: Colors.white),
-                                        )
-                                      ],
-                                    ),
-                                  ],
+                                  ),
                                 ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: size.height * 0.018),
-                      
+                                SizedBox(height: size.height * 0.018),
                               ],
                             ),
                           );
@@ -326,15 +355,37 @@ final size = MediaQuery.of(context).size;
               },
             ),
           )
-       ],
+        ],
       ),
-   );
+    );
   }
-               String extractDate(String fullDate) {
-  // Split the full date at the 'T' to separate the date and time
-  List<String> parts = fullDate.split('T');
 
-  // Return the date part
-  return parts[0];
-}
+  String extractDate(String fullDate) {
+    // Split the full date at the 'T' to separate the date and time
+    List<String> parts = fullDate.split('T');
+
+    // Return the date part
+    return parts[0];
+  }
+
+  void _showDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Incomplete Profile'),
+          content:
+              const Text('Please complete your profile to access this feature'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Ok'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 }

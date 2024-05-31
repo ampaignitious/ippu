@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:clean_dialog/clean_dialog.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutterwave_standard/flutterwave.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -17,6 +19,11 @@ import 'package:ippu/controllers/auth_controller.dart';
 import 'package:ippu/models/CpdModel.dart';
 import 'package:ippu/models/UserProvider.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
+//dart:devloper library
+import 'dart:developer';
+
+import 'package:ippu/env.dart' as env;
 
 class FirstDisplaySection extends StatefulWidget {
   const FirstDisplaySection({super.key});
@@ -161,6 +168,8 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection>
     final size = MediaQuery.of(context).size;
     String? status = context.watch<SubscriptionStatusProvider>().status;
 
+    log("subscription status: ${status.toString()}");
+
     final profileStatus = context.watch<UserProvider>().profileStatusCheck;
 
     return Stack(
@@ -260,14 +269,19 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection>
                         children: [
                           InkWell(
                             onTap: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return const ProfileScreen();
-                              }));
+                              final userData = Provider.of<UserProvider>(
+                                      context,
+                                      listen: false)
+                                  .user;
+                              _handlePaymentInitialization(
+                                  userData!.name,
+                                  userData.email,
+                                  userData.phone_no!,
+                                  userData.membership_amount!);
                             },
                             child: Center(
                               child: Text(
-                                "please complete your subscription",
+                                "Please complete your subscription",
                                 style: GoogleFonts.lato(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
@@ -350,5 +364,83 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection>
       textColor: Colors.white,
     );
   }
-  //
+
+  _handlePaymentInitialization(String fullName, String email,
+      String phoneNumber, String membershipAmount) async {
+    final Customer customer = Customer(
+      name: fullName,
+      phoneNumber: phoneNumber,
+      email: email,
+    );
+
+    final Flutterwave flutterwave = Flutterwave(
+        context: context,
+        publicKey: env.Env.FLW_PUBLIC_KEY,
+        currency: "UGX",
+        redirectUrl: 'https://ippu.org/login',
+        txRef: Uuid().v1(),
+        amount: membershipAmount,
+        customer: customer,
+        paymentOptions: "card, payattitude, barter, bank transfer, ussd",
+        customization: Customization(
+            title: "IPPU PAYMENT",
+            logo:
+                "https://ippu.or.ug/wp-content/uploads/2020/03/cropped-Logo-192x192.png"),
+        isTestMode: true);
+    final ChargeResponse response = await flutterwave.charge();
+    String message;
+    if (response.success == true) {
+      message = "Payment successful,\n thank you!";
+      sendRequest();
+    } else {
+      message = "Payment failed,\n try again later";
+    }
+    this.showLoading(message);
+  }
+
+  Future<void> showLoading(String message) {
+    return showDialog(
+      context: context,
+      builder: (context) => CleanDialog(
+        title: 'success',
+        content: message,
+        backgroundColor: Colors.blue,
+        titleTextStyle: const TextStyle(
+            fontSize: 25, fontWeight: FontWeight.bold, color: Colors.white),
+        contentTextStyle: const TextStyle(fontSize: 16, color: Colors.white),
+        actions: [
+          CleanDialogActionButtons(
+            actionTitle: 'OK',
+            onPressed: () => Navigator.pop(context),
+          )
+        ],
+      ),
+    );
+  }
+
+  Future<void> sendRequest() async {
+    AuthController authController = AuthController();
+
+    //try catch
+    try {
+      final response = await authController.subscribe();
+      //check if response contains message key
+      if (response.containsKey("message")) {
+        //notify the SubscriptionStatusProvider
+        if (mounted) {
+          context
+              .read<SubscriptionStatusProvider>()
+              .setSubscriptionStatus("Pending");
+        }
+        //show bottom notification
+        showBottomNotification(
+            "your request has been sent! You will be approved");
+      } else {
+        //show bottom notification
+        showBottomNotification("Something went wrong");
+      }
+    } catch (e) {
+      showBottomNotification("Something went wrong");
+    }
+  }
 }

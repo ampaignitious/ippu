@@ -73,7 +73,7 @@ class _ContainerDisplayingUpcomingEventsState
             name: item['name'] ?? '',
             start_date: item['start_date'] ?? '',
             end_date: item['end_date'] ?? '',
-            rate: item['rate'] ?? '',
+            normal_rate: item['rate'] ?? '',
             attandence_request: item['attendance_request'] ?? '',
             member_rate: item['member_rate'] ?? '',
             points:item['points'].toString(), // Convert points to string if needed
@@ -95,6 +95,7 @@ class _ContainerDisplayingUpcomingEventsState
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+      final profileStatus = context.watch<UserProvider>().profileStatusCheck;
     return Scaffold(
       body: Column(
         children: [
@@ -141,9 +142,9 @@ class _ContainerDisplayingUpcomingEventsState
                         final startDate = item.start_date;
                         final endData = item.end_date;
                         final description = item.details;
-                        final displaypoints = item.points;
                         final attendanceRequest = item.attandence_request;
-                        final rate = item.rate;
+                        final normal_rate = item.normal_rate;
+                        final member_rate = item.member_rate;
                         final eventId = item.id.toString();
                         final imageLink = item.banner_name;
                         final points = item.points.toString();
@@ -153,6 +154,10 @@ class _ContainerDisplayingUpcomingEventsState
                                 .contains(_searchQuery.toLowerCase())) {
                           return InkWell(
                             onTap: () {
+                              if(profileStatus == true){
+                                _showDialog();
+                                return;
+                              }
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) {
@@ -160,7 +165,8 @@ class _ContainerDisplayingUpcomingEventsState
                                     id: eventId.toString(),
                                     attendance_request: attendanceRequest,
                                     points: points.toString(),
-                                    rate: rate,
+                                    normal_rate: normal_rate,
+                                    member_rate: member_rate,
                                     description: description,
                                     startDate: extractDate(startDate),
                                     endDate: extractDate(endData),
@@ -335,5 +341,26 @@ class _ContainerDisplayingUpcomingEventsState
 
     // Return the date part
     return parts[0];
+  }
+
+    void _showDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Incomplete Profile'),
+          content:
+              const Text('Please complete your profile to access this feature'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Ok'),
+            ),
+          ],
+        );
+      },
+    );
   }
 }

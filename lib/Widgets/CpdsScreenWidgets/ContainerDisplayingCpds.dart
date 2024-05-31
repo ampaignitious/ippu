@@ -73,26 +73,26 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
         final List<dynamic> eventData = jsonData['data'];
         List<CpdModel> cpdData = eventData.map((item) {
           return CpdModel(
-              //
-              id: item['id'].toString(),
-              code: item['code']??"",
-              topic: item['topic']??"",
-              content: item['content']??"",
-              hours: item['hours']??"",
-              points: item['points']??"",
-              targetGroup: item['target_group']??"",
-              location: item['location']??"",
-              startDate: item['start_date']??"",
-              endDate: item['end_date']??"",
-              normalRate: item['normal_rate']??"",
-              membersRate: item['members_rate']??"",
-              resource: item['resource']??"",
-              status: item['status']??"",
-              type: item['type']??"",
-              banner: item['banner']??"",
-              attendance_request: item['attendance_request']??"",
-              attendance_status: item['attendance_status']??"",
-              );
+            //
+            id: item['id'].toString(),
+            code: item['code'] ?? "",
+            topic: item['topic'] ?? "",
+            content: item['content'] ?? "",
+            hours: item['hours'] ?? "",
+            points: item['points'] ?? "",
+            targetGroup: item['target_group'] ?? "",
+            location: item['location'] ?? "",
+            startDate: item['start_date'] ?? "",
+            endDate: item['end_date'] ?? "",
+            normalRate: item['normal_rate'] ?? "",
+            membersRate: item['members_rate'] ?? "",
+            resource: item['resource'] ?? "",
+            status: item['status'] ?? "",
+            type: item['type'] ?? "",
+            banner: item['banner'] ?? "",
+            attendance_request: item['attendance_request'] ?? "",
+            attendance_status: item['attendance_status'] ?? "",
+          );
         }).toList();
         return cpdData;
       } else {
@@ -201,15 +201,14 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                       itemCount: data.length,
                       itemBuilder: (context, index) {
                         final item = data[index];
-                        // Ensure the properties accessed here match the structure of your API response
-                        const imagelink = 'assets/cpds0.jpg';
                         final activityName = item.topic;
                         final points = item.points;
                         final startDate = item.startDate;
                         final endDate = item.endDate;
                         final content = item.content;
                         final attendanceRequest = item.attendance_request;
-                        final rate = item.normalRate;
+                        final normal_rate = item.normalRate;
+                        final member_rate = item.membersRate;
                         final location = item.location;
                         final type = item.type;
                         final imageLink = item.banner;
@@ -235,11 +234,13 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                                     rate: location.toString(),
                                     type: type,
                                     cpdId: cpdId.toString(),
-                                    location: rate,
                                     attendees: points,
                                     imagelink:
                                         'https://ippu.org/storage/banners/$imageLink',
                                     cpdsname: activityName,
+                                    normal_rate: normal_rate,
+                                    member_rate: member_rate,
+                                    location: location,
                                   );
                                 }),
                               );
@@ -277,7 +278,8 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                                   width: size.width * 0.7,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color: const Color.fromARGB(255, 42, 129, 201),
+                                    color:
+                                        const Color.fromARGB(255, 42, 129, 201),
                                   ),
                                   child: Center(
                                     child: Column(
@@ -289,15 +291,23 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: size.width * 0.03),
-                                              child: Text(
-                                                item.topic.split(' ').take(4).join(' '),
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: size.height * 0.014,
+                                            Flexible(
+                                              child: Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: size.width * 0.03),
+                                                child: Text(
+                                                  item.topic
+                                                      .split(' ')
+                                                      .take(4)
+                                                      .join(' '),
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize:
+                                                        size.height * 0.014,
+                                                  ),
+                                                  overflow: TextOverflow
+                                                      .ellipsis, // Truncate and add ellipsis
                                                 ),
                                               ),
                                             ),
@@ -353,7 +363,7 @@ class _ContainerDisplayingCpdsState extends State<ContainerDisplayingCpds>
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                const Text("Rate",
+                                                const Text("Type",
                                                     style: TextStyle(
                                                         color: Colors.white)),
                                                 Text(

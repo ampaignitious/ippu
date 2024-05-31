@@ -182,14 +182,14 @@ class _attendedCpdListHorizontalViewState extends State<attendedCpdListHorizonta
                       itemCount: data.length,
                       itemBuilder: (context, index) {
                         final item = data[index];
-                         // Ensure the properties accessed here match the structure of your API response
                         final activityName = item.topic;
                         final points = item.points;
-                        final startDate =item.startDate;
-                        final endDate =item.endDate;
+                        final startDate = item.startDate;
+                        final endDate = item.endDate;
                         final content = item.content;
                         final attendanceRequest = item.attendance_request;
-                        final rate = item.normalRate;
+                        final normal_rate = item.normalRate;
+                        final member_rate = item.membersRate;
                         final location = item.location;
                         final type = item.type;
                         final imageLink = item.banner;
@@ -209,10 +209,12 @@ class _attendedCpdListHorizontalViewState extends State<attendedCpdListHorizonta
                                     rate: location.toString(),
                                     type: type,
                                     cpdId:cpdId.toString(),
-                                    location: rate,
                                     attendees: points,
                                     imagelink: 'https://ippu.org/storage/banners/$imageLink',
                                     cpdsname: activityName,
+                                    normal_rate: normal_rate,
+                                    member_rate: member_rate,
+                                    location: location
                                   );
                                 }),
                               );

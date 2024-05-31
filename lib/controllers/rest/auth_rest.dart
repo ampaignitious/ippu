@@ -86,4 +86,7 @@ abstract class AuthRestClient {
 
   @POST(AppEndpoints.subscribe)
   Future<dynamic> subscribe();
+
+  @GET(AppEndpoints.paymentsHistory)
+  Future<dynamic> getPaymentsHistory();
 }

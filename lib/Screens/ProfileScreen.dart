@@ -5,7 +5,6 @@ import 'package:ippu/Providers/SubscriptionStatus.dart';
 import 'package:ippu/Widgets/DrawerWidget/DrawerWidget.dart';
 import 'package:ippu/Widgets/ProfileWidgets/EditProfile.dart';
 import 'package:ippu/Widgets/ProfileWidgets/InformationScreen.dart';
-import 'package:ippu/controllers/auth_controller.dart';
 import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -92,56 +91,8 @@ class _ProfileScreenState extends State<ProfileScreen>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Add content for Info tab here
-                // InfoScreen(),
-                SizedBox(height: size.height * 0.012),
-                status == 'false'
-                    ? InkWell(
-                        onTap: () {
-                          sendRequest();
-                        },
-                        child: Center(
-                          child: Container(
-                            height: size.height * 0.06,
-                            width: size.width * 0.95,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: const Color.fromARGB(255, 42, 129, 201),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(
-                                      0.2), // Adjust shadow color and opacity
-                                  offset: const Offset(
-                                      0.8, 1.0), // Adjust the shadow offset
-                                  blurRadius: 4.0, // Adjust the blur radius
-                                  spreadRadius: 0.2, // Adjust the spread radius
-                                ),
-                              ],
-                            ),
-                            child: Center(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        top: size.height * 0.015,
-                                        left: size.width * 0.034),
-                                    child: Text(
-                                      "Click here to subscribe",
-                                      style: GoogleFonts.lato(
-                                          color: Colors.white,
-                                          fontSize: size.height * 0.018,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            //
-                          ),
-                        ),
-                      )
-                    : const Text(''),
+                // Add content for Info tab here     
+            
                 SizedBox(
                     height: size.height * 0.9,
                     width: double.maxFinite,
@@ -166,31 +117,7 @@ class _ProfileScreenState extends State<ProfileScreen>
     );
   }
 
-  Future<void> sendRequest() async {
-    AuthController authController = AuthController();
 
-    //try catch
-    try {
-      final response = await authController.subscribe();
-      //check if response contains message key
-      if (response.containsKey("message")) {
-        //notify the SubscriptionStatusProvider
-        if (mounted) {
-          context
-              .read<SubscriptionStatusProvider>()
-              .setSubscriptionStatus("Pending");
-        }
-        //show bottom notification
-        showBottomNotification(
-            "your request has been sent! You will be approved");
-      } else {
-        //show bottom notification
-        showBottomNotification("Something went wrong");
-      }
-    } catch (e) {
-      showBottomNotification("Something went wrong");
-    }
-  }
 
   void showBottomNotification(String message) {
     Fluttertoast.showToast(

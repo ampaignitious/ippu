@@ -23,7 +23,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
   CalendarFormat _calendarFormat = CalendarFormat.month;
   RangeSelectionMode _rangeSelectionMode = RangeSelectionMode
       .toggledOff; // Can be toggled on/off by longpressing a date
-  DateTime _focusedDay = DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+  DateTime _focusedDay = DateTime.utc(
+      DateTime.now().year, DateTime.now().month, DateTime.now().day);
   DateTime? _selectedDay;
   DateTime? _rangeStart;
   DateTime? _rangeEnd;
@@ -87,7 +88,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
               title: eventTitle,
               eventType: "event",
               attendanceRequest: attendanceRequest,
-              rate: event['rate'],
+              normal_rate: event['rate'],
+              member_rate: event['member_rate'],
               description: event['details'],
               startDate: event['start_date'],
               endDate: event['end_date'],
@@ -137,11 +139,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
               title: eventTitle,
               eventType: "cpd",
               attendanceRequest: attendanceRequest,
-              rate: event['normal_rate'],
+              normal_rate: event['normal_rate'],
+              member_rate: event['member_rate'],
               description: event['content'],
               startDate: event['start_date'],
               endDate: event['end_date'],
-              imageLink: "https://ippu.org/storage/banners/${event['banner']}",
+              imageLink:
+                  "https://ippu.org/storage/banners/${event['banner']}",
               points: event['points'],
               type: event['type'],
               location: event['location'],
@@ -285,9 +289,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
               eventsList =
                   snapshot.data as LinkedHashMap<DateTime, List<Event>>;
 
-                  final events = _getEventsForDay(_selectedDay!);
-                  //set the selected events to the value notifier
-                  _selectedEvents.value = events;
+              final events = _getEventsForDay(_selectedDay!);
+              //set the selected events to the value notifier
+              _selectedEvents.value = events;
               return Stack(
                 children: [
                   Container(
@@ -397,7 +401,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                     children: [
                                       Image.asset(
                                         'assets/empty_events.jpg', // Replace with your image path
-                                        height: size.height * 0.35,
+                                        height: size.height * 0.28,
                                       ),
                                       const SizedBox(height: 20),
                                       const Text(
@@ -455,7 +459,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                                       event.attendanceRequest,
                                                   points:
                                                       event.points.toString(),
-                                                  rate: event.rate,
+                                                  normal_rate:
+                                                      event.normal_rate,
+                                                  member_rate:
+                                                      event.member_rate,
                                                   description:
                                                       event.description,
                                                   startDate: event.startDate,
@@ -481,7 +488,12 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                                   rate: event.location ?? "",
                                                   type: event.type ?? "",
                                                   cpdId: event.id.toString(),
-                                                  location: event.rate,
+                                                  location:
+                                                      event.location ?? "",
+                                                  normal_rate:
+                                                      event.normal_rate,
+                                                  member_rate:
+                                                      event.member_rate,
                                                   attendees: event.points,
                                                   imagelink: event.imageLink,
                                                   cpdsname: event.title,

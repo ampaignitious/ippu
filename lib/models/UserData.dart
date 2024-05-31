@@ -1,6 +1,6 @@
 class UserData {
   final int id;
-   String name;
+  String name;
   final String email;
   final String? token;
   final String? gender;
@@ -16,6 +16,8 @@ class UserData {
   final String? subscription_status;
   String profile_pic;
   final int? account_type_id;
+  final String? membership_amount;
+  final String membership_expiry_date;
   UserData({
     required this.id,
     this.points,
@@ -34,9 +36,11 @@ class UserData {
     this.nok_phone_no,
     required this.profile_pic,
     this.account_type_id,
+    this.membership_amount,
+    required this.membership_expiry_date,
   });
 
-  bool checkifAnyIsNull(){
+  bool checkifAnyIsNull() {
     return [gender, dob, address, phone_no].contains('null');
   }
 }
