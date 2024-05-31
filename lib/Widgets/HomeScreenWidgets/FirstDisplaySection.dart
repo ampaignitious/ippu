@@ -386,7 +386,7 @@ class _FirstDisplaySectionState extends State<FirstDisplaySection>
             title: "IPPU PAYMENT",
             logo:
                 "https://ippu.or.ug/wp-content/uploads/2020/03/cropped-Logo-192x192.png"),
-        isTestMode: true);
+        isTestMode: false);
     final ChargeResponse response = await flutterwave.charge();
     String message;
     if (response.success == true) {

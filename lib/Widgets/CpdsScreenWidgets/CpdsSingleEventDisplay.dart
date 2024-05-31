@@ -548,7 +548,7 @@ class _CpdsSingleEventDisplayState extends State<CpdsSingleEventDisplay> {
             description: "Being payment for ${widget.cpdsname} booking",
             logo:
                 "https://ippu.or.ug/wp-content/uploads/2020/03/cropped-Logo-192x192.png"),
-        isTestMode: true);
+        isTestMode: false);
     final ChargeResponse response = await flutterwave.charge();
     var message;
     if (response.success == true) {
